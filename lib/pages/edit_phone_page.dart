@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:line_awesome_icons/line_awesome_icons.dart';
+import 'package:mobware/pages/share_phone_Page.dart';
 import 'package:mobware/providers/phones_data.dart';
 import 'package:mobware/widgets/color_picker_button.dart';
 import 'package:flip_card/flip_card.dart';
@@ -35,9 +37,21 @@ class _EditPhonePageState extends State<EditPhonePage> {
 
     return WillPopScope(
       child: Scaffold(
+        resizeToAvoidBottomPadding: false,
         appBar: AppBar(
           title: Text(phoneName),
           centerTitle: true,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: Icon(LineAwesomeIcons.angle_left),
+            onPressed: () => Navigator.pop(context),
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(LineAwesomeIcons.share_alt),
+              onPressed: () => share(phoneBack),
+            ),
+          ],
         ),
         body: Container(
           // height: 450.0,
@@ -152,5 +166,14 @@ class _EditPhonePageState extends State<EditPhonePage> {
       return Future.value(false);
     }
     return Future.value(true);
+  }
+
+  void share(Widget phone) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SharePhonePage(phone: phone),
+      ),
+    );
   }
 }

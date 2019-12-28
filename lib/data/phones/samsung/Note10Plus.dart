@@ -10,6 +10,8 @@ import 'package:mobware/widgets/phone_parts/screen.dart';
 import 'package:provider/provider.dart';
 
 class Note10Plus extends StatelessWidget {
+  final int phoneIndex = 2;
+  final int phoneBrandIndex = 2;
   static const String phoneBrand = 'Samsung';
   static const String phoneModel = 'Galaxy';
   static const String phoneName = 'Galaxy Note 10 Plus';
@@ -42,10 +44,11 @@ class Note10Plus extends StatelessWidget {
 
   get getPhoneName => phoneName;
   get getPhoneFront => front;
+  get getPhoneBrand => phoneBrand;
 
   @override
   Widget build(BuildContext context) {
-    var colors = Provider.of<PhonesData>(context).samsungs[1].colors;
+    var colors = Provider.of<PhonesData>(context).samsungs[phoneIndex].colors;
 
     Color backPanelColor = colors['Back Panel'];
     Color cameraBumpColor = colors['Camera Bump'];

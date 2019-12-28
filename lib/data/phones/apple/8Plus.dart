@@ -12,6 +12,8 @@ import 'package:mobware/widgets/phone_parts/screen.dart';
 import 'package:provider/provider.dart';
 
 class IPhone8Plus extends StatelessWidget {
+  final int phoneIndex = 0;
+  final int phoneBrandIndex = 1;
   static const String phoneBrand = 'Apple';
   static const String phoneModel = 'iPhone';
   static const String phoneName = 'iPhone 8 Plus';
@@ -36,6 +38,7 @@ class IPhone8Plus extends StatelessWidget {
 
   get getPhoneName => phoneName;
   get getPhoneFront => front;
+  get getPhoneBrand => phoneBrand;
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +60,10 @@ class IPhone8Plus extends StatelessWidget {
       height: 30.0,
       width: 60.0,
       cameraBumpPartsPadding: 0.0,
-      borderWidth: 1.5,
+      borderWidth: 3.0,
       backPanelColor: backPanelColor,
       cameraBumpColor: cameraBumpColor,
-      borderColor: Colors.grey[500],
+      borderColor: Colors.grey[400],
       cameraBumpParts: <Widget>[
         Positioned(
           left: 3.0,
@@ -79,16 +82,17 @@ class IPhone8Plus extends StatelessWidget {
       child: BackPanel(
         width: 250.0,
         height: 500.0,
-        cornerRadius: 30.0,
+        cornerRadius: 36.0,
         backPanelColor: backPanelColor,
         bezelColor: backPanelColor,
+        bezelWidth: 3.0,
         child: Stack(
           children: <Widget>[
             Container(
               width: 250.0,
               height: 500.0,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30.0),
+                borderRadius: BorderRadius.circular(36.0),
                 gradient: LinearGradient(
                   colors: [
                     Colors.transparent,
@@ -103,8 +107,8 @@ class IPhone8Plus extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 10.0,
-              left: 10.0,
+              top: 15.0,
+              left: 15.0,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[

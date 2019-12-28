@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 /// A vertical tab widget for flutter
 class VerticalTabs extends StatefulWidget {
+  final PageController pageController;
   final Key key;
   final double tabsWidth;
   final double itemExtent;
@@ -20,6 +21,7 @@ class VerticalTabs extends StatefulWidget {
 
   VerticalTabs({
     this.key,
+    @required this.pageController,
     @required this.tabs,
     @required this.contents,
     this.tabsWidth = 50,
@@ -50,8 +52,6 @@ class _VerticalTabsState extends State<VerticalTabs>
   Animation<double> animation;
   Animation<RelativeRect> rectAnimation;
 
-  PageController pageController = PageController();
-
   List<AnimationController> animationControllers = [];
 
   ScrollPhysics pageScrollPhysics = AlwaysScrollableScrollPhysics();
@@ -74,6 +74,8 @@ class _VerticalTabsState extends State<VerticalTabs>
 
   @override
   Widget build(BuildContext context) {
+    PageController pageController = widget.pageController;
+
     return Directionality(
       textDirection: widget.direction,
       child: Column(

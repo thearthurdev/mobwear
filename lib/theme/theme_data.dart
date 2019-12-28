@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobware/pages/edit_phone_page.dart';
 import 'package:mobware/pages/settings_page.dart';
+import 'package:mobware/pages/share_phone_Page.dart';
 import 'package:mobware/theme/dynamic_theme.dart';
 
 class MyThemeData extends StatelessWidget {
@@ -11,8 +12,10 @@ class MyThemeData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
-        defaultAccentColor: Colors.deepOrange,
         defaultBrightness: Brightness.dark,
+        defaultAccentColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.black
+            : Colors.white,
         data: (accentColor, brightness) => ThemeData(
               accentColor: accentColor,
               brightness: brightness,
@@ -65,6 +68,7 @@ class MyThemeData extends StatelessWidget {
             routes: {
               SettingsPage.id: (context) => SettingsPage(),
               EditPhonePage.id: (context) => EditPhonePage(),
+              SharePhonePage.id: (context) => SharePhonePage(),
             },
           );
         });

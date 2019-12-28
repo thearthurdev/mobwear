@@ -45,7 +45,7 @@ class ScrollingCards extends StatelessWidget {
           var start = padding +
               max(
                   primaryCardLeft -
-                      horizontalInset * -delta * (isOnRight ? 40 : 1),
+                      horizontalInset * -delta * (isOnRight ? 50 : 1),
                   0.0);
 
           var cardItem = Positioned.directional(

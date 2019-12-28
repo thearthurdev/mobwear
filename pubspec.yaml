@@ -10,16 +10,19 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^0.1.2
   shared_preferences: ^0.5.3+4
+  provider: ^3.2.0
   flutter_material_color_picker: ^1.0.3
   toast: ^0.1.5
   eva_icons_flutter: ^2.0.0
   line_awesome_icons: ^1.0.4+2
   flip_card: ^0.4.4
-  file_picker: ^1.4.2
   http: ^0.12.0+2
   fonoapi_dart: ^0.1.2+2
-  provider: ^3.2.0
   screenshot: ^0.1.1
+  path_provider: ^1.5.1
+  flutter_hsvcolor_picker: ^0.0.1
+  matrix_gesture_detector: ^0.1.0
+  esys_flutter_share: ^1.0.2
 
 dev_dependencies:
   flutter_test:
@@ -30,8 +33,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # assets:
-  #  - images/
+  assets:
+   - assets/images/
 
   fonts:
     - family: Righteous

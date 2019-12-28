@@ -2,11 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:mobware/theme/dynamic_theme.dart';
+import 'package:mobware/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
   static const String _accentColorKey = 'my_accent_key';
   static const String _brightnessKey = 'my_brightness_key';
+  bool isPoorColor;
+
+  void testAccentColor(BuildContext context, Color accentColor) {
+    if (kThemeBrightness(context) == Brightness.light) {
+      if (accentColor.computeLuminance() > 0.335) {
+        isPoorColor = true;
+      } else {
+        isPoorColor = false;
+      }
+    } else if (kThemeBrightness(context) == Brightness.dark) {
+      if (accentColor.computeLuminance() < 0.1) {
+        isPoorColor = true;
+      } else {
+        isPoorColor = false;
+      }
+    }
+    notifyListeners();
+  }
 
   void changeBrightness(BuildContext context, Brightness brightness) async {
     final prefs = await SharedPreferences.getInstance();
@@ -14,6 +33,9 @@ class ThemeProvider extends ChangeNotifier {
         _brightnessKey, brightness == Brightness.light ? false : true);
 
     DynamicTheme.of(context).setBrightness(brightness);
+    DynamicTheme.of(context).setAccentColor(
+      brightness == Brightness.light ? Colors.black : Colors.white,
+    );
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemNavigationBarColor:
           brightness == Brightness.light ? Colors.white : Colors.black,

@@ -10,6 +10,8 @@ import 'package:mobware/widgets/phone_parts/screen.dart';
 import 'package:provider/provider.dart';
 
 class IPhone11ProMax extends StatelessWidget {
+  final int phoneIndex = 4;
+  final int phoneBrandIndex = 1;
   static const String phoneBrand = 'Apple';
   static const String phoneModel = 'iPhone';
   static const String phoneName = 'iPhone 11 Pro Max';
@@ -23,6 +25,7 @@ class IPhone11ProMax extends StatelessWidget {
 
   get getPhoneName => phoneName;
   get getPhoneFront => front;
+  get getPhoneBrand => phoneBrand;
 
   @override
   Widget build(BuildContext context) {

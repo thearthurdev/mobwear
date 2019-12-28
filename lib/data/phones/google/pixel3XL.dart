@@ -10,6 +10,8 @@ import 'package:mobware/widgets/phone_parts/screen.dart';
 import 'package:provider/provider.dart';
 
 class Pixel3XL extends StatelessWidget {
+  final int phoneIndex = 3;
+  final int phoneBrandIndex = 0;
   static const String phoneBrand = 'Google';
   static const String phoneModel = 'Pixel';
   static const String phoneName = 'Pixel 3 XL';
@@ -29,6 +31,7 @@ class Pixel3XL extends StatelessWidget {
 
   get getPhoneName => phoneName;
   get getPhoneFront => front;
+  get getPhoneBrand => phoneBrand;
 
   @override
   Widget build(BuildContext context) {

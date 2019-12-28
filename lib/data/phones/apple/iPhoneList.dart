@@ -11,7 +11,7 @@ List<PhoneModel> iPhoneList = [
     phone: IPhone8Plus(),
     colors: {
       'Camera Bump': Colors.black,
-      'Back Panel': Colors.pink[100],
+      'Back Panel': Colors.grey[200],
       'Apple Logo': Colors.black,
       'iPhone Text': Colors.black,
     },

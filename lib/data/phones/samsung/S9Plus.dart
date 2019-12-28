@@ -9,12 +9,12 @@ import 'package:mobware/widgets/phone_parts/screen.dart';
 import 'package:mobware/widgets/phone_parts/heart_rate_sensor.dart';
 import 'package:provider/provider.dart';
 
-class S10Plus extends StatelessWidget {
-  final int phoneIndex = 1;
+class S9Plus extends StatelessWidget {
+  final int phoneIndex = 0;
   final int phoneBrandIndex = 2;
   static const String phoneBrand = 'Samsung';
   static const String phoneModel = 'Galaxy';
-  static const String phoneName = 'Galaxy S10 Plus';
+  static const String phoneName = 'Galaxy S9 Plus';
 
   static final Camera camera1 = Camera(
     trimColor: Colors.grey[700],
@@ -71,6 +71,7 @@ class S10Plus extends StatelessWidget {
     Color backPanelColor = colors['Back Panel'];
     Color cameraBumpColor = colors['Camera Bump'];
     Color logoColor = colors['Samsung Logo'];
+    Color fingerprintSensorColor = colors['Fingerprint Sensor'];
 
     Camera camera2 = Camera(
       diameter: 20.0,

@@ -39,7 +39,7 @@ class _PhoneStackState extends State<PhoneStack> {
               },
             ),
             onTap: () {
-              int index = widget.currentPage.toInt();
+              int index = widget.currentPage.round();
               Navigator.push(
                 context,
                 MaterialPageRoute(
