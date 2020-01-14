@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mobware/custom_icons/brand_icons.dart';
 import 'package:mobware/providers/phones_data.dart';
-import 'package:mobware/widgets/phone_parts/back_panel.dart';
-import 'package:mobware/widgets/phone_parts/camera.dart';
-import 'package:mobware/widgets/phone_parts/camera_bump.dart';
-import 'package:mobware/widgets/phone_parts/flash.dart';
-import 'package:mobware/widgets/phone_parts/iPhone_text_marks.dart';
-import 'package:mobware/widgets/phone_parts/microphone.dart';
-import 'package:mobware/widgets/phone_parts/screen.dart';
+import 'package:mobware/widgets/phone_widgets/back_panel.dart';
+import 'package:mobware/widgets/phone_widgets/camera.dart';
+import 'package:mobware/widgets/phone_widgets/camera_bump.dart';
+import 'package:mobware/widgets/phone_widgets/flash.dart';
+import 'package:mobware/widgets/phone_widgets/iPhone_text_marks.dart';
+import 'package:mobware/widgets/phone_widgets/microphone.dart';
+import 'package:mobware/widgets/phone_widgets/screen.dart';
 import 'package:provider/provider.dart';
 
 class IPhoneXSMax extends StatelessWidget {
@@ -18,14 +18,14 @@ class IPhoneXSMax extends StatelessWidget {
   static const String phoneName = 'iPhone XS Max';
 
   final Screen front = Screen(
-    hasNotch: true,
-    phoneBrand: phoneBrand,
-    phoneModel: phoneModel,
     phoneName: phoneName,
+    phoneModel: phoneModel,
+    phoneBrand: phoneBrand,
+    hasNotch: true,
   );
 
-  get getPhoneName => phoneName;
   get getPhoneFront => front;
+  get getPhoneName => phoneName;
   get getPhoneBrand => phoneBrand;
 
   @override

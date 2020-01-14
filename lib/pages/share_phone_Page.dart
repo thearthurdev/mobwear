@@ -1,15 +1,17 @@
-import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:matrix_gesture_detector/matrix_gesture_detector.dart';
 import 'package:mobware/custom_icons/custom_icons.dart';
 import 'package:mobware/utils/constants.dart';
-import 'package:screenshot/screenshot.dart';
+import 'package:mobware/widgets/app_widgets/customization_picker_tile.dart';
 import 'package:toast/toast.dart';
 
 class SharePhonePage extends StatefulWidget {
@@ -26,9 +28,10 @@ class SharePhonePage extends StatefulWidget {
 class _SharePhonePageState extends State<SharePhonePage> {
   double backgroundWidth = 426.0;
   double backgroundheight = 426.0;
+  bool isCapturing = false;
   Color backgroundColor;
   Matrix4 matrix;
-  ScreenshotController screenshotController = ScreenshotController();
+  GlobalKey captureKey = GlobalKey();
 
   @override
   void initState() {
@@ -42,7 +45,7 @@ class _SharePhonePageState extends State<SharePhonePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Share'),
+        title: Text('Picture Mode'),
         centerTitle: true,
         automaticallyImplyLeading: false,
         leading: IconButton(
@@ -54,11 +57,11 @@ class _SharePhonePageState extends State<SharePhonePage> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.0),
               child: Container(
                 constraints: BoxConstraints(maxHeight: 500.0),
-                child: Screenshot(
-                  controller: screenshotController,
+                child: RepaintBoundary(
+                  key: captureKey,
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 300),
                     width: backgroundWidth,
@@ -72,7 +75,6 @@ class _SharePhonePageState extends State<SharePhonePage> {
                           offset: Offset(5.0, 6.0),
                         ),
                       ],
-                      // borderRadius: BorderRadius.circular(20.0),
                     ),
                     child: MatrixGestureDetector(
                       clipChild: true,
@@ -87,18 +89,27 @@ class _SharePhonePageState extends State<SharePhonePage> {
                             alignment: Alignment.center,
                             child: Transform(
                               transform: matrix,
-                              child: Container(
+                              child: AnimatedContainer(
+                                duration: Duration(milliseconds: 300),
                                 height: 360,
                                 decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20.0),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black26,
-                                      offset: Offset(5.0, 10.0),
-                                      blurRadius: 10.0,
+                                      color:
+                                          backgroundColor.computeLuminance() <
+                                                  0.335
+                                              ? Colors.black26
+                                              : Colors.black12,
+                                      offset: Offset(2.0, 2.0),
+                                      blurRadius: 5.0,
                                     ),
                                   ],
                                 ),
-                                child: widget.phone,
+                                child: Hero(
+                                  tag: widget.phone,
+                                  child: widget.phone,
+                                ),
                               ),
                             ),
                           ),
@@ -127,14 +138,20 @@ class _SharePhonePageState extends State<SharePhonePage> {
               title: Text(
                 'Background Color',
                 style: TextStyle(
+                  fontFamily: 'Quicksand',
                   fontWeight: FontWeight.bold,
+                  letterSpacing: 0.3,
                 ),
               ),
-              subtitle: Text('Select a background color'),
-              trailing: CircleColor(
-                circleSize: 50.0,
-                color: backgroundColor,
+              subtitle: Text(
+                'Select a background color',
+                style: TextStyle(
+                  fontFamily: 'Quicksand',
+                  color: kBrightnessAwareColor(context,
+                      lightColor: Colors.black54, darkColor: Colors.white54),
+                ),
               ),
+              trailing: ColorIndicator(color: backgroundColor),
               onTap: () => changeBackgroundColor(context, backgroundColor),
             ),
             SizedBox(height: 20.0),
@@ -145,10 +162,19 @@ class _SharePhonePageState extends State<SharePhonePage> {
                 title: Text(
                   'Aspect Ratio',
                   style: TextStyle(
+                    fontFamily: 'Quicksand',
                     fontWeight: FontWeight.bold,
+                    letterSpacing: 0.3,
                   ),
                 ),
-                subtitle: Text('Pick an aspect ratio for the image'),
+                subtitle: Text(
+                  'Pick an aspect ratio for the image',
+                  style: TextStyle(
+                    fontFamily: 'Quicksand',
+                    color: kBrightnessAwareColor(context,
+                        lightColor: Colors.black54, darkColor: Colors.white54),
+                  ),
+                ),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -173,18 +199,30 @@ class _SharePhonePageState extends State<SharePhonePage> {
         label: Text(
           'Share',
           style: TextStyle(
+            fontFamily: 'Quicksand',
+            fontWeight: FontWeight.bold,
+            letterSpacing: 0.3,
             color: kThemeBrightness(context) == Brightness.light
                 ? Colors.black
                 : Colors.white,
           ),
         ),
-        icon: Icon(
-          LineAwesomeIcons.share_alt,
-          color: kThemeBrightness(context) == Brightness.light
-              ? Colors.black
-              : Colors.white,
-        ),
-        onPressed: takeScreenshot,
+        icon: isCapturing
+            ? Container(
+                height: 24.0,
+                width: 24.0,
+                padding: EdgeInsets.all(4.5),
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.0,
+                ),
+              )
+            : Icon(
+                LineAwesomeIcons.share_alt,
+                color: kThemeBrightness(context) == Brightness.light
+                    ? Colors.black
+                    : Colors.white,
+              ),
+        onPressed: captureImage,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
@@ -218,25 +256,30 @@ class _SharePhonePageState extends State<SharePhonePage> {
     );
   }
 
-  void takeScreenshot() {
-    screenshotController.capture(pixelRatio: 2.0).then((File image) {
-      try {
-        share(image);
-      } catch (e) {
-        Toast.show('Unable to share. Please try again later', context);
-        print(e);
-      }
-    }).catchError((onError) {
-      print(onError);
-    });
+  void captureImage() async {
+    try {
+      setState(() => isCapturing = true);
+      RenderRepaintBoundary boundary =
+          captureKey.currentContext.findRenderObject();
+      ui.Image image = await boundary.toImage(pixelRatio: 4.0);
+      ByteData byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+      var pngBytes = byteData.buffer.asUint8List();
+      // var bs64 = base64Encode(pngBytes);
+      setState(() => isCapturing = false);
+      share(pngBytes);
+    } catch (e) {
+      setState(() => isCapturing = false);
+      Toast.show('Unable to share. Please try again later', context);
+      print(e);
+    }
   }
 
-  void share(File image) async {
-    final ByteData bytes = await rootBundle.load(image.path);
+  void share(Uint8List bytes) async {
     await Share.file(
-      'Share',
+      'Share your ${widget.phone.getPhoneName}',
       '${widget.phone.getPhoneName}.png',
-      bytes.buffer.asUint8List(),
+      bytes,
       'image/png',
       text:
           'Check out this ${widget.phone.getPhoneName} I customized with MobWare!',

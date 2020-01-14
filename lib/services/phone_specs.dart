@@ -8,17 +8,12 @@ class PhoneSpecs {
   Future<List> getPhoneSpecs({String brand, model, device}) async {
     try {
       String token = apiToken;
-
       final FonoApi fonoApi = FonoApi(token);
 
       final List<Device> devices = await fonoApi.getDevices(
         brand: brand,
         model: model,
       );
-
-      // specsList.clear();
-      // print(specsList);
-
       devices.forEach((i) {
         if (i.deviceName.contains(device)) {
           specsList = [
@@ -30,9 +25,6 @@ class PhoneSpecs {
             i.displayC,
           ];
         }
-
-        // print(specsList);
-
         return specsList;
       });
     } catch (e) {

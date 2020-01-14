@@ -61,7 +61,7 @@ class CameraBump extends StatelessWidget {
                         begin: FractionalOffset(0.5, 0.0),
                         end: FractionalOffset(0.0, 0.5),
                       )
-                    //Gloss Effect
+                    //Glossy Effect
                     : LinearGradient(
                         colors: [
                           Colors.transparent,

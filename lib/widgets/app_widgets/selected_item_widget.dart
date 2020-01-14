@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/data/allPhonesLists.dart';
+import 'package:mobware/data/models/search_item_model.dart';
 
 class SelectedItemWidget extends StatelessWidget {
   const SelectedItemWidget(this.selectedItem, this.deleteSelectedItem);

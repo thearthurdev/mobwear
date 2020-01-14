@@ -1,35 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobware/pages/edit_phone_page.dart';
+import 'package:mobware/pages/home_page.dart';
 import 'package:mobware/pages/settings_page.dart';
 import 'package:mobware/pages/share_phone_Page.dart';
+import 'package:mobware/services/scroll_behaviour.dart';
 import 'package:mobware/theme/dynamic_theme.dart';
 
 class MyThemeData extends StatelessWidget {
-  final Widget home;
-  MyThemeData({@required this.home});
-
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
-        defaultBrightness: Brightness.dark,
-        defaultAccentColor: Theme.of(context).brightness == Brightness.light
-            ? Colors.black
-            : Colors.white,
+        defaultBrightness: Brightness.light,
+        defaultAccentColor: Colors.black,
         data: (accentColor, brightness) => ThemeData(
-              accentColor: accentColor,
+              accentColor:
+                  brightness == Brightness.light ? Colors.black : Colors.white,
               brightness: brightness,
               scaffoldBackgroundColor:
                   brightness == Brightness.light ? Colors.white : Colors.black,
               appBarTheme: AppBarTheme(
                 textTheme: TextTheme(
-                  title: Theme.of(context).textTheme.title.copyWith(
-                        fontFamily: 'Righteous',
-                        fontSize: 26.0,
-                        color: brightness == Brightness.light
-                            ? Colors.black
-                            : Colors.white,
-                      ),
+                  title: TextStyle(
+                    fontFamily: 'Righteous',
+                    fontSize: 26.0,
+                    color: brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
+                  ),
                 ),
                 color: brightness == Brightness.light
                     ? Colors.white
@@ -44,25 +42,26 @@ class MyThemeData extends StatelessWidget {
                 ),
                 elevation: 0.0,
               ),
-              buttonTheme: ButtonThemeData(
-                buttonColor: accentColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-              ),
               textTheme: TextTheme(
-                body2: Theme.of(context).textTheme.body1.copyWith(
-                      color: accentColor.computeLuminance() > 0.335
-                          ? Colors.black
-                          : Colors.white,
-                    ),
+                headline: TextStyle(
+                  fontFamily: 'Quicksand',
+                ),
+                title: TextStyle(
+                  fontFamily: 'Quicksand',
+                ),
               ),
             ),
         themedWidgetBuilder: (context, theme) {
           return MaterialApp(
             title: 'mobware.',
             theme: theme,
-            home: home,
+            builder: (context, child) {
+              return ScrollConfiguration(
+                behavior: MyScrollBehavior(),
+                child: child,
+              );
+            },
+            home: HomePage(),
             debugShowCheckedModeBanner: false,
             debugShowMaterialGrid: false,
             routes: {

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobware/custom_icons/brand_icons.dart';
 import 'package:mobware/providers/phones_data.dart';
-import 'package:mobware/widgets/phone_parts/back_panel.dart';
-import 'package:mobware/widgets/phone_parts/camera.dart';
-import 'package:mobware/widgets/phone_parts/camera_bump.dart';
-import 'package:mobware/widgets/phone_parts/flash.dart';
-import 'package:mobware/widgets/phone_parts/microphone.dart';
-import 'package:mobware/widgets/phone_parts/screen.dart';
+import 'package:mobware/widgets/phone_widgets/back_panel.dart';
+import 'package:mobware/widgets/phone_widgets/camera.dart';
+import 'package:mobware/widgets/phone_widgets/camera_bump.dart';
+import 'package:mobware/widgets/phone_widgets/flash.dart';
+import 'package:mobware/widgets/phone_widgets/microphone.dart';
+import 'package:mobware/widgets/phone_widgets/screen.dart';
 import 'package:provider/provider.dart';
 
 class Pixel4XL extends StatelessWidget {
@@ -17,15 +17,15 @@ class Pixel4XL extends StatelessWidget {
   static const String phoneName = 'Pixel 4 XL';
 
   final Screen front = Screen(
+    phoneName: phoneName,
+    phoneModel: phoneModel,
+    phoneBrand: phoneBrand,
     bezelVertical: 40.0,
     screenAlignment: Alignment(0.0, 0.6),
-    phoneBrand: phoneBrand,
-    phoneModel: phoneModel,
-    phoneName: phoneName,
   );
 
-  get getPhoneName => phoneName;
   get getPhoneFront => front;
+  get getPhoneName => phoneName;
   get getPhoneBrand => phoneBrand;
 
   @override

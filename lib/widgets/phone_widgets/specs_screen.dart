@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:mobware/services/phoneSpecs.dart';
+import 'package:mobware/services/phone_specs.dart';
 import 'package:mobware/utils/constants.dart';
 
 class SpecsScreen extends StatefulWidget {
@@ -157,35 +157,38 @@ class _SpecsScreenState extends State<SpecsScreen> {
                 ),
               ),
               Expanded(
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 16.0),
-                    CircleAccentButton(
-                      specIcons[selectedSpec].icon ?? Icons.close,
-                      selectedSpec ?? 0,
-                    ),
-                    SizedBox(height: 16.0),
-                    Text(
-                      specIcons[selectedSpec].name ?? 'Spec Name',
-                      style: TextStyle(
-                        fontFamily: 'Righteous',
+                child: Material(
+                  color: Colors.transparent,
+                  child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: 16.0),
+                      CircleAccentButton(
+                        specIcons[selectedSpec].icon ?? Icons.close,
+                        selectedSpec ?? 0,
                       ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        spec ?? '',
-                        textAlign: TextAlign.center,
+                      SizedBox(height: 16.0),
+                      Text(
+                        specIcons[selectedSpec].name ?? 'Spec Name',
                         style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'Quicksand',
-                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Righteous',
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(height: 20.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          spec ?? '',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontFamily: 'Quicksand',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Padding(

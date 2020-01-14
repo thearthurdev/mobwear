@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobware/pages/share_phone_Page.dart';
 import 'package:mobware/providers/phones_data.dart';
-import 'package:mobware/widgets/color_picker_button.dart';
+import 'package:mobware/utils/constants.dart';
 import 'package:flip_card/flip_card.dart';
+import 'package:mobware/utils/my_phone_header_delegate.dart';
+import 'package:mobware/widgets/app_widgets/customization_picker_tile.dart';
 import 'package:provider/provider.dart';
 
 class EditPhonePage extends StatefulWidget {
   static String id = 'EditPhonePage';
+
   final phone;
   final List phoneList;
   final int phoneIndex;
@@ -22,158 +26,182 @@ class EditPhonePage extends StatefulWidget {
   _EditPhonePageState createState() => _EditPhonePageState();
 }
 
-class _EditPhonePageState extends State<EditPhonePage> {
+class _EditPhonePageState extends State<EditPhonePage>
+    with SingleTickerProviderStateMixin {
   GlobalKey<FlipCardState> flipCardKey = GlobalKey<FlipCardState>();
+  ScrollController scrollController;
+  bool showFAB = false;
 
-  int flipCount = 0;
+  @override
+  void initState() {
+    super.initState();
+    scrollController = ScrollController();
+    scrollController.addListener(scrollListener);
+  }
+
+  void scrollListener() {
+    if (scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
+      if (showFAB == false && scrollController.position.outOfRange) {
+        setState(() {
+          showFAB = true;
+        });
+      }
+    } else if (scrollController.position.userScrollDirection ==
+        ScrollDirection.forward) {
+      if (showFAB == true) {
+        setState(() {
+          showFAB = false;
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    Widget phoneBack = widget.phone;
-    Widget phoneFront = widget.phone.getPhoneFront;
-    String phoneName = widget.phone.getPhoneName;
     Map colors = Provider.of<PhonesData>(context)
         .getColors(widget.phoneList, widget.phoneIndex);
 
     return WillPopScope(
+      onWillPop: onWillPop,
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
-        appBar: AppBar(
-          title: Text(phoneName),
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-            icon: Icon(LineAwesomeIcons.angle_left),
-            onPressed: () => Navigator.pop(context),
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(LineAwesomeIcons.share_alt),
-              onPressed: () => share(phoneBack),
-            ),
-          ],
-        ),
-        body: Container(
-          // height: 450.0,
-          // width: 350.0,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                        flex: 5,
-                        child: Padding(
-                          // padding: const EdgeInsets.all(8.0),
-                          padding: EdgeInsets.zero,
-                          child: Hero(
-                            tag: phoneBack,
-                            child: GestureDetector(
-                              child: FlipCard(
-                                flipOnTouch: false,
-                                speed: 300,
-                                key: flipCardKey,
-                                front: phoneBack,
-                                back: phoneFront,
-                              ),
-                              onHorizontalDragUpdate: (details) {
-                                setState(() {
-                                  if (details.delta.dx > 0 &&
-                                      !flipCardKey.currentState.isFront) {
-                                    flipCardKey.currentState.toggleCard();
-                                    flipCount++;
-                                  } else if (details.delta.dx < 0 &&
-                                      flipCardKey.currentState.isFront) {
-                                    flipCardKey.currentState.toggleCard();
-                                    flipCount++;
-                                  }
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: Center(
-                          child: AnimatedOpacity(
-                            duration: Duration(milliseconds: 300),
-                            opacity: flipCount < 1 ? 1.0 : 0.0,
-                            child: Text(
-                              'Hint: Flip the phone to view its specs',
-                              style: TextStyle(
-                                fontFamily: 'Quicksand',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 16.0),
-                Expanded(
-                  flex: 1,
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(8.0, 0.0, 16.0, 24.0),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height - 100.0,
-                        child: ListView.builder(
-                          itemCount: colors.length,
-                          itemBuilder: (context, i) {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                  bottom: 16.0, left: 1.0),
-                              child: ColorPickerButton(
-                                colorName: colors.keys.elementAt(i),
-                                color: colors.values.elementAt(i),
-                                onPressed: () {
-                                  Provider.of<PhonesData>(context).changeColor(
-                                    context,
-                                    colors,
-                                    colors.keys.elementAt(i),
-                                    colors.values.elementAt(i),
-                                    i,
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        appBar: buildAppBar(),
+        body: buildBody(colors),
+        floatingActionButton: buildFAB(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
-      onWillPop: onWillPop,
     );
+  }
+
+  AppBar buildAppBar() {
+    return AppBar(
+      title: Text(widget.phone.getPhoneName),
+      centerTitle: true,
+      automaticallyImplyLeading: false,
+      leading: IconButton(
+        icon: Icon(LineAwesomeIcons.angle_left),
+        onPressed: () {
+          if (!flipCardKey.currentState.isFront) {
+            flipPhoneAndPop();
+          } else {
+            Navigator.pop(context);
+          }
+        },
+      ),
+    );
+  }
+
+  CustomScrollView buildBody(Map colors) {
+    return CustomScrollView(
+      controller: scrollController,
+      physics: BouncingScrollPhysics(),
+      slivers: <Widget>[
+        SliverPersistentHeader(
+          pinned: true,
+          floating: true,
+          delegate: MyPhoneHeaderDelegate(
+            minHeight: kScreenAwareSize(1.0, context),
+            maxHeight: kScreenAwareSize(475.0, context),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24.0),
+              child: Hero(
+                tag: widget.phone,
+                child: GestureDetector(
+                  child: FlipCard(
+                    flipOnTouch: false,
+                    speed: 300,
+                    key: flipCardKey,
+                    front: widget.phone,
+                    back: widget.phone.getPhoneFront,
+                  ),
+                  onHorizontalDragUpdate: (details) => flipPhone(details),
+                ),
+              ),
+            ),
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              buildColorButtonsListView(context, colors),
+              SizedBox(
+                height: showFAB ? kBottomNavigationBarHeight + 40.0 : 24.0,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  AnimatedContainer buildFAB() {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 350),
+      height: showFAB ? kBottomNavigationBarHeight : 0.0,
+      child: FloatingActionButton(
+        child: Icon(LineAwesomeIcons.camera),
+        onPressed: () {
+          if (!flipCardKey.currentState.isFront) {
+            flipCardKey.currentState.controller.reverse().then((v) {
+              flipCardKey.currentState.isFront = true;
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SharePhonePage(phone: widget.phone),
+                ),
+              );
+            });
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SharePhonePage(phone: widget.phone),
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  ListView buildColorButtonsListView(BuildContext context, Map colors) {
+    return ListView.builder(
+      itemCount: colors.length,
+      shrinkWrap: true,
+      physics: BouncingScrollPhysics(),
+      itemBuilder: (context, i) {
+        return CustomizationPickerTile(colors, i);
+      },
+    );
+  }
+
+  void flipPhone(DragUpdateDetails details) {
+    if (details.delta.dx > 0 && !flipCardKey.currentState.isFront) {
+      flipCardKey.currentState.toggleCard();
+    } else if (details.delta.dx < 0 && flipCardKey.currentState.isFront) {
+      flipCardKey.currentState.toggleCard();
+    }
+  }
+
+  void flipPhoneAndPop() {
+    flipCardKey.currentState.controller.reverse().then((v) {
+      flipCardKey.currentState.isFront = true;
+      Navigator.pop(context);
+    });
   }
 
   Future<bool> onWillPop() {
     if (!flipCardKey.currentState.isFront) {
-      flipCardKey.currentState.toggleCard();
+      flipPhoneAndPop();
       return Future.value(false);
     }
     return Future.value(true);
-  }
-
-  void share(Widget phone) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SharePhonePage(phone: phone),
-      ),
-    );
   }
 }

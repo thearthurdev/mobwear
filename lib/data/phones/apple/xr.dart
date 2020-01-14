@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobware/custom_icons/brand_icons.dart';
 import 'package:mobware/providers/phones_data.dart';
-import 'package:mobware/widgets/phone_parts/back_panel.dart';
-import 'package:mobware/widgets/phone_parts/camera.dart';
-import 'package:mobware/widgets/phone_parts/flash.dart';
-import 'package:mobware/widgets/phone_parts/iPhone_text_marks.dart';
-import 'package:mobware/widgets/phone_parts/microphone.dart';
-import 'package:mobware/widgets/phone_parts/screen.dart';
+import 'package:mobware/widgets/phone_widgets/back_panel.dart';
+import 'package:mobware/widgets/phone_widgets/camera.dart';
+import 'package:mobware/widgets/phone_widgets/flash.dart';
+import 'package:mobware/widgets/phone_widgets/iPhone_text_marks.dart';
+import 'package:mobware/widgets/phone_widgets/microphone.dart';
+import 'package:mobware/widgets/phone_widgets/screen.dart';
 import 'package:provider/provider.dart';
 
 class IPhoneXR extends StatelessWidget {
@@ -17,12 +17,12 @@ class IPhoneXR extends StatelessWidget {
   static const String phoneName = 'iPhone XR';
 
   final Screen front = Screen(
+    phoneName: phoneName,
+    phoneModel: phoneModel,
+    phoneBrand: phoneBrand,
     hasNotch: true,
     bezelHorizontal: 20.0,
     bezelVertical: 20.0,
-    phoneBrand: phoneBrand,
-    phoneModel: phoneModel,
-    phoneName: phoneName,
   );
 
   get getPhoneName => phoneName;

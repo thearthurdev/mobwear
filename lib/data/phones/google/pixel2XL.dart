@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobware/custom_icons/brand_icons.dart';
 import 'package:mobware/providers/phones_data.dart';
-import 'package:mobware/widgets/phone_parts/back_panel.dart';
-import 'package:mobware/widgets/phone_parts/camera.dart';
-import 'package:mobware/widgets/phone_parts/fingerprint_sensor.dart';
-import 'package:mobware/widgets/phone_parts/flash.dart';
-import 'package:mobware/widgets/phone_parts/microphone.dart';
-import 'package:mobware/widgets/phone_parts/screen.dart';
+import 'package:mobware/widgets/phone_widgets/back_panel.dart';
+import 'package:mobware/widgets/phone_widgets/camera.dart';
+import 'package:mobware/widgets/phone_widgets/fingerprint_sensor.dart';
+import 'package:mobware/widgets/phone_widgets/flash.dart';
+import 'package:mobware/widgets/phone_widgets/microphone.dart';
+import 'package:mobware/widgets/phone_widgets/screen.dart';
 import 'package:provider/provider.dart';
 
 class Pixel2XL extends StatelessWidget {
@@ -17,26 +17,26 @@ class Pixel2XL extends StatelessWidget {
   static const String phoneName = 'Pixel 2 XL';
 
   final Screen front = Screen(
+    phoneName: phoneName,
+    phoneModel: phoneModel,
+    phoneBrand: phoneBrand,
     bezelVertical: 50.0,
     screenAlignment: Alignment.center,
     notchAlignment: Alignment(0.0, -1.0),
     notchHeight: 35.0,
     notchWidth: 100.0,
     cornerRadius: 23.0,
-    phoneBrand: phoneBrand,
-    phoneModel: phoneModel,
-    phoneName: phoneName,
   );
 
-  get getPhoneName => phoneName;
   get getPhoneFront => front;
+  get getPhoneName => phoneName;
   get getPhoneBrand => phoneBrand;
 
   @override
   Widget build(BuildContext context) {
     var colors = Provider.of<PhonesData>(context).pixels[2].colors;
 
-    Color glossPanelColor = colors['Gloss Panel'];
+    Color glossPanelColor = colors['Glossy Panel'];
     Color mattePanelColor = colors['Matte Panel'];
     Color fingerprintSensorColor = colors['Fingerprint Sensor'];
     Color logoColor = colors['Google Logo'];

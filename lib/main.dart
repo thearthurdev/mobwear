@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/pages/home_page.dart';
 import 'package:mobware/providers/phones_data.dart';
 import 'package:mobware/providers/theme_provider.dart';
 import 'package:mobware/theme/theme_data.dart';
@@ -16,9 +15,7 @@ class MobWare extends StatelessWidget {
         ChangeNotifierProvider<ThemeProvider>(
             create: (context) => ThemeProvider()),
       ],
-      child: MyThemeData(
-        home: HomePage(),
-      ),
+      child: MyThemeData(),
     );
   }
 }

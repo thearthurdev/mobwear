@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/data/phone_model.dart';
+import 'package:mobware/data/models/phone_model.dart';
 import 'package:mobware/data/phones/apple/11.dart';
 import 'package:mobware/data/phones/apple/11ProMax.dart';
 import 'package:mobware/data/phones/apple/8Plus.dart';

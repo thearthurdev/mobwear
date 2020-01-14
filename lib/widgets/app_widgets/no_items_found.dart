@@ -16,7 +16,7 @@ class NoItemsFound extends StatelessWidget {
           color: Colors.transparent,
           shadowColor: Colors.transparent,
           child: Text(
-            'No Phone found',
+            'No phones found',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w800,

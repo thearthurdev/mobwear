@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,14 +37,11 @@ class DynamicThemeState extends State<DynamicTheme>
   Color _accentColor;
   Brightness _brightness;
 
-  static const String _accentColorKey = 'my_accent_key';
   static const String _brightnessKey = 'my_brightness_key';
 
   ThemeData get data => _data;
   Color get accentColor => _accentColor;
   Brightness get brightness => _brightness;
-
-  // SharedPref sharedPref = SharedPref();
 
   @override
   void initState() {
@@ -68,10 +64,10 @@ class DynamicThemeState extends State<DynamicTheme>
         });
       }
     });
-    // loadAccentColor().then((Color color) {
-    //   _accentColor = color;
-    //   _data = widget.data(_primaryColor, _accentColor, _brightness);
-    // });
+
+    setAccentColor(
+        brightness == Brightness.light ? Colors.black : Colors.white);
+
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -108,13 +104,11 @@ class DynamicThemeState extends State<DynamicTheme>
     _data = widget.data(_accentColor, _brightness);
   }
 
-  Future<void> setAccentColor(Color color) async {
+  void setAccentColor(Color color) {
     setState(() {
       _accentColor = color;
       _data = widget.data(_accentColor, _brightness);
     });
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString(_accentColorKey, jsonEncode('$color'));
   }
 
   Future<void> setBrightness(Brightness brightness) async {
@@ -139,11 +133,6 @@ class DynamicThemeState extends State<DynamicTheme>
         widget.defaultBrightness == Brightness.dark;
   }
 
-  // Future<Color> loadAccentColor() async {
-  //   return ThemeColors.fromJson(await sharedPref.read('accent')) ??
-  //       Colors.amber;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return widget.themedWidgetBuilder(context, _data);
@@ -160,10 +149,3 @@ class ThemeColors {
       : primary = json['primary'],
         accent = json['accent'];
 }
-
-// class SharedPref {
-//   read(String key) async {
-//     final prefs = await SharedPreferences.getInstance();
-//     return jsonDecode(prefs.getString(key));
-//   }
-// }
