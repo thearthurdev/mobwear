@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobware/data/models/phone_model.dart';
+import 'package:mobware/data/models/texture_model.dart';
 import 'package:mobware/data/phones/apple/11.dart';
 import 'package:mobware/data/phones/apple/11ProMax.dart';
 import 'package:mobware/data/phones/apple/8Plus.dart';
@@ -15,6 +16,10 @@ List<PhoneModel> iPhoneList = [
       'Apple Logo': Colors.black,
       'iPhone Text': Colors.black,
     },
+    textures: {
+      'Camera Bump': MyTexture(),
+      'Back Panel': MyTexture(),
+    },
   ),
   PhoneModel(
     phone: IPhoneXR(),
@@ -22,6 +27,9 @@ List<PhoneModel> iPhoneList = [
       'Back Panel': Colors.yellow,
       'Apple Logo': Colors.black,
       'iPhone Text': Colors.black,
+    },
+    textures: {
+      'Back Panel': MyTexture(),
     },
   ),
   PhoneModel(
@@ -32,6 +40,10 @@ List<PhoneModel> iPhoneList = [
       'Apple Logo': Colors.black,
       'Texts & Markings': Colors.black,
     },
+    textures: {
+      'Camera Bump': MyTexture(),
+      'Back Panel': MyTexture(),
+    },
   ),
   PhoneModel(
     phone: IPhone11(),
@@ -40,6 +52,10 @@ List<PhoneModel> iPhoneList = [
       'Back Panel': Colors.white,
       'Apple Logo': Colors.black,
     },
+    textures: {
+      'Camera Bump': MyTexture(),
+      'Back Panel': MyTexture(),
+    },
   ),
   PhoneModel(
     phone: IPhone11ProMax(),
@@ -47,6 +63,10 @@ List<PhoneModel> iPhoneList = [
       'Camera Bump': Colors.grey[900],
       'Back Panel': Colors.grey[900],
       'Apple Logo': Colors.black,
+    },
+    textures: {
+      'Camera Bump': MyTexture(),
+      'Back Panel': MyTexture(),
     },
   ),
 ];

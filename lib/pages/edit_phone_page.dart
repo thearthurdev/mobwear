@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobware/pages/share_phone_Page.dart';
-import 'package:mobware/providers/phones_data.dart';
+import 'package:mobware/providers/phones_customization_provider.dart';
 import 'package:mobware/utils/constants.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:mobware/utils/my_phone_header_delegate.dart';
 import 'package:mobware/widgets/app_widgets/customization_picker_tile.dart';
+import 'package:mobware/widgets/app_widgets/quick_brightness_switch.dart';
 import 'package:provider/provider.dart';
 
 class EditPhonePage extends StatefulWidget {
@@ -65,15 +66,17 @@ class _EditPhonePageState extends State<EditPhonePage>
 
   @override
   Widget build(BuildContext context) {
-    Map colors = Provider.of<PhonesData>(context)
+    Provider.of<PhoneCustomizationProvider>(context)
         .getColors(widget.phoneList, widget.phoneIndex);
+    Provider.of<PhoneCustomizationProvider>(context)
+        .getTextures(widget.phoneList, widget.phoneIndex);
 
     return WillPopScope(
       onWillPop: onWillPop,
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
         appBar: buildAppBar(),
-        body: buildBody(colors),
+        body: buildBody(),
         floatingActionButton: buildFAB(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
@@ -95,13 +98,15 @@ class _EditPhonePageState extends State<EditPhonePage>
           }
         },
       ),
+      actions: <Widget>[
+        QuickBrigthnessSwitch(),
+      ],
     );
   }
 
-  CustomScrollView buildBody(Map colors) {
+  CustomScrollView buildBody() {
     return CustomScrollView(
       controller: scrollController,
-      physics: BouncingScrollPhysics(),
       slivers: <Widget>[
         SliverPersistentHeader(
           pinned: true,
@@ -130,9 +135,9 @@ class _EditPhonePageState extends State<EditPhonePage>
         SliverList(
           delegate: SliverChildListDelegate(
             [
-              buildColorButtonsListView(context, colors),
+              buildColorButtonsListView(),
               SizedBox(
-                height: showFAB ? kBottomNavigationBarHeight + 40.0 : 24.0,
+                height: showFAB ? 80.0 : 24.0,
               ),
             ],
           ),
@@ -144,9 +149,12 @@ class _EditPhonePageState extends State<EditPhonePage>
   AnimatedContainer buildFAB() {
     return AnimatedContainer(
       duration: Duration(milliseconds: 350),
-      height: showFAB ? kBottomNavigationBarHeight : 0.0,
+      height: showFAB ? 48.0 : 0.0,
       child: FloatingActionButton(
-        child: Icon(LineAwesomeIcons.camera),
+        child: AnimatedOpacity(
+            duration: Duration(milliseconds: 250),
+            opacity: showFAB ? 1.0 : 0.0,
+            child: Icon(LineAwesomeIcons.camera)),
         onPressed: () {
           if (!flipCardKey.currentState.isFront) {
             flipCardKey.currentState.controller.reverse().then((v) {
@@ -171,13 +179,22 @@ class _EditPhonePageState extends State<EditPhonePage>
     );
   }
 
-  ListView buildColorButtonsListView(BuildContext context, Map colors) {
+  ListView buildColorButtonsListView() {
+    Map textures =
+        Provider.of<PhoneCustomizationProvider>(context).currentTextures;
+    Map colors = Provider.of<PhoneCustomizationProvider>(context).currentColors;
+
     return ListView.builder(
       itemCount: colors.length,
+      physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      physics: BouncingScrollPhysics(),
       itemBuilder: (context, i) {
-        return CustomizationPickerTile(colors, i);
+        return CustomizationPickerTile(
+          colors: colors,
+          textures: textures,
+          index: i,
+          noTexture: i > textures.length - 1,
+        );
       },
     );
   }

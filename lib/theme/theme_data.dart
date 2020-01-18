@@ -6,12 +6,13 @@ import 'package:mobware/pages/settings_page.dart';
 import 'package:mobware/pages/share_phone_Page.dart';
 import 'package:mobware/services/scroll_behaviour.dart';
 import 'package:mobware/theme/dynamic_theme.dart';
+import 'package:mobware/utils/constants.dart';
 
 class MyThemeData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
-        defaultBrightness: Brightness.light,
+        defaultBrightness: Brightness.dark,
         defaultAccentColor: Colors.black,
         data: (accentColor, brightness) => ThemeData(
               accentColor:
@@ -49,6 +50,22 @@ class MyThemeData extends StatelessWidget {
                 title: TextStyle(
                   fontFamily: 'Quicksand',
                 ),
+              ),
+              textSelectionColor: brightness == Brightness.light
+                  ? Colors.black12
+                  : Colors.white12,
+              textSelectionHandleColor:
+                  brightness == Brightness.light ? Colors.black : Colors.white,
+              cursorColor:
+                  brightness == Brightness.light ? Colors.black : Colors.white,
+              dialogTheme: DialogTheme(
+                backgroundColor: brightness == Brightness.light
+                    ? Colors.white
+                    : Colors.grey[900],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                titleTextStyle: kTitleTextStyle.copyWith(fontSize: 18.0),
               ),
             ),
         themedWidgetBuilder: (context, theme) {

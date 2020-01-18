@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hsvcolor_picker/flutter_hsvcolor_picker.dart';
 import 'package:mobware/data/models/mode_picker_model.dart';
-import 'package:mobware/providers/phones_data.dart';
+import 'package:mobware/providers/phones_customization_provider.dart';
+import 'package:mobware/providers/share_phone_page_provider.dart';
 import 'package:mobware/utils/constants.dart';
 import 'package:mobware/widgets/app_widgets/mode_picker_button.dart';
+import 'package:mobware/widgets/app_widgets/texture_picker.dart';
 import 'package:provider/provider.dart';
 
 class CustomizationPickerDialog extends StatefulWidget {
-  final BuildContext context;
-  final Color selectedColor;
-  final String selectedSide;
-  final Color colorPicked;
-  final Map colors;
-  final int i;
+  final int initPickerModeIndex;
+  final bool noTexture;
+  final bool noImage;
+  final bool isSharePage;
 
-  const CustomizationPickerDialog(
-    this.context,
-    this.selectedColor,
-    this.selectedSide,
-    this.colorPicked,
-    this.colors,
-    this.i,
-  );
+  const CustomizationPickerDialog({
+    this.initPickerModeIndex,
+    this.noTexture = true,
+    this.noImage = true,
+    this.isSharePage = false,
+  });
 
   @override
   _CustomizationPickerDialogState createState() =>
@@ -29,38 +27,36 @@ class CustomizationPickerDialog extends StatefulWidget {
 }
 
 class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
-  Color colorPicked;
-  int pickerModeIndex = 0;
-  TextEditingController textFieldController;
+  int pickerModeIndex;
+  PhoneCustomizationProvider phoneCustomizationProvider;
 
   @override
   void initState() {
     super.initState();
-    textFieldController = TextEditingController(
-        text: '#${kGetColorString(widget.selectedColor)}');
+    pickerModeIndex = widget.initPickerModeIndex;
   }
 
   @override
   Widget build(BuildContext context) {
+    phoneCustomizationProvider =
+        Provider.of<PhoneCustomizationProvider>(context);
+
     List<Widget> pickerModeViews = [
       ColorPicker(
-        color: widget.selectedColor,
-        onChanged: (color) {
-          colorPicked = color;
-        },
+        color: widget.isSharePage
+            ? Provider.of<SharePhonePageProvider>(context).backgroundColor
+            : phoneCustomizationProvider.currentColor,
+        onChanged: (color) => widget.isSharePage
+            ? Provider.of<SharePhonePageProvider>(context).colorSelected(color)
+            : phoneCustomizationProvider.colorSelected(color),
       ),
-      // Container(
-      //   height: 200.0,
-      //   child: Center(
-      //     child: Text('Image'),
-      //   ),
-      // ),
-      // Container(
-      //   height: 200.0,
-      //   child: Center(
-      //     child: Text('Texture'),
-      //   ),
-      // ),
+      TexturePicker(),
+      Container(
+        height: 200.0,
+        child: Center(
+          child: Text('Image'),
+        ),
+      ),
     ];
 
     return SingleChildScrollView(
@@ -75,11 +71,13 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
                 Expanded(
                   child: ListTile(
                     title: Text(
-                      'Pick ${pickerModes[pickerModeIndex].pickerMode.toString().substring(11)} for',
+                      'Pick ${pickerModes[pickerModeIndex].modeName}',
                       style: kTitleTextStyle.copyWith(fontSize: 18.0),
                     ),
                     subtitle: Text(
-                      widget.selectedSide,
+                      widget.isSharePage
+                          ? 'Background'
+                          : phoneCustomizationProvider.currentSide,
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         color: kBrightnessAwareColor(context,
@@ -90,16 +88,16 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: List.generate(
-                        pickerModes.length,
+                        modeCount(widget.noTexture, widget.noImage),
                         (i) {
                           return ModePickerButton(
                             pickerMode: pickerModes[i].pickerMode,
                             icon: pickerModes[i].icon,
                             isSelected: pickerModeIndex == i,
                             onTap: () {
-                              // setState(() {
-                              //   pickerModeIndex = i;
-                              // });
+                              setState(() {
+                                pickerModeIndex = i;
+                              });
                             },
                           );
                         },
@@ -111,24 +109,25 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
             ),
           ),
           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: pickerModeViews[pickerModeIndex]),
-          SizedBox(height: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: pickerModeViews[pickerModeIndex],
+          ),
           ButtonBar(
             alignment: MainAxisAlignment.end,
             buttonTextTheme: ButtonTextTheme.normal,
             children: <Widget>[
               FlatButton(
-                child: Text(
-                  'Cancel',
-                  style: TextStyle(
-                    fontFamily: 'Quicksand',
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 0.3,
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(
+                      fontFamily: 'Quicksand',
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.3,
+                    ),
                   ),
-                ),
-                onPressed: () => Navigator.pop(context),
-              ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
               FlatButton(
                 child: Text(
                   'Select',
@@ -138,22 +137,31 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
                     letterSpacing: 0.3,
                   ),
                 ),
-                onPressed: () {
-                  if (colorPicked != null) {
-                    widget.colors[widget.colors.keys.elementAt(widget.i)] =
-                        colorPicked;
-                  } else {
-                    widget.colors[widget.colors.keys.elementAt(widget.i)] =
-                        widget.selectedColor;
-                  }
-                  Provider.of<PhonesData>(context).notify();
-                  Navigator.pop(context);
-                },
+                onPressed: () => onCustomizationSelected(),
               ),
             ],
           ),
         ],
       ),
     );
+  }
+
+  int modeCount(bool noTexture, noImage) {
+    if (noTexture && noImage) return 1;
+    if (!noTexture && noImage) return 2;
+    return 3;
+  }
+
+  void onCustomizationSelected() {
+    if (widget.isSharePage) {
+      Provider.of<SharePhonePageProvider>(context).changeBackroundColor();
+    } else {
+      if (pickerModeIndex == 0) {
+        phoneCustomizationProvider.changeColor(widget.noTexture);
+      } else if (pickerModeIndex == 1) {
+        phoneCustomizationProvider.changeTexture();
+      }
+    }
+    Navigator.pop(context);
   }
 }

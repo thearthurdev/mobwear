@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:mobware/providers/phones_data.dart';
+import 'package:mobware/providers/phones_customization_provider.dart';
 import 'package:mobware/widgets/app_widgets/home_search_widget.dart';
 import 'package:mobware/widgets/app_widgets/home_vertical_tabs.dart';
 import 'package:mobware/data/models/brand_tab_model.dart';
@@ -40,15 +40,15 @@ class _HomePageState extends State<HomePage> {
 
     List<BrandTab> brandTabs = [
       BrandTab(
-          list: Provider.of<PhonesData>(context).pixels,
+          list: Provider.of<PhoneCustomizationProvider>(context).pixels,
           controller: googleController,
           page: googleCurrentPage),
       BrandTab(
-          list: Provider.of<PhonesData>(context).iPhones,
+          list: Provider.of<PhoneCustomizationProvider>(context).iPhones,
           controller: appleController,
           page: appleCurrentPage),
       BrandTab(
-          list: Provider.of<PhonesData>(context).samsungs,
+          list: Provider.of<PhoneCustomizationProvider>(context).samsungs,
           controller: samsungController,
           page: samsungCurrentPage),
     ];

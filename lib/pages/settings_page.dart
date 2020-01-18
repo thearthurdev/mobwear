@@ -10,30 +10,6 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ListTile selectBrightnessTile(String title, Brightness brightness) {
-      return ListTile(
-        title: Text(
-          title,
-          style: TextStyle(
-            fontFamily: 'Quicksand',
-            fontWeight: FontWeight.bold,
-            fontSize: 16.0,
-          ),
-        ),
-        trailing: kThemeBrightness(context) == brightness
-            ? Icon(
-                LineAwesomeIcons.check_circle,
-                color: kBrightnessAwareColor(context,
-                    lightColor: Colors.black, darkColor: Colors.white),
-              )
-            : SizedBox(),
-        onTap: () {
-          Provider.of<ThemeProvider>(context)
-              .changeBrightness(context, brightness);
-        },
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
@@ -46,8 +22,6 @@ class SettingsPage extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
-          // selectColorTile(title: 'Accent Color'),
-          // SizedBox(height: 20.0),
           ListTile(
             title: Text(
               'Theme',
@@ -67,12 +41,48 @@ class SettingsPage extends StatelessWidget {
               ),
             ),
           ),
-          selectBrightnessTile('White', Brightness.light),
-          Divider(indent: 16.0),
-          selectBrightnessTile('Black', Brightness.dark),
-          Divider(indent: 16.0),
+          selectBrightnessTile(
+            context,
+            'White',
+            Brightness.light,
+          ),
+          selectBrightnessTile(
+            context,
+            'Black',
+            Brightness.dark,
+          ),
         ],
       ),
+    );
+  }
+
+  Widget selectBrightnessTile(
+      BuildContext context, String title, Brightness brightness) {
+    return Column(
+      children: <Widget>[
+        ListTile(
+          title: Text(
+            title,
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontWeight: FontWeight.bold,
+              fontSize: 16.0,
+            ),
+          ),
+          trailing: kThemeBrightness(context) == brightness
+              ? Icon(
+                  LineAwesomeIcons.check_circle,
+                  color: kBrightnessAwareColor(context,
+                      lightColor: Colors.black, darkColor: Colors.white),
+                )
+              : null,
+          onTap: () {
+            Provider.of<ThemeProvider>(context)
+                .changeBrightness(context, brightness);
+          },
+        ),
+        Divider(indent: 16.0),
+      ],
     );
   }
 }

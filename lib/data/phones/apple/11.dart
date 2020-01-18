@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobware/custom_icons/brand_icons.dart';
-import 'package:mobware/providers/phones_data.dart';
+import 'package:mobware/providers/phones_customization_provider.dart';
 import 'package:mobware/widgets/phone_widgets/back_panel.dart';
 import 'package:mobware/widgets/phone_widgets/camera.dart';
 import 'package:mobware/widgets/phone_widgets/camera_bump.dart';
@@ -29,17 +29,30 @@ class IPhone11 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var colors = Provider.of<PhonesData>(context).iPhones[3].colors;
+    var colors =
+        Provider.of<PhoneCustomizationProvider>(context).iPhones[3].colors;
+    var textures =
+        Provider.of<PhoneCustomizationProvider>(context).iPhones[3].textures;
 
     Color cameraBumpColor = colors['Camera Bump'];
     Color backPanelColor = colors['Back Panel'];
     Color logoColor = colors['Apple Logo'];
+
+    String cameraBumpTexture = textures['Camera Bump'].asset;
+    Color cameraBumpTextureBlendColor = textures['Camera Bump'].blendColor;
+    BlendMode cameraBumpTextureBlendMode = textures['Camera Bump'].blendMode;
+    String backPanelTexture = textures['Back Panel'].asset;
+    Color backPanelTextureBlendColor = textures['Back Panel'].blendColor;
+    BlendMode backPanelTextureBlendMode = textures['Back Panel'].blendMode;
 
     CameraBump cameraBump = CameraBump(
       width: 100.0,
       height: 100.0,
       cameraBumpColor: cameraBumpColor,
       backPanelColor: backPanelColor,
+      texture: cameraBumpTexture,
+      textureBlendColor: cameraBumpTextureBlendColor,
+      textureBlendMode: cameraBumpTextureBlendMode,
       isMatte: true,
       cameraBumpParts: [
         Positioned(
@@ -72,6 +85,9 @@ class IPhone11 extends StatelessWidget {
         cornerRadius: 30.0,
         backPanelColor: backPanelColor,
         bezelColor: backPanelColor,
+        texture: backPanelTexture,
+        textureBlendColor: backPanelTextureBlendColor,
+        textureBlendMode: backPanelTextureBlendMode,
         child: Stack(
           children: <Widget>[
             Container(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobware/data/models/blend_mode_model.dart';
+import 'package:mobware/data/models/texture_model.dart';
 
 double baseHeight = 640.0;
 
@@ -12,6 +14,14 @@ Color kPrimaryColor(BuildContext context) {
 
 Color kAccentColor(BuildContext context) {
   return Theme.of(context).accentColor;
+}
+
+Brightness kEstimateBrightnessForColor(Color color) {
+  final double relativeLuminance = color.computeLuminance();
+  const double kThreshold = 0.15;
+  if ((relativeLuminance + 0.05) * (relativeLuminance + 0.05) > kThreshold)
+    return Brightness.light;
+  return Brightness.dark;
 }
 
 Color kBrightnessAwareColor(BuildContext context,
@@ -31,6 +41,28 @@ String kGetColorString(Color color) {
   String colorString =
       color.toString().split('x')[1].split(')')[0].toUpperCase();
   return colorString;
+}
+
+String kGetTextureName(String textureAsset) {
+  String textureName = 'N/A';
+  for (MyTexture texture in myTextures) {
+    if (texture.asset == textureAsset) {
+      textureName = texture.name;
+    }
+  }
+  return textureName;
+}
+
+int kGetTextureBlendModeIndex(BlendMode blendMode) {
+  int textureBlendModeIndex;
+  int i = 0;
+  for (MyBlendMode myBlendMode in myBlendModes) {
+    if (myBlendMode.mode == blendMode) {
+      textureBlendModeIndex = i;
+    }
+    i++;
+  }
+  return textureBlendModeIndex;
 }
 
 double kDeviceWidth(BuildContext context) {

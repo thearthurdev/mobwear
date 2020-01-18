@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mobware/custom_icons/brand_icons.dart';
-import 'package:mobware/providers/phones_data.dart';
+import 'package:mobware/providers/phones_customization_provider.dart';
 import 'package:mobware/widgets/phone_widgets/back_panel.dart';
 import 'package:mobware/widgets/phone_widgets/camera.dart';
 import 'package:mobware/widgets/phone_widgets/fingerprint_sensor.dart';
 import 'package:mobware/widgets/phone_widgets/flash.dart';
 import 'package:mobware/widgets/phone_widgets/microphone.dart';
 import 'package:mobware/widgets/phone_widgets/screen.dart';
+import 'package:mobware/widgets/phone_widgets/texture_decoration.dart';
 import 'package:provider/provider.dart';
 
 class PixelXL extends StatelessWidget {
@@ -36,13 +37,42 @@ class PixelXL extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var colors = Provider.of<PhonesData>(context).pixels[0].colors;
+    var colors =
+        Provider.of<PhoneCustomizationProvider>(context).pixels[0].colors;
+    var textures =
+        Provider.of<PhoneCustomizationProvider>(context).pixels[0].textures;
 
-    Color glossPanelColor = colors['Glossy Panel'];
+    Color glossyPanelColor = colors['Glossy Panel'];
     Color mattePanelColor = colors['Matte Panel'];
     Color fingerprintSensorColor = colors['Fingerprint Sensor'];
     Color logoColor = colors['Google Logo'];
     Color antennaBandsColor = colors['Antenna Bands'];
+
+    String glossyPanelTexture = textures['Glossy Panel'].asset;
+    Color glossyPanelTextureBlendColor = textures['Glossy Panel'].blendColor;
+    BlendMode glossyPanelTextureBlendMode = textures['Glossy Panel'].blendMode;
+    String mattePanelTexture = textures['Matte Panel'].asset;
+    Color mattePanelTextureBlendColor = textures['Matte Panel'].blendColor;
+    BlendMode mattePanelTextureBlendMode = textures['Matte Panel'].blendMode;
+    String antennaBandsTexture = textures['Antenna Bands'].asset;
+    Color antennaBandsTextureBlendColor = textures['Antenna Bands'].blendColor;
+    BlendMode antennaBandsTextureBlendMode =
+        textures['Antenna Bands'].blendMode;
+
+    Container antennaBand() {
+      return Container(
+        height: 6.0,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: antennaBandsColor,
+          image: textureDecoration(
+            texture: antennaBandsTexture,
+            textureBlendColor: antennaBandsTextureBlendColor,
+            textureBlendMode: antennaBandsTextureBlendMode,
+          ),
+        ),
+      );
+    }
 
     return FittedBox(
       child: BackPanel(
@@ -50,17 +80,16 @@ class PixelXL extends StatelessWidget {
         cornerRadius: 30.0,
         backPanelColor: mattePanelColor,
         bezelColor: mattePanelColor,
+        texture: mattePanelTexture,
+        textureBlendColor: mattePanelTextureBlendColor,
+        textureBlendMode: mattePanelTextureBlendMode,
         child: Stack(
           children: <Widget>[
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 SizedBox(height: 40.0),
-                Container(
-                  color: antennaBandsColor,
-                  height: 6.0,
-                  width: double.infinity,
-                ),
+                antennaBand(),
                 Expanded(
                   child: Container(),
                 ),
@@ -70,11 +99,7 @@ class PixelXL extends StatelessWidget {
                   size: 30.0,
                 ),
                 SizedBox(height: 50.0),
-                Container(
-                  color: antennaBandsColor,
-                  height: 6.0,
-                  width: double.infinity,
-                ),
+                antennaBand(),
                 SizedBox(height: 20.0),
               ],
             ),
@@ -91,7 +116,12 @@ class PixelXL extends StatelessWidget {
                     bottomLeft: Radius.circular(10.0),
                     bottomRight: Radius.circular(10.0),
                   ),
-                  color: glossPanelColor,
+                  color: glossyPanelColor,
+                  image: textureDecoration(
+                    texture: glossyPanelTexture,
+                    textureBlendColor: glossyPanelTextureBlendColor,
+                    textureBlendMode: glossyPanelTextureBlendMode,
+                  ),
                 ),
                 child: Align(
                   alignment: Alignment.bottomCenter,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobware/custom_icons/brand_icons.dart';
-import 'package:mobware/providers/phones_data.dart';
+import 'package:mobware/providers/phones_customization_provider.dart';
 import 'package:mobware/widgets/phone_widgets/back_panel.dart';
 import 'package:mobware/widgets/phone_widgets/camera.dart';
 import 'package:mobware/widgets/phone_widgets/camera_bump.dart';
@@ -42,12 +42,22 @@ class IPhone8Plus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var colors = Provider.of<PhonesData>(context).iPhones[0].colors;
+    var colors =
+        Provider.of<PhoneCustomizationProvider>(context).iPhones[0].colors;
+    var textures =
+        Provider.of<PhoneCustomizationProvider>(context).iPhones[0].textures;
 
     Color cameraBumpColor = colors['Camera Bump'];
     Color backPanelColor = colors['Back Panel'];
     Color logoColor = colors['Apple Logo'];
     Color textMarksColor = colors['iPhone Text'];
+
+    String cameraBumpTexture = textures['Camera Bump'].asset;
+    Color cameraBumpTextureBlendColor = textures['Camera Bump'].blendColor;
+    BlendMode cameraBumpTextureBlendMode = textures['Camera Bump'].blendMode;
+    String backPanelTexture = textures['Back Panel'].asset;
+    Color backPanelTextureBlendColor = textures['Back Panel'].blendColor;
+    BlendMode backPanelTextureBlendMode = textures['Back Panel'].blendMode;
 
     Camera camera = Camera(
       diameter: 20.0,
@@ -63,6 +73,9 @@ class IPhone8Plus extends StatelessWidget {
       borderWidth: 3.0,
       backPanelColor: backPanelColor,
       cameraBumpColor: cameraBumpColor,
+      texture: cameraBumpTexture,
+      textureBlendColor: cameraBumpTextureBlendColor,
+      textureBlendMode: cameraBumpTextureBlendMode,
       borderColor: Colors.grey[400],
       cameraBumpParts: <Widget>[
         Positioned(
@@ -85,6 +98,9 @@ class IPhone8Plus extends StatelessWidget {
         cornerRadius: 36.0,
         backPanelColor: backPanelColor,
         bezelColor: backPanelColor,
+        texture: backPanelTexture,
+        textureBlendColor: backPanelTextureBlendColor,
+        textureBlendMode: backPanelTextureBlendMode,
         bezelWidth: 3.0,
         child: Stack(
           children: <Widget>[

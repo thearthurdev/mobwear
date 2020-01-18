@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mobware/custom_icons/brand_icons.dart';
-import 'package:mobware/providers/phones_data.dart';
+import 'package:mobware/providers/phones_customization_provider.dart';
 import 'package:mobware/widgets/phone_widgets/back_panel.dart';
 import 'package:mobware/widgets/phone_widgets/camera.dart';
 import 'package:mobware/widgets/phone_widgets/fingerprint_sensor.dart';
 import 'package:mobware/widgets/phone_widgets/flash.dart';
 import 'package:mobware/widgets/phone_widgets/microphone.dart';
 import 'package:mobware/widgets/phone_widgets/screen.dart';
+import 'package:mobware/widgets/phone_widgets/texture_decoration.dart';
 import 'package:provider/provider.dart';
 
 class Pixel3XL extends StatelessWidget {
@@ -35,17 +36,30 @@ class Pixel3XL extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var colors = Provider.of<PhonesData>(context).pixels[3].colors;
+    var colors =
+        Provider.of<PhoneCustomizationProvider>(context).pixels[3].colors;
+    var textures =
+        Provider.of<PhoneCustomizationProvider>(context).pixels[3].textures;
 
-    Color glossPanelColor = colors['Glossy Panel'];
+    Color glossyPanelColor = colors['Glossy Panel'];
     Color mattePanelColor = colors['Matte Panel'];
     Color fingerprintSensorColor = colors['Fingerprint Sensor'];
     Color logoColor = colors['Google Logo'];
 
+    String glossyPanelTexture = textures['Glossy Panel'].asset;
+    Color glossyPanelTextureBlendColor = textures['Glossy Panel'].blendColor;
+    BlendMode glossyPanelTextureBlendMode = textures['Glossy Panel'].blendMode;
+    String mattePanelTexture = textures['Matte Panel'].asset;
+    Color mattePanelTextureBlendColor = textures['Matte Panel'].blendColor;
+    BlendMode mattePanelTextureBlendMode = textures['Matte Panel'].blendMode;
+
     return FittedBox(
       child: BackPanel(
-        backPanelColor: glossPanelColor,
-        bezelColor: glossPanelColor,
+        backPanelColor: glossyPanelColor,
+        bezelColor: glossyPanelColor,
+        texture: glossyPanelTexture,
+        textureBlendColor: glossyPanelTextureBlendColor,
+        textureBlendMode: glossyPanelTextureBlendMode,
         child: Stack(
           children: <Widget>[
             Align(
@@ -55,10 +69,12 @@ class Pixel3XL extends StatelessWidget {
                 height: 380.0,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(23.0),
-                  border: Border.all(
-                    color: Colors.grey.withOpacity(0.05),
-                    width: 1.0,
-                  ),
+                  border: mattePanelTexture == null
+                      ? Border.all(
+                          color: Colors.grey.withOpacity(0.05),
+                          width: 1.0,
+                        )
+                      : null,
                   color: mattePanelColor,
                 ),
                 child: Container(
@@ -66,10 +82,12 @@ class Pixel3XL extends StatelessWidget {
                   height: 380.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(23.0),
-                    border: Border.all(
-                      color: Colors.grey.withOpacity(0.05),
-                      width: 1.0,
-                    ),
+                    border: mattePanelTexture == null
+                        ? Border.all(
+                            color: Colors.grey.withOpacity(0.05),
+                            width: 1.0,
+                          )
+                        : null,
                     gradient: LinearGradient(
                       colors: [
                         Colors.transparent,
@@ -79,6 +97,11 @@ class Pixel3XL extends StatelessWidget {
                       ],
                       begin: Alignment.topRight,
                       end: Alignment.bottomLeft,
+                    ),
+                    image: textureDecoration(
+                      texture: mattePanelTexture,
+                      textureBlendColor: mattePanelTextureBlendColor,
+                      textureBlendMode: mattePanelTextureBlendMode,
                     ),
                   ),
                   child: Column(

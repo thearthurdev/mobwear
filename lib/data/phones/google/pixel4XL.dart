@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobware/custom_icons/brand_icons.dart';
-import 'package:mobware/providers/phones_data.dart';
+import 'package:mobware/providers/phones_customization_provider.dart';
 import 'package:mobware/widgets/phone_widgets/back_panel.dart';
 import 'package:mobware/widgets/phone_widgets/camera.dart';
 import 'package:mobware/widgets/phone_widgets/camera_bump.dart';
@@ -30,12 +30,22 @@ class Pixel4XL extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var colors = Provider.of<PhonesData>(context).pixels[4].colors;
+    var colors =
+        Provider.of<PhoneCustomizationProvider>(context).pixels[4].colors;
+    var textures =
+        Provider.of<PhoneCustomizationProvider>(context).pixels[4].textures;
 
     Color cameraBumpColor = colors['Camera Bump'];
     Color backPanelColor = colors['Back Panel'];
     Color logoColor = colors['Google Logo'];
     Color bezelColor = colors['Bezels'];
+
+    String cameraBumpTexture = textures['Camera Bump'].asset;
+    Color cameraBumpTextureBlendColor = textures['Camera Bump'].blendColor;
+    BlendMode cameraBumpTextureBlendMode = textures['Camera Bump'].blendMode;
+    String backPanelTexture = textures['Back Panel'].asset;
+    Color backPanelTextureBlendColor = textures['Back Panel'].blendColor;
+    BlendMode backPanelTextureBlendMode = textures['Back Panel'].blendMode;
 
     Camera camera = Camera(
       diameter: 28.0,
@@ -48,6 +58,9 @@ class Pixel4XL extends StatelessWidget {
       height: 80.0,
       cameraBumpColor: cameraBumpColor,
       backPanelColor: backPanelColor,
+      texture: cameraBumpTexture,
+      textureBlendColor: cameraBumpTextureBlendColor,
+      textureBlendMode: cameraBumpTextureBlendMode,
       cameraBumpPartsPadding: 2.0,
       cameraBumpParts: [
         Positioned(
@@ -84,6 +97,9 @@ class Pixel4XL extends StatelessWidget {
         bezelWidth: 4.0,
         backPanelColor: backPanelColor,
         bezelColor: bezelColor,
+        texture: backPanelTexture,
+        textureBlendColor: backPanelTextureBlendColor,
+        textureBlendMode: backPanelTextureBlendMode,
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[

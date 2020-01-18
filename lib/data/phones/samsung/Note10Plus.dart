@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mobware/custom_icons/brand_icons.dart';
-import 'package:mobware/providers/phones_data.dart';
+import 'package:mobware/providers/phones_customization_provider.dart';
 import 'package:mobware/widgets/phone_widgets/back_panel.dart';
 import 'package:mobware/widgets/phone_widgets/camera.dart';
 import 'package:mobware/widgets/phone_widgets/camera_bump.dart';
 import 'package:mobware/widgets/phone_widgets/flash.dart';
 import 'package:mobware/widgets/phone_widgets/microphone.dart';
 import 'package:mobware/widgets/phone_widgets/screen.dart';
+import 'package:mobware/widgets/phone_widgets/texture_decoration.dart';
 import 'package:provider/provider.dart';
 
 class Note10Plus extends StatelessWidget {
@@ -48,12 +49,24 @@ class Note10Plus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var colors = Provider.of<PhonesData>(context).samsungs[phoneIndex].colors;
+    var colors = Provider.of<PhoneCustomizationProvider>(context)
+        .samsungs[phoneIndex]
+        .colors;
+    var textures = Provider.of<PhoneCustomizationProvider>(context)
+        .samsungs[phoneIndex]
+        .textures;
 
     Color backPanelColor = colors['Back Panel'];
     Color cameraBumpColor = colors['Camera Bump'];
     Color logoColor = colors['Samsung Logo'];
     Color bezelColor = colors['Bezels'];
+
+    String cameraBumpTexture = textures['Camera Bump'].asset;
+    Color cameraBumpTextureBlendColor = textures['Camera Bump'].blendColor;
+    BlendMode cameraBumpTextureBlendMode = textures['Camera Bump'].blendMode;
+    String backPanelTexture = textures['Back Panel'].asset;
+    Color backPanelTextureBlendColor = textures['Back Panel'].blendColor;
+    BlendMode backPanelTextureBlendMode = textures['Back Panel'].blendMode;
 
     Camera camera = Camera(
       diameter: 20.0,
@@ -67,6 +80,9 @@ class Note10Plus extends StatelessWidget {
       height: 105.0,
       cameraBumpColor: cameraBumpColor,
       backPanelColor: backPanelColor,
+      texture: cameraBumpTexture,
+      textureBlendColor: cameraBumpTextureBlendColor,
+      textureBlendMode: cameraBumpTextureBlendMode,
       cameraBumpPartsPadding: 2.0,
       borderWidth: 2.0,
       borderColor: Colors.grey[500],
@@ -120,8 +136,13 @@ class Note10Plus extends StatelessWidget {
                     offset: Offset(5, 5),
                     spreadRadius: 2.0,
                     blurRadius: 10.0,
-                  )
+                  ),
                 ],
+                image: textureDecoration(
+                  texture: backPanelTexture,
+                  textureBlendColor: backPanelTextureBlendColor,
+                  textureBlendMode: backPanelTextureBlendMode,
+                ),
               ),
               child: Stack(
                 fit: StackFit.expand,
@@ -142,11 +163,11 @@ class Note10Plus extends StatelessWidget {
                       ),
                     ),
                     child: Align(
-                      alignment: Alignment(-0.185, -0.3),
+                      alignment: Alignment(-0.150, -0.3),
                       child: Icon(
-                        BrandIcons.samsung2,
+                        BrandIcons.samsung3,
                         color: logoColor,
-                        size: 40.0,
+                        size: 54.0,
                       ),
                     ),
                   ),

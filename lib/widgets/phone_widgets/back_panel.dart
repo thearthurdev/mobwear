@@ -4,17 +4,22 @@ import 'package:mobware/utils/constants.dart';
 
 class BackPanel extends StatefulWidget {
   final double width, height, cornerRadius, bezelWidth;
-  final Color backPanelColor, bezelColor;
+  final Color backPanelColor, bezelColor, textureBlendColor;
+  final String texture;
+  final BlendMode textureBlendMode;
   final Widget child;
 
   const BackPanel({
     @required this.backPanelColor,
     @required this.bezelColor,
+    this.texture,
     this.child,
     this.width = 240.0,
     this.height = 480.0,
     this.cornerRadius = 23.0,
     this.bezelWidth = 1.0,
+    this.textureBlendColor,
+    this.textureBlendMode,
   });
 
   @override
@@ -60,7 +65,21 @@ class _BackPanelState extends State<BackPanel> {
               color: widget.bezelColor,
               width: widget.bezelWidth,
             ),
-            color: widget.backPanelColor,
+            color: widget.texture == null
+                ? widget.backPanelColor
+                : Colors.transparent,
+            image: widget.texture == null
+                ? null
+                : DecorationImage(
+                    image: AssetImage(widget.texture),
+                    fit: BoxFit.cover,
+                    colorFilter: widget.textureBlendMode == null
+                        ? null
+                        : ColorFilter.mode(
+                            widget.textureBlendColor,
+                            widget.textureBlendMode,
+                          ),
+                  ),
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(widget.cornerRadius - 4.0),
@@ -71,17 +90,9 @@ class _BackPanelState extends State<BackPanel> {
                   matrix = m;
                 });
               },
-              child: Stack(
-                children: <Widget>[
-                  // Transform(
-                  //   transform: matrix,
-                  //   child: Image.asset('assets/images/mobware1.png'),
-                  // ),
-                  widget.child == null
-                      ? Container()
-                      : IgnorePointer(child: widget.child),
-                ],
-              ),
+              child: widget.child == null
+                  ? Container()
+                  : IgnorePointer(child: widget.child),
             ),
           ),
         ),
