@@ -16,16 +16,26 @@ Color kAccentColor(BuildContext context) {
   return Theme.of(context).accentColor;
 }
 
-Brightness kEstimateBrightnessForColor(Color color) {
+Color kEstimateColorFromColorBrightness(Color color,
+    {Color lightColor, Color darkColor}) {
   final double relativeLuminance = color.computeLuminance();
   const double kThreshold = 0.15;
   if ((relativeLuminance + 0.05) * (relativeLuminance + 0.05) > kThreshold)
-    return Brightness.light;
-  return Brightness.dark;
+    return darkColor;
+  return lightColor;
 }
 
+// Color kEstimateColorFromImageBrightness(String image,
+//     {Color lightColor, Color darkColor}) {
+//   final double relativeLuminance = Image(image: image);
+//   const double kThreshold = 0.15;
+//   if ((relativeLuminance + 0.05) * (relativeLuminance + 0.05) > kThreshold)
+//     return darkColor;
+//   return lightColor;
+// }
+
 Color kBrightnessAwareColor(BuildContext context,
-    {Color lightColor, darkColor}) {
+    {Color lightColor, Color darkColor}) {
   return kThemeBrightness(context) == Brightness.light ? lightColor : darkColor;
 }
 
@@ -77,4 +87,8 @@ const kTitleTextStyle = TextStyle(
   fontFamily: 'Quicksand',
   fontWeight: FontWeight.bold,
   letterSpacing: 0.3,
+);
+
+const kSubtitleTextStyle = TextStyle(
+  fontFamily: 'Quicksand',
 );

@@ -4,16 +4,20 @@ import 'package:mobware/utils/constants.dart';
 class ElevatedCard extends StatelessWidget {
   final Widget child;
   final Color color;
+  final EdgeInsetsGeometry padding, margin;
 
   const ElevatedCard({
     this.child,
     this.color,
+    this.padding,
+    this.margin,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 4.0),
+      margin: margin,
+      padding: padding,
       decoration: BoxDecoration(
         color: color == null
             ? kBrightnessAwareColor(context,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/providers/phones_customization_provider.dart';
+import 'package:mobware/providers/customization_provider.dart';
 import 'package:mobware/utils/constants.dart';
 import 'package:mobware/widgets/app_widgets/customization_indicator.dart';
 import 'package:mobware/widgets/app_widgets/elevated_card.dart';
@@ -14,53 +14,56 @@ class TextureBlendEditButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String selectedTexture =
-        Provider.of<PhoneCustomizationProvider>(context).selectedTexture;
-    String currentTexture =
-        Provider.of<PhoneCustomizationProvider>(context).currentTexture;
-    Color blendColor =
-        Provider.of<PhoneCustomizationProvider>(context).currentBlendColor;
+    return Consumer<CustomizationProvider>(
+      builder: (context, provider, child) {
+        String selectedTexture = provider.selectedTexture;
+        String currentTexture = provider.currentTexture;
+        Color blendColor =
+            provider.selectedBlendColor ?? provider.currentBlendColor;
 
-    return ElevatedCard(
-      color: kBrightnessAwareColor(context,
-          lightColor: Colors.white, darkColor: Colors.grey[850]),
-      child: ListTile(
-        enabled: selectedTexture != null
-            ? true
-            : currentTexture != null ? true : false,
-        dense: true,
-        title: Text(
-          title,
-          style: TextStyle(
-            fontFamily: 'Quicksand',
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        subtitle: Text(subtitle),
-        trailing: title == 'Blend Mode'
-            ? null
-            : CustomizationIndicator(
-                color: blendColor,
-                size: kScreenAwareSize(25.0, context),
+        return ElevatedCard(
+          margin: EdgeInsets.symmetric(horizontal: 4.0),
+          color: kBrightnessAwareColor(context,
+              lightColor: Colors.white, darkColor: Colors.grey[850]),
+          child: ListTile(
+            enabled: selectedTexture != null
+                ? true
+                : currentTexture != null ? true : false,
+            dense: true,
+            title: Text(
+              title,
+              style: TextStyle(
+                fontFamily: 'Quicksand',
+                fontWeight: FontWeight.bold,
               ),
-        onTap: title == 'Blend Mode'
-            ? () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return TextureBlendModePickerDialog();
+            ),
+            subtitle: Text(subtitle),
+            trailing: title == 'Blend Mode'
+                ? null
+                : CustomizationIndicator(
+                    color: blendColor,
+                    size: kScreenAwareSize(25.0, context),
+                  ),
+            onTap: title == 'Blend Mode'
+                ? () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return TextureBlendModePickerDialog();
+                      },
+                    );
+                  }
+                : () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return TextureBlendColorPickerDialog();
+                      },
+                    );
                   },
-                );
-              }
-            : () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return TextureBlendColorPickerDialog();
-                  },
-                );
-              },
-      ),
+          ),
+        );
+      },
     );
   }
 }

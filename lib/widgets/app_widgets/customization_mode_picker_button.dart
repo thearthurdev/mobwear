@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:mobware/data/models/mode_picker_model.dart';
 import 'package:mobware/utils/constants.dart';
 
-class ModePickerButton extends StatelessWidget {
+class CustomizationModePickerButton extends StatelessWidget {
   final Icon icon;
   final PickerMode pickerMode;
   final Function onTap;
   final bool isSelected;
 
-  const ModePickerButton({
+  const CustomizationModePickerButton({
     this.icon,
     this.pickerMode,
     this.onTap,
-    this.isSelected,
+    this.isSelected = false,
   });
 
   @override

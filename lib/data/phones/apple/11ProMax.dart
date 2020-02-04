@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobware/custom_icons/brand_icons.dart';
-import 'package:mobware/providers/phones_customization_provider.dart';
+import 'package:mobware/providers/customization_provider.dart';
 import 'package:mobware/widgets/phone_widgets/back_panel.dart';
 import 'package:mobware/widgets/phone_widgets/camera.dart';
 import 'package:mobware/widgets/phone_widgets/camera_bump.dart';
@@ -29,10 +29,9 @@ class IPhone11ProMax extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var colors =
-        Provider.of<PhoneCustomizationProvider>(context).iPhones[4].colors;
+    var colors = Provider.of<CustomizationProvider>(context).iPhones[4].colors;
     var textures =
-        Provider.of<PhoneCustomizationProvider>(context).iPhones[4].textures;
+        Provider.of<CustomizationProvider>(context).iPhones[4].textures;
 
     Color cameraBumpColor = colors['Camera Bump'];
     Color backPanelColor = colors['Back Panel'];

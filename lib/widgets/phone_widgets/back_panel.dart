@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:matrix_gesture_detector/matrix_gesture_detector.dart';
 import 'package:mobware/utils/constants.dart';
 
 class BackPanel extends StatefulWidget {
@@ -81,20 +80,7 @@ class _BackPanelState extends State<BackPanel> {
                           ),
                   ),
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(widget.cornerRadius - 4.0),
-            child: MatrixGestureDetector(
-              clipChild: true,
-              onMatrixUpdate: (m, tm, sm, rm) {
-                setState(() {
-                  matrix = m;
-                });
-              },
-              child: widget.child == null
-                  ? Container()
-                  : IgnorePointer(child: widget.child),
-            ),
-          ),
+          child: widget.child == null ? Container() : widget.child,
         ),
       ),
     );

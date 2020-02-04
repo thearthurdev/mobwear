@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/providers/theme_provider.dart';
+import 'package:mobware/providers/settings_provider.dart';
 import 'package:mobware/utils/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +26,7 @@ class _QuickBrigthnessSwitchState extends State<QuickBrigthnessSwitch> {
           brightness = Brightness.light;
         }
         setState(() {
-          Provider.of<ThemeProvider>(context)
+          Provider.of<SettingsProvider>(context)
               .changeBrightness(context, brightness);
         });
       },

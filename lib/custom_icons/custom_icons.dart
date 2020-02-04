@@ -27,6 +27,7 @@ class CustomIcons {
   static const IconData mobware = const IconData(0xe804, fontFamily: _kFontFam);
   static const IconData texture_wood = const IconData(0xe805, fontFamily: _kFontFam);
   static const IconData color_palette = const IconData(0xe806, fontFamily: _kFontFam);
+  static const IconData carousel = const IconData(0xe807, fontFamily: _kFontFam);
   static const IconData texture_wood_alt = const IconData(0xe808, fontFamily: _kFontFam);
   static const IconData color_palette_alt = const IconData(0xe809, fontFamily: _kFontFam);
   static const IconData image = const IconData(0xe80a, fontFamily: _kFontFam);

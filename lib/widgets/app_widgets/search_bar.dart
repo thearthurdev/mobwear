@@ -58,7 +58,7 @@ class SearchBar extends StatelessWidget {
                     ),
                   ),
                   border: InputBorder.none,
-                  hintText: 'Look for a phone',
+                  hintText: 'Select a phone or search for one',
                   hintStyle: TextStyle(
                     fontFamily: 'Quicksand',
                     fontWeight: FontWeight.bold,

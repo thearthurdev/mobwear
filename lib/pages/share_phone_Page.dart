@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -8,10 +9,11 @@ import 'package:flutter/services.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:matrix_gesture_detector/matrix_gesture_detector.dart';
 import 'package:mobware/custom_icons/custom_icons.dart';
-import 'package:mobware/providers/share_phone_page_provider.dart';
+import 'package:mobware/providers/customization_provider.dart';
 import 'package:mobware/utils/constants.dart';
 import 'package:mobware/widgets/app_widgets/customization_indicator.dart';
 import 'package:mobware/widgets/app_widgets/customization_picker_dialog.dart';
+import 'package:mobware/widgets/app_widgets/elevated_card.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
@@ -27,7 +29,10 @@ class SharePhonePage extends StatefulWidget {
 }
 
 class _SharePhonePageState extends State<SharePhonePage> {
-  Color backgroundColor;
+  Color initRandomColor, backgroundColor, backgroundTextureBlendColor;
+  String backgroundTexture;
+  BlendMode backgroundTextureBlendMode;
+
   double backgroundWidth = 426.0;
   double backgroundheight = 426.0;
   bool isCapturing = false;
@@ -36,15 +41,9 @@ class _SharePhonePageState extends State<SharePhonePage> {
 
   @override
   void initState() {
-    matrix = Matrix4.identity();
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    backgroundColor =
-        Provider.of<SharePhonePageProvider>(context).initBackgroundColor();
+    matrix = Matrix4.identity();
+    initRandomColor = Colors.primaries[Random().nextInt(15)];
   }
 
   @override
@@ -59,157 +58,206 @@ class _SharePhonePageState extends State<SharePhonePage> {
           leading: IconButton(
               icon: Icon(LineAwesomeIcons.angle_left),
               onPressed: () {
-                Provider.of<SharePhonePageProvider>(context).selectedColor =
-                    null;
                 Navigator.pop(context);
               }),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Container(
-                  constraints: BoxConstraints(maxHeight: 500.0),
-                  child: RepaintBoundary(
-                    key: captureKey,
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 300),
-                      width: backgroundWidth,
-                      height: backgroundheight,
-                      decoration: BoxDecoration(
-                        color: backgroundColor,
-                        border: kGetColorString(backgroundColor) ==
-                                kGetColorString(Colors.black)
-                            ? Border.all(
-                                color: Colors.grey[800],
-                                width: 0.3,
-                              )
-                            : null,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 10.0,
-                            offset: Offset(5.0, 6.0),
+        body: Consumer<CustomizationProvider>(
+          builder: (context, provider, child) {
+            backgroundColor = provider.currentColor ?? initRandomColor;
+            backgroundTexture = provider.currentTexture;
+            backgroundTextureBlendColor = provider.currentBlendColor;
+            backgroundTextureBlendMode = provider.currentBlendMode;
+
+            return SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Container(
+                      constraints: BoxConstraints(maxHeight: 500.0),
+                      child: RepaintBoundary(
+                        key: captureKey,
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 300),
+                          width: backgroundWidth,
+                          height: backgroundheight,
+                          decoration: BoxDecoration(
+                            border: kGetColorString(backgroundColor) ==
+                                    kGetColorString(Colors.black)
+                                ? Border.all(
+                                    color: Colors.grey[800],
+                                    width: 0.3,
+                                  )
+                                : null,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26,
+                                blurRadius: 10.0,
+                                offset: Offset(5.0, 6.0),
+                              ),
+                            ],
+                            color: backgroundTexture == null
+                                ? backgroundColor
+                                : Colors.transparent,
+                            image: backgroundTexture == null
+                                ? null
+                                : DecorationImage(
+                                    image: AssetImage(backgroundTexture),
+                                    fit: BoxFit.cover,
+                                    colorFilter:
+                                        backgroundTextureBlendMode == null
+                                            ? null
+                                            : ColorFilter.mode(
+                                                backgroundTextureBlendColor,
+                                                backgroundTextureBlendMode,
+                                              ),
+                                  ),
                           ),
-                        ],
-                      ),
-                      child: MatrixGestureDetector(
-                        clipChild: true,
-                        onMatrixUpdate: (m, tm, sm, rm) {
-                          setState(() {
-                            matrix = m;
-                          });
-                        },
-                        child: Stack(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.center,
-                              child: Transform(
-                                transform: matrix,
-                                child: AnimatedContainer(
-                                  duration: Duration(milliseconds: 300),
-                                  height: 360,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color:
-                                            backgroundColor.computeLuminance() <
-                                                    0.335
-                                                ? Colors.black26
-                                                : Colors.black12,
-                                        offset: Offset(2.0, 2.0),
-                                        blurRadius: 5.0,
+                          child: MatrixGestureDetector(
+                            clipChild: true,
+                            onMatrixUpdate: (m, tm, sm, rm) {
+                              setState(() {
+                                matrix = m;
+                              });
+                            },
+                            child: Stack(
+                              children: <Widget>[
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Transform(
+                                    transform: matrix,
+                                    child: AnimatedContainer(
+                                      duration: Duration(milliseconds: 300),
+                                      height: 360,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                kEstimateColorFromColorBrightness(
+                                              backgroundColor,
+                                              lightColor: Colors.black26,
+                                              darkColor: Colors.black12,
+                                            ),
+                                            offset: Offset(2.0, 2.0),
+                                            blurRadius: 5.0,
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  child: Hero(
-                                    tag: widget.phone,
-                                    child: widget.phone,
+                                      child: Hero(
+                                        tag: Provider.of<CustomizationProvider>(
+                                                context)
+                                            .currentPhone
+                                            .id,
+                                        child: widget.phone,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: Icon(
-                                  CustomIcons.mobware,
-                                  size: 32.0,
-                                  color:
-                                      backgroundColor.computeLuminance() < 0.335
-                                          ? Colors.white38
-                                          : Colors.black38,
+                                Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(6.0),
+                                    child: Icon(
+                                      CustomIcons.mobware,
+                                      size: 32.0,
+                                      color: backgroundTexture == null
+                                          ? kEstimateColorFromColorBrightness(
+                                              backgroundColor,
+                                              lightColor: Colors.white38,
+                                              darkColor: Colors.black38,
+                                            )
+                                          : Colors.red,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ),
-              ListTile(
-                title: Text(
-                  'Background Color',
-                  style: TextStyle(
-                    fontFamily: 'Quicksand',
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 0.3,
-                  ),
-                ),
-                subtitle: Text(
-                  'Select a background color',
-                  style: TextStyle(
-                    fontFamily: 'Quicksand',
-                    color: kBrightnessAwareColor(context,
-                        lightColor: Colors.black54, darkColor: Colors.white54),
-                  ),
-                ),
-                trailing: CustomizationIndicator(color: backgroundColor),
-                onTap: () => changeBackgroundColor(context, backgroundColor),
-              ),
-              SizedBox(height: 20.0),
-              Container(
-                height: 60.0,
-                child: ListTile(
-                  // isThreeLine: true,
-                  title: Text(
-                    'Aspect Ratio',
-                    style: TextStyle(
-                      fontFamily: 'Quicksand',
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.3,
+                  ElevatedCard(
+                    margin:
+                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    child: ListTile(
+                      title: Text(
+                        'Background',
+                        style: TextStyle(
+                          fontFamily: 'Quicksand',
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.3,
+                        ),
+                      ),
+                      subtitle: Text(
+                        backgroundTexture == null
+                            ? 'Color: #${kGetColorString(backgroundColor)}'
+                            : 'Texture: ${kGetTextureName(backgroundTexture)}',
+                        style: TextStyle(
+                          fontFamily: 'Quicksand',
+                          color: kBrightnessAwareColor(context,
+                              lightColor: Colors.black54,
+                              darkColor: Colors.white54),
+                        ),
+                      ),
+                      trailing: CustomizationIndicator(
+                        color: backgroundColor,
+                        texture: backgroundTexture,
+                        textureBlendColor: backgroundTextureBlendColor,
+                        textureBlendMode: backgroundTextureBlendMode,
+                      ),
+                      onTap: () => changeBackground(context, backgroundColor),
                     ),
                   ),
-                  subtitle: Text(
-                    'Pick an aspect ratio for the image',
-                    style: TextStyle(
-                      fontFamily: 'Quicksand',
-                      color: kBrightnessAwareColor(context,
-                          lightColor: Colors.black54,
-                          darkColor: Colors.white54),
+                  ElevatedCard(
+                    margin:
+                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                    child: ListTile(
+                      // isThreeLine: true,
+                      title: Text(
+                        'Aspect Ratio',
+                        style: TextStyle(
+                          fontFamily: 'Quicksand',
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.3,
+                        ),
+                      ),
+                      subtitle: Text(
+                        'Pick an aspect ratio for the image',
+                        style: TextStyle(
+                          fontFamily: 'Quicksand',
+                          color: kBrightnessAwareColor(context,
+                              lightColor: Colors.black54,
+                              darkColor: Colors.white54),
+                        ),
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          aspectRatioButton(
+                              aspectRatio: 1.0 / 1.0,
+                              width: 426.0,
+                              height: 426.0),
+                          aspectRatioButton(
+                              aspectRatio: 9.0 / 16.0,
+                              width: 240.0,
+                              height: 426.0),
+                          aspectRatioButton(
+                              aspectRatio: 16.0 / 9.0,
+                              width: 426.0,
+                              height: 240.0),
+                        ],
+                      ),
                     ),
                   ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      aspectRatioButton(
-                          aspectRatio: 1.0 / 1.0, width: 426.0, height: 426.0),
-                      aspectRatioButton(
-                          aspectRatio: 9.0 / 16.0, width: 240.0, height: 426.0),
-                      aspectRatioButton(
-                          aspectRatio: 16.0 / 9.0, width: 426.0, height: 240.0),
-                    ],
-                  ),
-                ),
+                  SizedBox(height: 70.0),
+                ],
               ),
-              SizedBox(height: 70.0),
-            ],
-          ),
+            );
+          },
         ),
         floatingActionButton: FloatingActionButton.extended(
           label: Text(
@@ -301,8 +349,14 @@ class _SharePhonePageState extends State<SharePhonePage> {
     );
   }
 
-  void changeBackgroundColor(BuildContext context, Color currentColor) {
+  void changeBackground(BuildContext context, Color currentColor) {
+    Provider.of<CustomizationProvider>(context).isSharePage = true;
+    Provider.of<CustomizationProvider>(context).selectedTexture = null;
+    Provider.of<CustomizationProvider>(context).getCurrentSideTextureDetails();
+    Provider.of<CustomizationProvider>(context).resetSelectedValues();
+
     int initIndex() {
+      if (backgroundTexture != null) return 1;
       return 0;
     }
 
@@ -310,17 +364,16 @@ class _SharePhonePageState extends State<SharePhonePage> {
       context: context,
       builder: (BuildContext context) => Dialog(
         child: CustomizationPickerDialog(
-          isSharePage: true,
-          // noTexture: false,
-          // noImage: false,
+          noTexture: false,
+          noImage: false,
           initPickerModeIndex: initIndex(),
+          initRandomColor: initRandomColor,
         ),
       ),
     );
   }
 
   Future<bool> onWillPop() {
-    Provider.of<SharePhonePageProvider>(context).selectedColor = null;
     return Future.value(true);
   }
 }

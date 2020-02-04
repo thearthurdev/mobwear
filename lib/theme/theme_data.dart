@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobware/pages/about_page.dart';
 import 'package:mobware/pages/edit_phone_page.dart';
 import 'package:mobware/pages/home_page.dart';
 import 'package:mobware/pages/settings_page.dart';
@@ -70,7 +71,7 @@ class MyThemeData extends StatelessWidget {
             ),
         themedWidgetBuilder: (context, theme) {
           return MaterialApp(
-            title: 'mobware.',
+            title: 'MobWare',
             theme: theme,
             builder: (context, child) {
               return ScrollConfiguration(
@@ -78,6 +79,8 @@ class MyThemeData extends StatelessWidget {
                 child: child,
               );
             },
+            // locale: DevicePreview.of(context).locale,
+            // builder: DevicePreview.appBuilder,
             home: HomePage(),
             debugShowCheckedModeBanner: false,
             debugShowMaterialGrid: false,
@@ -85,6 +88,7 @@ class MyThemeData extends StatelessWidget {
               SettingsPage.id: (context) => SettingsPage(),
               EditPhonePage.id: (context) => EditPhonePage(),
               SharePhonePage.id: (context) => SharePhonePage(),
+              AboutPage.id: (context) => AboutPage(),
             },
           );
         });

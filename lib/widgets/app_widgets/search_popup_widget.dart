@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobware/services/search.dart';
 import 'package:mobware/utils/constants.dart';
-import 'package:mobware/widgets/app_widgets/no_items_found.dart';
+import 'package:mobware/widgets/app_widgets/no_phones_found_widget.dart';
 
 class SearchPopupWidget extends StatelessWidget {
   final RelativeRect position;
@@ -89,7 +89,7 @@ class SearchPopupWidget extends StatelessWidget {
                   )
                 : widget.noItemsFoundWidget != null
                     ? Center(child: widget.noItemsFoundWidget)
-                    : Center(child: NoItemsFound()),
+                    : Center(child: NoPhonesFound()),
           ),
         ),
       ),

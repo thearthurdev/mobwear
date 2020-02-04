@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobware/custom_icons/brand_icons.dart';
-import 'package:mobware/providers/phones_customization_provider.dart';
+import 'package:mobware/providers/customization_provider.dart';
 import 'package:mobware/widgets/phone_widgets/back_panel.dart';
 import 'package:mobware/widgets/phone_widgets/camera.dart';
 import 'package:mobware/widgets/phone_widgets/fingerprint_sensor.dart';
@@ -36,10 +36,9 @@ class Pixel2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var colors =
-        Provider.of<PhoneCustomizationProvider>(context).pixels[1].colors;
+    var colors = Provider.of<CustomizationProvider>(context).pixels[1].colors;
     var textures =
-        Provider.of<PhoneCustomizationProvider>(context).pixels[1].textures;
+        Provider.of<CustomizationProvider>(context).pixels[1].textures;
 
     Color glossyPanelColor = colors['Glossy Panel'];
     Color mattePanelColor = colors['Matte Panel'];

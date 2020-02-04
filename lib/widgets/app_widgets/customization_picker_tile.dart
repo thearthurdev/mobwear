@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/providers/phones_customization_provider.dart';
+import 'package:mobware/providers/customization_provider.dart';
 import 'package:mobware/utils/constants.dart';
 import 'package:mobware/widgets/app_widgets/customization_indicator.dart';
 import 'package:mobware/widgets/app_widgets/customization_picker_dialog.dart';
+import 'package:mobware/widgets/app_widgets/elevated_card.dart';
 import 'package:provider/provider.dart';
 
 class CustomizationPickerTile extends StatelessWidget {
@@ -20,23 +21,10 @@ class CustomizationPickerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    // int initIndex = 0;
+
+    return ElevatedCard(
       margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
-      decoration: BoxDecoration(
-        color: kThemeBrightness(context) == Brightness.light
-            ? Colors.white
-            : Colors.grey[900],
-        boxShadow: [
-          BoxShadow(
-            color: kThemeBrightness(context) == Brightness.light
-                ? Colors.black12
-                : Colors.black26,
-            blurRadius: 10.0,
-            offset: Offset(5.0, 6.0),
-          ),
-        ],
-        borderRadius: BorderRadius.circular(10.0),
-      ),
       child: ListTile(
         title: Text(colors.keys.elementAt(index), style: kTitleTextStyle),
         subtitle: Text(
@@ -60,22 +48,21 @@ class CustomizationPickerTile extends StatelessWidget {
               noTexture ? null : textures.values.elementAt(index).blendMode,
         ),
         onTap: () {
-          Provider.of<PhoneCustomizationProvider>(context).selectedTexture =
-              null;
-          Provider.of<PhoneCustomizationProvider>(context)
-              .setCurrentSide(index);
-          Provider.of<PhoneCustomizationProvider>(context)
-              .getCurrentColor(index);
+          Provider.of<CustomizationProvider>(context).isSharePage = false;
+          Provider.of<CustomizationProvider>(context).selectedTexture = null;
+          Provider.of<CustomizationProvider>(context).setCurrentSide(index);
+          Provider.of<CustomizationProvider>(context).getCurrentColor(index);
+          Provider.of<CustomizationProvider>(context).resetSelectedValues();
+
           if (!noTexture)
-            Provider.of<PhoneCustomizationProvider>(context)
-                .getCurrentSideTextureDetails(index);
+            Provider.of<CustomizationProvider>(context)
+                .getCurrentSideTextureDetails(i: index);
 
           int initIndex() {
             if (noTexture) {
               return 0;
             } else {
-              if (Provider.of<PhoneCustomizationProvider>(context)
-                      .currentTexture !=
+              if (Provider.of<CustomizationProvider>(context).currentTexture !=
                   null) return 1;
             }
             return 0;
@@ -91,6 +78,32 @@ class CustomizationPickerTile extends StatelessWidget {
             ),
           );
         },
+        // onExpansionChanged: (b) {
+        //   if (b) {
+        //     Provider.of<CustomizationProvider>(context).isSharePage = false;
+        //     Provider.of<CustomizationProvider>(context).selectedTexture = null;
+        //     Provider.of<CustomizationProvider>(context).setCurrentSide(index);
+        //     Provider.of<CustomizationProvider>(context).getCurrentColor(index);
+        //     Provider.of<CustomizationProvider>(context).resetSelectedValues();
+
+        //     if (!noTexture)
+        //       Provider.of<CustomizationProvider>(context)
+        //           .getCurrentSideTextureDetails(i: index);
+
+        //     if (noTexture) {
+        //       initIndex = 0;
+        //     } else {
+        //       if (Provider.of<CustomizationProvider>(context).currentTexture !=
+        //           null) initIndex = 1;
+        //     }
+        //   }
+        // },
+        // children: <Widget>[
+        //   CustomizationPickerDialog(
+        //     noTexture: noTexture,
+        //     initPickerModeIndex: initIndex,
+        //   ),
+        // ],
       ),
     );
   }

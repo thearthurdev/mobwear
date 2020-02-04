@@ -1,19 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobware/pages/share_phone_Page.dart';
-import 'package:mobware/providers/phones_customization_provider.dart';
+import 'package:mobware/providers/customization_provider.dart';
+import 'package:mobware/providers/settings_provider.dart';
 import 'package:mobware/utils/constants.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:mobware/utils/my_phone_header_delegate.dart';
 import 'package:mobware/widgets/app_widgets/customization_picker_tile.dart';
-import 'package:mobware/widgets/app_widgets/quick_brightness_switch.dart';
 import 'package:provider/provider.dart';
 
 class EditPhonePage extends StatefulWidget {
-  static String id = 'EditPhonePage';
+  static String id = '/EditPhonePage';
 
-  final phone;
+  final dynamic phone;
   final List phoneList;
   final int phoneIndex;
 
@@ -66,10 +68,9 @@ class _EditPhonePageState extends State<EditPhonePage>
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<PhoneCustomizationProvider>(context)
-        .getColors(widget.phoneList, widget.phoneIndex);
-    Provider.of<PhoneCustomizationProvider>(context)
-        .getTextures(widget.phoneList, widget.phoneIndex);
+    Provider.of<CustomizationProvider>(context)
+        .setCurrentPhone(widget.phoneList, widget.phoneIndex);
+    Provider.of<SettingsProvider>(context).changeTempAutoplayValue(false);
 
     return WillPopScope(
       onWillPop: onWillPop,
@@ -98,9 +99,6 @@ class _EditPhonePageState extends State<EditPhonePage>
           }
         },
       ),
-      actions: <Widget>[
-        QuickBrigthnessSwitch(),
-      ],
     );
   }
 
@@ -110,14 +108,14 @@ class _EditPhonePageState extends State<EditPhonePage>
       slivers: <Widget>[
         SliverPersistentHeader(
           pinned: true,
-          floating: true,
           delegate: MyPhoneHeaderDelegate(
             minHeight: kScreenAwareSize(1.0, context),
             maxHeight: kScreenAwareSize(475.0, context),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 24.0),
               child: Hero(
-                tag: widget.phone,
+                tag:
+                    Provider.of<CustomizationProvider>(context).currentPhone.id,
                 child: GestureDetector(
                   child: FlipCard(
                     flipOnTouch: false,
@@ -149,6 +147,7 @@ class _EditPhonePageState extends State<EditPhonePage>
   AnimatedContainer buildFAB() {
     return AnimatedContainer(
       duration: Duration(milliseconds: 350),
+      curve: Curves.easeOutSine,
       height: showFAB ? 48.0 : 0.0,
       child: FloatingActionButton(
         child: AnimatedOpacity(
@@ -156,6 +155,7 @@ class _EditPhonePageState extends State<EditPhonePage>
             opacity: showFAB ? 1.0 : 0.0,
             child: Icon(LineAwesomeIcons.camera)),
         onPressed: () {
+          Provider.of<CustomizationProvider>(context).resetCurrentValues();
           if (!flipCardKey.currentState.isFront) {
             flipCardKey.currentState.controller.reverse().then((v) {
               flipCardKey.currentState.isFront = true;
@@ -180,9 +180,8 @@ class _EditPhonePageState extends State<EditPhonePage>
   }
 
   ListView buildColorButtonsListView() {
-    Map textures =
-        Provider.of<PhoneCustomizationProvider>(context).currentTextures;
-    Map colors = Provider.of<PhoneCustomizationProvider>(context).currentColors;
+    Map textures = Provider.of<CustomizationProvider>(context).currentTextures;
+    Map colors = Provider.of<CustomizationProvider>(context).currentColors;
 
     return ListView.builder(
       itemCount: colors.length,

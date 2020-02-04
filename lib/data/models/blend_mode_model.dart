@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
 
 class MyBlendMode {
-  final String name;
-  final BlendMode mode;
+  String name;
+  BlendMode mode;
 
   MyBlendMode(this.name, this.mode);
 }
 
 List<MyBlendMode> myBlendModes = [
-  MyBlendMode('None', null),
+  MyBlendMode('None', BlendMode.dst),
   MyBlendMode('Color', BlendMode.color),
   MyBlendMode('Burn', BlendMode.colorBurn),
   MyBlendMode('Dodge', BlendMode.colorDodge),

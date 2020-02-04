@@ -7,6 +7,7 @@ import 'package:mobware/data/phones/samsung/S9Plus.dart';
 
 List<PhoneModel> galaxyList = [
   PhoneModel(
+    id: 0300,
     phone: S9Plus(),
     colors: {
       'Camera Bump': Colors.black,
@@ -20,6 +21,7 @@ List<PhoneModel> galaxyList = [
     },
   ),
   PhoneModel(
+    id: 0301,
     phone: S10Plus(),
     colors: {
       'Camera Bump': Colors.black,
@@ -32,6 +34,7 @@ List<PhoneModel> galaxyList = [
     },
   ),
   PhoneModel(
+    id: 0302,
     phone: Note10Plus(),
     colors: {
       'Camera Bump': Colors.black,

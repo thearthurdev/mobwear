@@ -9,6 +9,7 @@ import 'package:mobware/data/phones/apple/xsMax.dart';
 
 List<PhoneModel> iPhoneList = [
   PhoneModel(
+    id: 0200,
     phone: IPhone8Plus(),
     colors: {
       'Camera Bump': Colors.black,
@@ -22,6 +23,7 @@ List<PhoneModel> iPhoneList = [
     },
   ),
   PhoneModel(
+    id: 0201,
     phone: IPhoneXR(),
     colors: {
       'Back Panel': Colors.yellow,
@@ -33,6 +35,7 @@ List<PhoneModel> iPhoneList = [
     },
   ),
   PhoneModel(
+    id: 0202,
     phone: IPhoneXSMax(),
     colors: {
       'Camera Bump': Colors.black,
@@ -46,6 +49,7 @@ List<PhoneModel> iPhoneList = [
     },
   ),
   PhoneModel(
+    id: 0203,
     phone: IPhone11(),
     colors: {
       'Camera Bump': Colors.white,
@@ -58,6 +62,7 @@ List<PhoneModel> iPhoneList = [
     },
   ),
   PhoneModel(
+    id: 0204,
     phone: IPhone11ProMax(),
     colors: {
       'Camera Bump': Colors.grey[900],

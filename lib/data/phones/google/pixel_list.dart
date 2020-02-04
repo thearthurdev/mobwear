@@ -9,6 +9,7 @@ import 'package:mobware/data/phones/google/pixelXL.dart';
 
 List<PhoneModel> pixelList = [
   PhoneModel(
+    id: 0100,
     phone: PixelXL(),
     colors: {
       'Glossy Panel': Colors.white,
@@ -24,6 +25,7 @@ List<PhoneModel> pixelList = [
     },
   ),
   PhoneModel(
+    id: 0101,
     phone: Pixel2(),
     colors: {
       'Glossy Panel': Colors.black,
@@ -37,6 +39,7 @@ List<PhoneModel> pixelList = [
     },
   ),
   PhoneModel(
+    id: 0102,
     phone: Pixel2XL(),
     colors: {
       'Glossy Panel': Colors.black,
@@ -50,6 +53,7 @@ List<PhoneModel> pixelList = [
     },
   ),
   PhoneModel(
+    id: 0103,
     phone: Pixel3XL(),
     colors: {
       'Glossy Panel': Colors.white,
@@ -63,6 +67,7 @@ List<PhoneModel> pixelList = [
     },
   ),
   PhoneModel(
+    id: 0104,
     phone: Pixel4XL(),
     colors: {
       'Camera Bump': Colors.black,

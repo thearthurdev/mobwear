@@ -63,6 +63,7 @@ class CustomizationIndicator extends StatelessWidget {
           : isSelected
               ? Center(
                   child: Container(
+                    padding: EdgeInsets.only(bottom: 1.6),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.black54,

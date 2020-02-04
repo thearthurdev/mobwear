@@ -5,8 +5,14 @@ class IndicatorDot extends StatelessWidget {
   final bool isSelected;
   final BuildContext context;
   final Function onPressed;
+  final double size;
 
-  const IndicatorDot({this.isSelected, this.context, this.onPressed});
+  const IndicatorDot({
+    this.isSelected = false,
+    this.context,
+    this.onPressed,
+    this.size = 10,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,21 +20,19 @@ class IndicatorDot extends StatelessWidget {
   }
 
   Widget indicatorDot(bool isSelected, BuildContext context) {
-    Brightness brightness = kThemeBrightness(context);
-    Color accentColor = Theme.of(context).accentColor;
-
     return Padding(
-      padding: const EdgeInsets.only(right: 10.0),
+      padding: const EdgeInsets.only(right: 6.0),
       child: GestureDetector(
         child: Container(
-          width: kScreenAwareSize(10.0, context),
-          height: kScreenAwareSize(10.0, context),
+          width: kScreenAwareSize(size, context),
+          height: kScreenAwareSize(size, context),
           decoration: BoxDecoration(
               color: isSelected
-                  ? accentColor
-                  : brightness == Brightness.light
-                      ? Colors.black12
-                      : Colors.white24,
+                  ? kBrightnessAwareColor(context,
+                      lightColor: Colors.black, darkColor: Colors.white)
+                  : kBrightnessAwareColor(context,
+                      lightColor: Colors.grey[350],
+                      darkColor: Colors.grey[800]),
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(

@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:mobware/data/models/phone_model.dart';
 
 class BrandTab {
   final List<PhoneModel> list;
-  final PageController controller;
-  final double page;
+  final SwiperController controller;
+  final int page;
 
   BrandTab({
     this.list,
