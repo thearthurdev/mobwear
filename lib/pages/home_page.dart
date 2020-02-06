@@ -1,50 +1,33 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
+import 'package:mobware/custom_icons/custom_icons.dart';
+import 'package:mobware/data/models/phone_model.dart';
 import 'package:mobware/database/phone_database.dart';
-import 'package:mobware/providers/settings_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:mobware/providers/customization_provider.dart';
+import 'package:mobware/providers/settings_provider.dart';
+import 'package:mobware/widgets/app_widgets/phone_group_view_picker_button.dart';
+import 'package:provider/provider.dart';
 import 'package:mobware/widgets/app_widgets/home_search_widget.dart';
 import 'package:mobware/widgets/app_widgets/home_vertical_tabs.dart';
-import 'package:mobware/data/models/brand_tab_model.dart';
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
-  bool showSideBar = true;
-  bool isGrid = true;
-
+class _HomePageState extends State<HomePage> {
   PhoneDatabase phoneDatabase;
-  PageController tabsPageController;
-
-  AnimationController iconController;
-  Animation<double> iconAnimation;
-
-  int googleCurrentPage = 0;
-  int appleCurrentPage = 0;
-  int samsungCurrentPage = 0;
-
-  SwiperController googleController = SwiperController();
-  SwiperController appleController = SwiperController();
-  SwiperController samsungController = SwiperController();
+  PageController tabsPageController = PageController();
+  ScrollController phoneGridController = PageController();
+  SwiperController phoneCarouselController = SwiperController();
 
   @override
   void initState() {
     super.initState();
     phoneDatabase = PhoneDatabase();
     phoneDatabase.initDatabase();
-    tabsPageController = PageController();
-
-    iconController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
-    iconAnimation = Tween<double>(begin: 0, end: 1).animate(iconController);
   }
 
   @override
@@ -56,44 +39,19 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    ScrollController phoneGridController = PageController();
+    bool isGrid = Provider.of<SettingsProvider>(context).phoneGroupView ==
+        PhoneGroupView.grid;
 
-    List<BrandTab> brandTabs = [
-      BrandTab(
-          list: Provider.of<CustomizationProvider>(context).pixels,
-          controller: googleController,
-          page: googleCurrentPage),
-      BrandTab(
-          list: Provider.of<CustomizationProvider>(context).iPhones,
-          controller: appleController,
-          page: appleCurrentPage),
-      BrandTab(
-          list: Provider.of<CustomizationProvider>(context).samsungs,
-          controller: samsungController,
-          page: samsungCurrentPage),
-    ];
-
-    // void toggleSideBar() {
-    //   setState(() {
-    //     if (showSideBar) {
-    //       iconController.reverse();
-    //       showSideBar = !showSideBar;
-    //     } else {
-    //       iconController.forward();
-    //       showSideBar = !showSideBar;
-    //     }
-    //   });
-    // }
+    List<List<PhoneModel>> brands =
+        Provider.of<CustomizationProvider>(context).phonesList;
 
     void togglePhoneGroupView() {
       if (isGrid) {
         Provider.of<SettingsProvider>(context)
             .changePhoneGroupView(myPhoneGroupViews.values.elementAt(1));
-        isGrid = !isGrid;
       } else {
         Provider.of<SettingsProvider>(context)
             .changePhoneGroupView(myPhoneGroupViews.values.elementAt(0));
-        isGrid = !isGrid;
       }
     }
 
@@ -102,17 +60,21 @@ class _HomePageState extends State<HomePage>
       appBar: AppBar(
         title: Text('MobWare'),
         centerTitle: true,
-        // leading: IconButton(
-        //   icon: AnimatedIcon(
-        //     icon: AnimatedIcons.menu_close,
-        //     progress: iconAnimation,
-        //   ),
-        //   onPressed: toggleSideBar,
-        // ),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(isGrid ? Icons.view_carousel : Icons.view_module),
-            onPressed: togglePhoneGroupView,
+          Row(
+            children: <Widget>[
+              PhoneGroupViewPickerButton(
+                icon: CustomIcons.carousel_view,
+                isSelected: !isGrid,
+                onTap: togglePhoneGroupView,
+                size: 18.0,
+              ),
+              PhoneGroupViewPickerButton(
+                icon: LineAwesomeIcons.th_large,
+                isSelected: isGrid,
+                onTap: togglePhoneGroupView,
+              ),
+            ],
           ),
         ],
       ),
@@ -124,8 +86,8 @@ class _HomePageState extends State<HomePage>
             child: HomeVerticalTabs(
               tabsPageController: tabsPageController,
               phoneGridController: phoneGridController,
-              brandTabs: brandTabs,
-              showSideBar: showSideBar,
+              phoneCarouselController: phoneCarouselController,
+              brands: brands,
             ),
           ),
           Align(
@@ -133,7 +95,8 @@ class _HomePageState extends State<HomePage>
             child: HomeSearchWidget(
               tabsPageController: tabsPageController,
               phoneGridController: phoneGridController,
-              brandTabs: brandTabs,
+              phoneCarouselController: phoneCarouselController,
+              brands: brands,
             ),
           ),
         ],

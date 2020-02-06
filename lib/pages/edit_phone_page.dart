@@ -5,7 +5,6 @@ import 'package:flutter/rendering.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobware/pages/share_phone_Page.dart';
 import 'package:mobware/providers/customization_provider.dart';
-import 'package:mobware/providers/settings_provider.dart';
 import 'package:mobware/utils/constants.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:mobware/utils/my_phone_header_delegate.dart';
@@ -43,9 +42,13 @@ class _EditPhonePageState extends State<EditPhonePage>
   }
 
   void scrollListener() {
+    double maxScrollExtent = scrollController.position.maxScrollExtent;
+
     if (scrollController.position.userScrollDirection ==
         ScrollDirection.reverse) {
-      if (showFAB == false && scrollController.position.outOfRange) {
+      if (showFAB == false &&
+          scrollController.position.outOfRange &&
+          scrollController.offset - maxScrollExtent > 30) {
         setState(() {
           showFAB = true;
         });
@@ -70,7 +73,6 @@ class _EditPhonePageState extends State<EditPhonePage>
   Widget build(BuildContext context) {
     Provider.of<CustomizationProvider>(context)
         .setCurrentPhone(widget.phoneList, widget.phoneIndex);
-    Provider.of<SettingsProvider>(context).changeTempAutoplayValue(false);
 
     return WillPopScope(
       onWillPop: onWillPop,

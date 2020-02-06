@@ -46,7 +46,7 @@ class _BackPanelState extends State<BackPanel> {
             : Colors.grey[800],
         boxShadow: [
           BoxShadow(
-            color: Colors.black26,
+            color: Colors.black12,
             offset: Offset(5, 5),
             blurRadius: 10.0,
             spreadRadius: 2.0,
@@ -58,6 +58,7 @@ class _BackPanelState extends State<BackPanel> {
           duration: Duration(milliseconds: 300),
           width: widget.width,
           height: widget.height,
+          child: widget.child == null ? Container() : widget.child,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(widget.cornerRadius),
             border: Border.all(
@@ -80,7 +81,6 @@ class _BackPanelState extends State<BackPanel> {
                           ),
                   ),
           ),
-          child: widget.child == null ? Container() : widget.child,
         ),
       ),
     );

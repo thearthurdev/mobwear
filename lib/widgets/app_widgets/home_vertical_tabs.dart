@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:mobware/custom_icons/custom_icons.dart';
 import 'package:mobware/data/models/brand_icon_model.dart';
-import 'package:mobware/data/models/brand_tab_model.dart';
+import 'package:mobware/data/models/phone_model.dart';
 import 'package:mobware/providers/settings_provider.dart';
 import 'package:mobware/utils/constants.dart';
 import 'package:mobware/widgets/app_widgets/no_phones_found_widget.dart';
@@ -13,18 +14,21 @@ import 'package:provider/provider.dart';
 class HomeVerticalTabs extends StatelessWidget {
   final PageController tabsPageController;
   final ScrollController phoneGridController;
-  final List<BrandTab> brandTabs;
-  final bool showSideBar;
+  final SwiperController phoneCarouselController;
+  final List<List<PhoneModel>> brands;
 
   const HomeVerticalTabs({
     @required this.tabsPageController,
     @required this.phoneGridController,
-    @required this.brandTabs,
-    @required this.showSideBar,
+    @required this.phoneCarouselController,
+    @required this.brands,
   });
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<SettingsProvider>(context).loadPhoneGroupView();
+    Provider.of<SettingsProvider>(context).loadAutoPlay();
+
     List<Tab> tabs = List<Tab>.generate(myBrandIcons.length, (i) {
       return Tab(
         icon: Icon(
@@ -34,12 +38,11 @@ class HomeVerticalTabs extends StatelessWidget {
       );
     });
 
-    Provider.of<SettingsProvider>(context).loadPhoneGroupView();
-    Provider.of<SettingsProvider>(context).loadAutoPlay();
-
     List<Widget> contentsList() {
-      return List<Widget>.generate(brandTabs.length, (i) {
-        return FutureBuilder(
+      return List<Widget>.generate(
+        brands.length,
+        (i) {
+          return FutureBuilder(
             future: Provider.of<SettingsProvider>(context).loadPhoneGroupView(),
             builder: (context, snapshot) {
               if (snapshot.data == null &&
@@ -57,22 +60,23 @@ class HomeVerticalTabs extends StatelessWidget {
                 return Center(child: NoPhonesFound());
               }
               dynamic view() {
-                if (snapshot.data == PhoneGroupView.GRID)
-                  return PhoneGrid(brandTabs[i], i, phoneGridController);
-                if (snapshot.data == PhoneGroupView.CAROUSEL)
-                  return PhoneCarousel(brandTabs[i]);
+                if (snapshot.data == PhoneGroupView.grid)
+                  return PhoneGrid(brands[i], i, phoneGridController);
+                if (snapshot.data == PhoneGroupView.carousel)
+                  return PhoneCarousel(brands[i], phoneCarouselController);
               }
 
               return view();
-            });
-      });
+            },
+          );
+        },
+      );
     }
 
     return VerticalTabs(
       pageController: tabsPageController,
       contentScrollAxis: Axis.vertical,
       tabsWidth: 50.0,
-      showSideBar: showSideBar,
       itemExtent: kScreenAwareSize(45, context),
       indicatorColor: kBrightnessAwareColor(
         context,

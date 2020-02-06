@@ -19,7 +19,6 @@ class VerticalTabs extends StatefulWidget {
   final Color dividerColor;
   final Duration changePageDuration;
   final Curve changePageCurve;
-  final bool showSideBar;
 
   final double tabsElevation;
 
@@ -39,7 +38,6 @@ class VerticalTabs extends StatefulWidget {
     this.changePageCurve = Curves.easeInOut,
     this.changePageDuration = const Duration(milliseconds: 300),
     this.tabsElevation = 2.0,
-    this.showSideBar = false,
   });
 
   @override
@@ -84,49 +82,44 @@ class _VerticalTabsState extends State<VerticalTabs>
       textDirection: TextDirection.ltr,
       child: SizedBox.expand(
         child: Stack(
-          // mainAxisSize: MainAxisSize.min,
           fit: StackFit.expand,
           children: <Widget>[
             AnimatedContainer(
-              padding: widget.showSideBar
-                  ? EdgeInsets.only(left: 50.0)
-                  : EdgeInsets.zero,
+              padding: EdgeInsets.only(left: 50.0),
               duration: Duration(milliseconds: 300),
               width: kDeviceWidth(context) - widget.tabsWidth,
               height: double.maxFinite,
-              // color: Colors.teal,
-              child: Container(
-                // color: Colors.orange,
-                child: PageView.builder(
-                  scrollDirection: widget.contentScrollAxis,
-                  physics: pageScrollPhysics,
-                  onPageChanged: (index) {
-                    if (_changePageByTapView == false ||
-                        _changePageByTapView == null) {
-                      _selectTab(index);
-                    }
-                    if (_selectedIndex == index) {
-                      _changePageByTapView = null;
-                    }
-                    setState(() {});
-                  },
-                  controller: pageController,
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
+                child: Container(
+                  child: PageView.builder(
+                    scrollDirection: widget.contentScrollAxis,
+                    physics: pageScrollPhysics,
+                    onPageChanged: (index) {
+                      if (_changePageByTapView == false ||
+                          _changePageByTapView == null) {
+                        _selectTab(index);
+                      }
+                      if (_selectedIndex == index) {
+                        _changePageByTapView = null;
+                      }
+                      setState(() {});
+                    },
+                    controller: pageController,
 
-                  // the number of pages
-                  itemCount: widget.contents.length,
+                    // the number of pages
+                    itemCount: widget.contents.length,
 
-                  // building pages
-                  itemBuilder: (BuildContext context, int index) {
-                    return widget.contents[index];
-                  },
+                    // building pages
+                    itemBuilder: (BuildContext context, int index) {
+                      return widget.contents[index];
+                    },
+                  ),
                 ),
               ),
             ),
-            AnimatedAlign(
-              alignment:
-                  widget.showSideBar ? Alignment(-1, 0) : Alignment(-2, 0),
-              duration: Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
+            Align(
+              alignment: Alignment.centerLeft,
               child: Container(
                 margin: EdgeInsets.only(top: 16.0),
                 width: widget.tabsWidth,
@@ -211,11 +204,14 @@ class _VerticalTabsState extends State<VerticalTabs>
                       indent: 8.0,
                       endIndent: 8.0,
                     ),
-                    IconButton(
-                      icon: Icon(
-                        LineAwesomeIcons.cog,
+                    GestureDetector(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        child: Icon(
+                          LineAwesomeIcons.cog,
+                        ),
                       ),
-                      onPressed: () =>
+                      onTap: () =>
                           Navigator.pushNamed(context, SettingsPage.id),
                     ),
                   ],

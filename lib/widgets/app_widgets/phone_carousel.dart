@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:mobware/data/models/brand_tab_model.dart';
 import 'package:mobware/data/models/phone_model.dart';
 import 'package:mobware/pages/edit_phone_page.dart';
 import 'package:mobware/providers/settings_provider.dart';
@@ -8,9 +7,10 @@ import 'package:mobware/utils/constants.dart';
 import 'package:provider/provider.dart';
 
 class PhoneCarousel extends StatefulWidget {
-  final BrandTab brandTab;
+  final List<PhoneModel> phoneList;
+  final SwiperController controller;
 
-  PhoneCarousel(this.brandTab);
+  PhoneCarousel(this.phoneList, this.controller);
 
   @override
   _PhoneCarouselState createState() => _PhoneCarouselState();
@@ -23,18 +23,13 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
   @override
   void initState() {
     super.initState();
-    controller = widget.brandTab.controller;
+    controller = widget.controller;
   }
 
   @override
   Widget build(BuildContext context) {
-    List<PhoneModel> phoneList = widget.brandTab.list;
+    List<PhoneModel> phoneList = widget.phoneList;
     int reverseIndex(i) => phoneList.length - 1 - i;
-
-    // print('carousel building');
-
-    autoplay = Provider.of<SettingsProvider>(context).tempAutoplayValue ??
-        Provider.of<SettingsProvider>(context).autoplayCarousel;
 
     return Swiper(
       controller: controller,
@@ -48,7 +43,7 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
           ),
         );
       },
-      autoplay: autoplay,
+      autoplay: Provider.of<SettingsProvider>(context).autoplayCarousel,
       autoplayDisableOnInteraction: true,
       duration: 800,
       outer: true,
@@ -67,7 +62,6 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
         ),
       ),
       onTap: (i) {
-        controller.stopAutoplay();
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -79,18 +73,9 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
               );
             },
           ),
-        ).whenComplete(
-          () {
-            if (Provider.of<SettingsProvider>(context).autoplayCarousel ==
-                true) {
-              Provider.of<SettingsProvider>(context)
-                  .changeTempAutoplayValue(true);
-            } else {
-              Provider.of<SettingsProvider>(context)
-                  .changeTempAutoplayValue(false);
-            }
-          },
-        );
+        ).whenComplete(() {
+          widget.controller.move(i, animation: false);
+        });
       },
     );
   }

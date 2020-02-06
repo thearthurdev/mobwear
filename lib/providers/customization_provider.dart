@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobware/data/models/blend_mode_model.dart';
 import 'package:mobware/data/models/phone_model.dart';
+import 'package:mobware/data/models/search_item_model.dart';
 import 'package:mobware/data/phones/apple/iPhoneList.dart';
 import 'package:mobware/data/phones/google/pixel_list.dart';
 import 'package:mobware/data/phones/samsung/galaxyList.dart';
@@ -11,6 +12,24 @@ class CustomizationProvider extends ChangeNotifier {
   List<PhoneModel> samsungs = galaxyList;
 
   List<List<PhoneModel>> phonesList = [pixelList, iPhoneList, galaxyList];
+
+  List<SearchItem> allPhones() {
+    List<SearchItem> list = [];
+    for (List<PhoneModel> phoneList in phonesList) {
+      for (PhoneModel phoneModel in phoneList) {
+        list.add(
+          SearchItem(
+            phoneModel.phone,
+            phoneModel.phone.getPhoneName,
+            phoneModel.phone.getPhoneBrand,
+            phoneModel.phone.phoneBrandIndex,
+            phoneModel.phone.phoneIndex,
+          ),
+        );
+      }
+    }
+    return list;
+  }
 
   bool isSharePage = false;
 
@@ -70,20 +89,6 @@ class CustomizationProvider extends ChangeNotifier {
     }
   }
 
-  void resetSelectedValues() {
-    selectedColor = null;
-    selectedTexture = null;
-    selectedBlendColor = null;
-    selectedBlendMode = null;
-  }
-
-  void resetCurrentValues() {
-    currentColor = null;
-    currentTexture = null;
-    currentBlendColor = null;
-    currentBlendMode = null;
-  }
-
   void textureSelected(String texture) {
     selectedTexture = texture;
     notifyListeners();
@@ -112,5 +117,19 @@ class CustomizationProvider extends ChangeNotifier {
           selectedBlendMode ?? currentBlendMode;
     }
     notifyListeners();
+  }
+
+  void resetSelectedValues() {
+    selectedColor = null;
+    selectedTexture = null;
+    selectedBlendColor = null;
+    selectedBlendMode = null;
+  }
+
+  void resetCurrentValues() {
+    currentColor = null;
+    currentTexture = null;
+    currentBlendColor = null;
+    currentBlendMode = null;
   }
 }

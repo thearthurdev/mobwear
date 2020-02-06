@@ -25,9 +25,9 @@ class ElevatedCard extends StatelessWidget {
             : color,
         boxShadow: [
           BoxShadow(
-            color: kThemeBrightness(context) == Brightness.light
-                ? Colors.black12
-                : Colors.black26,
+            color: kBrightnessAwareColor(context,
+                lightColor: Colors.blueGrey.withOpacity(0.2),
+                darkColor: Colors.black26),
             blurRadius: 10.0,
             offset: Offset(5.0, 6.0),
           ),

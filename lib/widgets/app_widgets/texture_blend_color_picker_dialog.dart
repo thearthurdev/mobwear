@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_circle_color_picker/flutter_circle_color_picker.dart';
-import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobware/providers/customization_provider.dart';
 import 'package:mobware/utils/constants.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +13,7 @@ class TextureBlendColorPickerDialog extends StatelessWidget {
             provider.selectedBlendColor ?? provider.currentBlendColor;
 
         return SimpleDialog(
-          titlePadding: EdgeInsets.fromLTRB(20.0, 16.0, 13.0, 0.0),
+          contentPadding: EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 8.0),
           title: Row(
             children: <Widget>[
               Text(
@@ -22,22 +21,11 @@ class TextureBlendColorPickerDialog extends StatelessWidget {
                 style: kTitleTextStyle.copyWith(fontSize: 18.0),
               ),
               Expanded(child: Container()),
-              IconButton(
-                icon: Icon(LineAwesomeIcons.check_circle),
-                onPressed: () {
-                  provider.textureBlendColorSelected(selectedColor);
-                  Navigator.pop(context);
-                },
-              ),
-              IconButton(
-                icon: Icon(LineAwesomeIcons.close),
-                onPressed: () => Navigator.pop(context),
-              ),
             ],
           ),
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 16.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Center(
                 child: CircleColorPicker(
                   initialColor:
@@ -47,6 +35,23 @@ class TextureBlendColorPickerDialog extends StatelessWidget {
                   strokeWidth: 16.0,
                 ),
               ),
+            ),
+            ButtonBar(
+              alignment: MainAxisAlignment.end,
+              buttonTextTheme: ButtonTextTheme.normal,
+              children: <Widget>[
+                FlatButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Cancel', style: kTitleTextStyle),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    provider.textureBlendColorSelected(selectedColor);
+                    Navigator.pop(context);
+                  },
+                  child: Text('Select', style: kTitleTextStyle),
+                ),
+              ],
             ),
           ],
         );

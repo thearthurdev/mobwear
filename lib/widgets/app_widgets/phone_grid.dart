@@ -1,30 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/custom_icons/custom_icons.dart';
-import 'package:mobware/data/models/brand_tab_model.dart';
+import 'package:mobware/data/models/brand_icon_model.dart';
 import 'package:mobware/data/models/phone_model.dart';
 import 'package:mobware/pages/edit_phone_page.dart';
 import 'package:mobware/utils/constants.dart';
 
 class PhoneGrid extends StatelessWidget {
-  final BrandTab brandTab;
+  final List<PhoneModel> phoneList;
   final int brandIndex;
-  final ScrollController phoneGridController;
+  final ScrollController controller;
 
   PhoneGrid(
-    this.brandTab,
+    this.phoneList,
     this.brandIndex,
-    this.phoneGridController,
+    this.controller,
   );
 
   @override
   Widget build(BuildContext context) {
-    List<PhoneModel> phoneList = brandTab.list;
-
     int reverseIndex(i) => phoneList.length - 1 - i;
 
     return Container(
       padding: EdgeInsets.only(top: 8.0),
       child: GridView.builder(
+        controller: controller,
         itemCount: phoneList.length + (phoneList.length.isOdd ? 1 : 0),
         scrollDirection: Axis.horizontal,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -35,10 +33,12 @@ class PhoneGrid extends StatelessWidget {
           if (i == phoneList.length && i.isOdd) {
             return Center(
               child: Icon(
-                CustomIcons.mobware,
+                myBrandIcons[brandIndex].icon,
                 color: kBrightnessAwareColor(context,
                     lightColor: Colors.black38, darkColor: Colors.white38),
-                size: 30.0,
+                size: myBrandIcons[brandIndex].size == null
+                    ? 30.0
+                    : myBrandIcons[brandIndex].size + 6.0,
               ),
             );
           } else {

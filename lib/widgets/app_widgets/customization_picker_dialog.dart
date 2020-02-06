@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hsvcolor_picker/flutter_hsvcolor_picker.dart';
-import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobware/data/models/mode_picker_model.dart';
 import 'package:mobware/providers/customization_provider.dart';
 import 'package:mobware/utils/constants.dart';
@@ -69,21 +68,12 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 12.0, 8.0, 4.0),
+              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 8.0, 8.0),
               child: Row(
                 children: <Widget>[
                   Text(
                     isSharePage ? 'Background' : provider.currentSide,
                     style: kTitleTextStyle.copyWith(fontSize: 18.0),
-                  ),
-                  Expanded(child: Container()),
-                  IconButton(
-                    icon: Icon(LineAwesomeIcons.check_circle),
-                    onPressed: () => onCustomizationSelected(),
-                  ),
-                  IconButton(
-                    icon: Icon(LineAwesomeIcons.close),
-                    onPressed: () => Navigator.pop(context),
                   ),
                 ],
               ),
@@ -117,8 +107,22 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
                   )
                 : Container(),
             Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 20.0),
+              padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 0.0),
               child: pickerModeViews[pickerModeIndex],
+            ),
+            ButtonBar(
+              alignment: MainAxisAlignment.end,
+              buttonTextTheme: ButtonTextTheme.normal,
+              children: <Widget>[
+                FlatButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Cancel', style: kTitleTextStyle),
+                ),
+                FlatButton(
+                  onPressed: () => onCustomizationSelected(),
+                  child: Text('Select', style: kTitleTextStyle),
+                ),
+              ],
             ),
           ],
         ),

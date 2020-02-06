@@ -70,21 +70,25 @@ class AboutPage extends StatelessWidget {
                     return Text('...');
                   }
                   return aboutListTile(
-                      title: 'Device ID', subtitle: snapshot.data);
+                      title: 'Device ID',
+                      subtitle: snapshot.data,
+                      icon: LineAwesomeIcons.mobile_phone);
                 },
               ),
               aboutListTile(
                   title: 'Rate this app',
-                  subtitle: 'If you love it and you know it give it 5 stars'),
+                  subtitle: 'If you love it and you know it give it 5 stars',
+                  icon: LineAwesomeIcons.star_o),
               aboutListTile(
                   title: 'Share this app',
-                  subtitle: 'Don\'t have all the fun alone'),
+                  subtitle: 'Don\'t have all the fun alone',
+                  icon: LineAwesomeIcons.share_alt),
               aboutListTile(
                   title: 'Send bug report',
-                  subtitle: 'Let us know what\'s wrong'),
+                  subtitle: 'A bug sent is a bug squashed',
+                  icon: LineAwesomeIcons.bug),
               aboutListTile(
-                title: 'Developer Info',
-              ),
+                  title: 'Developer Info', icon: LineAwesomeIcons.code),
             ],
           ),
         ),
@@ -94,19 +98,30 @@ class AboutPage extends StatelessWidget {
 
   Widget aboutListTile({
     String title,
+    IconData icon,
     String subtitle,
     Function onTap,
   }) {
     return Column(
       children: <Widget>[
         ListTile(
-          title: Text(
-            title,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: 'Quicksand',
-              fontWeight: FontWeight.bold,
-            ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            mainAxisSize: MainAxisSize.min,
+            textBaseline: TextBaseline.alphabetic,
+            children: <Widget>[
+              icon != null ? Icon(icon, size: 18.0) : Container(),
+              SizedBox(width: 8.0),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Quicksand',
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
           subtitle: subtitle != null
               ? Text(
@@ -119,7 +134,7 @@ class AboutPage extends StatelessWidget {
               : null,
           onTap: onTap,
         ),
-        Divider(indent: 40.0, endIndent: 40.0),
+        Divider(indent: 200.0, endIndent: 200.0),
       ],
     );
   }

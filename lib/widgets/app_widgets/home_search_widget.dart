@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/data/models/brand_tab_model.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:mobware/data/models/phone_model.dart';
 import 'package:mobware/data/models/search_item_model.dart';
 import 'package:mobware/pages/edit_phone_page.dart';
+import 'package:mobware/providers/customization_provider.dart';
 import 'package:mobware/providers/settings_provider.dart';
-import 'package:mobware/services/all_phones.dart';
 import 'package:mobware/services/search.dart';
 import 'package:mobware/utils/constants.dart';
-import 'package:mobware/widgets/app_widgets/popup_list_item.dart';
+import 'package:mobware/widgets/app_widgets/search_popup_list_item.dart';
 import 'package:provider/provider.dart';
 
 class HomeSearchWidget extends StatelessWidget {
   final PageController tabsPageController;
   final ScrollController phoneGridController;
-  final List<BrandTab> brandTabs;
+  final SwiperController phoneCarouselController;
+  final List<List<PhoneModel>> brands;
 
   const HomeSearchWidget({
     @required this.tabsPageController,
     @required this.phoneGridController,
-    @required this.brandTabs,
+    @required this.phoneCarouselController,
+    @required this.brands,
   });
 
   @override
   Widget build(BuildContext context) {
     return Search<SearchItem>(
-      dataList: allPhones(),
+      dataList: Provider.of<CustomizationProvider>(context).allPhones(),
       queryBuilder: (query, list) {
         return list.where((item) {
           bool result = false;
@@ -37,15 +40,18 @@ class HomeSearchWidget extends StatelessWidget {
         }).toList();
       },
       popupListItemBuilder: (item) {
-        return PopupListItemWidget(item);
+        return SearchPopupListItemWidget(item);
       },
       onItemSelected: (item) => onPhoneSelected(context, item),
     );
   }
 
   void onPhoneSelected(BuildContext context, SearchItem item) {
+    List<List<PhoneModel>> phonesList =
+        Provider.of<CustomizationProvider>(context).phonesList;
+
     if (Provider.of<SettingsProvider>(context).phoneGroupView ==
-        PhoneGroupView.CAROUSEL) {
+        PhoneGroupView.carousel) {
       tabsPageController
           .animateToPage(
         item.brandIndex,
@@ -54,15 +60,9 @@ class HomeSearchWidget extends StatelessWidget {
       )
           .then(
         (v) {
-          brandTabs
-              .elementAt(item.brandIndex)
-              .controller
-              .move(
-                  brandTabs.elementAt(item.brandIndex).list.length -
-                      1 -
-                      item.phoneIndex,
-                  animation: true)
-              .then(
+          int selectedIndex =
+              brands.elementAt(item.brandIndex).length - 1 - item.phoneIndex;
+          phoneCarouselController.move(selectedIndex).then(
             (v) {
               Navigator.push(
                 context,
@@ -70,12 +70,14 @@ class HomeSearchWidget extends StatelessWidget {
                   builder: (context) {
                     return EditPhonePage(
                       phone: item.phone,
-                      phoneList: phoneLists.elementAt(item.brandIndex),
+                      phoneList: phonesList.elementAt(item.brandIndex),
                       phoneIndex: item.phoneIndex,
                     );
                   },
                 ),
-              );
+              ).whenComplete(() {
+                phoneCarouselController.move(selectedIndex, animation: false);
+              });
             },
           );
         },
@@ -90,7 +92,7 @@ class HomeSearchWidget extends StatelessWidget {
           .then(
         (v) {
           int reverseIndex(i) {
-            return brandTabs.elementAt(item.brandIndex).list.length - 1 - i;
+            return brands.elementAt(item.brandIndex).length - 1 - i;
           }
 
           int i = reverseIndex(item.phoneIndex);
@@ -111,7 +113,7 @@ class HomeSearchWidget extends StatelessWidget {
                   builder: (context) {
                     return EditPhonePage(
                       phone: item.phone,
-                      phoneList: phoneLists.elementAt(item.brandIndex),
+                      phoneList: phonesList.elementAt(item.brandIndex),
                       phoneIndex: item.phoneIndex,
                     );
                   },

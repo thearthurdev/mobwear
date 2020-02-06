@@ -91,7 +91,10 @@ class _SharePhonePageState extends State<SharePhonePage> {
                                 : null,
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black26,
+                                color: kBrightnessAwareColor(context,
+                                    lightColor:
+                                        Colors.blueGrey.withOpacity(0.2),
+                                    darkColor: Colors.black26),
                                 blurRadius: 10.0,
                                 offset: Offset(5.0, 6.0),
                               ),
@@ -158,7 +161,7 @@ class _SharePhonePageState extends State<SharePhonePage> {
                                 Align(
                                   alignment: Alignment.bottomLeft,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(6.0),
+                                    padding: const EdgeInsets.all(4.0),
                                     child: Icon(
                                       CustomIcons.mobware,
                                       size: 32.0,
@@ -168,7 +171,7 @@ class _SharePhonePageState extends State<SharePhonePage> {
                                               lightColor: Colors.white38,
                                               darkColor: Colors.black38,
                                             )
-                                          : Colors.red,
+                                          : Colors.black,
                                     ),
                                   ),
                                 ),

@@ -14,17 +14,13 @@ class TextureBlendModePickerDialog extends StatelessWidget {
             provider.selectedBlendMode ?? provider.currentBlendMode);
 
         return SimpleDialog(
-          titlePadding: EdgeInsets.fromLTRB(20.0, 16.0, 13.0, 0.0),
+          contentPadding: EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 8.0),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
                 'Blend Mode',
                 style: kTitleTextStyle.copyWith(fontSize: 18.0),
-              ),
-              IconButton(
-                icon: Icon(LineAwesomeIcons.close),
-                onPressed: () => Navigator.pop(context),
               ),
             ],
           ),
@@ -53,6 +49,16 @@ class TextureBlendModePickerDialog extends StatelessWidget {
                   );
                 },
               ),
+            ),
+            ButtonBar(
+              alignment: MainAxisAlignment.end,
+              buttonTextTheme: ButtonTextTheme.normal,
+              children: <Widget>[
+                FlatButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Cancel', style: kTitleTextStyle),
+                ),
+              ],
             ),
           ],
         );

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mobware/data/models/search_item_model.dart';
 import 'package:mobware/utils/constants.dart';
 
-class PopupListItemWidget extends StatelessWidget {
-  const PopupListItemWidget(this.item);
+class SearchPopupListItemWidget extends StatelessWidget {
+  const SearchPopupListItemWidget(this.item);
 
   final SearchItem item;
 

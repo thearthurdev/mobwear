@@ -3,11 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:mobware/theme/dynamic_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum PhoneGroupView { GRID, CAROUSEL }
+enum PhoneGroupView { grid, carousel }
 
 Map<String, PhoneGroupView> myPhoneGroupViews = {
-  'Grid': PhoneGroupView.GRID,
-  'Carousel': PhoneGroupView.CAROUSEL,
+  'Grid': PhoneGroupView.grid,
+  'Carousel': PhoneGroupView.carousel,
+};
+
+Map<String, bool> myAutoplayOptions = {
+  'Autoplay carousel': true,
+  'Keep carousel stagnant': false,
 };
 
 Map<String, Brightness> myThemes = {
@@ -42,7 +47,7 @@ class SettingsProvider extends ChangeNotifier {
 
   Future<PhoneGroupView> loadPhoneGroupView() async {
     final prefs = await SharedPreferences.getInstance();
-    int i = prefs.getInt(_groupViewKey) ?? 0;
+    int i = prefs.getInt(_groupViewKey) ?? 1;
     phoneGroupView = myPhoneGroupViews.values.elementAt(i);
     return phoneGroupView;
   }
@@ -51,14 +56,13 @@ class SettingsProvider extends ChangeNotifier {
     phoneGroupView = selectedPhoneGroupView;
 
     final prefs = await SharedPreferences.getInstance();
-    prefs.setInt(_groupViewKey, phoneGroupView == PhoneGroupView.GRID ? 0 : 1);
+    prefs.setInt(_groupViewKey, phoneGroupView == PhoneGroupView.grid ? 0 : 1);
 
     notifyListeners();
   }
 
   //Carousel Autoplay Settings
   bool autoplayCarousel;
-  bool tempAutoplayValue;
   static const String _carouselAutoplayKey = 'carousel_autoplay_key';
 
   Future<bool> loadAutoPlay() async {
@@ -68,15 +72,11 @@ class SettingsProvider extends ChangeNotifier {
     return autoplayCarousel;
   }
 
-  void changeTempAutoplayValue(bool b) => tempAutoplayValue = b;
-
   void changeAutoPlay(bool b) async {
     autoplayCarousel = b;
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool(_carouselAutoplayKey, autoplayCarousel);
-
-    changeTempAutoplayValue(b);
 
     notifyListeners();
   }
