@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:hive/hive.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobware/custom_icons/custom_icons.dart';
-import 'package:mobware/data/models/phone_model.dart';
-import 'package:mobware/database/phone_database.dart';
-import 'package:mobware/providers/customization_provider.dart';
+import 'package:mobware/data/models/texture_model.dart';
 import 'package:mobware/providers/settings_provider.dart';
 import 'package:mobware/widgets/app_widgets/phone_group_view_picker_button.dart';
 import 'package:provider/provider.dart';
 import 'package:mobware/widgets/app_widgets/home_search_widget.dart';
 import 'package:mobware/widgets/app_widgets/home_vertical_tabs.dart';
+import 'package:mobware/database/phone_database.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -18,7 +17,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  PhoneDatabase phoneDatabase;
   PageController tabsPageController = PageController();
   ScrollController phoneGridController = PageController();
   SwiperController phoneCarouselController = SwiperController();
@@ -26,14 +24,19 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    phoneDatabase = PhoneDatabase();
-    phoneDatabase.initDatabase();
+    MyTexture.loadTextureAssets(context);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    MyTexture.precacheTextureAssets(context);
   }
 
   @override
   void dispose() {
-    phoneDatabase.closeDatabase();
     tabsPageController.dispose();
+    Hive.box(PhoneDatabase.phones).close();
     super.dispose();
   }
 
@@ -41,9 +44,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     bool isGrid = Provider.of<SettingsProvider>(context).phoneGroupView ==
         PhoneGroupView.grid;
-
-    List<List<PhoneModel>> brands =
-        Provider.of<CustomizationProvider>(context).phonesList;
 
     void togglePhoneGroupView() {
       if (isGrid) {
@@ -87,7 +87,6 @@ class _HomePageState extends State<HomePage> {
               tabsPageController: tabsPageController,
               phoneGridController: phoneGridController,
               phoneCarouselController: phoneCarouselController,
-              brands: brands,
             ),
           ),
           Align(
@@ -96,7 +95,6 @@ class _HomePageState extends State<HomePage> {
               tabsPageController: tabsPageController,
               phoneGridController: phoneGridController,
               phoneCarouselController: phoneCarouselController,
-              brands: brands,
             ),
           ),
         ],

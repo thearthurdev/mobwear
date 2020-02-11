@@ -21,8 +21,9 @@ class SharePhonePage extends StatefulWidget {
   static String id = '/SharePhonePage';
 
   final phone;
+  final phoneID;
 
-  SharePhonePage({this.phone});
+  SharePhonePage({this.phone, this.phoneID});
 
   @override
   _SharePhonePageState createState() => _SharePhonePageState();
@@ -149,10 +150,7 @@ class _SharePhonePageState extends State<SharePhonePage> {
                                         ],
                                       ),
                                       child: Hero(
-                                        tag: Provider.of<CustomizationProvider>(
-                                                context)
-                                            .currentPhone
-                                            .id,
+                                        tag: widget.phoneID,
                                         child: widget.phone,
                                       ),
                                     ),
@@ -230,6 +228,8 @@ class _SharePhonePageState extends State<SharePhonePage> {
                       ),
                       subtitle: Text(
                         'Pick an aspect ratio for the image',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontFamily: 'Quicksand',
                           color: kBrightnessAwareColor(context,

@@ -15,32 +15,32 @@ class HomeVerticalTabs extends StatelessWidget {
   final PageController tabsPageController;
   final ScrollController phoneGridController;
   final SwiperController phoneCarouselController;
-  final List<List<PhoneModel>> brands;
 
   const HomeVerticalTabs({
     @required this.tabsPageController,
     @required this.phoneGridController,
     @required this.phoneCarouselController,
-    @required this.brands,
   });
 
   @override
   Widget build(BuildContext context) {
     Provider.of<SettingsProvider>(context).loadPhoneGroupView();
     Provider.of<SettingsProvider>(context).loadAutoPlay();
+    List<List<PhoneModel>> phonesLists = PhoneModel.phonesLists;
 
-    List<Tab> tabs = List<Tab>.generate(myBrandIcons.length, (i) {
+    List<Tab> tabs = List<Tab>.generate(BrandIcon.myBrandIcons.length, (i) {
+      BrandIcon myBrandIcon = BrandIcon.myBrandIcons[i];
       return Tab(
         icon: Icon(
-          myBrandIcons[i].icon,
-          size: myBrandIcons[i].size,
+          myBrandIcon.icon,
+          size: myBrandIcon.size,
         ),
       );
     });
 
     List<Widget> contentsList() {
       return List<Widget>.generate(
-        brands.length,
+        phonesLists.length,
         (i) {
           return FutureBuilder(
             future: Provider.of<SettingsProvider>(context).loadPhoneGroupView(),
@@ -61,9 +61,16 @@ class HomeVerticalTabs extends StatelessWidget {
               }
               dynamic view() {
                 if (snapshot.data == PhoneGroupView.grid)
-                  return PhoneGrid(brands[i], i, phoneGridController);
+                  return PhoneGrid(
+                    phonesList: phonesLists[i],
+                    brandIndex: i,
+                    controller: phoneGridController,
+                  );
                 if (snapshot.data == PhoneGroupView.carousel)
-                  return PhoneCarousel(brands[i], phoneCarouselController);
+                  return PhoneCarousel(
+                    phonesList: phonesLists[i],
+                    controller: phoneCarouselController,
+                  );
               }
 
               return view();

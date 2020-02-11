@@ -10,8 +10,8 @@ class TextureBlendModePickerDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CustomizationProvider>(
       builder: (context, provider, child) {
-        int blendModeIndex = kGetTextureBlendModeIndex(
-            provider.selectedBlendMode ?? provider.currentBlendMode);
+        int blendModeIndex =
+            provider.selectedBlendModeIndex ?? provider.currentBlendModeIndex;
 
         return SimpleDialog(
           contentPadding: EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 8.0),
@@ -29,11 +29,11 @@ class TextureBlendModePickerDialog extends StatelessWidget {
               width: kDeviceWidth(context) - 200,
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: myBlendModes.length,
+                itemCount: MyBlendMode.myBlendModes.length,
                 itemBuilder: (context, i) {
                   return ListTile(
                     contentPadding: EdgeInsets.symmetric(horizontal: 24.0),
-                    title: Text(myBlendModes[i].name),
+                    title: Text(MyBlendMode.myBlendModes[i].name),
                     trailing: blendModeIndex == i
                         ? Icon(
                             LineAwesomeIcons.check_circle,
@@ -55,8 +55,8 @@ class TextureBlendModePickerDialog extends StatelessWidget {
               buttonTextTheme: ButtonTextTheme.normal,
               children: <Widget>[
                 FlatButton(
-                  onPressed: () => Navigator.pop(context),
                   child: Text('Cancel', style: kTitleTextStyle),
+                  onPressed: () => Navigator.pop(context),
                 ),
               ],
             ),

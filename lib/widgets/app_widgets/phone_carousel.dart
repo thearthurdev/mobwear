@@ -7,10 +7,13 @@ import 'package:mobware/utils/constants.dart';
 import 'package:provider/provider.dart';
 
 class PhoneCarousel extends StatefulWidget {
-  final List<PhoneModel> phoneList;
+  final List<PhoneModel> phonesList;
   final SwiperController controller;
 
-  PhoneCarousel(this.phoneList, this.controller);
+  PhoneCarousel({
+    @required this.phonesList,
+    @required this.controller,
+  });
 
   @override
   _PhoneCarouselState createState() => _PhoneCarouselState();
@@ -28,18 +31,18 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    List<PhoneModel> phoneList = widget.phoneList;
-    int reverseIndex(i) => phoneList.length - 1 - i;
+    List<PhoneModel> phonesList = widget.phonesList;
+    int reverseIndex(i) => phonesList.length - 1 - i;
 
     return Swiper(
       controller: controller,
-      itemCount: phoneList.length,
+      itemCount: phonesList.length,
       itemBuilder: (context, i) {
         return Padding(
           padding: EdgeInsets.all(kScreenAwareSize(24.0, context)),
           child: Hero(
-            tag: phoneList[reverseIndex(i)].id,
-            child: phoneList[reverseIndex(i)].phone,
+            tag: phonesList[reverseIndex(i)].id,
+            child: phonesList[reverseIndex(i)].phone,
           ),
         );
       },
@@ -67,15 +70,16 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
           MaterialPageRoute(
             builder: (context) {
               return EditPhonePage(
-                phone: phoneList[reverseIndex(i)].phone,
-                phoneList: phoneList,
-                phoneIndex: reverseIndex(i),
+                phone: phonesList[reverseIndex(i)].phone,
+                phoneID: phonesList[reverseIndex(i)].id,
               );
             },
           ),
-        ).whenComplete(() {
-          widget.controller.move(i, animation: false);
-        });
+        ).whenComplete(
+          () {
+            widget.controller.move(i, animation: false);
+          },
+        );
       },
     );
   }

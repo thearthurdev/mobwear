@@ -206,7 +206,7 @@ class _VerticalTabsState extends State<VerticalTabs>
                     ),
                     GestureDetector(
                       child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        padding: EdgeInsets.all(8.0),
                         child: Icon(
                           LineAwesomeIcons.cog,
                         ),

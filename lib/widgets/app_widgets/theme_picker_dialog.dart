@@ -53,8 +53,8 @@ class ThemePickerDialog extends StatelessWidget {
           buttonTextTheme: ButtonTextTheme.normal,
           children: <Widget>[
             FlatButton(
-              onPressed: () => Navigator.pop(context),
               child: Text('Cancel', style: kTitleTextStyle),
+              onPressed: () => Navigator.pop(context),
             ),
           ],
         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/data/models/blend_mode_model.dart';
 import 'package:mobware/data/models/texture_model.dart';
 import 'package:mobware/providers/customization_provider.dart';
 import 'package:mobware/utils/constants.dart';
@@ -14,10 +13,11 @@ class TexturePicker extends StatelessWidget {
       builder: (context, provider, child) {
         String selectedTexture = provider.selectedTexture;
         String currentTexture = provider.currentTexture;
-        int blendModeIndex = kGetTextureBlendModeIndex(
-            provider.selectedBlendMode ?? provider.currentBlendMode);
+        int blendModeIndex =
+            provider.selectedBlendModeIndex ?? provider.currentBlendModeIndex;
         Color blendColor =
             provider.selectedBlendColor ?? provider.currentBlendColor;
+        BlendMode blendMode = kGetTextureBlendMode(blendModeIndex);
 
         return Column(
           children: <Widget>[
@@ -25,30 +25,32 @@ class TexturePicker extends StatelessWidget {
               height: 300.0,
               padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
               child: GridView.builder(
-                itemCount: myTextures.length,
+                itemCount: MyTexture.myTextures.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,
                   childAspectRatio: 0.70,
                 ),
                 itemBuilder: (context, i) {
+                  MyTexture myTexture = MyTexture.myTextures[i];
+
                   return GestureDetector(
-                    onTap: () => provider.textureSelected(myTextures[i].asset),
+                    onTap: () => provider.textureSelected(myTexture.asset),
                     child: Container(
                       child: Column(
                         children: <Widget>[
                           CustomizationIndicator(
-                            texture: myTextures[i].asset,
-                            textureBlendMode: myBlendModes[blendModeIndex].mode,
+                            texture: myTexture.asset,
+                            textureBlendMode: blendMode,
                             textureBlendColor: blendColor,
                             size: kScreenAwareSize(60, context),
                             isSelected: selectedTexture == null
-                                ? currentTexture == myTextures[i].asset
-                                : selectedTexture == myTextures[i].asset,
+                                ? currentTexture == myTexture.asset
+                                : selectedTexture == myTexture.asset,
                           ),
                           SizedBox(height: 4.0),
                           Expanded(
                             child: Text(
-                              myTextures[i].name,
+                              myTexture.name,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -71,7 +73,7 @@ class TexturePicker extends StatelessWidget {
                   Expanded(
                     child: TextureBlendEditButton(
                       title: 'Blend Mode',
-                      subtitle: myBlendModes[blendModeIndex].name,
+                      subtitle: kGetTextureBlendModeName(blendModeIndex),
                     ),
                   ),
                   SizedBox(width: 8.0),

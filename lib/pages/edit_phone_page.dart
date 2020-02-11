@@ -2,26 +2,27 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
+import 'package:mobware/database/phone_database.dart';
 import 'package:mobware/pages/share_phone_Page.dart';
 import 'package:mobware/providers/customization_provider.dart';
 import 'package:mobware/utils/constants.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:mobware/utils/my_phone_header_delegate.dart';
 import 'package:mobware/widgets/app_widgets/customization_picker_tile.dart';
+import 'package:mobware/widgets/app_widgets/quick_brightness_switch.dart';
 import 'package:provider/provider.dart';
 
 class EditPhonePage extends StatefulWidget {
   static String id = '/EditPhonePage';
 
   final dynamic phone;
-  final List phoneList;
-  final int phoneIndex;
+  final int phoneID;
 
   EditPhonePage({
     this.phone,
-    this.phoneList,
-    this.phoneIndex,
+    this.phoneID,
   });
 
   @override
@@ -71,8 +72,11 @@ class _EditPhonePageState extends State<EditPhonePage>
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<CustomizationProvider>(context)
-        .setCurrentPhone(widget.phoneList, widget.phoneIndex);
+    Provider.of<CustomizationProvider>(context).setCurrentPhoneData(
+      phoneID: widget.phoneID,
+      phoneBrandIndex: widget.phone.getPhoneBrandIndex,
+      phoneIndex: widget.phone.getPhoneIndex,
+    );
 
     return WillPopScope(
       onWillPop: onWillPop,
@@ -101,10 +105,13 @@ class _EditPhonePageState extends State<EditPhonePage>
           }
         },
       ),
+      actions: <Widget>[
+        QuickBrigthnessSwitch(),
+      ],
     );
   }
 
-  CustomScrollView buildBody() {
+  Widget buildBody() {
     return CustomScrollView(
       controller: scrollController,
       slivers: <Widget>[
@@ -115,19 +122,23 @@ class _EditPhonePageState extends State<EditPhonePage>
             maxHeight: kScreenAwareSize(475.0, context),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 24.0),
-              child: Hero(
-                tag:
-                    Provider.of<CustomizationProvider>(context).currentPhone.id,
-                child: GestureDetector(
-                  child: FlipCard(
-                    flipOnTouch: false,
-                    speed: 300,
-                    key: flipCardKey,
-                    front: widget.phone,
-                    back: widget.phone.getPhoneFront,
-                  ),
-                  onHorizontalDragUpdate: (details) => flipPhone(details),
-                ),
+              child: ValueListenableBuilder(
+                valueListenable: PhoneDatabase.phonesBox.listenable(),
+                builder: (context, box, child) {
+                  return Hero(
+                    tag: widget.phoneID,
+                    child: GestureDetector(
+                      child: FlipCard(
+                        flipOnTouch: false,
+                        speed: 300,
+                        key: flipCardKey,
+                        front: widget.phone,
+                        back: widget.phone.getPhoneFront,
+                      ),
+                      onHorizontalDragUpdate: (details) => flipPhone(details),
+                    ),
+                  );
+                },
               ),
             ),
           ),
@@ -164,7 +175,10 @@ class _EditPhonePageState extends State<EditPhonePage>
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SharePhonePage(phone: widget.phone),
+                  builder: (context) => SharePhonePage(
+                    phone: widget.phone,
+                    phoneID: widget.phoneID,
+                  ),
                 ),
               );
             });
@@ -172,7 +186,10 @@ class _EditPhonePageState extends State<EditPhonePage>
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => SharePhonePage(phone: widget.phone),
+                builder: (context) => SharePhonePage(
+                  phone: widget.phone,
+                  phoneID: widget.phoneID,
+                ),
               ),
             );
           }

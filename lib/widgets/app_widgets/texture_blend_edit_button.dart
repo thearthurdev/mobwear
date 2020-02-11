@@ -37,7 +37,11 @@ class TextureBlendEditButton extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            subtitle: Text(subtitle),
+            subtitle: Text(
+              subtitle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
             trailing: title == 'Blend Mode'
                 ? null
                 : CustomizationIndicator(

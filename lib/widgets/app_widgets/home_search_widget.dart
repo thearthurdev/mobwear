@@ -3,7 +3,6 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:mobware/data/models/phone_model.dart';
 import 'package:mobware/data/models/search_item_model.dart';
 import 'package:mobware/pages/edit_phone_page.dart';
-import 'package:mobware/providers/customization_provider.dart';
 import 'package:mobware/providers/settings_provider.dart';
 import 'package:mobware/services/search.dart';
 import 'package:mobware/utils/constants.dart';
@@ -14,19 +13,19 @@ class HomeSearchWidget extends StatelessWidget {
   final PageController tabsPageController;
   final ScrollController phoneGridController;
   final SwiperController phoneCarouselController;
-  final List<List<PhoneModel>> brands;
 
   const HomeSearchWidget({
     @required this.tabsPageController,
     @required this.phoneGridController,
     @required this.phoneCarouselController,
-    @required this.brands,
   });
 
   @override
   Widget build(BuildContext context) {
+    SearchItem.getSearchItems();
+
     return Search<SearchItem>(
-      dataList: Provider.of<CustomizationProvider>(context).allPhones(),
+      dataList: SearchItem.allSearchItems,
       queryBuilder: (query, list) {
         return list.where((item) {
           bool result = false;
@@ -47,8 +46,7 @@ class HomeSearchWidget extends StatelessWidget {
   }
 
   void onPhoneSelected(BuildContext context, SearchItem item) {
-    List<List<PhoneModel>> phonesList =
-        Provider.of<CustomizationProvider>(context).phonesList;
+    List<List<PhoneModel>> phonesLists = PhoneModel.phonesLists;
 
     if (Provider.of<SettingsProvider>(context).phoneGroupView ==
         PhoneGroupView.carousel) {
@@ -58,25 +56,28 @@ class HomeSearchWidget extends StatelessWidget {
         curve: Curves.decelerate,
         duration: Duration(milliseconds: 300),
       )
-          .then(
-        (v) {
-          int selectedIndex =
-              brands.elementAt(item.brandIndex).length - 1 - item.phoneIndex;
-          phoneCarouselController.move(selectedIndex).then(
-            (v) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return EditPhonePage(
-                      phone: item.phone,
-                      phoneList: phonesList.elementAt(item.brandIndex),
-                      phoneIndex: item.phoneIndex,
-                    );
-                  },
-                ),
-              ).whenComplete(() {
-                phoneCarouselController.move(selectedIndex, animation: false);
+          .whenComplete(
+        () {
+          int selectedIndex = phonesLists.elementAt(item.brandIndex).length -
+              1 -
+              item.phoneIndex;
+          phoneCarouselController.move(selectedIndex).whenComplete(
+            () {
+              Future.delayed(Duration(milliseconds: 140 * (selectedIndex + 1)),
+                  () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return EditPhonePage(
+                        phone: item.phone,
+                        phoneID: item.phoneID,
+                      );
+                    },
+                  ),
+                ).whenComplete(() {
+                  phoneCarouselController.move(selectedIndex, animation: false);
+                });
               });
             },
           );
@@ -89,10 +90,10 @@ class HomeSearchWidget extends StatelessWidget {
         curve: Curves.decelerate,
         duration: Duration(milliseconds: 300),
       )
-          .then(
-        (v) {
+          .whenComplete(
+        () {
           int reverseIndex(i) {
-            return brands.elementAt(item.brandIndex).length - 1 - i;
+            return phonesLists.elementAt(item.brandIndex).length - 1 - i;
           }
 
           int i = reverseIndex(item.phoneIndex);
@@ -105,16 +106,15 @@ class HomeSearchWidget extends StatelessWidget {
             duration: Duration(milliseconds: 500),
             curve: Curves.easeOut,
           )
-              .then(
-            (v) {
+              .whenComplete(
+            () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
                     return EditPhonePage(
                       phone: item.phone,
-                      phoneList: phonesList.elementAt(item.brandIndex),
-                      phoneIndex: item.phoneIndex,
+                      phoneID: item.phoneID,
                     );
                   },
                 ),

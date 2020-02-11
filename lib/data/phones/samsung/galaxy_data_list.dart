@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/data/models/phone_model.dart';
+import 'package:mobware/data/models/phone_data_model.dart';
 import 'package:mobware/data/models/texture_model.dart';
-import 'package:mobware/data/phones/samsung/Note10Plus.dart';
-import 'package:mobware/data/phones/samsung/S10Plus.dart';
-import 'package:mobware/data/phones/samsung/S9Plus.dart';
 
-List<PhoneModel> galaxyList = [
-  PhoneModel(
+List<PhoneDataModel> galaxyDataList = [
+  PhoneDataModel(
     id: 0300,
-    phone: S9Plus(),
     colors: {
       'Camera Bump': Colors.black,
       'Back Panel': Colors.black,
@@ -20,9 +16,8 @@ List<PhoneModel> galaxyList = [
       'Back Panel': MyTexture(),
     },
   ),
-  PhoneModel(
+  PhoneDataModel(
     id: 0301,
-    phone: S10Plus(),
     colors: {
       'Camera Bump': Colors.black,
       'Back Panel': Colors.blue[700],
@@ -33,9 +28,8 @@ List<PhoneModel> galaxyList = [
       'Back Panel': MyTexture(),
     },
   ),
-  PhoneModel(
+  PhoneDataModel(
     id: 0302,
-    phone: Note10Plus(),
     colors: {
       'Camera Bump': Colors.black,
       'Back Panel': Colors.red[800],

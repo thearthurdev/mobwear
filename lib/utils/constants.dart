@@ -55,7 +55,7 @@ String kGetColorString(Color color) {
 
 String kGetTextureName(String textureAsset) {
   String textureName = 'N/A';
-  for (MyTexture texture in myTextures) {
+  for (MyTexture texture in MyTexture.myTextures) {
     if (texture.asset == textureAsset) {
       textureName = texture.name;
     }
@@ -63,17 +63,25 @@ String kGetTextureName(String textureAsset) {
   return textureName;
 }
 
-int kGetTextureBlendModeIndex(BlendMode blendMode) {
-  int textureBlendModeIndex;
-  int i = 0;
-  for (MyBlendMode myBlendMode in myBlendModes) {
-    if (myBlendMode.mode == blendMode) {
-      textureBlendModeIndex = i;
-    }
-    i++;
-  }
-  return textureBlendModeIndex;
+BlendMode kGetTextureBlendMode(int blendModeIndex) {
+  return MyBlendMode.myBlendModes[blendModeIndex].mode;
 }
+
+String kGetTextureBlendModeName(int blendModeIndex) {
+  return MyBlendMode.myBlendModes[blendModeIndex].name;
+}
+
+// int kGetTextureBlendModeIndex(BlendMode blendModeIndex) {
+//   int textureBlendModeIndex;
+//   int i = 0;
+//   for (MyBlendMode myBlendMode in myBlendModes) {
+//     if (myBlendMode.mode == blendModeIndex) {
+//       textureBlendModeIndex = i;
+//     }
+//     i++;
+//   }
+//   return textureBlendModeIndex;
+// }
 
 double kDeviceWidth(BuildContext context) {
   return MediaQuery.of(context).size.width;

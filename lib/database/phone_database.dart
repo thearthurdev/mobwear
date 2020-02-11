@@ -1,51 +1,28 @@
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:sqflite/sqflite.dart';
-
-import 'dart:async';
-import 'dart:io';
-
-import 'package:mobware/data/models/phone_model.dart';
+import 'package:hive/hive.dart';
+import 'package:mobware/data/models/phone_data_model.dart';
 
 class PhoneDatabase {
-  static final PhoneDatabase _instance = PhoneDatabase._internal();
+  static const String phones = 'phones';
 
-  factory PhoneDatabase() => _instance;
+  static var phonesBox = Hive.box(phones);
 
-  static Database _database;
+  static List<List<PhoneDataModel>> phonesDataLists =
+      PhoneDataModel.phonesDataLists;
 
-  Future<Database> get database async {
-    if (_database != null) {
-      return _database;
+  static Future<dynamic> initPhonesDB(Box phonesBox) async {
+    List<PhoneDataModel> allPhoneDataModels = [];
+
+    for (List<PhoneDataModel> phoneDataList in phonesDataLists) {
+      for (PhoneDataModel phoneModel in phoneDataList) {
+        allPhoneDataModels.add(phoneModel);
+      }
     }
-    _database = await initDatabase();
-    return _database;
-  }
 
-  PhoneDatabase._internal();
-
-  Future<Database> initDatabase() async {
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, 'phones.db');
-    var theDatabase = await openDatabase(path, version: 1, onCreate: _onCreate);
-    return theDatabase;
-  }
-
-  void _onCreate(Database database, int version) async {
-    await database.execute("CREATE TABLE Phones(id INTEGER PRIMARY KEY)");
-    print('Database created sucessfully');
-  }
-
-  Future<int> updatePhone(PhoneModel phoneModel) async {
-    var databaseClient = await database;
-    int res = await databaseClient.update('Phones', phoneModel.toMap(),
-        where: 'id = ?', whereArgs: [phoneModel.id]);
-    print('Phone updated $res');
-    return res;
-  }
-
-  Future closeDatabase() async {
-    var databaseClient = await database;
-    databaseClient.close();
+    for (PhoneDataModel phoneData in allPhoneDataModels) {
+      if (phonesBox.get(phoneData.id) == null) {
+        print('adding data model id:${phoneData.id}');
+        phonesBox.put(phoneData.id, phoneData);
+      }
+    }
   }
 }

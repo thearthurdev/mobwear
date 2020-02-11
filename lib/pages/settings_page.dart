@@ -63,9 +63,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   selectedOptionCheck: settingsProvider.autoplayCarousel,
                   onExpansionChanged: (b) => isAutoplayExpanded = b,
                   onOptionSelected: (i) => settingsProvider
-                      .changeAutoPlay(!settingsProvider.autoplayCarousel),
+                      .changeAutoPlay(myAutoplayOptions.values.elementAt(i)),
                 ),
-              
                 SizedBox(height: 16.0),
                 settingsListTile(
                   context: context,

@@ -45,11 +45,11 @@ class TextureBlendColorPickerDialog extends StatelessWidget {
                   child: Text('Cancel', style: kTitleTextStyle),
                 ),
                 FlatButton(
+                  child: Text('Select', style: kTitleTextStyle),
                   onPressed: () {
                     provider.textureBlendColorSelected(selectedColor);
                     Navigator.pop(context);
                   },
-                  child: Text('Select', style: kTitleTextStyle),
                 ),
               ],
             ),

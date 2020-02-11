@@ -97,8 +97,12 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            pickerModes[i].modeName.split(' ')[1].toUpperCase(),
+                            ModePickerModel.myPickerModes[i].modeName
+                                .split(' ')[1]
+                                .toUpperCase(),
                             style: kTitleTextStyle,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         );
                       },
@@ -115,12 +119,12 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
               buttonTextTheme: ButtonTextTheme.normal,
               children: <Widget>[
                 FlatButton(
-                  onPressed: () => Navigator.pop(context),
                   child: Text('Cancel', style: kTitleTextStyle),
+                  onPressed: () => Navigator.pop(context),
                 ),
                 FlatButton(
-                  onPressed: () => onCustomizationSelected(),
                   child: Text('Select', style: kTitleTextStyle),
+                  onPressed: () => onCustomizationSelected(),
                 ),
               ],
             ),

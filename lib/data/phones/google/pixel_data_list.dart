@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/data/models/phone_model.dart';
+import 'package:mobware/data/models/phone_data_model.dart';
 import 'package:mobware/data/models/texture_model.dart';
-import 'package:mobware/data/phones/google/pixel2.dart';
-import 'package:mobware/data/phones/google/pixel2XL.dart';
-import 'package:mobware/data/phones/google/pixel3XL.dart';
-import 'package:mobware/data/phones/google/pixel4XL.dart';
-import 'package:mobware/data/phones/google/pixelXL.dart';
 
-List<PhoneModel> pixelList = [
-  PhoneModel(
+List<PhoneDataModel> pixelDataList = [
+  PhoneDataModel(
     id: 0100,
-    phone: PixelXL(),
     colors: {
       'Glossy Panel': Colors.white,
       'Matte Panel': Colors.grey[300],
@@ -24,9 +18,8 @@ List<PhoneModel> pixelList = [
       'Antenna Bands': MyTexture(),
     },
   ),
-  PhoneModel(
+  PhoneDataModel(
     id: 0101,
-    phone: Pixel2(),
     colors: {
       'Glossy Panel': Colors.black,
       'Matte Panel': Colors.grey[900],
@@ -38,9 +31,8 @@ List<PhoneModel> pixelList = [
       'Matte Panel': MyTexture(),
     },
   ),
-  PhoneModel(
+  PhoneDataModel(
     id: 0102,
-    phone: Pixel2XL(),
     colors: {
       'Glossy Panel': Colors.black,
       'Matte Panel': Colors.white,
@@ -52,9 +44,8 @@ List<PhoneModel> pixelList = [
       'Matte Panel': MyTexture(),
     },
   ),
-  PhoneModel(
+  PhoneDataModel(
     id: 0103,
-    phone: Pixel3XL(),
     colors: {
       'Glossy Panel': Colors.white,
       'Matte Panel': Colors.white,
@@ -66,9 +57,8 @@ List<PhoneModel> pixelList = [
       'Matte Panel': MyTexture(),
     },
   ),
-  PhoneModel(
+  PhoneDataModel(
     id: 0104,
-    phone: Pixel4XL(),
     colors: {
       'Camera Bump': Colors.black,
       'Back Panel': Colors.deepOrange[500],

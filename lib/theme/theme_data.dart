@@ -51,6 +51,9 @@ class MyThemeData extends StatelessWidget {
                 title: TextStyle(
                   fontFamily: 'Quicksand',
                 ),
+                caption: TextStyle(
+                  fontFamily: 'Quicksand',
+                ),
               ),
               textSelectionColor: brightness == Brightness.light
                   ? Colors.black12

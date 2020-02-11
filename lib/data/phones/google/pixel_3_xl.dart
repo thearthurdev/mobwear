@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobware/custom_icons/brand_icons.dart';
 import 'package:mobware/providers/customization_provider.dart';
+import 'package:mobware/utils/constants.dart';
 import 'package:mobware/widgets/phone_widgets/back_panel.dart';
 import 'package:mobware/widgets/phone_widgets/camera.dart';
 import 'package:mobware/widgets/phone_widgets/fingerprint_sensor.dart';
@@ -11,8 +12,8 @@ import 'package:mobware/widgets/phone_widgets/texture_decoration.dart';
 import 'package:provider/provider.dart';
 
 class Pixel3XL extends StatelessWidget {
-  final int phoneIndex = 3;
-  final int phoneBrandIndex = 0;
+  static final int phoneIndex = 3;
+   static final int phoneBrandIndex = 0;
   static const String phoneBrand = 'Google';
   static const String phoneModel = 'Pixel';
   static const String phoneName = 'Pixel 3 XL';
@@ -32,13 +33,16 @@ class Pixel3XL extends StatelessWidget {
 
   get getPhoneFront => front;
   get getPhoneName => phoneName;
-  get getPhoneBrand => phoneBrand;
+ get getPhoneBrand => phoneBrand;
+  get getPhoneBrandIndex => phoneBrandIndex;
+  get getPhoneIndex => phoneIndex;
 
   @override
   Widget build(BuildContext context) {
-    var colors = Provider.of<CustomizationProvider>(context).pixels[3].colors;
-    var textures =
-        Provider.of<CustomizationProvider>(context).pixels[3].textures;
+    var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
+
+    var colors = phonesBox.get(0103).colors;
+    var textures = phonesBox.get(0103).textures;
 
     Color glossyPanelColor = colors['Glossy Panel'];
     Color mattePanelColor = colors['Matte Panel'];
@@ -47,10 +51,13 @@ class Pixel3XL extends StatelessWidget {
 
     String glossyPanelTexture = textures['Glossy Panel'].asset;
     Color glossyPanelTextureBlendColor = textures['Glossy Panel'].blendColor;
-    BlendMode glossyPanelTextureBlendMode = textures['Glossy Panel'].blendMode;
+    BlendMode glossyPanelTextureBlendMode =
+        kGetTextureBlendMode(textures['Glossy Panel'].blendModeIndex);
+
     String mattePanelTexture = textures['Matte Panel'].asset;
     Color mattePanelTextureBlendColor = textures['Matte Panel'].blendColor;
-    BlendMode mattePanelTextureBlendMode = textures['Matte Panel'].blendMode;
+    BlendMode mattePanelTextureBlendMode =
+        kGetTextureBlendMode(textures['Matte Panel'].blendModeIndex);
 
     return FittedBox(
       child: BackPanel(

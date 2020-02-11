@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobware/custom_icons/brand_icons.dart';
 import 'package:mobware/providers/customization_provider.dart';
+import 'package:mobware/utils/constants.dart';
 import 'package:mobware/widgets/phone_widgets/back_panel.dart';
 import 'package:mobware/widgets/phone_widgets/camera.dart';
 import 'package:mobware/widgets/phone_widgets/camera_bump.dart';
@@ -11,8 +12,8 @@ import 'package:mobware/widgets/phone_widgets/screen.dart';
 import 'package:provider/provider.dart';
 
 class IPhoneXSMax extends StatelessWidget {
-  final int phoneIndex = 2;
-  final int phoneBrandIndex = 1;
+  static final int phoneIndex = 2;
+   static final int phoneBrandIndex = 1;
   static const String phoneBrand = 'Apple';
   static const String phoneModel = 'iPhone';
   static const String phoneName = 'iPhone XS Max';
@@ -26,13 +27,16 @@ class IPhoneXSMax extends StatelessWidget {
 
   get getPhoneFront => front;
   get getPhoneName => phoneName;
-  get getPhoneBrand => phoneBrand;
+ get getPhoneBrand => phoneBrand;
+  get getPhoneBrandIndex => phoneBrandIndex;
+  get getPhoneIndex => phoneIndex;
 
   @override
   Widget build(BuildContext context) {
-    var colors = Provider.of<CustomizationProvider>(context).iPhones[2].colors;
-    var textures =
-        Provider.of<CustomizationProvider>(context).iPhones[2].textures;
+    var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
+
+    var colors = phonesBox.get(0202).colors;
+    var textures = phonesBox.get(0202).textures;
 
     Color cameraBumpColor = colors['Camera Bump'];
     Color backPanelColor = colors['Back Panel'];
@@ -41,10 +45,13 @@ class IPhoneXSMax extends StatelessWidget {
 
     String cameraBumpTexture = textures['Camera Bump'].asset;
     Color cameraBumpTextureBlendColor = textures['Camera Bump'].blendColor;
-    BlendMode cameraBumpTextureBlendMode = textures['Camera Bump'].blendMode;
+    BlendMode cameraBumpTextureBlendMode =
+        kGetTextureBlendMode(textures['Camera Bump'].blendModeIndex);
+
     String backPanelTexture = textures['Back Panel'].asset;
     Color backPanelTextureBlendColor = textures['Back Panel'].blendColor;
-    BlendMode backPanelTextureBlendMode = textures['Back Panel'].blendMode;
+    BlendMode backPanelTextureBlendMode =
+        kGetTextureBlendMode(textures['Back Panel'].blendModeIndex);
 
     Camera camera = Camera(
       diameter: 20.0,

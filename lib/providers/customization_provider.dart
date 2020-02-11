@@ -1,57 +1,110 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:mobware/data/models/blend_mode_model.dart';
-import 'package:mobware/data/models/phone_model.dart';
-import 'package:mobware/data/models/search_item_model.dart';
-import 'package:mobware/data/phones/apple/iPhoneList.dart';
-import 'package:mobware/data/phones/google/pixel_list.dart';
-import 'package:mobware/data/phones/samsung/galaxyList.dart';
+import 'package:mobware/data/models/phone_data_model.dart';
+import 'package:mobware/data/models/texture_model.dart';
+import 'package:mobware/database/phone_database.dart';
 
 class CustomizationProvider extends ChangeNotifier {
-  List<PhoneModel> pixels = pixelList;
-  List<PhoneModel> iPhones = iPhoneList;
-  List<PhoneModel> samsungs = galaxyList;
-
-  List<List<PhoneModel>> phonesList = [pixelList, iPhoneList, galaxyList];
-
-  List<SearchItem> allPhones() {
-    List<SearchItem> list = [];
-    for (List<PhoneModel> phoneList in phonesList) {
-      for (PhoneModel phoneModel in phoneList) {
-        list.add(
-          SearchItem(
-            phoneModel.phone,
-            phoneModel.phone.getPhoneName,
-            phoneModel.phone.getPhoneBrand,
-            phoneModel.phone.phoneBrandIndex,
-            phoneModel.phone.phoneIndex,
-          ),
-        );
-      }
-    }
-    return list;
-  }
-
+  //GENERAL
   bool isSharePage = false;
+  bool isCustomizationCopied = false;
 
-  PhoneModel currentPhone;
+  var phonesBox = Hive.box(PhoneDatabase.phones);
 
-  void setCurrentPhone(List phoneList, int phoneIndex) {
-    currentPhone = phoneList[phoneIndex];
+  int currentPhoneID;
+  int currentPhoneBrandIndex;
+  int currentPhoneIndex;
+  PhoneDataModel currentPhoneData;
+  String currentSide;
+
+  void setCurrentSide(int i) => currentSide = currentColors.keys.elementAt(i);
+
+  void setCurrentPhoneData({int phoneID, int phoneBrandIndex, int phoneIndex}) {
+    currentPhoneID = phoneID;
+    currentPhoneData = PhoneDatabase.phonesBox.get(phoneID);
+    currentPhoneBrandIndex = phoneBrandIndex;
+    currentPhoneIndex = phoneIndex;
+
     getColors();
     getTextures();
   }
 
+  void changeCopyStatus(bool status) {
+    isCustomizationCopied = status;
+    notifyListeners();
+  }
+
+  void copyCustomization(bool noTexture) {
+    resetSelectedValues();
+
+    if (!noTexture) {
+      colorSelected(currentColors[currentSide]);
+      textureSelected(currentTextures[currentSide].asset);
+      textureBlendColorSelected(currentTextures[currentSide].blendColor);
+      textureBlendModeIndexSelected(
+          currentTextures[currentSide].blendModeIndex);
+    } else {
+      colorSelected(currentColors[currentSide]);
+    }
+
+    isCustomizationCopied = true;
+    notifyListeners();
+  }
+
+  void pasteCustomization(bool noTexture) {
+    if (selectedTexture != null) {
+      changeTexture();
+    } else {
+      changeColor(noTexture);
+    }
+  }
+
+  void resetCurrentSide(bool noTexture) {
+    Color defaultSideColor = PhoneDataModel
+        .phonesDataLists[currentPhoneBrandIndex][currentPhoneIndex]
+        .colors[currentSide];
+
+    currentColors[currentSide] = defaultSideColor;
+    if (!noTexture) {
+      currentTextures[currentSide].asset = null;
+      currentTextures[currentSide].blendColor = Colors.deepOrange;
+      currentTextures[currentSide].blendModeIndex = 0;
+    }
+
+    PhoneDatabase.phonesBox.put(
+      currentPhoneID,
+      PhoneDataModel(
+        id: currentPhoneID,
+        colors: currentColors,
+        textures: currentTextures,
+      ),
+    );
+    notifyListeners();
+  }
+
+  void resetSelectedValues() {
+    selectedColor = null;
+    selectedTexture = null;
+    selectedBlendColor = null;
+    selectedBlendModeIndex = null;
+  }
+
+  void resetCurrentValues() {
+    currentColor = null;
+    currentTexture = null;
+    currentBlendColor = null;
+    currentBlendModeIndex = null;
+  }
+
   //COLORS
   Map currentColors;
-  String currentSide;
   Color currentColor, selectedColor;
 
-  void getColors() => currentColors = currentPhone.colors;
+  void getColors() => currentColors = currentPhoneData.colors;
 
   void getCurrentColor(int i) =>
       currentColor = currentColors.values.elementAt(i);
-
-  void setCurrentSide(int i) => currentSide = currentColors.keys.elementAt(i);
 
   void colorSelected(Color color) => selectedColor = color;
 
@@ -62,6 +115,15 @@ class CustomizationProvider extends ChangeNotifier {
     } else {
       currentColors[currentSide] = selectedColor ?? currentColor;
       if (!noTexture) currentTextures[currentSide].asset = null;
+
+      PhoneDatabase.phonesBox.put(
+        currentPhoneID,
+        PhoneDataModel(
+          id: currentPhoneID,
+          colors: currentColors,
+          textures: currentTextures,
+        ),
+      );
     }
     notifyListeners();
   }
@@ -70,23 +132,30 @@ class CustomizationProvider extends ChangeNotifier {
   Map currentTextures;
   String currentTexture, selectedTexture;
   Color currentBlendColor, selectedBlendColor;
-  BlendMode currentBlendMode, selectedBlendMode;
+  int currentBlendModeIndex, selectedBlendModeIndex;
+  BlendMode currentBlendMode;
 
-  void getTextures() => currentTextures = currentPhone.textures;
+  void getTextures() => currentTextures = currentPhoneData.textures;
 
   void getCurrentSideTextureDetails({int i}) {
     if (isSharePage) {
       if (currentTexture != null) {
       } else {
         currentBlendColor = Colors.deepOrange;
-        currentBlendMode = BlendMode.dst;
+        currentBlendModeIndex = 0;
       }
     } else {
-      currentTexture = currentTextures.values.elementAt(i).asset;
-      currentBlendColor = currentTextures.values.elementAt(i).blendColor;
-      currentBlendMode =
-          currentTextures.values.elementAt(i).blendMode ?? BlendMode.dst;
+      MyTexture myTexture = currentTextures.values.elementAt(i);
+
+      currentTexture = myTexture.asset;
+      currentBlendColor = myTexture.blendColor;
+      currentBlendModeIndex = myTexture.blendModeIndex ?? 0;
+      currentBlendMode = MyBlendMode.myBlendModes[currentBlendModeIndex].mode;
     }
+  }
+
+  BlendMode getBlendMode(int blendModeIndex) {
+    return MyBlendMode.myBlendModes[blendModeIndex].mode;
   }
 
   void textureSelected(String texture) {
@@ -95,7 +164,7 @@ class CustomizationProvider extends ChangeNotifier {
   }
 
   void textureBlendModeIndexSelected(int index) {
-    selectedBlendMode = myBlendModes[index].mode;
+    selectedBlendModeIndex = index;
     notifyListeners();
   }
 
@@ -108,28 +177,23 @@ class CustomizationProvider extends ChangeNotifier {
     if (isSharePage) {
       currentTexture = selectedTexture ?? currentTexture;
       currentBlendColor = selectedBlendColor ?? currentBlendColor;
-      currentBlendMode = selectedBlendMode ?? currentBlendMode;
+      currentBlendModeIndex = selectedBlendModeIndex ?? currentBlendModeIndex;
     } else {
       currentTextures[currentSide].asset = selectedTexture ?? currentTexture;
       currentTextures[currentSide].blendColor =
           selectedBlendColor ?? currentBlendColor;
-      currentTextures[currentSide].blendMode =
-          selectedBlendMode ?? currentBlendMode;
+      currentTextures[currentSide].blendModeIndex =
+          selectedBlendModeIndex ?? currentBlendModeIndex;
+
+      PhoneDatabase.phonesBox.put(
+        currentPhoneID,
+        PhoneDataModel(
+          id: currentPhoneID,
+          colors: currentColors,
+          textures: currentTextures,
+        ),
+      );
     }
     notifyListeners();
-  }
-
-  void resetSelectedValues() {
-    selectedColor = null;
-    selectedTexture = null;
-    selectedBlendColor = null;
-    selectedBlendMode = null;
-  }
-
-  void resetCurrentValues() {
-    currentColor = null;
-    currentTexture = null;
-    currentBlendColor = null;
-    currentBlendMode = null;
   }
 }
