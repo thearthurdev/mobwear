@@ -1,7 +1,7 @@
-import 'package:mobware/data/models/phone_model.dart';
-import 'package:mobware/data/phones/samsung/Note10Plus.dart';
-import 'package:mobware/data/phones/samsung/S10Plus.dart';
-import 'package:mobware/data/phones/samsung/S9Plus.dart';
+import 'package:mobwear/data/models/phone_model.dart';
+import 'package:mobwear/data/phones/samsung/Note10Plus.dart';
+import 'package:mobwear/data/phones/samsung/S10Plus.dart';
+import 'package:mobwear/data/phones/samsung/S9Plus.dart';
 
 List<PhoneModel> galaxyPhonesList = [
   PhoneModel(

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:mobware/custom_icons/custom_icons.dart';
-import 'package:mobware/data/models/brand_icon_model.dart';
-import 'package:mobware/data/models/phone_model.dart';
-import 'package:mobware/providers/settings_provider.dart';
-import 'package:mobware/utils/constants.dart';
-import 'package:mobware/widgets/app_widgets/no_phones_found_widget.dart';
-import 'package:mobware/widgets/app_widgets/phone_carousel.dart';
-import 'package:mobware/widgets/app_widgets/phone_grid.dart';
-import 'package:mobware/widgets/app_widgets/vertical_tabs.dart';
+import 'package:mobwear/custom_icons/custom_icons.dart';
+import 'package:mobwear/data/models/brand_icon_model.dart';
+import 'package:mobwear/data/models/phone_model.dart';
+import 'package:mobwear/providers/settings_provider.dart';
+import 'package:mobwear/utils/constants.dart';
+import 'package:mobwear/widgets/app_widgets/no_phones_found_widget.dart';
+import 'package:mobwear/widgets/app_widgets/phone_carousel.dart';
+import 'package:mobwear/widgets/app_widgets/phone_grid.dart';
+import 'package:mobwear/widgets/app_widgets/vertical_tabs.dart';
 import 'package:provider/provider.dart';
 
 class HomeVerticalTabs extends StatelessWidget {
@@ -49,7 +49,7 @@ class HomeVerticalTabs extends StatelessWidget {
                   snapshot.connectionState != ConnectionState.done) {
                 return Center(
                   child: Icon(
-                    CustomIcons.mobware,
+                    CustomIcons.mobwear,
                     color: kBrightnessAwareColor(context,
                         lightColor: Colors.black, darkColor: Colors.white),
                     size: kScreenAwareSize(40.0, context),

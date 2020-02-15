@@ -1,9 +1,9 @@
-import 'package:mobware/data/models/phone_model.dart';
-import 'package:mobware/data/phones/apple/11.dart';
-import 'package:mobware/data/phones/apple/11ProMax.dart';
-import 'package:mobware/data/phones/apple/8Plus.dart';
-import 'package:mobware/data/phones/apple/xr.dart';
-import 'package:mobware/data/phones/apple/xsMax.dart';
+import 'package:mobwear/data/models/phone_model.dart';
+import 'package:mobwear/data/phones/apple/11.dart';
+import 'package:mobwear/data/phones/apple/11ProMax.dart';
+import 'package:mobwear/data/phones/apple/8Plus.dart';
+import 'package:mobwear/data/phones/apple/xr.dart';
+import 'package:mobwear/data/phones/apple/xsMax.dart';
 
 List<PhoneModel> iPhonePhonesList = [
   PhoneModel(

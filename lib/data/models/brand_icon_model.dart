@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/custom_icons/brand_icons.dart';
+import 'package:mobwear/custom_icons/brand_icons.dart';
+import 'package:mobwear/custom_icons/custom_icons.dart';
 
 class BrandIcon {
   IconData icon;
@@ -22,4 +23,7 @@ class BrandIcon {
     BrandIcon(icon: BrandIcons.motorola),
     BrandIcon(icon: BrandIcons.nokia, size: 30.0),
   ];
+
+  static List<BrandIcon> watermarkIcons =
+      [BrandIcon(icon: CustomIcons.mobwear, size: 30.0)] + myBrandIcons;
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:mobware/custom_icons/custom_icons.dart';
+import 'package:mobwear/custom_icons/custom_icons.dart';
 
 enum PickerMode { color, texture, image }
 

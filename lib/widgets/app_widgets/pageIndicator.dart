@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/utils/constants.dart';
+import 'package:mobwear/utils/constants.dart';
 
 class IndicatorDot extends StatelessWidget {
   final bool isSelected;

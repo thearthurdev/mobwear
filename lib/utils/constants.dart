@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/data/models/blend_mode_model.dart';
-import 'package:mobware/data/models/texture_model.dart';
+import 'package:mobwear/data/models/blend_mode_model.dart';
+import 'package:mobwear/data/models/texture_model.dart';
 
 double baseHeight = 640.0;
 

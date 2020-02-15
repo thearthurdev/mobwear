@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobware/theme/dynamic_theme.dart';
+import 'package:mobwear/theme/dynamic_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum PhoneGroupView { grid, carousel }
 
 Map<String, PhoneGroupView> myPhoneGroupViews = {
-  'Grid': PhoneGroupView.grid,
   'Carousel': PhoneGroupView.carousel,
+  'Grid': PhoneGroupView.grid,
 };
 
 Map<String, bool> myAutoplayOptions = {
@@ -47,7 +47,7 @@ class SettingsProvider extends ChangeNotifier {
 
   Future<PhoneGroupView> loadPhoneGroupView() async {
     final prefs = await SharedPreferences.getInstance();
-    int i = prefs.getInt(_groupViewKey) ?? 1;
+    int i = prefs.getInt(_groupViewKey) ?? 0;
     phoneGroupView = myPhoneGroupViews.values.elementAt(i);
     return phoneGroupView;
   }
@@ -56,7 +56,7 @@ class SettingsProvider extends ChangeNotifier {
     phoneGroupView = selectedPhoneGroupView;
 
     final prefs = await SharedPreferences.getInstance();
-    prefs.setInt(_groupViewKey, phoneGroupView == PhoneGroupView.grid ? 0 : 1);
+    prefs.setInt(_groupViewKey, phoneGroupView == PhoneGroupView.grid ? 1 : 0);
 
     notifyListeners();
   }

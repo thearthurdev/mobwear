@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:mobware/custom_icons/custom_icons.dart';
-import 'package:mobware/utils/constants.dart';
+import 'package:mobwear/custom_icons/custom_icons.dart';
+import 'package:mobwear/utils/constants.dart';
 import 'package:package_info/package_info.dart';
 import 'package:device_id/device_id.dart';
 
@@ -47,7 +47,7 @@ class AboutPage extends StatelessWidget {
                       BorderRadius.circular(kScreenAwareSize(16.0, context)),
                 ),
                 child: Icon(
-                  CustomIcons.mobware,
+                  CustomIcons.mobwear,
                   color: kBrightnessAwareColor(context,
                       lightColor: Colors.white, darkColor: Colors.black),
                   size: kScreenAwareSize(80.0, context),
@@ -60,7 +60,7 @@ class AboutPage extends StatelessWidget {
                     return Text('...');
                   }
                   return aboutListTile(
-                      title: 'MobWare', subtitle: snapshot.data);
+                      title: 'MobWear', subtitle: snapshot.data);
                 },
               ),
               FutureBuilder(

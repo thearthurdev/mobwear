@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/custom_icons/custom_icons.dart';
+import 'package:mobwear/custom_icons/custom_icons.dart';
 
 class IPhoneTextMarks extends StatelessWidget {
   final Color color;

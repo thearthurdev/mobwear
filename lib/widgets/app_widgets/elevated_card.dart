@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/utils/constants.dart';
+import 'package:mobwear/utils/constants.dart';
 
 class ElevatedCard extends StatelessWidget {
   final Widget child;
   final Color color;
+  final double radius;
   final EdgeInsetsGeometry padding, margin;
 
   const ElevatedCard({
     this.child,
     this.color,
+    this.radius,
     this.padding,
     this.margin,
   });
@@ -32,7 +34,7 @@ class ElevatedCard extends StatelessWidget {
             offset: Offset(5.0, 6.0),
           ),
         ],
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(radius ?? 10.0),
       ),
       child: child,
     );

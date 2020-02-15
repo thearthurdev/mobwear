@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:mobware/data/models/phone_data_model.dart';
+import 'package:mobwear/data/models/phone_data_model.dart';
 
 class PhoneDatabase {
   static const String phones = 'phones';

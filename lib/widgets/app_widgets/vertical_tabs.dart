@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:mobware/pages/settings_page.dart';
-import 'package:mobware/utils/constants.dart';
+import 'package:mobwear/pages/settings_page.dart';
+import 'package:mobwear/utils/constants.dart';
 
 /// A vertical tab widget for flutter
 class VerticalTabs extends StatefulWidget {

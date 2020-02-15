@@ -1,4 +1,4 @@
-package com.arthurdev.mobware
+package com.arthurdev.mobwear
 
 import android.os.Bundle
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/data/models/search_item_model.dart';
-import 'package:mobware/utils/constants.dart';
+import 'package:mobwear/data/models/search_item_model.dart';
+import 'package:mobwear/utils/constants.dart';
 
 class SearchPopupListItemWidget extends StatelessWidget {
   const SearchPopupListItemWidget(this.item);

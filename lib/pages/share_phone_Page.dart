@@ -7,13 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:matrix_gesture_detector/matrix_gesture_detector.dart';
-import 'package:mobware/custom_icons/custom_icons.dart';
-import 'package:mobware/providers/customization_provider.dart';
-import 'package:mobware/utils/constants.dart';
-import 'package:mobware/widgets/app_widgets/customization_indicator.dart';
-import 'package:mobware/widgets/app_widgets/customization_picker_dialog.dart';
-import 'package:mobware/widgets/app_widgets/elevated_card.dart';
+import 'package:mobwear/data/models/texture_model.dart';
+import 'package:mobwear/providers/customization_provider.dart';
+import 'package:mobwear/utils/constants.dart';
+import 'package:mobwear/widgets/app_widgets/aspect_ratio_picker_dialog.dart';
+import 'package:mobwear/widgets/app_widgets/customization_picker_dialog.dart';
+import 'package:mobwear/widgets/app_widgets/fab_bottom_appbar.dart';
+import 'package:mobwear/widgets/app_widgets/picture_canvas.dart';
+import 'package:mobwear/widgets/app_widgets/watermark_picker_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
@@ -30,296 +31,135 @@ class SharePhonePage extends StatefulWidget {
 }
 
 class _SharePhonePageState extends State<SharePhonePage> {
-  Color initRandomColor, backgroundColor, backgroundTextureBlendColor;
-  String backgroundTexture;
-  BlendMode backgroundTextureBlendMode;
-
-  double backgroundWidth = 426.0;
-  double backgroundheight = 426.0;
+  Color initRandomColor, backgroundColor;
+  MyTexture backgroundTexture;
   bool isCapturing = false;
-  Matrix4 matrix;
   GlobalKey captureKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
-    matrix = Matrix4.identity();
     initRandomColor = Colors.primaries[Random().nextInt(15)];
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: onWillPop,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Picture Mode'),
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-          leading: IconButton(
+    return AnnotatedRegion(
+      value: SystemUiOverlayStyle(
+        systemNavigationBarColor: kThemeBrightness(context) == Brightness.light
+            ? Colors.white
+            : Color(0xFF0C0C0C),
+        systemNavigationBarIconBrightness:
+            kThemeBrightness(context) == Brightness.light
+                ? Brightness.dark
+                : Brightness.light,
+      ),
+      child: WillPopScope(
+        onWillPop: onWillPop,
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+            title: Material(
+              color: Colors.transparent,
+              textStyle: TextStyle(
+                fontFamily: 'Righteous',
+                fontSize: 26.0,
+                color: kThemeBrightness(context) == Brightness.light
+                    ? Colors.black
+                    : Colors.white,
+              ),
+              child: Text('Picture Mode'),
+            ),
+            centerTitle: true,
+            automaticallyImplyLeading: false,
+            leading: IconButton(
               icon: Icon(LineAwesomeIcons.angle_left),
               onPressed: () {
                 Navigator.pop(context);
-              }),
-        ),
-        body: Consumer<CustomizationProvider>(
-          builder: (context, provider, child) {
-            backgroundColor = provider.currentColor ?? initRandomColor;
-            backgroundTexture = provider.currentTexture;
-            backgroundTextureBlendColor = provider.currentBlendColor;
-            backgroundTextureBlendMode = provider.currentBlendMode;
-
-            return SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Container(
-                      constraints: BoxConstraints(maxHeight: 500.0),
-                      child: RepaintBoundary(
-                        key: captureKey,
-                        child: AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
-                          width: backgroundWidth,
-                          height: backgroundheight,
-                          decoration: BoxDecoration(
-                            border: kGetColorString(backgroundColor) ==
-                                    kGetColorString(Colors.black)
-                                ? Border.all(
-                                    color: Colors.grey[800],
-                                    width: 0.3,
-                                  )
-                                : null,
-                            boxShadow: [
-                              BoxShadow(
-                                color: kBrightnessAwareColor(context,
-                                    lightColor:
-                                        Colors.blueGrey.withOpacity(0.2),
-                                    darkColor: Colors.black26),
-                                blurRadius: 10.0,
-                                offset: Offset(5.0, 6.0),
-                              ),
-                            ],
-                            color: backgroundTexture == null
-                                ? backgroundColor
-                                : Colors.transparent,
-                            image: backgroundTexture == null
-                                ? null
-                                : DecorationImage(
-                                    image: AssetImage(backgroundTexture),
-                                    fit: BoxFit.cover,
-                                    colorFilter:
-                                        backgroundTextureBlendMode == null
-                                            ? null
-                                            : ColorFilter.mode(
-                                                backgroundTextureBlendColor,
-                                                backgroundTextureBlendMode,
-                                              ),
-                                  ),
-                          ),
-                          child: MatrixGestureDetector(
-                            clipChild: true,
-                            onMatrixUpdate: (m, tm, sm, rm) {
-                              setState(() {
-                                matrix = m;
-                              });
-                            },
-                            child: Stack(
-                              children: <Widget>[
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Transform(
-                                    transform: matrix,
-                                    child: AnimatedContainer(
-                                      duration: Duration(milliseconds: 300),
-                                      height: 360,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color:
-                                                kEstimateColorFromColorBrightness(
-                                              backgroundColor,
-                                              lightColor: Colors.black26,
-                                              darkColor: Colors.black12,
-                                            ),
-                                            offset: Offset(2.0, 2.0),
-                                            blurRadius: 5.0,
-                                          ),
-                                        ],
-                                      ),
-                                      child: Hero(
-                                        tag: widget.phoneID,
-                                        child: widget.phone,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Icon(
-                                      CustomIcons.mobware,
-                                      size: 32.0,
-                                      color: backgroundTexture == null
-                                          ? kEstimateColorFromColorBrightness(
-                                              backgroundColor,
-                                              lightColor: Colors.white38,
-                                              darkColor: Colors.black38,
-                                            )
-                                          : Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  ElevatedCard(
-                    margin:
-                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                    child: ListTile(
-                      title: Text(
-                        'Background',
-                        style: TextStyle(
-                          fontFamily: 'Quicksand',
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.3,
-                        ),
-                      ),
-                      subtitle: Text(
-                        backgroundTexture == null
-                            ? 'Color: #${kGetColorString(backgroundColor)}'
-                            : 'Texture: ${kGetTextureName(backgroundTexture)}',
-                        style: TextStyle(
-                          fontFamily: 'Quicksand',
-                          color: kBrightnessAwareColor(context,
-                              lightColor: Colors.black54,
-                              darkColor: Colors.white54),
-                        ),
-                      ),
-                      trailing: CustomizationIndicator(
-                        color: backgroundColor,
-                        texture: backgroundTexture,
-                        textureBlendColor: backgroundTextureBlendColor,
-                        textureBlendMode: backgroundTextureBlendMode,
-                      ),
-                      onTap: () => changeBackground(context, backgroundColor),
-                    ),
-                  ),
-                  ElevatedCard(
-                    margin:
-                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: ListTile(
-                      // isThreeLine: true,
-                      title: Text(
-                        'Aspect Ratio',
-                        style: TextStyle(
-                          fontFamily: 'Quicksand',
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.3,
-                        ),
-                      ),
-                      subtitle: Text(
-                        'Pick an aspect ratio for the image',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontFamily: 'Quicksand',
-                          color: kBrightnessAwareColor(context,
-                              lightColor: Colors.black54,
-                              darkColor: Colors.white54),
-                        ),
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          aspectRatioButton(
-                              aspectRatio: 1.0 / 1.0,
-                              width: 426.0,
-                              height: 426.0),
-                          aspectRatioButton(
-                              aspectRatio: 9.0 / 16.0,
-                              width: 240.0,
-                              height: 426.0),
-                          aspectRatioButton(
-                              aspectRatio: 16.0 / 9.0,
-                              width: 426.0,
-                              height: 240.0),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 70.0),
-                ],
-              ),
-            );
-          },
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          label: Text(
-            'Share',
-            style: TextStyle(
-              fontFamily: 'Quicksand',
-              fontWeight: FontWeight.bold,
-              letterSpacing: 0.3,
+              },
             ),
           ),
-          icon: isCapturing
-              ? Container(
-                  height: 24.0,
-                  width: 24.0,
-                  padding: EdgeInsets.all(4.5),
-                  child: CircularProgressIndicator(
-                    strokeWidth: 1.5,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      kBrightnessAwareColor(context,
-                          lightColor: Colors.white, darkColor: Colors.black),
+          body: Container(
+            padding: EdgeInsets.only(bottom: 32.0),
+            child: Center(
+              child: PictureCanvas(
+                captureKey: captureKey,
+                phone: widget.phone,
+                phoneID: widget.phoneID,
+                initRandomColor: initRandomColor,
+              ),
+            ),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: FloatingActionButton(
+            elevation: 2.0,
+            child: isCapturing
+                ? Container(
+                    height: 24.0,
+                    width: 24.0,
+                    padding: EdgeInsets.all(4.5),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 1.5,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        kBrightnessAwareColor(context,
+                            lightColor: Colors.white, darkColor: Colors.black),
+                      ),
                     ),
+                  )
+                : Icon(
+                    LineAwesomeIcons.share_alt,
                   ),
-                )
-              : Icon(
-                  LineAwesomeIcons.share_alt,
-                ),
-          onPressed: captureImage,
+            onPressed: captureImage,
+          ),
+          bottomNavigationBar: Consumer<CustomizationProvider>(
+            builder: (context, provider, child) {
+              backgroundColor = provider.currentColor ?? initRandomColor;
+              backgroundTexture = MyTexture(
+                asset: provider.currentTexture,
+                blendColor: provider.currentBlendColor ?? Colors.deepOrange,
+                blendModeIndex: provider.currentBlendModeIndex ?? 0,
+              );
+
+              return FABBottomAppBar(
+                centerItemText: 'Share',
+                foregroundColor: kBrightnessAwareColor(context,
+                    lightColor: Colors.black, darkColor: Colors.white),
+                selectedColor: Theme.of(context).brightness == Brightness.light
+                    ? Colors.red[900]
+                    : Colors.red,
+                notchedShape: CircularNotchedRectangle(),
+                onItemSelected: (i) => onItemSelected(i),
+                items: [
+                  FABBottomAppBarItem(LineAwesomeIcons.edit),
+                  FABBottomAppBarItem(LineAwesomeIcons.file_word_o),
+                  FABBottomAppBarItem(LineAwesomeIcons.arrows_alt),
+                  FABBottomAppBarItem(LineAwesomeIcons.refresh),
+                ],
+              );
+            },
+          ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }
 
-  Widget aspectRatioButton({double aspectRatio, width, height}) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(5.0),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: AspectRatio(
-          aspectRatio: aspectRatio,
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: kThemeBrightness(context) == Brightness.light
-                    ? Colors.grey[300]
-                    : Colors.grey[700],
-                width: 4.0,
-              ),
-            ),
-          ),
-        ),
-      ),
-      onTap: () {
-        setState(() {
-          backgroundWidth = width;
-          backgroundheight = height;
-        });
-      },
-    );
+  void onItemSelected(i) {
+    int item = i;
+    switch (item) {
+      case 0:
+        changeBackground(context);
+        break;
+      case 1:
+        changeWatermark(context);
+        break;
+      case 2:
+        changeAspectRatio();
+        break;
+      case 3:
+        resetPage();
+        break;
+    }
   }
 
   void captureImage() async {
@@ -335,8 +175,9 @@ class _SharePhonePageState extends State<SharePhonePage> {
       setState(() => isCapturing = false);
       share(pngBytes);
     } catch (e) {
+      String errorText = 'Unable to share. Please try again later';
       setState(() => isCapturing = false);
-      Toast.show('Unable to share. Please try again later', context);
+      Toast.show(errorText, context);
       print(e);
     }
   }
@@ -348,18 +189,18 @@ class _SharePhonePageState extends State<SharePhonePage> {
       bytes,
       'image/png',
       text:
-          'Check out this ${widget.phone.getPhoneName} I customized with MobWare!',
+          'Check out this ${widget.phone.getPhoneName} I customized with MobWear!',
     );
   }
 
-  void changeBackground(BuildContext context, Color currentColor) {
+  void changeBackground(BuildContext context) {
     Provider.of<CustomizationProvider>(context).isSharePage = true;
     Provider.of<CustomizationProvider>(context).selectedTexture = null;
     Provider.of<CustomizationProvider>(context).getCurrentSideTextureDetails();
     Provider.of<CustomizationProvider>(context).resetSelectedValues();
 
     int initIndex() {
-      if (backgroundTexture != null) return 1;
+      if (backgroundTexture.asset != null) return 1;
       return 0;
     }
 
@@ -368,9 +209,45 @@ class _SharePhonePageState extends State<SharePhonePage> {
       builder: (BuildContext context) => Dialog(
         child: CustomizationPickerDialog(
           noTexture: false,
-          noImage: false,
+          noImage: true,
           initPickerModeIndex: initIndex(),
           initRandomColor: initRandomColor,
+        ),
+      ),
+    );
+  }
+
+  void changeAspectRatio() {
+    showDialog<Widget>(
+      context: context,
+      builder: (BuildContext context) {
+        return AspectRatioPickerDialog();
+      },
+    );
+  }
+
+  void changeWatermark(BuildContext context) {
+    Provider.of<CustomizationProvider>(context).resetSelectedValues();
+
+    showDialog<Widget>(
+      context: context,
+      builder: (BuildContext context) => Dialog(
+        child: WatermarkPickerDialog(
+          backgroundColor: backgroundColor ?? initRandomColor,
+          backgroundTexture: backgroundTexture,
+        ),
+      ),
+    );
+  }
+
+  void resetPage() {
+    Provider.of<CustomizationProvider>(context).resetCurrentValues();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SharePhonePage(
+          phone: widget.phone,
+          phoneID: widget.phoneID,
         ),
       ),
     );

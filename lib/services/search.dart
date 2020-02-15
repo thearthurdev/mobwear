@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/services/keyboard_visibilty.dart';
-import 'package:mobware/widgets/app_widgets/search_bar.dart';
-import 'package:mobware/widgets/app_widgets/search_popup_widget.dart';
+import 'package:mobwear/services/keyboard_visibilty.dart';
+import 'package:mobwear/widgets/app_widgets/search_bar.dart';
+import 'package:mobwear/widgets/app_widgets/search_popup_widget.dart';
 
 typedef QueryListItemBuilder<T> = Widget Function(T item);
 typedef OnItemSelected<T> = void Function(T item);
@@ -44,7 +44,7 @@ class MySingleChoiceSearchState<T> extends State<Search<T>> {
   List<T> _list;
   List<T> _tempList;
   bool isFocused;
-  bool _showClose = false;
+  // bool _showClose;
   FocusNode _focusNode;
   ValueNotifier<T> notifier;
   bool isRequiredCheckFailed;
@@ -66,13 +66,15 @@ class MySingleChoiceSearchState<T> extends State<Search<T>> {
     notifier = ValueNotifier(null);
     _focusNode = FocusNode();
     isFocused = false;
+    // _showClose = false;
     _list = List<T>.from(widget.dataList);
     _tempList.addAll(_list);
 
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
         setState(() {
-          _showClose = false;
+          isFocused = false;
+          // _showClose = false;
         });
         _controller.clear();
         if (overlayEntry != null) {
@@ -146,7 +148,8 @@ class MySingleChoiceSearchState<T> extends State<Search<T>> {
         : SearchBar(
             controller: _controller,
             focusNode: _focusNode,
-            showClose: _showClose,
+            // isFocused: _showClose,
+            isFocused: isFocused,
             overlayEntry: overlayEntry,
             onCloseTap: () {
               if (overlayEntry != null) {
@@ -156,7 +159,7 @@ class MySingleChoiceSearchState<T> extends State<Search<T>> {
               _controller.clear();
               _focusNode.unfocus();
               setState(() {
-                _showClose = false;
+                // _showClose = false;
                 isFocused = false;
                 isRequiredCheckFailed = false;
               });
@@ -178,8 +181,8 @@ class MySingleChoiceSearchState<T> extends State<Search<T>> {
     _focusNode.unfocus();
     setState(() {
       notifier.value = item;
-      _showClose = false;
       isFocused = false;
+      // _showClose = false;
       isRequiredCheckFailed = false;
     });
     if (widget.onItemSelected != null) {
@@ -205,7 +208,8 @@ class MySingleChoiceSearchState<T> extends State<Search<T>> {
       Offset.zero & overlay.size,
     );
     setState(() {
-      _showClose = true;
+      isFocused = true;
+      // _showClose = true;
     });
     overlayEntry = OverlayEntry(
       builder: (context) {

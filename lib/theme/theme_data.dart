@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobware/pages/about_page.dart';
-import 'package:mobware/pages/edit_phone_page.dart';
-import 'package:mobware/pages/home_page.dart';
-import 'package:mobware/pages/settings_page.dart';
-import 'package:mobware/pages/share_phone_Page.dart';
-import 'package:mobware/services/scroll_behaviour.dart';
-import 'package:mobware/theme/dynamic_theme.dart';
-import 'package:mobware/utils/constants.dart';
+import 'package:mobwear/pages/about_page.dart';
+import 'package:mobwear/pages/edit_phone_page.dart';
+import 'package:mobwear/pages/home_page.dart';
+import 'package:mobwear/pages/settings_page.dart';
+import 'package:mobwear/pages/share_phone_Page.dart';
+import 'package:mobwear/services/scroll_behaviour.dart';
+import 'package:mobwear/theme/dynamic_theme.dart';
+import 'package:mobwear/utils/constants.dart';
 
 class MyThemeData extends StatelessWidget {
   @override
@@ -74,7 +74,7 @@ class MyThemeData extends StatelessWidget {
             ),
         themedWidgetBuilder: (context, theme) {
           return MaterialApp(
-            title: 'MobWare',
+            title: 'MobWear',
             theme: theme,
             builder: (context, child) {
               return ScrollConfiguration(

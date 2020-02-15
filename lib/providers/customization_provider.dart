@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:mobware/data/models/blend_mode_model.dart';
-import 'package:mobware/data/models/phone_data_model.dart';
-import 'package:mobware/data/models/texture_model.dart';
-import 'package:mobware/database/phone_database.dart';
+import 'package:mobwear/data/models/blend_mode_model.dart';
+import 'package:mobwear/data/models/phone_data_model.dart';
+import 'package:mobwear/data/models/texture_model.dart';
+import 'package:mobwear/database/phone_database.dart';
 
 class CustomizationProvider extends ChangeNotifier {
   //GENERAL
   bool isSharePage = false;
   bool isCustomizationCopied = false;
 
-  var phonesBox = Hive.box(PhoneDatabase.phones);
+  Box phonesBox = Hive.box(PhoneDatabase.phones);
 
   int currentPhoneID;
   int currentPhoneBrandIndex;
   int currentPhoneIndex;
   PhoneDataModel currentPhoneData;
   String currentSide;
+  String previousSide;
 
   void setCurrentSide(int i) => currentSide = currentColors.keys.elementAt(i);
+  void setPreviousSide() => previousSide = currentSide;
 
   void setCurrentPhoneData({int phoneID, int phoneBrandIndex, int phoneIndex}) {
     currentPhoneID = phoneID;
@@ -60,7 +62,7 @@ class CustomizationProvider extends ChangeNotifier {
     }
   }
 
-  void resetCurrentSide(bool noTexture) {
+  void resetCustomization(bool noTexture) {
     Color defaultSideColor = PhoneDataModel
         .phonesDataLists[currentPhoneBrandIndex][currentPhoneIndex]
         .colors[currentSide];
@@ -71,7 +73,11 @@ class CustomizationProvider extends ChangeNotifier {
       currentTextures[currentSide].blendColor = Colors.deepOrange;
       currentTextures[currentSide].blendModeIndex = 0;
     }
+    updateDatabase();
+    notifyListeners();
+  }
 
+  void updateDatabase() {
     PhoneDatabase.phonesBox.put(
       currentPhoneID,
       PhoneDataModel(
@@ -80,7 +86,6 @@ class CustomizationProvider extends ChangeNotifier {
         textures: currentTextures,
       ),
     );
-    notifyListeners();
   }
 
   void resetSelectedValues() {
@@ -88,6 +93,8 @@ class CustomizationProvider extends ChangeNotifier {
     selectedTexture = null;
     selectedBlendColor = null;
     selectedBlendModeIndex = null;
+    selectedWatermarkColor = null;
+    selectedWatermarkIndex = null;
   }
 
   void resetCurrentValues() {
@@ -95,9 +102,55 @@ class CustomizationProvider extends ChangeNotifier {
     currentTexture = null;
     currentBlendColor = null;
     currentBlendModeIndex = null;
+    watermarkColor = null;
   }
 
-  //COLORS
+  //PICTURE MODE
+  bool showWatermark = true;
+  int aspectRatioIndex = 0;
+  int watermarkIndex = 0;
+  int watermarkPositionIndex = 7;
+  Color watermarkColor;
+  int selectedWatermarkIndex;
+  Color selectedWatermarkColor;
+
+  Map<String, bool> myWatermarkOptions = {
+    'Show watermark': true,
+    'Hide watermark': false,
+  };
+
+  void changeAspectRatioIndex(int i) {
+    aspectRatioIndex = i;
+    notifyListeners();
+  }
+
+  void watermarkStateSelected(bool b) {
+    showWatermark = b;
+    notifyListeners();
+  }
+
+  void watermarkColorSelected(Color color) {
+    selectedWatermarkColor = color;
+    notifyListeners();
+  }
+
+  void watermarkIndexSelected(int i) {
+    selectedWatermarkIndex = i;
+    notifyListeners();
+  }
+
+  void watermarkPositionIndexSelected(int i) {
+    watermarkPositionIndex = i;
+    notifyListeners();
+  }
+
+  void setWatermark() {
+    watermarkIndex = selectedWatermarkIndex ?? watermarkIndex;
+    watermarkColor = selectedWatermarkColor ?? watermarkColor;
+    notifyListeners();
+  }
+
+  //PHONE COLORS
   Map currentColors;
   Color currentColor, selectedColor;
 
@@ -116,19 +169,12 @@ class CustomizationProvider extends ChangeNotifier {
       currentColors[currentSide] = selectedColor ?? currentColor;
       if (!noTexture) currentTextures[currentSide].asset = null;
 
-      PhoneDatabase.phonesBox.put(
-        currentPhoneID,
-        PhoneDataModel(
-          id: currentPhoneID,
-          colors: currentColors,
-          textures: currentTextures,
-        ),
-      );
+      updateDatabase();
     }
     notifyListeners();
   }
 
-  //TEXTURES
+  //PHONE TEXTURES
   Map currentTextures;
   String currentTexture, selectedTexture;
   Color currentBlendColor, selectedBlendColor;
@@ -185,14 +231,7 @@ class CustomizationProvider extends ChangeNotifier {
       currentTextures[currentSide].blendModeIndex =
           selectedBlendModeIndex ?? currentBlendModeIndex;
 
-      PhoneDatabase.phonesBox.put(
-        currentPhoneID,
-        PhoneDataModel(
-          id: currentPhoneID,
-          colors: currentColors,
-          textures: currentTextures,
-        ),
-      );
+      updateDatabase();
     }
     notifyListeners();
   }

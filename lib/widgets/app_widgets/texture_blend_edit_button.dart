@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/providers/customization_provider.dart';
-import 'package:mobware/utils/constants.dart';
-import 'package:mobware/widgets/app_widgets/customization_indicator.dart';
-import 'package:mobware/widgets/app_widgets/elevated_card.dart';
-import 'package:mobware/widgets/app_widgets/texture_blend_color_picker_dialog.dart';
-import 'package:mobware/widgets/app_widgets/texture_blend_mode_picker_dialog.dart';
+import 'package:mobwear/providers/customization_provider.dart';
+import 'package:mobwear/utils/constants.dart';
+import 'package:mobwear/widgets/app_widgets/color_picker_dialog.dart';
+import 'package:mobwear/widgets/app_widgets/customization_indicator.dart';
+import 'package:mobwear/widgets/app_widgets/elevated_card.dart';
+import 'package:mobwear/widgets/app_widgets/texture_blend_mode_picker_dialog.dart';
 import 'package:provider/provider.dart';
 
 class TextureBlendEditButton extends StatelessWidget {
@@ -61,7 +61,13 @@ class TextureBlendEditButton extends StatelessWidget {
                     showDialog(
                       context: context,
                       builder: (context) {
-                        return TextureBlendColorPickerDialog();
+                        return ColorPickerDialog(
+                          title: 'Blend Color',
+                          color: provider.selectedBlendColor ??
+                              provider.currentBlendColor,
+                          onSelectPressed: (selectedColor) =>
+                              provider.textureBlendColorSelected(selectedColor),
+                        );
                       },
                     );
                   },

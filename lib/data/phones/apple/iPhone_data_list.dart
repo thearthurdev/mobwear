@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/data/models/phone_data_model.dart';
-import 'package:mobware/data/models/texture_model.dart';
+import 'package:mobwear/data/models/phone_data_model.dart';
+import 'package:mobwear/data/models/texture_model.dart';
 
 List<PhoneDataModel> iPhoneDataList = [
   PhoneDataModel(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/providers/settings_provider.dart';
-import 'package:mobware/utils/constants.dart';
+import 'package:mobwear/providers/settings_provider.dart';
+import 'package:mobwear/utils/constants.dart';
 import 'package:provider/provider.dart';
 
 class QuickBrigthnessSwitch extends StatefulWidget {

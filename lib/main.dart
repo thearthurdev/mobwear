@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:mobware/data/adapters/color_adapter.dart';
-import 'package:mobware/data/models/phone_data_model.dart';
-import 'package:mobware/data/models/texture_model.dart';
-import 'package:mobware/database/phone_database.dart';
-import 'package:mobware/providers/customization_provider.dart';
-import 'package:mobware/providers/settings_provider.dart';
-import 'package:mobware/theme/theme_data.dart';
+import 'package:mobwear/data/adapters/color_adapter.dart';
+import 'package:mobwear/data/models/phone_data_model.dart';
+import 'package:mobwear/data/models/texture_model.dart';
+import 'package:mobwear/database/phone_database.dart';
+import 'package:mobwear/providers/customization_provider.dart';
+import 'package:mobwear/providers/settings_provider.dart';
+import 'package:mobwear/theme/theme_data.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:provider/provider.dart';
 
 // void main() => runApp(
 //       DevicePreview(
-//         builder: (context) => MobWare(),
+//         builder: (context) => MobWear(),
 //       ),
 //     );
 void main() async {
@@ -28,10 +28,10 @@ void main() async {
 
   var phonesBox = await Hive.openBox(PhoneDatabase.phones);
 
-  PhoneDatabase.initPhonesDB(phonesBox).whenComplete(() => runApp(MobWare()));
+  PhoneDatabase.initPhonesDB(phonesBox).whenComplete(() => runApp(MobWear()));
 }
 
-class MobWare extends StatelessWidget {
+class MobWear extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

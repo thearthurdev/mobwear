@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/services/search.dart';
-import 'package:mobware/utils/constants.dart';
-import 'package:mobware/widgets/app_widgets/no_phones_found_widget.dart';
+import 'package:mobwear/services/search.dart';
+import 'package:mobwear/utils/constants.dart';
+import 'package:mobwear/widgets/app_widgets/no_phones_found_widget.dart';
 
 class SearchPopupWidget extends StatelessWidget {
   final RelativeRect position;

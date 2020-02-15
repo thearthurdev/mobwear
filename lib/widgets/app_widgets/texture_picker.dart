@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/data/models/texture_model.dart';
-import 'package:mobware/providers/customization_provider.dart';
-import 'package:mobware/utils/constants.dart';
-import 'package:mobware/widgets/app_widgets/customization_indicator.dart';
-import 'package:mobware/widgets/app_widgets/texture_blend_edit_button.dart';
+import 'package:mobwear/data/models/texture_model.dart';
+import 'package:mobwear/providers/customization_provider.dart';
+import 'package:mobwear/utils/constants.dart';
+import 'package:mobwear/widgets/app_widgets/customization_indicator.dart';
+import 'package:mobwear/widgets/app_widgets/texture_blend_edit_button.dart';
 import 'package:provider/provider.dart';
 
 class TexturePicker extends StatelessWidget {
@@ -22,7 +22,7 @@ class TexturePicker extends StatelessWidget {
         return Column(
           children: <Widget>[
             Container(
-              height: 300.0,
+              height: kScreenAwareSize(250.0, context),
               padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
               child: GridView.builder(
                 itemCount: MyTexture.myTextures.length,
@@ -42,7 +42,7 @@ class TexturePicker extends StatelessWidget {
                             texture: myTexture.asset,
                             textureBlendMode: blendMode,
                             textureBlendColor: blendColor,
-                            size: kScreenAwareSize(60, context),
+                            size: 70.0,
                             isSelected: selectedTexture == null
                                 ? currentTexture == myTexture.asset
                                 : selectedTexture == myTexture.asset,

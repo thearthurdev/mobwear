@@ -1,4 +1,4 @@
-# mobware
+# mobwear
 
 A new Flutter project.
 

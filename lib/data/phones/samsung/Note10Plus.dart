@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/custom_icons/brand_icons.dart';
-import 'package:mobware/providers/customization_provider.dart';
-import 'package:mobware/utils/constants.dart';
-import 'package:mobware/widgets/phone_widgets/back_panel.dart';
-import 'package:mobware/widgets/phone_widgets/camera.dart';
-import 'package:mobware/widgets/phone_widgets/camera_bump.dart';
-import 'package:mobware/widgets/phone_widgets/flash.dart';
-import 'package:mobware/widgets/phone_widgets/microphone.dart';
-import 'package:mobware/widgets/phone_widgets/screen.dart';
-import 'package:mobware/widgets/phone_widgets/texture_decoration.dart';
+import 'package:mobwear/custom_icons/brand_icons.dart';
+import 'package:mobwear/providers/customization_provider.dart';
+import 'package:mobwear/utils/constants.dart';
+import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
+import 'package:mobwear/widgets/phone_widgets/camera.dart';
+import 'package:mobwear/widgets/phone_widgets/camera_bump.dart';
+import 'package:mobwear/widgets/phone_widgets/flash.dart';
+import 'package:mobwear/widgets/phone_widgets/microphone.dart';
+import 'package:mobwear/widgets/phone_widgets/screen.dart';
+import 'package:mobwear/widgets/phone_widgets/texture_decoration.dart';
 import 'package:provider/provider.dart';
 
 class Note10Plus extends StatelessWidget {
   static final int phoneIndex = 2;
-   static final int phoneBrandIndex = 2;
+  static final int phoneBrandIndex = 2;
   static const String phoneBrand = 'Samsung';
   static const String phoneModel = 'Galaxy';
   static const String phoneName = 'Galaxy Note 10 Plus';
@@ -46,7 +46,7 @@ class Note10Plus extends StatelessWidget {
 
   get getPhoneFront => front;
   get getPhoneName => phoneName;
- get getPhoneBrand => phoneBrand;
+  get getPhoneBrand => phoneBrand;
   get getPhoneBrandIndex => phoneBrandIndex;
   get getPhoneIndex => phoneIndex;
 

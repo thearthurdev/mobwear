@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:mobware/data/models/phone_model.dart';
-import 'package:mobware/pages/edit_phone_page.dart';
-import 'package:mobware/providers/settings_provider.dart';
-import 'package:mobware/utils/constants.dart';
+import 'package:mobwear/data/models/phone_model.dart';
+import 'package:mobwear/pages/edit_phone_page.dart';
+import 'package:mobwear/providers/settings_provider.dart';
+import 'package:mobwear/utils/constants.dart';
 import 'package:provider/provider.dart';
 
 class PhoneCarousel extends StatefulWidget {

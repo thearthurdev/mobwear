@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/utils/constants.dart';
+import 'package:mobwear/utils/constants.dart';
 
 class PhoneGroupViewPickerButton extends StatelessWidget {
   final IconData icon;
@@ -13,7 +13,7 @@ class PhoneGroupViewPickerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => onTap(),
       child: Container(
         width: 30.0,
         height: 30.0,

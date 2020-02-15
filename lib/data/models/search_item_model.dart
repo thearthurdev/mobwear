@@ -1,4 +1,4 @@
-import 'package:mobware/data/models/phone_model.dart';
+import 'package:mobwear/data/models/phone_model.dart';
 
 class SearchItem {
   final dynamic phone;

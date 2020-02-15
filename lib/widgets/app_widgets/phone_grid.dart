@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobware/data/models/brand_icon_model.dart';
-import 'package:mobware/data/models/phone_model.dart';
-import 'package:mobware/pages/edit_phone_page.dart';
-import 'package:mobware/utils/constants.dart';
+import 'package:mobwear/data/models/phone_model.dart';
+import 'package:mobwear/pages/edit_phone_page.dart';
 
 class PhoneGrid extends StatelessWidget {
   final List<PhoneModel> phonesList;
@@ -32,16 +30,17 @@ class PhoneGrid extends StatelessWidget {
         ),
         itemBuilder: (context, i) {
           if (i == phonesList.length && i.isOdd) {
-            BrandIcon myBrandIcon = BrandIcon.myBrandIcons[brandIndex];
+            // BrandIcon myBrandIcon = BrandIcon.myBrandIcons[brandIndex];
 
-            return Center(
-              child: Icon(
-                myBrandIcon.icon,
-                color: kBrightnessAwareColor(context,
-                    lightColor: Colors.black38, darkColor: Colors.white38),
-                size: myBrandIcon.size == null ? 30.0 : myBrandIcon.size + 6.0,
-              ),
-            );
+            // return Center(
+            //   child: Icon(
+            //     myBrandIcon.icon,
+            //     color: kBrightnessAwareColor(context,
+            //         lightColor: Colors.black12, darkColor: Colors.grey[850]),
+            //     size: myBrandIcon.size == null ? 30.0 : myBrandIcon.size + 6.0,
+            //   ),
+            // );
+            return Container();
           } else {
             return GestureDetector(
               child: Padding(

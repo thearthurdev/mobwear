@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hsvcolor_picker/flutter_hsvcolor_picker.dart';
-import 'package:mobware/data/models/mode_picker_model.dart';
-import 'package:mobware/providers/customization_provider.dart';
-import 'package:mobware/utils/constants.dart';
-import 'package:mobware/widgets/app_widgets/texture_picker.dart';
+import 'package:mobwear/data/models/mode_picker_model.dart';
+import 'package:mobwear/providers/customization_provider.dart';
+import 'package:mobwear/utils/constants.dart';
+import 'package:mobwear/widgets/app_widgets/texture_picker.dart';
 import 'package:provider/provider.dart';
 
 class CustomizationPickerDialog extends StatefulWidget {
@@ -60,75 +61,83 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
       ),
     ];
 
-    return DefaultTabController(
-      initialIndex: pickerModeIndex,
-      length: modeCount,
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 8.0, 8.0),
-              child: Row(
+    return AnnotatedRegion(
+      value: SystemUiOverlayStyle(
+        systemNavigationBarColor: kThemeBrightness(context) == Brightness.light
+            ? Color(0xFF757575)
+            : isSharePage ? Color(0xFF060606) : Colors.black,
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ),
+      child: DefaultTabController(
+        initialIndex: pickerModeIndex,
+        length: modeCount,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24.0, 24.0, 8.0, 8.0),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      isSharePage ? 'Background' : provider.currentSide,
+                      style: kTitleTextStyle.copyWith(fontSize: 18.0),
+                    ),
+                  ],
+                ),
+              ),
+              modeCount > 1
+                  ? TabBar(
+                      indicatorSize: TabBarIndicatorSize.label,
+                      labelColor: kBrightnessAwareColor(
+                        context,
+                        lightColor: Colors.black,
+                        darkColor: Colors.white,
+                      ),
+                      unselectedLabelColor: kBrightnessAwareColor(
+                        context,
+                        lightColor: Colors.black38,
+                        darkColor: Colors.white38,
+                      ),
+                      tabs: List.generate(
+                        modeCount,
+                        (i) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              ModePickerModel.myPickerModes[i].modeName
+                                  .split(' ')[1]
+                                  .toUpperCase(),
+                              style: kTitleTextStyle,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          );
+                        },
+                      ),
+                      onTap: (i) => setState(() => pickerModeIndex = i),
+                    )
+                  : Container(),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 0.0),
+                child: pickerModeViews[pickerModeIndex],
+              ),
+              ButtonBar(
+                alignment: MainAxisAlignment.end,
+                buttonTextTheme: ButtonTextTheme.normal,
                 children: <Widget>[
-                  Text(
-                    isSharePage ? 'Background' : provider.currentSide,
-                    style: kTitleTextStyle.copyWith(fontSize: 18.0),
+                  FlatButton(
+                    child: Text('Cancel', style: kTitleTextStyle),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  FlatButton(
+                    child: Text('Select', style: kTitleTextStyle),
+                    onPressed: () => onCustomizationSelected(),
                   ),
                 ],
               ),
-            ),
-            modeCount > 1
-                ? TabBar(
-                    indicatorSize: TabBarIndicatorSize.label,
-                    labelColor: kBrightnessAwareColor(
-                      context,
-                      lightColor: Colors.black,
-                      darkColor: Colors.white,
-                    ),
-                    unselectedLabelColor: kBrightnessAwareColor(
-                      context,
-                      lightColor: Colors.black38,
-                      darkColor: Colors.white38,
-                    ),
-                    tabs: List.generate(
-                      modeCount,
-                      (i) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            ModePickerModel.myPickerModes[i].modeName
-                                .split(' ')[1]
-                                .toUpperCase(),
-                            style: kTitleTextStyle,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        );
-                      },
-                    ),
-                    onTap: (i) => setState(() => pickerModeIndex = i),
-                  )
-                : Container(),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 0.0),
-              child: pickerModeViews[pickerModeIndex],
-            ),
-            ButtonBar(
-              alignment: MainAxisAlignment.end,
-              buttonTextTheme: ButtonTextTheme.normal,
-              children: <Widget>[
-                FlatButton(
-                  child: Text('Cancel', style: kTitleTextStyle),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                FlatButton(
-                  child: Text('Select', style: kTitleTextStyle),
-                  onPressed: () => onCustomizationSelected(),
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

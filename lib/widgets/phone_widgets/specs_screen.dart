@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:mobware/services/phone_specs.dart';
-import 'package:mobware/utils/constants.dart';
+import 'package:mobwear/services/phone_specs.dart';
+import 'package:mobwear/utils/constants.dart';
 
 class SpecsScreen extends StatefulWidget {
   final String phoneBrand, phoneModel, phoneName;

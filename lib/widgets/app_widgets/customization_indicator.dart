@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:mobware/utils/constants.dart';
+import 'package:mobwear/utils/constants.dart';
 
 class CustomizationIndicator extends StatelessWidget {
   final Color color, textureBlendColor;

@@ -2,16 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:mobware/database/phone_database.dart';
-import 'package:mobware/pages/share_phone_Page.dart';
-import 'package:mobware/providers/customization_provider.dart';
-import 'package:mobware/utils/constants.dart';
+import 'package:mobwear/database/phone_database.dart';
+import 'package:mobwear/pages/share_phone_Page.dart';
+import 'package:mobwear/providers/customization_provider.dart';
+import 'package:mobwear/utils/constants.dart';
 import 'package:flip_card/flip_card.dart';
-import 'package:mobware/utils/my_phone_header_delegate.dart';
-import 'package:mobware/widgets/app_widgets/customization_picker_tile.dart';
-import 'package:mobware/widgets/app_widgets/quick_brightness_switch.dart';
+import 'package:mobwear/utils/my_phone_header_delegate.dart';
+import 'package:mobwear/widgets/app_widgets/customization_picker_tile.dart';
 import 'package:provider/provider.dart';
 
 class EditPhonePage extends StatefulWidget {
@@ -33,7 +33,7 @@ class _EditPhonePageState extends State<EditPhonePage>
     with SingleTickerProviderStateMixin {
   GlobalKey<FlipCardState> flipCardKey = GlobalKey<FlipCardState>();
   ScrollController scrollController;
-  bool showFAB = false;
+  bool showFAB = true;
 
   @override
   void initState() {
@@ -43,22 +43,22 @@ class _EditPhonePageState extends State<EditPhonePage>
   }
 
   void scrollListener() {
-    double maxScrollExtent = scrollController.position.maxScrollExtent;
+    // double maxScrollExtent = scrollController.position.maxScrollExtent;
 
     if (scrollController.position.userScrollDirection ==
         ScrollDirection.reverse) {
-      if (showFAB == false &&
-          scrollController.position.outOfRange &&
-          scrollController.offset - maxScrollExtent > 30) {
+      if (showFAB == true
+          //  && scrollController.position.outOfRange && scrollController.offset - maxScrollExtent > 40
+          ) {
         setState(() {
-          showFAB = true;
+          showFAB = false;
         });
       }
     } else if (scrollController.position.userScrollDirection ==
         ScrollDirection.forward) {
-      if (showFAB == true) {
+      if (showFAB == false) {
         setState(() {
-          showFAB = false;
+          showFAB = true;
         });
       }
     }
@@ -78,14 +78,26 @@ class _EditPhonePageState extends State<EditPhonePage>
       phoneIndex: widget.phone.getPhoneIndex,
     );
 
-    return WillPopScope(
-      onWillPop: onWillPop,
-      child: Scaffold(
-        resizeToAvoidBottomPadding: false,
-        appBar: buildAppBar(),
-        body: buildBody(),
-        floatingActionButton: buildFAB(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    return AnnotatedRegion(
+      value: SystemUiOverlayStyle(
+        systemNavigationBarColor: kThemeBrightness(context) == Brightness.light
+            ? Colors.white
+            : Colors.black,
+        systemNavigationBarIconBrightness:
+            kThemeBrightness(context) == Brightness.light
+                ? Brightness.dark
+                : Brightness.light,
+      ),
+      child: WillPopScope(
+        onWillPop: onWillPop,
+        child: Scaffold(
+          resizeToAvoidBottomPadding: false,
+          appBar: buildAppBar(),
+          body: buildBody(),
+          floatingActionButton: buildFAB(),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+        ),
       ),
     );
   }
@@ -105,9 +117,6 @@ class _EditPhonePageState extends State<EditPhonePage>
           }
         },
       ),
-      actions: <Widget>[
-        QuickBrigthnessSwitch(),
-      ],
     );
   }
 
@@ -148,7 +157,9 @@ class _EditPhonePageState extends State<EditPhonePage>
             [
               buildColorButtonsListView(),
               SizedBox(
-                height: showFAB ? 80.0 : 24.0,
+                height:
+                    // showFAB ? 80.0 :
+                    24.0,
               ),
             ],
           ),

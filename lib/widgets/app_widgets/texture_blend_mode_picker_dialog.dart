@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:mobware/data/models/blend_mode_model.dart';
-import 'package:mobware/providers/customization_provider.dart';
-import 'package:mobware/utils/constants.dart';
+import 'package:mobwear/data/models/blend_mode_model.dart';
+import 'package:mobwear/providers/customization_provider.dart';
+import 'package:mobwear/utils/constants.dart';
 import 'package:provider/provider.dart';
 
 class TextureBlendModePickerDialog extends StatelessWidget {

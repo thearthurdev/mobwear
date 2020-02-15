@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:mobware/data/models/texture_model.dart';
-import 'package:mobware/data/phones/apple/iPhone_data_list.dart';
-import 'package:mobware/data/phones/google/pixel_data_list.dart';
-import 'package:mobware/data/phones/samsung/galaxy_data_list.dart';
+import 'package:mobwear/data/models/texture_model.dart';
+import 'package:mobwear/data/phones/apple/iPhone_data_list.dart';
+import 'package:mobwear/data/phones/google/pixel_data_list.dart';
+import 'package:mobwear/data/phones/samsung/galaxy_data_list.dart';
 
 part 'phone_data_model.g.dart';
 

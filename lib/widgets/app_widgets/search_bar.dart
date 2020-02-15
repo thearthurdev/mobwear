@@ -1,24 +1,24 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:mobware/utils/constants.dart';
+import 'package:mobwear/utils/constants.dart';
 
 class SearchBar extends StatelessWidget {
   final TextEditingController _controller;
   final FocusNode _focusNode;
-  final bool _showClose;
+  final bool _isFocused;
   final OverlayEntry overlayEntry;
   final Function onCloseTap;
 
   const SearchBar({
     @required TextEditingController controller,
     @required FocusNode focusNode,
-    @required bool showClose,
+    @required bool isFocused,
     @required this.overlayEntry,
     @required this.onCloseTap,
   })  : _controller = controller,
         _focusNode = focusNode,
-        _showClose = showClose;
+        _isFocused = isFocused;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,7 @@ class SearchBar extends StatelessWidget {
                 ),
               ),
             ),
-            _showClose
+            _isFocused
                 ? Padding(
                     padding: const EdgeInsets.only(right: 16.0),
                     child: GestureDetector(

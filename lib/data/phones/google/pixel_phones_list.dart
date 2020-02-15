@@ -1,9 +1,9 @@
-import 'package:mobware/data/models/phone_model.dart';
-import 'package:mobware/data/phones/google/pixel_2.dart';
-import 'package:mobware/data/phones/google/pixel_2_xl.dart';
-import 'package:mobware/data/phones/google/pixel_3_xl.dart';
-import 'package:mobware/data/phones/google/pixel_4_xl.dart';
-import 'package:mobware/data/phones/google/pixel_xl.dart';
+import 'package:mobwear/data/models/phone_model.dart';
+import 'package:mobwear/data/phones/google/pixel_2.dart';
+import 'package:mobwear/data/phones/google/pixel_2_xl.dart';
+import 'package:mobwear/data/phones/google/pixel_3_xl.dart';
+import 'package:mobwear/data/phones/google/pixel_4_xl.dart';
+import 'package:mobwear/data/phones/google/pixel_xl.dart';
 
 List<PhoneModel> pixelPhonesList = [
   PhoneModel(

@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:mobware/utils/constants.dart';
-import 'package:mobware/widgets/phone_widgets/specs_screen.dart';
+import 'package:mobwear/utils/constants.dart';
+import 'package:mobwear/widgets/phone_widgets/specs_screen.dart';
 
 class Screen extends StatefulWidget {
   final double screenWidth;
