@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class Position {
+class MyPosition {
   final String name;
   final Alignment alignment;
 
-  Position(this.name, this.alignment);
+  MyPosition(this.name, this.alignment);
 
-  static List<Position> myPositions = [
-    Position('Center', Alignment.center),
-    Position('Left', Alignment.centerLeft),
-    Position('Right', Alignment.centerRight),
-    Position('Top', Alignment.topCenter),
-    Position('Top-left', Alignment.topLeft),
-    Position('Top-right', Alignment.topRight),
-    Position('Bottom', Alignment.bottomCenter),
-    Position('Bottom-left', Alignment.bottomLeft),
-    Position('Bottom-right', Alignment.bottomRight),
+  static List<MyPosition> myPositions = [
+    MyPosition('Center', Alignment.center),
+    MyPosition('Left', Alignment.centerLeft),
+    MyPosition('Right', Alignment.centerRight),
+    MyPosition('Top', Alignment.topCenter),
+    MyPosition('Top-left', Alignment.topLeft),
+    MyPosition('Top-right', Alignment.topRight),
+    MyPosition('Bottom', Alignment.bottomCenter),
+    MyPosition('Bottom-left', Alignment.bottomLeft),
+    MyPosition('Bottom-right', Alignment.bottomRight),
   ];
 }

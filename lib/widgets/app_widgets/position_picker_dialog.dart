@@ -16,7 +16,7 @@ class PositionPickerDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                'Position',
+                'MyPosition',
                 style: kTitleTextStyle.copyWith(fontSize: 18.0),
               ),
             ],
@@ -31,11 +31,11 @@ class PositionPickerDialog extends StatelessWidget {
               child: Scrollbar(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: Position.myPositions.length,
+                  itemCount: MyPosition.myPositions.length,
                   itemBuilder: (context, i) {
                     return ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 24.0),
-                      title: Text(Position.myPositions[i].name),
+                      title: Text(MyPosition.myPositions[i].name),
                       trailing: provider.watermarkPositionIndex == i
                           ? Icon(
                               LineAwesomeIcons.check_circle,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/pages/about_page.dart';
 import 'package:mobwear/providers/settings_provider.dart';
+import 'package:mobwear/providers/theme_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/settings_expansion_tile.dart';
 import 'package:provider/provider.dart';
@@ -19,62 +21,73 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Settings'),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: Icon(LineAwesomeIcons.angle_left),
-          onPressed: () => Navigator.pop(context),
-        ),
+    return AnnotatedRegion(
+      value: SystemUiOverlayStyle(
+        statusBarColor: kThemeBrightness(context) == Brightness.light
+            ? Colors.white
+            : Colors.black,
+        systemNavigationBarColor: kThemeBrightness(context) == Brightness.light
+            ? Colors.white
+            : Colors.black,
+        systemNavigationBarIconBrightness:
+            kThemeBrightness(context) == Brightness.light
+                ? Brightness.dark
+                : Brightness.light,
       ),
-      body: Consumer<SettingsProvider>(
-        builder: (context, settingsProvider, child) {
-          return ListView(
-            children: <Widget>[
-              SizedBox(height: 8.0),
-              SettingsExpansionTile(
-                title: 'Theme',
-                subtitle: kThemeBrightness(context) == Brightness.light
-                    ? 'White'
-                    : 'Black',
-                settingMap: myThemes,
-                isExpanded: isThemeExpanded,
-                selectedOptionCheck: kThemeBrightness(context),
-                onExpansionChanged: (b) => setState(() => isThemeExpanded = b),
-                onOptionSelected: (i) {
-                  Provider.of<SettingsProvider>(context).changeBrightness(
-                    context,
-                    myThemes.values.elementAt(i),
-                  );
-                },
-              ),
-              SizedBox(height: 16.0),
-              SettingsExpansionTile(
-                title: 'Carousel autoplay',
-                subtitle: settingsProvider.autoplayCarousel
-                    ? 'Carousel will autoplay'
-                    : 'Carousel will be stagnant',
-                settingMap: myAutoplayOptions,
-                isExpanded: isAutoplayExpanded,
-                selectedOptionCheck: settingsProvider.autoplayCarousel,
-                onExpansionChanged: (b) =>
-                    setState(() => isAutoplayExpanded = b),
-                onOptionSelected: (i) => settingsProvider
-                    .changeAutoPlay(myAutoplayOptions.values.elementAt(i)),
-              ),
-              SizedBox(height: 16.0),
-              settingsListTile(
-                context: context,
-                title: 'About',
-                subtitle: 'Read more stuff',
-                onTap: () => Navigator.pushNamed(context, AboutPage.id),
-                padding: EdgeInsets.symmetric(horizontal: 24.0),
-              ),
-            ],
-          );
-        },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Settings'),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: Icon(LineAwesomeIcons.angle_left),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+        body: Consumer<SettingsProvider>(
+          builder: (context, settingsProvider, child) {
+            return ListView(
+              children: <Widget>[
+                SizedBox(height: 8.0),
+                SettingsExpansionTile(
+                  title: 'Theme',
+                  subtitle: ThemeProvider.myThemes.keys
+                      .elementAt(ThemeProvider.themeIndex),
+                  settingMap: ThemeProvider.myThemes,
+                  isExpanded: isThemeExpanded,
+                  selectedOptionCheck: ThemeProvider.themeIndex,
+                  onExpansionChanged: (b) =>
+                      setState(() => isThemeExpanded = b),
+                  onOptionSelected: (i) {
+                    Provider.of<ThemeProvider>(context).changeTheme(context, i);
+                  },
+                ),
+                SizedBox(height: 16.0),
+                SettingsExpansionTile(
+                  title: 'Carousel autoplay',
+                  subtitle: settingsProvider.autoplayCarousel
+                      ? 'Carousel will autoplay'
+                      : 'Carousel will be stagnant',
+                  settingMap: myAutoplayOptions,
+                  isExpanded: isAutoplayExpanded,
+                  selectedOptionCheck: settingsProvider.autoplayCarousel,
+                  onExpansionChanged: (b) =>
+                      setState(() => isAutoplayExpanded = b),
+                  onOptionSelected: (i) => settingsProvider
+                      .changeAutoPlay(myAutoplayOptions.values.elementAt(i)),
+                ),
+                SizedBox(height: 16.0),
+                settingsListTile(
+                  context: context,
+                  title: 'About',
+                  subtitle: 'Read more stuff',
+                  onTap: () => Navigator.pushNamed(context, AboutPage.id),
+                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

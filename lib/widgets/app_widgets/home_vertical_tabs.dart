@@ -24,8 +24,6 @@ class HomeVerticalTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<SettingsProvider>(context).loadPhoneGroupView();
-    Provider.of<SettingsProvider>(context).loadAutoPlay();
     List<List<PhoneModel>> phonesLists = PhoneModel.phonesLists;
 
     List<Tab> tabs = List<Tab>.generate(BrandIcon.myBrandIcons.length, (i) {

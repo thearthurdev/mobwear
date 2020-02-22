@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/custom_icons/custom_icons.dart';
 import 'package:mobwear/utils/constants.dart';
@@ -20,76 +21,88 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('About'),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: Icon(LineAwesomeIcons.angle_left),
-          onPressed: () => Navigator.pop(context),
-        ),
+    return AnnotatedRegion(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: kThemeBrightness(context) == Brightness.light
+            ? Colors.white
+            : Colors.black,
+        systemNavigationBarIconBrightness:
+            kThemeBrightness(context) == Brightness.light
+                ? Brightness.dark
+                : Brightness.light,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          width: kDeviceWidth(context),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: 24.0),
-              Container(
-                width: kScreenAwareSize(100.0, context),
-                height: kScreenAwareSize(100.0, context),
-                decoration: BoxDecoration(
-                  color: kBrightnessAwareColor(context,
-                      lightColor: Colors.black, darkColor: Colors.white),
-                  borderRadius:
-                      BorderRadius.circular(kScreenAwareSize(16.0, context)),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('About'),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: Icon(LineAwesomeIcons.angle_left),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            width: kDeviceWidth(context),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: 24.0),
+                Container(
+                  width: kScreenAwareSize(100.0, context),
+                  height: kScreenAwareSize(100.0, context),
+                  decoration: BoxDecoration(
+                    color: kBrightnessAwareColor(context,
+                        lightColor: Colors.black, darkColor: Colors.white),
+                    borderRadius:
+                        BorderRadius.circular(kScreenAwareSize(16.0, context)),
+                  ),
+                  child: Icon(
+                    CustomIcons.mobwear,
+                    color: kBrightnessAwareColor(context,
+                        lightColor: Colors.white, darkColor: Colors.black),
+                    size: kScreenAwareSize(80.0, context),
+                  ),
                 ),
-                child: Icon(
-                  CustomIcons.mobwear,
-                  color: kBrightnessAwareColor(context,
-                      lightColor: Colors.white, darkColor: Colors.black),
-                  size: kScreenAwareSize(80.0, context),
+                FutureBuilder(
+                  future: getAppVersion(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState != ConnectionState.done) {
+                      return Text('...');
+                    }
+                    return aboutListTile(
+                        title: 'MobWear', subtitle: snapshot.data);
+                  },
                 ),
-              ),
-              FutureBuilder(
-                future: getAppVersion(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState != ConnectionState.done) {
-                    return Text('...');
-                  }
-                  return aboutListTile(
-                      title: 'MobWear', subtitle: snapshot.data);
-                },
-              ),
-              FutureBuilder(
-                future: getDeviceID(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState != ConnectionState.done) {
-                    return Text('...');
-                  }
-                  return aboutListTile(
-                      title: 'Device ID',
-                      subtitle: snapshot.data,
-                      icon: LineAwesomeIcons.mobile_phone);
-                },
-              ),
-              aboutListTile(
-                  title: 'Rate this app',
-                  subtitle: 'If you love it and you know it give it 5 stars',
-                  icon: LineAwesomeIcons.star_o),
-              aboutListTile(
-                  title: 'Share this app',
-                  subtitle: 'Don\'t have all the fun alone',
-                  icon: LineAwesomeIcons.share_alt),
-              aboutListTile(
-                  title: 'Send bug report',
-                  subtitle: 'A bug sent is a bug squashed',
-                  icon: LineAwesomeIcons.bug),
-              aboutListTile(
-                  title: 'Developer Info', icon: LineAwesomeIcons.code),
-            ],
+                FutureBuilder(
+                  future: getDeviceID(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState != ConnectionState.done) {
+                      return Text('...');
+                    }
+                    return aboutListTile(
+                        title: 'Device ID',
+                        subtitle: snapshot.data,
+                        icon: LineAwesomeIcons.mobile_phone);
+                  },
+                ),
+                aboutListTile(
+                    title: 'Rate this app',
+                    subtitle: 'If you love it and you know it give it 5 stars',
+                    icon: LineAwesomeIcons.star_o),
+                aboutListTile(
+                    title: 'Share this app',
+                    subtitle: 'Don\'t have all the fun alone',
+                    icon: LineAwesomeIcons.share_alt),
+                aboutListTile(
+                    title: 'Send bug report',
+                    subtitle: 'A bug sent is a bug squashed',
+                    icon: LineAwesomeIcons.bug),
+                aboutListTile(
+                    title: 'Developer Info', icon: LineAwesomeIcons.code),
+              ],
+            ),
           ),
         ),
       ),

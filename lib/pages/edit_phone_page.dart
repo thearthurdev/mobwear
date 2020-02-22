@@ -80,6 +80,9 @@ class _EditPhonePageState extends State<EditPhonePage>
 
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
+        statusBarColor: kThemeBrightness(context) == Brightness.light
+            ? Colors.white
+            : Colors.black,
         systemNavigationBarColor: kThemeBrightness(context) == Brightness.light
             ? Colors.white
             : Colors.black,

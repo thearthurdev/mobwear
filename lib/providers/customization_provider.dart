@@ -10,6 +10,7 @@ class CustomizationProvider extends ChangeNotifier {
   bool isSharePage = false;
   bool isCustomizationCopied = false;
 
+  //Box opened in this class to listen to changes.
   Box phonesBox = Hive.box(PhoneDatabase.phones);
 
   int currentPhoneID;
@@ -110,9 +111,8 @@ class CustomizationProvider extends ChangeNotifier {
   int aspectRatioIndex = 0;
   int watermarkIndex = 0;
   int watermarkPositionIndex = 7;
-  Color watermarkColor;
   int selectedWatermarkIndex;
-  Color selectedWatermarkColor;
+  Color watermarkColor, selectedWatermarkColor;
 
   Map<String, bool> myWatermarkOptions = {
     'Show watermark': true,

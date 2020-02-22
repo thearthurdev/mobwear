@@ -26,6 +26,7 @@ class _WatermarkPickerDialogState extends State<WatermarkPickerDialog> {
   Widget build(BuildContext context) {
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
         systemNavigationBarColor: kThemeBrightness(context) == Brightness.light
             ? Color(0xFF757575)
             : Color(0xFF060606),
@@ -126,8 +127,8 @@ class _WatermarkPickerDialogState extends State<WatermarkPickerDialog> {
                     children: <Widget>[
                       Expanded(
                         child: WatermarkOptionsButton(
-                          title: 'Position',
-                          subtitle: Position
+                          title: 'MyPosition',
+                          subtitle: MyPosition
                               .myPositions[provider.watermarkPositionIndex]
                               .name,
                         ),

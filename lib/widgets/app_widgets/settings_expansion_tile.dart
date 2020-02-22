@@ -58,19 +58,22 @@ class SettingsExpansionTile extends StatelessWidget {
           ),
           children: List.generate(
             settingMap.length,
-            (i) {
+            (int i) {
               return ListTile(
                 title: Text(
                   settingMap.keys.elementAt(i),
                   style: kSubtitleTextStyle,
                 ),
-                trailing: selectedOptionCheck == settingMap.values.elementAt(i)
-                    ? Icon(
-                        LineAwesomeIcons.check_circle,
-                        color: kBrightnessAwareColor(context,
-                            lightColor: Colors.black, darkColor: Colors.white),
-                      )
-                    : null,
+                trailing:
+                    selectedOptionCheck == settingMap.values.elementAt(i) ||
+                            selectedOptionCheck == i
+                        ? Icon(
+                            LineAwesomeIcons.check_circle,
+                            color: kBrightnessAwareColor(context,
+                                lightColor: Colors.black,
+                                darkColor: Colors.white),
+                          )
+                        : null,
                 onTap: () => onOptionSelected(i),
               );
             },
