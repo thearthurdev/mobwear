@@ -59,9 +59,8 @@ class _HomePageState extends State<HomePage> {
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        systemNavigationBarColor: kThemeBrightness(context) == Brightness.light
-            ? Colors.white
-            : Colors.black,
+        systemNavigationBarColor: kBrightnessAwareColor(context,
+            lightColor: Colors.white, darkColor: Colors.black),
         systemNavigationBarIconBrightness:
             kThemeBrightness(context) == Brightness.light
                 ? Brightness.dark

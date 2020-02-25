@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:mobwear/data/models/phone_model.dart';
@@ -8,11 +10,13 @@ import 'package:provider/provider.dart';
 
 class PhoneCarousel extends StatefulWidget {
   final List<PhoneModel> phonesList;
-  final SwiperController controller;
+  final SwiperController swiperController;
+  final PageController tabsPageController;
 
   PhoneCarousel({
     @required this.phonesList,
-    @required this.controller,
+    @required this.swiperController,
+    @required this.tabsPageController,
   });
 
   @override
@@ -21,66 +25,99 @@ class PhoneCarousel extends StatefulWidget {
 
 class _PhoneCarouselState extends State<PhoneCarousel> {
   bool autoplay;
-  SwiperController controller;
+  SwiperController swiperController;
+  PageController tabsPageController;
 
   @override
   void initState() {
     super.initState();
-    controller = widget.controller;
+    swiperController = widget.swiperController;
+    tabsPageController = widget.tabsPageController;
   }
 
   @override
   Widget build(BuildContext context) {
     List<PhoneModel> phonesList = widget.phonesList;
     int reverseIndex(i) => phonesList.length - 1 - i;
+    bool userIsSwiping = false;
+    bool autoplayCarousel =
+        Provider.of<SettingsProvider>(context).autoplayCarousel;
 
-    return Swiper(
-      controller: controller,
-      itemCount: phonesList.length,
-      itemBuilder: (context, i) {
-        return Padding(
-          padding: EdgeInsets.all(kScreenAwareSize(24.0, context)),
-          child: Hero(
-            tag: phonesList[reverseIndex(i)].id,
-            child: phonesList[reverseIndex(i)].phone,
-          ),
-        );
+    return NotificationListener(
+      onNotification: (ScrollNotification notification) {
+        if (notification is ScrollStartNotification) {
+          if (notification.dragDetails != null) {
+            userIsSwiping = true;
+          }
+        } else if (notification is ScrollEndNotification) {
+          userIsSwiping = false;
+        }
+        return false;
       },
-      autoplay: Provider.of<SettingsProvider>(context).autoplayCarousel,
-      autoplayDisableOnInteraction: true,
-      duration: 800,
-      outer: true,
-      fade: 0.0,
-      viewportFraction: 1.0,
-      scale: 1.0,
-      pagination: SwiperPagination(
-        margin: EdgeInsets.only(right: 50.0, bottom: 8.0),
-        builder: DotSwiperPaginationBuilder(
-          activeColor: kBrightnessAwareColor(context,
-              lightColor: Colors.black, darkColor: Colors.white),
-          color: kBrightnessAwareColor(context,
-              lightColor: Colors.grey[350], darkColor: Colors.grey[800]),
-          size: kScreenAwareSize(8.0, context),
-          activeSize: kScreenAwareSize(8.0, context),
+      child: Swiper(
+        controller: swiperController,
+        itemCount: phonesList.length,
+        autoplay: autoplayCarousel,
+        duration: 800,
+        outer: true,
+        fade: 0.0,
+        scale: 1.0,
+        itemBuilder: (context, i) {
+          return Padding(
+            padding: EdgeInsets.all(kScreenAwareSize(24.0, context)),
+            child: Hero(
+              tag: phonesList[reverseIndex(i)].id,
+              child: phonesList[reverseIndex(i)].phone,
+            ),
+          );
+        },
+        pagination: SwiperPagination(
+          margin: EdgeInsets.only(right: 50.0, bottom: 8.0),
+          builder: DotSwiperPaginationBuilder(
+            activeColor: kBrightnessAwareColor(context,
+                lightColor: Colors.black, darkColor: Colors.white),
+            color: kBrightnessAwareColor(context,
+                lightColor: Colors.grey[350], darkColor: Colors.grey[800]),
+            size: kScreenAwareSize(8.0, context),
+            activeSize: kScreenAwareSize(8.0, context),
+          ),
         ),
-      ),
-      onTap: (i) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return EditPhonePage(
-                phone: phonesList[reverseIndex(i)].phone,
-                phoneID: phonesList[reverseIndex(i)].id,
-              );
+        onTap: (i) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return EditPhonePage(
+                  phone: phonesList[reverseIndex(i)].phone,
+                  phoneID: phonesList[reverseIndex(i)].id,
+                );
+              },
+            ),
+          ).whenComplete(
+            () {
+              tabsPageController.jumpToPage(
+                  phonesList[reverseIndex(i)].phone.getPhoneBrandIndex);
+              swiperController.move(i, animation: false);
             },
-          ),
-        ).whenComplete(
-          () {
-            widget.controller.move(i, animation: false);
-          },
-        );
-      },
+          );
+        },
+        onIndexChanged: (i) {
+          if (i == phonesList.length - 1 &&
+              autoplayCarousel &&
+              !userIsSwiping) {
+            int randomInt = Random().nextInt(PhoneModel.phonesLists.length);
+            if (randomInt != tabsPageController.page.toInt()) {
+              Future.delayed(Duration(milliseconds: 1200)).whenComplete(() {
+                tabsPageController.animateToPage(
+                  randomInt,
+                  duration: Duration(milliseconds: 600),
+                  curve: Curves.decelerate,
+                );
+              });
+            }
+          }
+        },
+      ),
     );
   }
 }

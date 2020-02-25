@@ -12,9 +12,8 @@ class AspectRatioPickerDialog extends StatelessWidget {
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        systemNavigationBarColor: kThemeBrightness(context) == Brightness.light
-            ? Color(0xFF757575)
-            : Color(0xFF060606),
+        systemNavigationBarColor: kBrightnessAwareColor(context,
+            lightColor: Color(0xFF757575), darkColor: Color(0xFF060606)),
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: SimpleDialog(

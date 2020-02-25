@@ -27,9 +27,8 @@ class _WatermarkPickerDialogState extends State<WatermarkPickerDialog> {
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        systemNavigationBarColor: kThemeBrightness(context) == Brightness.light
-            ? Color(0xFF757575)
-            : Color(0xFF060606),
+        systemNavigationBarColor: kBrightnessAwareColor(context,
+            lightColor: Color(0xFF757575), darkColor: Color(0xFF060606)),
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: Consumer<CustomizationProvider>(
@@ -127,7 +126,7 @@ class _WatermarkPickerDialogState extends State<WatermarkPickerDialog> {
                     children: <Widget>[
                       Expanded(
                         child: WatermarkOptionsButton(
-                          title: 'MyPosition',
+                          title: 'Position',
                           subtitle: MyPosition
                               .myPositions[provider.watermarkPositionIndex]
                               .name,

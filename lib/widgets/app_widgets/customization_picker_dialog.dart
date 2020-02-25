@@ -64,9 +64,11 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        systemNavigationBarColor: kThemeBrightness(context) == Brightness.light
-            ? Color(0xFF757575)
-            : isSharePage ? Color(0xFF060606) : Colors.black,
+        systemNavigationBarColor: kBrightnessAwareColor(
+          context,
+          lightColor: Color(0xFF757575),
+          darkColor: isSharePage ? Color(0xFF060606) : Colors.black,
+        ),
         systemNavigationBarIconBrightness:
             kThemeBrightness(context) == Brightness.light
                 ? Brightness.dark
