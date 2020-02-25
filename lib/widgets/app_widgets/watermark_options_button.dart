@@ -38,13 +38,13 @@ class WatermarkOptionsButton extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-        trailing: title == 'Position'
+        trailing: title == 'MyPosition'
             ? null
             : CustomizationIndicator(
                 color: watermarkColor,
                 size: kScreenAwareSize(25.0, context),
               ),
-        onTap: title == 'Position'
+        onTap: title == 'MyPosition'
             ? () {
                 showDialog(
                   context: context,

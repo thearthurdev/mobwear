@@ -11,6 +11,6 @@ class PhoneModel {
   static List<List<PhoneModel>> phonesLists = [
     pixelPhonesList,
     iPhonePhonesList,
-    galaxyPhonesList,
+    galaxyPhonesList
   ];
 }

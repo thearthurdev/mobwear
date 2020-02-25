@@ -57,7 +57,6 @@ class HomeVerticalTabs extends StatelessWidget {
               if (!snapshot.hasData || snapshot.hasError) {
                 return Center(child: NoPhonesFound());
               }
-
               dynamic view() {
                 if (snapshot.data == PhoneGroupView.grid)
                   return PhoneGrid(
@@ -68,8 +67,7 @@ class HomeVerticalTabs extends StatelessWidget {
                 if (snapshot.data == PhoneGroupView.carousel)
                   return PhoneCarousel(
                     phonesList: phonesLists[i],
-                    swiperController: phoneCarouselController,
-                    tabsPageController: tabsPageController,
+                    controller: phoneCarouselController,
                   );
               }
 

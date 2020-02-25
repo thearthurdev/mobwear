@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/services/phone_specs.dart';
@@ -143,7 +144,7 @@ class _SpecsScreenState extends State<SpecsScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 0.0, top: 20.0),
                   child: IconButton(
-                    icon: Icon(LineAwesomeIcons.angle_left),
+                    icon: Icon(EvaIcons.arrowIosBack),
                     onPressed: () {
                       page = 0;
                       pageController.animateToPage(

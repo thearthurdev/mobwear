@@ -8,9 +8,8 @@ import 'package:mobwear/database/settings_database.dart';
 import 'package:mobwear/pages/about_page.dart';
 import 'package:mobwear/pages/edit_phone_page.dart';
 import 'package:mobwear/pages/home_page.dart';
-import 'package:mobwear/pages/onboarding_page.dart';
 import 'package:mobwear/pages/settings_page.dart';
-import 'package:mobwear/pages/picture_mode_page.dart';
+import 'package:mobwear/pages/share_phone_Page.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/providers/settings_provider.dart';
 import 'package:mobwear/providers/theme_provider.dart';
@@ -18,6 +17,11 @@ import 'package:mobwear/services/scroll_behaviour.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:provider/provider.dart';
 
+// void main() => runApp(
+//       DevicePreview(
+//         builder: (context) => MobWear(),
+//       ),
+//     );
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -39,8 +43,6 @@ void main() async {
 
   openBoxes().whenComplete(
     () => runApp(
-      // DevicePreview(
-      //   builder: (context) => MultiProvider(
       MultiProvider(
         providers: [
           ChangeNotifierProvider<CustomizationProvider>(
@@ -53,16 +55,12 @@ void main() async {
         child: MobWear(),
       ),
     ),
-    // ),
   );
 }
 
 class MobWear extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Box settingsBox = Hive.box(SettingsDatabase.settings);
-    bool isFirstLaunch = settingsBox.get(SettingsDatabase.initLaunchKey) == 0;
-
     return MaterialApp(
       title: 'MobWear',
       themeMode: Provider.of<ThemeProvider>(context).getThemeMode,
@@ -76,13 +74,13 @@ class MobWear extends StatelessWidget {
       },
       // locale: DevicePreview.of(context).locale,
       // builder: DevicePreview.appBuilder,
-      home: isFirstLaunch ? OnboardingPage() : HomePage(),
+      home: HomePage(),
       debugShowCheckedModeBanner: false,
       debugShowMaterialGrid: false,
       routes: {
         SettingsPage.id: (context) => SettingsPage(),
         EditPhonePage.id: (context) => EditPhonePage(),
-        PictureModePage.id: (context) => PictureModePage(),
+        SharePhonePage.id: (context) => SharePhonePage(),
         AboutPage.id: (context) => AboutPage(),
       },
     );

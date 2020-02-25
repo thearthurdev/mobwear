@@ -10,7 +10,7 @@ class CustomizationProvider extends ChangeNotifier {
   bool isSharePage = false;
   bool isCustomizationCopied = false;
 
-  //Box opened in this class to listen to changes. DO NOT REMOVE!
+  //Box opened in this class to listen to changes.
   Box phonesBox = Hive.box(PhoneDatabase.phones);
 
   int currentPhoneID;
@@ -40,6 +40,7 @@ class CustomizationProvider extends ChangeNotifier {
 
   void copyCustomization(bool noTexture) {
     resetSelectedValues();
+
     if (!noTexture) {
       colorSelected(currentColors[currentSide]);
       textureSelected(currentTextures[currentSide].asset);
@@ -73,55 +74,8 @@ class CustomizationProvider extends ChangeNotifier {
       currentTextures[currentSide].blendColor = Colors.deepOrange;
       currentTextures[currentSide].blendModeIndex = 0;
     }
-
     updateDatabase();
     notifyListeners();
-  }
-
-  Color tempColor;
-  String tempTexture;
-  Color tempBlendColor;
-  int tempBlendModeIndex;
-
-  void setTempValues(bool noTexture) {
-    resetTempValues();
-    if (!noTexture) {
-      tempColor = currentColors[currentSide];
-      tempTexture = currentTextures[currentSide].asset;
-      tempBlendColor = currentTextures[currentSide].blendColor;
-      tempBlendModeIndex = currentTextures[currentSide].blendModeIndex;
-    } else {
-      tempColor = currentColors[currentSide];
-    }
-  }
-
-  void undo(bool noTexture) {
-    if (!noTexture) {
-      colorSelected(tempColor);
-      textureSelected(tempTexture);
-      textureBlendColorSelected(tempBlendColor);
-      textureBlendModeIndexSelected(tempBlendModeIndex);
-    } else {
-      colorSelected(tempColor);
-    }
-
-    if (tempTexture != null) {
-      changeTexture();
-    } else {
-      changeColor(noTexture);
-    }
-
-    isCustomizationCopied = false;
-
-    resetTempValues();
-    notifyListeners();
-  }
-
-  void resetTempValues() {
-    tempColor = null;
-    tempTexture = null;
-    tempBlendColor = null;
-    tempBlendModeIndex = null;
   }
 
   void updateDatabase() {

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive/hive.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/custom_icons/custom_icons.dart';
-import 'package:mobwear/database/settings_database.dart';
 import 'package:mobwear/utils/constants.dart';
-import 'package:mobwear/widgets/app_widgets/developer_info_dialog.dart';
 import 'package:package_info/package_info.dart';
 import 'package:device_id/device_id.dart';
 
@@ -27,8 +24,9 @@ class AboutPage extends StatelessWidget {
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        systemNavigationBarColor: kBrightnessAwareColor(context,
-            lightColor: Colors.white, darkColor: Colors.black),
+        systemNavigationBarColor: kThemeBrightness(context) == Brightness.light
+            ? Colors.white
+            : Colors.black,
         systemNavigationBarIconBrightness:
             kThemeBrightness(context) == Brightness.light
                 ? Brightness.dark
@@ -84,43 +82,25 @@ class AboutPage extends StatelessWidget {
                       return Text('...');
                     }
                     return aboutListTile(
-                      title: 'Device ID',
-                      subtitle: snapshot.data,
-                      icon: LineAwesomeIcons.mobile_phone,
-                    );
+                        title: 'Device ID',
+                        subtitle: snapshot.data,
+                        icon: LineAwesomeIcons.mobile_phone);
                   },
                 ),
                 aboutListTile(
-                  title: 'Rate this app',
-                  subtitle: 'If you love it and you know it give it 5 stars',
-                  icon: LineAwesomeIcons.star_o,
-                  onTap: () {},
-                ),
+                    title: 'Rate this app',
+                    subtitle: 'If you love it and you know it give it 5 stars',
+                    icon: LineAwesomeIcons.star_o),
                 aboutListTile(
-                  title: 'Share this app',
-                  subtitle: 'Don\'t have all the fun alone',
-                  icon: LineAwesomeIcons.share_alt,
-                  onTap: () {},
-                ),
+                    title: 'Share this app',
+                    subtitle: 'Don\'t have all the fun alone',
+                    icon: LineAwesomeIcons.share_alt),
                 aboutListTile(
                     title: 'Send bug report',
                     subtitle: 'A bug sent is a bug squashed',
-                    icon: LineAwesomeIcons.bug,
-                    onTap: () {
-                      Hive.box(SettingsDatabase.settings).clear();
-                    }),
+                    icon: LineAwesomeIcons.bug),
                 aboutListTile(
-                  title: 'Developer Info',
-                  icon: LineAwesomeIcons.code,
-                  onTap: () {
-                    showDialog<Widget>(
-                      context: context,
-                      builder: (BuildContext context) => Dialog(
-                        child: DeveloperInfoDialog(),
-                      ),
-                    );
-                  },
-                ),
+                    title: 'Developer Info', icon: LineAwesomeIcons.code),
               ],
             ),
           ),

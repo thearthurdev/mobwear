@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/utils/constants.dart';
@@ -93,7 +94,7 @@ class SearchBar extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 16.0),
                     child: GestureDetector(
                       child: Icon(
-                        LineAwesomeIcons.search,
+                        EvaIcons.search,
                         color: kThemeBrightness(context) == Brightness.light
                             ? Colors.black87
                             : Colors.white70,
