@@ -2,7 +2,6 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -17,23 +16,24 @@ import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/aspect_ratio_picker_dialog.dart';
 import 'package:mobwear/widgets/app_widgets/customization_picker_dialog.dart';
 import 'package:mobwear/widgets/app_widgets/fab_bottom_appbar.dart';
+import 'package:mobwear/widgets/app_widgets/save_image_dialog.dart';
 import 'package:mobwear/widgets/app_widgets/watermark_picker_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
-class SharePhonePage extends StatefulWidget {
-  static String id = '/SharePhonePage';
+class PictureModePage extends StatefulWidget {
+  static String id = '/PictureModePage';
 
-  final phone;
-  final phoneID;
+  final dynamic phone;
+  final int phoneID;
 
-  SharePhonePage({this.phone, this.phoneID});
+  PictureModePage({this.phone, this.phoneID});
 
   @override
-  _SharePhonePageState createState() => _SharePhonePageState();
+  _PictureModePageState createState() => _PictureModePageState();
 }
 
-class _SharePhonePageState extends State<SharePhonePage> {
+class _PictureModePageState extends State<PictureModePage> {
   Matrix4 matrix;
   GlobalKey matrixDetectorKey = GlobalKey();
   Color initRandomColor, backgroundColor;
@@ -52,9 +52,8 @@ class _SharePhonePageState extends State<SharePhonePage> {
   Widget build(BuildContext context) {
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
-        systemNavigationBarColor: kThemeBrightness(context) == Brightness.light
-            ? Colors.white
-            : Color(0xFF0C0C0C),
+        systemNavigationBarColor: kBrightnessAwareColor(context,
+            lightColor: Colors.white, darkColor: Color(0xFF0C0C0C)),
         systemNavigationBarIconBrightness:
             kThemeBrightness(context) == Brightness.light
                 ? Brightness.dark
@@ -112,7 +111,7 @@ class _SharePhonePageState extends State<SharePhonePage> {
 
   Widget buildBottomAppBar() {
     return FABBottomAppBar(
-      centerItemText: 'Share',
+      centerItemText: 'Save',
       foregroundColor: kBrightnessAwareColor(context,
           lightColor: Colors.black, darkColor: Colors.white),
       selectedColor: Theme.of(context).brightness == Brightness.light
@@ -132,7 +131,7 @@ class _SharePhonePageState extends State<SharePhonePage> {
   FloatingActionButton buildFAB(BuildContext context) {
     return FloatingActionButton(
       elevation: 2.0,
-      onPressed: captureImage,
+      onPressed: () => saveImage(),
       child: isCapturing
           ? Container(
               height: 24.0,
@@ -146,7 +145,7 @@ class _SharePhonePageState extends State<SharePhonePage> {
                 ),
               ),
             )
-          : Icon(LineAwesomeIcons.share_alt),
+          : Icon(LineAwesomeIcons.save),
     );
   }
 
@@ -282,35 +281,42 @@ class _SharePhonePageState extends State<SharePhonePage> {
     }
   }
 
-  void captureImage() async {
+  Future<void> saveImage() async {
+    captureImage().then(
+      (imageBytes) {
+        showDialog<Widget>(
+          context: context,
+          builder: (BuildContext context) => Dialog(
+            child: SaveImageDialog(
+              bytes: imageBytes,
+              phoneName: widget.phone.getPhoneName,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<Uint8List> captureImage() async {
+    Uint8List imageBytes;
+
+    setState(() => isCapturing = true);
     try {
-      setState(() => isCapturing = true);
       RenderRepaintBoundary boundary =
           captureKey.currentContext.findRenderObject();
       ui.Image image = await boundary.toImage(pixelRatio: 4.0);
       ByteData byteData =
           await image.toByteData(format: ui.ImageByteFormat.png);
-      var pngBytes = byteData.buffer.asUint8List();
+      imageBytes = byteData.buffer.asUint8List();
       // var bs64 = base64Encode(pngBytes);
-      setState(() => isCapturing = false);
-      share(pngBytes);
     } catch (e) {
-      String errorText = 'Unable to share. Please try again later';
-      setState(() => isCapturing = false);
+      String errorText = 'Unable to save. Please try again later';
       Toast.show(errorText, context);
       print(e);
+    } finally {
+      setState(() => isCapturing = false);
     }
-  }
-
-  void share(Uint8List bytes) async {
-    await Share.file(
-      'Share your ${widget.phone.getPhoneName}',
-      '${widget.phone.getPhoneName}.png',
-      bytes,
-      'image/png',
-      text:
-          'Check out this ${widget.phone.getPhoneName} I customized with MobWear!',
-    );
+    return imageBytes;
   }
 
   void changeBackground(BuildContext context) {

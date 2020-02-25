@@ -21,9 +21,10 @@ class IndicatorDot extends StatelessWidget {
 
   Widget indicatorDot(bool isSelected, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 6.0),
+      padding: const EdgeInsets.only(right: 8.0),
       child: GestureDetector(
-        child: Container(
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 200),
           width: kScreenAwareSize(size, context),
           height: kScreenAwareSize(size, context),
           decoration: BoxDecoration(
@@ -36,7 +37,9 @@ class IndicatorDot extends StatelessWidget {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: isSelected ? Colors.black26 : Colors.transparent,
+                  color: isSelected
+                      ? Colors.blueGrey.withOpacity(0.5)
+                      : Colors.transparent,
                   offset: Offset(0.0, 5.0),
                   blurRadius: 10.0,
                 ),
@@ -49,13 +52,9 @@ class IndicatorDot extends StatelessWidget {
 }
 
 class PageIndicator extends StatefulWidget {
-  const PageIndicator({
-    @required this.currentSectionIndex,
-    @required this.pageController,
-  });
-
   final int currentSectionIndex;
-  final PageController pageController;
+
+  const PageIndicator(this.currentSectionIndex);
 
   @override
   _PageIndicatorState createState() => _PageIndicatorState();
@@ -72,15 +71,6 @@ class _PageIndicatorState extends State<PageIndicator> {
         return IndicatorDot(
           isSelected: index == widget.currentSectionIndex,
           context: context,
-          onPressed: () {
-            setState(() {
-              widget.pageController.animateToPage(
-                index,
-                duration: Duration(milliseconds: 300),
-                curve: Curves.decelerate,
-              );
-            });
-          },
         );
       },
     );

@@ -183,34 +183,48 @@ class CustomizationPickerTile extends StatelessWidget {
 
   void onResetPressed(BuildContext context) {
     Provider.of<CustomizationProvider>(context).setCurrentSide(index);
+    Provider.of<CustomizationProvider>(context).setTempValues(noTexture);
     Provider.of<CustomizationProvider>(context).resetCustomization(noTexture);
-    CustomSnackBar.showSnackBar(context,
-        '${Provider.of<CustomizationProvider>(context).currentSide} customization reset');
+    CustomSnackBar.showSnackBar(
+      context,
+      noTexture: noTexture,
+      undo: true,
+      text:
+          '${Provider.of<CustomizationProvider>(context).currentSide} customization reset',
+    );
   }
 
   void onCopyPressed(BuildContext context) {
     Provider.of<CustomizationProvider>(context).setCurrentSide(index);
     Provider.of<CustomizationProvider>(context).setPreviousSide();
     Provider.of<CustomizationProvider>(context).copyCustomization(noTexture);
-    CustomSnackBar.showSnackBar(context,
-        '${Provider.of<CustomizationProvider>(context).currentSide} customization copied');
+    CustomSnackBar.showSnackBar(
+      context,
+      noTexture: noTexture,
+      text:
+          '${Provider.of<CustomizationProvider>(context).currentSide} customization copied',
+    );
   }
 
   void onPastePressed(BuildContext context) {
     String previousSide =
         Provider.of<CustomizationProvider>(context).previousSide;
-
     Provider.of<CustomizationProvider>(context).setCurrentSide(index);
+    Provider.of<CustomizationProvider>(context).setTempValues(noTexture);
     try {
       Provider.of<CustomizationProvider>(context).pasteCustomization(noTexture);
       CustomSnackBar.showSnackBar(
         context,
-        '$previousSide customization pasted to ${Provider.of<CustomizationProvider>(context).currentSide}',
+        noTexture: noTexture,
+        undo: true,
+        text:
+            '$previousSide customization pasted to ${Provider.of<CustomizationProvider>(context).currentSide}',
       );
     } catch (e) {
       CustomSnackBar.showSnackBar(
         context,
-        'Cannot apply texture here',
+        noTexture: noTexture,
+        text: 'Cannot apply texture here',
       );
     }
   }

@@ -23,12 +23,9 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
-        statusBarColor: kThemeBrightness(context) == Brightness.light
-            ? Colors.white
-            : Colors.black,
-        systemNavigationBarColor: kThemeBrightness(context) == Brightness.light
-            ? Colors.white
-            : Colors.black,
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: kBrightnessAwareColor(context,
+            lightColor: Colors.white, darkColor: Colors.black),
         systemNavigationBarIconBrightness:
             kThemeBrightness(context) == Brightness.light
                 ? Brightness.dark
