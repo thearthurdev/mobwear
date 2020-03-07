@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/services/phone_specs.dart';
 import 'package:mobwear/utils/constants.dart';
+import 'package:mobwear/widgets/app_widgets/circle_accent_button.dart';
 
 class SpecsScreen extends StatefulWidget {
   final String phoneBrand, phoneModel, phoneName;
@@ -53,8 +52,6 @@ class _SpecsScreenState extends State<SpecsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int randomInt = Random().nextInt(10);
-
     return Container(
       child: PageView(
         controller: pageController,
@@ -76,15 +73,11 @@ class _SpecsScreenState extends State<SpecsScreen> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    CircleAccentButton(LineAwesomeIcons.cloud, randomInt),
+                    CircleAccentButton(icon: LineAwesomeIcons.gears),
                     SizedBox(height: 8.0),
                     Text(
-                      'No Data',
-                      style: TextStyle(
-                        color: Colors.grey[500],
-                        fontFamily: 'Quicksand',
-                        fontWeight: FontWeight.bold,
-                      ),
+                      'No specs found',
+                      style: kTitleTextStyle,
                     ),
                   ],
                 );
@@ -116,7 +109,7 @@ class _SpecsScreenState extends State<SpecsScreen> {
                       return Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: GestureDetector(
-                          child: CircleAccentButton(icon, i),
+                          child: CircleAccentButton(icon: icon, index: i),
                           onTap: () {
                             pageController.animateToPage(
                               1,
@@ -163,8 +156,8 @@ class _SpecsScreenState extends State<SpecsScreen> {
                     children: <Widget>[
                       SizedBox(height: 16.0),
                       CircleAccentButton(
-                        specIcons[selectedSpec].icon ?? Icons.close,
-                        selectedSpec ?? 0,
+                        icon: specIcons[selectedSpec].icon ?? Icons.close,
+                        index: selectedSpec ?? 0,
                       ),
                       SizedBox(height: 16.0),
                       Text(
@@ -204,29 +197,6 @@ class _SpecsScreenState extends State<SpecsScreen> {
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-class CircleAccentButton extends StatelessWidget {
-  final IconData icon;
-  final int index;
-  const CircleAccentButton(this.icon, this.index);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: kScreenAwareSize(60.0, context),
-      height: kScreenAwareSize(60.0, context),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.accents[index].withOpacity(0.4),
-      ),
-      child: Icon(
-        icon,
-        size: kScreenAwareSize(25.0, context),
-        color: Colors.primaries[index],
       ),
     );
   }

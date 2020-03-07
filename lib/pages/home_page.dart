@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/custom_icons/custom_icons.dart';
 import 'package:mobwear/data/models/texture_model.dart';
+import 'package:mobwear/pages/gallery_page.dart';
 import 'package:mobwear/providers/settings_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/phone_group_view_picker_button.dart';
@@ -14,7 +15,7 @@ import 'package:mobwear/widgets/app_widgets/home_vertical_tabs.dart';
 import 'package:mobwear/database/phone_database.dart';
 
 class HomePage extends StatefulWidget {
-  static String id = '/';
+  static const String id = '/';
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -125,6 +126,12 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(LineAwesomeIcons.image),
+          onPressed: () {
+            Navigator.pushNamed(context, GalleryPage.id);
+          },
         ),
       ),
     );

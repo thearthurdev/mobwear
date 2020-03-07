@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:matrix_gesture_detector/matrix_gesture_detector.dart';
 import 'package:mobwear/data/models/aspect_ratio_model.dart';
-import 'package:mobwear/data/models/brand_icon_model.dart';
+import 'package:mobwear/data/models/brand_model.dart';
 import 'package:mobwear/data/models/position_model.dart';
 import 'package:mobwear/data/models/texture_model.dart';
 import 'package:mobwear/providers/customization_provider.dart';
@@ -22,7 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 class PictureModePage extends StatefulWidget {
-  static String id = '/PictureModePage';
+  static const String id = '/PictureModePage';
 
   final dynamic phone;
   final int phoneID;
@@ -99,7 +99,6 @@ class _PictureModePageState extends State<PictureModePage> {
         child: Text('Picture Mode'),
       ),
       centerTitle: true,
-      automaticallyImplyLeading: false,
       leading: IconButton(
         icon: Icon(LineAwesomeIcons.angle_left),
         onPressed: () {
@@ -289,7 +288,7 @@ class _PictureModePageState extends State<PictureModePage> {
           builder: (BuildContext context) => Dialog(
             child: SaveImageDialog(
               bytes: imageBytes,
-              phoneName: widget.phone.getPhoneName,
+              phone: widget.phone,
             ),
           ),
         );

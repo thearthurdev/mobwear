@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:mobwear/custom_icons/custom_icons.dart';
-import 'package:mobwear/data/models/brand_icon_model.dart';
+import 'package:mobwear/data/models/brand_model.dart';
 import 'package:mobwear/data/models/phone_model.dart';
 import 'package:mobwear/providers/settings_provider.dart';
 import 'package:mobwear/utils/constants.dart';
@@ -26,8 +26,8 @@ class HomeVerticalTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     List<List<PhoneModel>> phonesLists = PhoneModel.phonesLists;
 
-    List<Tab> tabs = List<Tab>.generate(BrandIcon.myBrandIcons.length, (i) {
-      BrandIcon myBrandIcon = BrandIcon.myBrandIcons[i];
+    List<Tab> tabs = List<Tab>.generate(BrandIcon.brandIcons.length, (i) {
+      BrandIcon myBrandIcon = BrandIcon.brandIcons[i];
       return Tab(
         icon: Icon(
           myBrandIcon.icon,
@@ -46,11 +46,14 @@ class HomeVerticalTabs extends StatelessWidget {
               if (snapshot.data == null &&
                   snapshot.connectionState != ConnectionState.done) {
                 return Center(
-                  child: Icon(
-                    CustomIcons.mobwear,
-                    color: kBrightnessAwareColor(context,
-                        lightColor: Colors.black, darkColor: Colors.white),
-                    size: kScreenAwareSize(40.0, context),
+                  child: Container(
+                    margin: EdgeInsets.only(right: 52.0),
+                    child: Icon(
+                      CustomIcons.mobwear,
+                      color: kBrightnessAwareColor(context,
+                          lightColor: Colors.black, darkColor: Colors.white),
+                      size: kScreenAwareSize(40.0, context),
+                    ),
                   ),
                 );
               }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobwear/data/models/brand_icon_model.dart';
+import 'package:mobwear/data/models/brand_model.dart';
 import 'package:mobwear/data/models/position_model.dart';
 import 'package:mobwear/data/models/texture_model.dart';
 import 'package:mobwear/providers/customization_provider.dart';

@@ -30,7 +30,7 @@ class PhoneGrid extends StatelessWidget {
         ),
         itemBuilder: (context, i) {
           if (i == phonesList.length && i.isOdd) {
-            // BrandIcon myBrandIcon = BrandIcon.myBrandIcons[brandIndex];
+            // BrandIcon myBrandIcon = BrandIcon.brandIcons[brandIndex];
 
             // return Center(
             //   child: Icon(

@@ -9,7 +9,7 @@ import 'package:mobwear/widgets/app_widgets/settings_expansion_tile.dart';
 import 'package:provider/provider.dart';
 
 class SettingsPage extends StatefulWidget {
-  static final String id = '/SettingsPage';
+  static const String id = '/SettingsPage';
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -35,7 +35,6 @@ class _SettingsPageState extends State<SettingsPage> {
         appBar: AppBar(
           title: Text('Settings'),
           centerTitle: true,
-          automaticallyImplyLeading: false,
           leading: IconButton(
             icon: Icon(LineAwesomeIcons.angle_left),
             onPressed: () => Navigator.pop(context),

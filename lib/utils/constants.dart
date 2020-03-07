@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobwear/data/models/blend_mode_model.dart';
+import 'package:mobwear/data/models/brand_model.dart';
 import 'package:mobwear/data/models/texture_model.dart';
 
 double baseHeight = 640.0;
@@ -71,24 +72,41 @@ String kGetTextureBlendModeName(int blendModeIndex) {
   return MyBlendMode.myBlendModes[blendModeIndex].name;
 }
 
-// int kGetTextureBlendModeIndex(BlendMode blendModeIndex) {
-//   int textureBlendModeIndex;
-//   int i = 0;
-//   for (MyBlendMode myBlendMode in myBlendModes) {
-//     if (myBlendMode.mode == blendModeIndex) {
-//       textureBlendModeIndex = i;
-//     }
-//     i++;
-//   }
-//   return textureBlendModeIndex;
-// }
-
 double kDeviceWidth(BuildContext context) {
   return MediaQuery.of(context).size.width;
 }
 
 double kDeviceHeight(BuildContext context) {
   return MediaQuery.of(context).size.height;
+}
+
+IconData kGetBrandIconFromName(String name) {
+  IconData icon;
+  for (BrandModel brand in BrandModel.brands) {
+    if (brand.brandName == name) {
+      icon = brand.brandIcon.icon;
+    }
+  }
+  return icon;
+}
+
+String kGetCombinedName(String name) {
+  return name.splitMapJoin(" ", onMatch: (m) => '_', onNonMatch: (n) => '$n');
+}
+
+String kGetDateTime() {
+  String now = DateTime.now().toString();
+
+  String date = now
+      .split(" ")[0]
+      .splitMapJoin("-", onMatch: (m) => '', onNonMatch: (n) => '$n');
+
+  String time = now
+      .split(" ")[1]
+      .split(".")[0]
+      .splitMapJoin(":", onMatch: (m) => '', onNonMatch: (n) => '$n');
+
+  return '${date}_$time';
 }
 
 const kTitleTextStyle = TextStyle(

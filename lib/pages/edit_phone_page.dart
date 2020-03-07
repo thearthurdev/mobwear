@@ -18,7 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
 
 class EditPhonePage extends StatefulWidget {
-  static String id = '/EditPhonePage';
+  static const String id = '/EditPhonePage';
 
   final dynamic phone;
   final int phoneID;
@@ -118,7 +118,6 @@ class _EditPhonePageState extends State<EditPhonePage>
     return AppBar(
       title: Text(widget.phone.getPhoneName),
       centerTitle: true,
-      automaticallyImplyLeading: false,
       leading: IconButton(
         icon: Icon(LineAwesomeIcons.angle_left),
         onPressed: () {

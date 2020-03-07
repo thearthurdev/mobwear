@@ -58,13 +58,19 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
         controller: swiperController,
         itemCount: phonesList.length,
         autoplay: autoplayCarousel,
-        duration: 800,
+        duration: 900,
+        autoplayDelay: 2500,
         outer: true,
-        fade: 0.0,
+        fade: 1.0,
         scale: 1.0,
         itemBuilder: (context, i) {
           return Padding(
-            padding: EdgeInsets.all(kScreenAwareSize(24.0, context)),
+            padding: EdgeInsets.fromLTRB(
+              kScreenAwareSize(24.0, context),
+              kScreenAwareSize(24.0, context),
+              kScreenAwareSize(52.0, context),
+              kScreenAwareSize(24.0, context),
+            ),
             child: Hero(
               tag: phonesList[reverseIndex(i)].id,
               child: phonesList[reverseIndex(i)].phone,
@@ -107,7 +113,7 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
               !userIsSwiping) {
             int randomInt = Random().nextInt(PhoneModel.phonesLists.length);
             if (randomInt != tabsPageController.page.toInt()) {
-              Future.delayed(Duration(milliseconds: 1200)).whenComplete(() {
+              Future.delayed(Duration(milliseconds: 1400)).whenComplete(() {
                 tabsPageController.animateToPage(
                   randomInt,
                   duration: Duration(milliseconds: 600),

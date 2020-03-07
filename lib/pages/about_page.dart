@@ -10,7 +10,7 @@ import 'package:package_info/package_info.dart';
 import 'package:device_id/device_id.dart';
 
 class AboutPage extends StatelessWidget {
-  static final String id = '/AboutPage';
+  static const String id = '/AboutPage';
 
   Future<String> getAppVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -38,7 +38,6 @@ class AboutPage extends StatelessWidget {
         appBar: AppBar(
           title: Text('About'),
           centerTitle: true,
-          automaticallyImplyLeading: false,
           leading: IconButton(
             icon: Icon(LineAwesomeIcons.angle_left),
             onPressed: () => Navigator.pop(context),

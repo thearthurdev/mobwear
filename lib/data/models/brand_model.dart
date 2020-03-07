@@ -11,7 +11,7 @@ class BrandIcon {
     this.size,
   });
 
-  static List<BrandIcon> myBrandIcons = [
+  static List<BrandIcon> brandIcons = [
     BrandIcon(icon: BrandIcons.google),
     BrandIcon(icon: BrandIcons.apple),
     BrandIcon(icon: BrandIcons.samsung1),
@@ -25,5 +25,29 @@ class BrandIcon {
   ];
 
   static List<BrandIcon> watermarkIcons =
-      [BrandIcon(icon: CustomIcons.mobwear, size: 30.0)] + myBrandIcons;
+      [BrandIcon(icon: CustomIcons.mobwear, size: 30.0)] + brandIcons;
+}
+
+class BrandModel {
+  final String brandName;
+  final BrandIcon brandIcon;
+
+  BrandModel(this.brandName, this.brandIcon);
+
+  static List<String> brandNames = [
+    'Google',
+    'Apple',
+    'Samsung',
+    'Huawei',
+    'OnePlus',
+    'Xiaomi',
+    'HTC',
+    'LG',
+    'Motorola',
+    'Nokia',
+  ];
+
+  static List<BrandModel> brands = List.generate(brandNames.length, (i) {
+    return BrandModel(brandNames[i], BrandIcon.brandIcons[i]);
+  });
 }

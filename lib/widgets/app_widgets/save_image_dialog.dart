@@ -4,32 +4,52 @@ import 'dart:ui';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
+import 'package:mobwear/data/models/gallery_item_model.dart';
+import 'package:mobwear/database/gallery_database.dart';
 import 'package:mobwear/utils/constants.dart';
-import 'package:save_in_gallery/save_in_gallery.dart';
+// import 'package:save_in_gallery/save_in_gallery.dart';
 import 'package:toast/toast.dart';
 
 class SaveImageDialog extends StatefulWidget {
   final Uint8List bytes;
-  final String phoneName;
+  final dynamic phone;
 
-  const SaveImageDialog({this.bytes, this.phoneName});
+  const SaveImageDialog({this.bytes, this.phone});
 
   @override
   _SaveImageDialogState createState() => _SaveImageDialogState();
 }
 
 class _SaveImageDialogState extends State<SaveImageDialog> {
-  final imageSaver = ImageSaver();
+  // final imageSaver = ImageSaver();
+  String phoneName;
+  String phoneBrand;
 
-  String dateTime =
-      '${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}_${DateTime.now().hour}${DateTime.now().minute}${DateTime.now().second}';
+  @override
+  void initState() {
+    super.initState();
+    phoneName = widget.phone.getPhoneName;
+    phoneBrand = widget.phone.getPhoneBrand;
+  }
 
   Future<dynamic> saveImage() async {
     dynamic res;
     try {
-      res = await imageSaver.saveNamedImages(
-        namedImageBytes: {'${widget.phoneName}_$dateTime': widget.bytes},
-        directoryName: 'MobWear',
+      // res = await imageSaver.saveNamedImages(
+      //   namedImageBytes: {'${widget.phoneName}_$dateTime': widget.bytes},
+      //   directoryName: 'MobWear',
+      // );
+      Box galleryBox = GalleryDatabase.galleryBox;
+
+      galleryBox.add(
+        GalleryDatabaseItem(
+          imageString: String.fromCharCodes(widget.bytes),
+          imageDateTime: DateTime.now().toString(),
+          phoneName: phoneName,
+          phoneBrand: phoneBrand,
+          isFavorite: false,
+        ),
       );
     } catch (e) {
       print(e);
@@ -40,11 +60,11 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
   Future<void> shareImage() async {
     try {
       await Share.file(
-        'Share your ${widget.phoneName}',
-        '${widget.phoneName}_$dateTime.png',
+        'Share your $phoneName',
+        '${kGetCombinedName(phoneName)}_${kGetDateTime()}.png',
         widget.bytes,
         'image/png',
-        text: 'Check out this ${widget.phoneName} I customized with MobWear!',
+        text: 'Check out this $phoneName I customized with MobWear!',
       );
     } catch (e) {
       String errorText = 'Unable to share. Please try again later';
@@ -97,18 +117,19 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           Text(
-                            'uh oh',
+                            'uh-oh!',
                             style: TextStyle(
                               fontSize: 40.0,
                               fontFamily: 'Righteous',
                               fontWeight: FontWeight.w900,
                             ),
                           ),
+                          SizedBox(height: 24.0),
                           Text(
                             'An error occured while saving',
                             style: kSubtitleTextStyle,
                           ),
-                          SizedBox(height: 16.0),
+                          SizedBox(height: 24.0),
                           dialogButton(
                             context: context,
                             label: 'Try Again',
@@ -116,7 +137,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
                               Navigator.pop(context);
                             },
                           ),
-                          SizedBox(height: 8.0),
+                          SizedBox(height: 16.0),
                           dialogButton(
                             context: context,
                             label: 'Share Picture Directly',
@@ -139,12 +160,14 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
                             fontWeight: FontWeight.w900,
                           ),
                         ),
-                        SizedBox(height: 8.0),
+                        SizedBox(height: 24.0),
                         Text(
-                          '${widget.phoneName} picture saved successfully',
+                          '${kGetCombinedName(phoneName)}_${kGetDateTime()}.png'
+                          '\nsaved to gallery',
                           style: kSubtitleTextStyle,
+                          textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 16.0),
+                        SizedBox(height: 24.0),
                         dialogButton(
                           context: context,
                           label: 'Share',
