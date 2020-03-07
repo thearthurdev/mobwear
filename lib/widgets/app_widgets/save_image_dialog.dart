@@ -70,7 +70,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
       String errorText = 'Unable to share. Please try again later';
       Toast.show(errorText, context);
       print(e);
-    } finally {}
+    }
   }
 
   @override

@@ -33,11 +33,11 @@ class GalleryItem {
   final String phoneBrand;
   final bool isFavorite;
 
-  GalleryItem(
+  GalleryItem({
     this.imageBytes,
     this.imageDateTime,
     this.phoneName,
     this.phoneBrand,
     this.isFavorite,
-  );
+  });
 }

@@ -94,8 +94,8 @@ String kGetCombinedName(String name) {
   return name.splitMapJoin(" ", onMatch: (m) => '_', onNonMatch: (n) => '$n');
 }
 
-String kGetDateTime() {
-  String now = DateTime.now().toString();
+String kGetDateTime({String dateTime}) {
+  String now = dateTime ?? DateTime.now().toString();
 
   String date = now
       .split(" ")[0]
