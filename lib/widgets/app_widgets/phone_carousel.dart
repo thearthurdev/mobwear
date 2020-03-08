@@ -25,12 +25,14 @@ class PhoneCarousel extends StatefulWidget {
 
 class _PhoneCarouselState extends State<PhoneCarousel> {
   bool autoplay;
+  bool editPageOpen;
   SwiperController swiperController;
   PageController tabsPageController;
 
   @override
   void initState() {
     super.initState();
+    editPageOpen = false;
     swiperController = widget.swiperController;
     tabsPageController = widget.tabsPageController;
   }
@@ -89,6 +91,7 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
           ),
         ),
         onTap: (i) {
+          editPageOpen = true;
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -101,8 +104,9 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
             ),
           ).whenComplete(
             () {
-              tabsPageController.jumpToPage(
-                  phonesList[reverseIndex(i)].phone.getPhoneBrandIndex);
+              editPageOpen = false;
+              // tabsPageController.jumpToPage(
+              //     phonesList[reverseIndex(i)].phone.getPhoneBrandIndex);
               swiperController.move(i, animation: false);
             },
           );
@@ -110,7 +114,8 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
         onIndexChanged: (i) {
           if (i == phonesList.length - 1 &&
               autoplayCarousel &&
-              !userIsSwiping) {
+              !userIsSwiping &&
+              !editPageOpen) {
             int randomInt = Random().nextInt(PhoneModel.phonesLists.length);
             if (randomInt != tabsPageController.page.toInt()) {
               Future.delayed(Duration(milliseconds: 1400)).whenComplete(() {

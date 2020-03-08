@@ -53,7 +53,6 @@ class _GalleryViewPageState extends State<GalleryViewPage> {
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         systemNavigationBarColor: Colors.black,
-        systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: WillPopScope(
         onWillPop: onWillPop,
@@ -219,7 +218,9 @@ class _GalleryViewPageState extends State<GalleryViewPage> {
       builder: (BuildContext context) => Dialog(
         child: GalleryItemDeleteDialog(items[currentIndex], currentIndex),
       ),
-    );
+    ).whenComplete(() {
+      if (items.length == 0) Navigator.pop(context);
+    });
   }
 
   Future<bool> onWillPop() {

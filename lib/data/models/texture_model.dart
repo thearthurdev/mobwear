@@ -36,9 +36,9 @@ class MyTexture {
     }
   }
 
-  static void precacheTextureAssets(BuildContext context) {
+  static Future<void> precacheTextureAssets(BuildContext context) async {
     for (Image asset in textureAssets) {
-      precacheImage(asset.image, context);
+      await precacheImage(asset.image, context);
     }
   }
 }

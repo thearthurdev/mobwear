@@ -135,7 +135,7 @@ class _EditPhonePageState extends State<EditPhonePage>
     return AnimatedContainer(
       duration: Duration(milliseconds: 350),
       curve: Curves.easeOutSine,
-      height: showFAB ? 48.0 : 0.0,
+      height: showFAB ? 56.0 : 0.0,
       child: FloatingActionButton(
         child: AnimatedOpacity(
             duration: Duration(milliseconds: 250),

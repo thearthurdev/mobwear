@@ -7,14 +7,11 @@ import 'package:mobwear/pages/gallery_view_page.dart';
 import 'package:mobwear/providers/gallery_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/circle_accent_button.dart';
+import 'package:mobwear/widgets/app_widgets/gallery_batch_delete_dialog.dart';
 import 'package:provider/provider.dart';
 
 class GalleryPage extends StatefulWidget {
   static const String id = '/GalleryPage';
-
-  // final List<GalleryItem> data;
-
-  // const GalleryPage({this.data});
 
   @override
   _GalleryPageState createState() => _GalleryPageState();
@@ -22,6 +19,7 @@ class GalleryPage extends StatefulWidget {
 
 class _GalleryPageState extends State<GalleryPage> {
   List<GalleryItem> items;
+  List<String> selectedItemKeys = [];
 
   @override
   void didChangeDependencies() {
@@ -41,28 +39,82 @@ class _GalleryPageState extends State<GalleryPage> {
                 ? Brightness.dark
                 : Brightness.light,
       ),
-      child: Scaffold(
-        body: CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
-              title: Text('Gallery'),
-              centerTitle: true,
-              pinned: true,
-              leading: IconButton(
-                icon: Icon(LineAwesomeIcons.angle_left),
-                onPressed: () => Navigator.pop(context),
+      child: WillPopScope(
+        onWillPop: onWillPop,
+        child: Scaffold(
+          body: CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                title: Text(selectedItemKeys.isNotEmpty
+                    ? '${selectedItemKeys.length}'
+                        ' ${selectedItemKeys.length == 1 ? 'image' : 'images'} selected'
+                    : 'Gallery'),
+                centerTitle: true,
+                pinned: true,
+                leading: selectedItemKeys.isNotEmpty
+                    ? IconButton(
+                        icon: Icon(LineAwesomeIcons.close),
+                        onPressed: () =>
+                            setState(() => selectedItemKeys.clear()),
+                      )
+                    : IconButton(
+                        icon: Icon(LineAwesomeIcons.angle_left),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                actions: <Widget>[
+                  selectedItemKeys.isNotEmpty
+                      ? IconButton(
+                          icon: Icon(
+                            LineAwesomeIcons.check_square,
+                          ),
+                          onPressed: () {
+                            selectedItemKeys.clear();
+                            setState(() {
+                              for (int i = 0; i != items.length; i++) {
+                                selectedItemKeys.add(items[i].imageFileName);
+                              }
+                            });
+                          },
+                        )
+                      : Container()
+                ],
               ),
-            ),
-            buildGalleryBody(context),
-          ],
+              buildGalleryBody(context),
+            ],
+          ),
+          floatingActionButton: buildFAB(),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
         ),
       ),
     );
   }
 
-  Widget buildGalleryBody(BuildContext context) {
-    // GalleryProvider provider = Provider.of<GalleryProvider>(context);
+  Widget buildFAB() {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 350),
+      curve: Curves.easeOutSine,
+      height: selectedItemKeys.isNotEmpty ? 56.0 : 0.0,
+      child: FloatingActionButton(
+        child: AnimatedOpacity(
+            duration: Duration(milliseconds: 250),
+            opacity: selectedItemKeys.isNotEmpty ? 1.0 : 0.0,
+            child: Icon(LineAwesomeIcons.trash)),
+        onPressed: () {
+          showDialog<Widget>(
+            context: context,
+            builder: (BuildContext context) => Dialog(
+              child: GalleryBatchDeleteDialog(selectedItemKeys),
+            ),
+          ).whenComplete(
+            () => setState(() => selectedItemKeys.clear()),
+          );
+        },
+      ),
+    );
+  }
 
+  Widget buildGalleryBody(BuildContext context) {
     if (items.isEmpty) {
       return SliverFillRemaining(
         hasScrollBody: false,
@@ -93,21 +145,70 @@ class _GalleryPageState extends State<GalleryPage> {
             child: GestureDetector(
               child: Hero(
                 tag: items[i].imageDateTime,
-                child: Image.memory(items[i].imageBytes),
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: <Widget>[
+                    Image.memory(items[i].imageBytes),
+                    selectedItemKeys.contains(items[i].imageFileName)
+                        ? Align(
+                            alignment: Alignment.bottomRight,
+                            child: Container(
+                              width: 24.0,
+                              height: 24.0,
+                              margin: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: Colors.black26,
+                              ),
+                              child: Icon(
+                                LineAwesomeIcons.check_circle,
+                                color: Colors.white,
+                                size: 18.0,
+                              ),
+                            ),
+                          )
+                        : Container(),
+                  ],
+                ),
               ),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    // fullscreenDialog: true,
-                    builder: (context) => GalleryViewPage(currentIndex: i),
-                  ),
-                );
+                if (selectedItemKeys.isNotEmpty) {
+                  selectItem(i);
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      // fullscreenDialog: true,
+                      builder: (context) => GalleryViewPage(currentIndex: i),
+                    ),
+                  );
+                }
               },
+              onLongPress: () => selectItem(i),
             ),
           );
         },
       ),
     );
+  }
+
+  void selectItem(int i) {
+    if (selectedItemKeys.contains(items[i].imageFileName)) {
+      setState(() {
+        selectedItemKeys.remove(items[i].imageFileName);
+      });
+    } else {
+      setState(() {
+        selectedItemKeys.add(items[i].imageFileName);
+      });
+    }
+  }
+
+  Future<bool> onWillPop() {
+    if (selectedItemKeys.isNotEmpty) {
+      setState(() => selectedItemKeys.clear());
+      return Future.value(false);
+    }
+    return Future.value(true);
   }
 }

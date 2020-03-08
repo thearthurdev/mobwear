@@ -46,6 +46,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
         GalleryDatabaseItem(
           imageString: String.fromCharCodes(widget.bytes),
           imageDateTime: DateTime.now().toString(),
+          imageFileName: '${kGetCombinedName(phoneName)}_${kGetDateTime()}.png',
           phoneName: phoneName,
           phoneBrand: phoneBrand,
           isFavorite: false,
@@ -80,7 +81,10 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
         statusBarColor: Colors.transparent,
         systemNavigationBarColor: kBrightnessAwareColor(context,
             lightColor: Color(0xFF757575), darkColor: Color(0xFF060606)),
-        systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarIconBrightness:
+            kThemeBrightness(context) == Brightness.light
+                ? Brightness.dark
+                : Brightness.light,
       ),
       child: SingleChildScrollView(
         child: Container(

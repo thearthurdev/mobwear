@@ -11,10 +11,6 @@ class GalleryItemInfoDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String phoneName = item.phoneName;
-    String phoneBrand = item.phoneBrand;
-    String imageDateTime = item.imageDateTime;
-
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -42,16 +38,15 @@ class GalleryItemInfoDialog extends StatelessWidget {
               SizedBox(height: 16.0),
               ListTile(
                 leading: Icon(LineAwesomeIcons.file_photo_o),
-                title: Text(
-                    '${kGetCombinedName(phoneName)}_${kGetDateTime(dateTime: imageDateTime)}.png'),
+                title: Text(item.imageFileName),
               ),
               ListTile(
                 leading: Icon(LineAwesomeIcons.mobile_phone),
                 title: Text(item.phoneName),
               ),
               ListTile(
-                leading: Icon(kGetBrandIconFromName(phoneBrand)),
-                title: Text(phoneBrand),
+                leading: Icon(kGetBrandIconFromName(item.phoneBrand)),
+                title: Text(item.phoneBrand),
               ),
               ListTile(
                 leading: Icon(LineAwesomeIcons.calendar_o),

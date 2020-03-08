@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobwear/data/models/gallery_item_model.dart';
 import 'package:mobwear/providers/gallery_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:provider/provider.dart';
 
-class GalleryItemDeleteDialog extends StatelessWidget {
-  final GalleryItem item;
-  final int index;
+class GalleryBatchDeleteDialog extends StatelessWidget {
+  final List<String> selectedItemKeys;
 
-  const GalleryItemDeleteDialog(this.item, this.index);
+  const GalleryBatchDeleteDialog(this.selectedItemKeys);
 
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        systemNavigationBarColor: Colors.black,
-        systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: kBrightnessAwareColor(
+          context,
+          lightColor: Color(0xFF757575),
+          darkColor: Colors.black,
+        ),
+        systemNavigationBarIconBrightness:
+            kThemeBrightness(context) == Brightness.light
+                ? Brightness.dark
+                : Brightness.light,
       ),
       child: SingleChildScrollView(
         child: Container(
@@ -39,8 +44,7 @@ class GalleryItemDeleteDialog extends StatelessWidget {
               ),
               SizedBox(height: 16.0),
               Text(
-                'Are you sure you want to delete'
-                '\n${item.imageFileName}?',
+                'Are you sure you want to delete ${selectedItemKeys.length} ${selectedItemKeys.length == 1 ? 'image' : 'images'}?',
                 style: kTitleTextStyle,
                 textAlign: TextAlign.center,
               ),
@@ -55,8 +59,11 @@ class GalleryItemDeleteDialog extends StatelessWidget {
                   FlatButton(
                     child: Text('Delete', style: kTitleTextStyle),
                     onPressed: () {
-                      Provider.of<GalleryProvider>(context).deleteItem(index);
-                      Navigator.pop(context);
+                      Provider.of<GalleryProvider>(context)
+                          .deleteBatchItems(selectedItemKeys)
+                          .whenComplete(() {
+                        Navigator.pop(context);
+                      });
                     },
                   ),
                 ],

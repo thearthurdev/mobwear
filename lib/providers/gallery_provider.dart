@@ -16,6 +16,7 @@ class GalleryProvider extends ChangeNotifier {
       return GalleryItem(
         imageBytes: Uint8List.fromList(databaseItem.imageString.codeUnits),
         imageDateTime: databaseItem.imageDateTime,
+        imageFileName: databaseItem.imageFileName,
         phoneName: databaseItem.phoneName,
         phoneBrand: databaseItem.phoneBrand,
         isFavorite: databaseItem.isFavorite,
@@ -30,6 +31,7 @@ class GalleryProvider extends ChangeNotifier {
       GalleryDatabaseItem(
         imageString: String.fromCharCodes(item.imageBytes),
         imageDateTime: item.imageDateTime,
+        imageFileName: item.imageFileName,
         phoneName: item.phoneName,
         phoneBrand: item.phoneBrand,
         isFavorite: !item.isFavorite,
@@ -39,6 +41,7 @@ class GalleryProvider extends ChangeNotifier {
     galleryItems[i] = GalleryItem(
       imageBytes: item.imageBytes,
       imageDateTime: item.imageDateTime,
+      imageFileName: item.imageFileName,
       phoneName: item.phoneName,
       phoneBrand: item.phoneBrand,
       isFavorite: !item.isFavorite,
@@ -51,5 +54,19 @@ class GalleryProvider extends ChangeNotifier {
     galleryBox.deleteAt(i);
     galleryItems.removeAt(i);
     notifyListeners();
+  }
+
+  Future<void> deleteBatchItems(List<String> itemKeys) async {
+    try {
+      for (String key in itemKeys) {
+        for (int i = 0; i != galleryBox.values.length; i++) {
+          if (key == galleryBox.getAt(i).imageFileName) {
+            galleryBox.deleteAt(i);
+            galleryItems.removeAt(i);
+          }
+        }
+        notifyListeners();
+      }
+    } catch (e) {}
   }
 }
