@@ -7,9 +7,8 @@ import 'package:provider/provider.dart';
 
 class GalleryItemDeleteDialog extends StatelessWidget {
   final GalleryItem item;
-  final int index;
 
-  const GalleryItemDeleteDialog(this.item, this.index);
+  const GalleryItemDeleteDialog(this.item);
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +54,9 @@ class GalleryItemDeleteDialog extends StatelessWidget {
                   FlatButton(
                     child: Text('Delete', style: kTitleTextStyle),
                     onPressed: () {
-                      Provider.of<GalleryProvider>(context).deleteItem(index);
                       Navigator.pop(context);
+                      Provider.of<GalleryProvider>(context)
+                          .deleteItem(item.imageFileName);
                     },
                   ),
                 ],

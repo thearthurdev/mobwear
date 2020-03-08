@@ -175,11 +175,12 @@ class _GalleryPageState extends State<GalleryPage> {
                 if (selectedItemKeys.isNotEmpty) {
                   selectItem(i);
                 } else {
+                  Provider.of<GalleryProvider>(context).setCurrentIndex(i);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       // fullscreenDialog: true,
-                      builder: (context) => GalleryViewPage(currentIndex: i),
+                      builder: (context) => GalleryViewPage(),
                     ),
                   );
                 }

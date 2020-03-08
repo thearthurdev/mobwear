@@ -6,8 +6,11 @@ import 'package:mobwear/data/models/gallery_item_model.dart';
 import 'package:mobwear/database/gallery_database.dart';
 
 class GalleryProvider extends ChangeNotifier {
-  static Box galleryBox = Hive.box(GalleryDatabase.gallery);
+  Box galleryBox = Hive.box(GalleryDatabase.gallery);
   List<GalleryItem> galleryItems = [];
+  int currentIndex;
+
+  void setCurrentIndex(int i) => currentIndex = i;
 
   Future<void> loadGallery() async {
     galleryItems = List.generate(galleryBox.values.length, (i) {
@@ -50,10 +53,21 @@ class GalleryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteItem(int i) {
-    galleryBox.deleteAt(i);
-    galleryItems.removeAt(i);
-    notifyListeners();
+  void deleteItem(String itemKey) {
+    try {
+      for (int i = 0; i != galleryBox.values.length; i++) {
+        if (itemKey == galleryBox.getAt(i).imageFileName) {
+          galleryBox.deleteAt(i);
+          galleryItems.removeAt(i);
+
+          if (currentIndex == galleryBox.values.length && currentIndex != 0) {
+            currentIndex--;
+          }
+
+          notifyListeners();
+        }
+      }
+    } catch (e) {}
   }
 
   Future<void> deleteBatchItems(List<String> itemKeys) async {
@@ -63,9 +77,9 @@ class GalleryProvider extends ChangeNotifier {
           if (key == galleryBox.getAt(i).imageFileName) {
             galleryBox.deleteAt(i);
             galleryItems.removeAt(i);
+            notifyListeners();
           }
         }
-        notifyListeners();
       }
     } catch (e) {}
   }
