@@ -12,30 +12,34 @@ class PhoneGroupViewPickerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => onTap(),
-      child: Container(
-        width: 30.0,
-        height: 30.0,
-        margin: EdgeInsets.only(right: 8.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5.0),
-          border: Border.all(
-            width: 1.5,
-            color: isSelected
-                ? kBrightnessAwareColor(context,
-                    lightColor: Colors.black, darkColor: Colors.white)
-                : Colors.transparent,
-          ),
-        ),
-        child: Icon(
-          icon,
+    return Container(
+      width: 36.0,
+      height: 36.0,
+      margin: EdgeInsets.only(right: 8.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5.0),
+        border: Border.all(
+          width: 1.5,
           color: isSelected
               ? kBrightnessAwareColor(context,
                   lightColor: Colors.black, darkColor: Colors.white)
-              : kBrightnessAwareColor(context,
-                  lightColor: Colors.black54, darkColor: Colors.white54),
-          size: size,
+              : Colors.transparent,
+        ),
+      ),
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(5.0),
+          onTap: () => onTap(),
+          child: Icon(
+            icon,
+            color: isSelected
+                ? kBrightnessAwareColor(context,
+                    lightColor: Colors.black, darkColor: Colors.white)
+                : kBrightnessAwareColor(context,
+                    lightColor: Colors.black54, darkColor: Colors.white54),
+            size: size,
+          ),
         ),
       ),
     );

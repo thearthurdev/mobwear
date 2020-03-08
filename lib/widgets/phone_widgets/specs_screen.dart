@@ -108,8 +108,9 @@ class _SpecsScreenState extends State<SpecsScreen> {
                       IconData icon = specIcons[i].icon;
                       return Padding(
                         padding: const EdgeInsets.all(20.0),
-                        child: GestureDetector(
-                          child: CircleAccentButton(icon: icon, index: i),
+                        child: CircleAccentButton(
+                          icon: icon,
+                          index: i,
                           onTap: () {
                             pageController.animateToPage(
                               1,

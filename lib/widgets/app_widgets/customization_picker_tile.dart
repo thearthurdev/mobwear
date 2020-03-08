@@ -90,30 +90,37 @@ class CustomizationPickerTile extends StatelessWidget {
                   ),
                 ],
           child: ElevatedCard(
-            child: ListTile(
-              title: Text(title ?? colors.keys.elementAt(index),
-                  style: kTitleTextStyle),
-              subtitle: Text(
-                noTexture
-                    ? 'Color: #${kGetColorString(color)}'
-                    : texture.asset == null
+            child: Material(
+              type: MaterialType.transparency,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(10.0),
+                onTap: () => onTilePressed(context),
+                child: ListTile(
+                  title: Text(title ?? colors.keys.elementAt(index),
+                      style: kTitleTextStyle),
+                  subtitle: Text(
+                    noTexture
                         ? 'Color: #${kGetColorString(color)}'
-                        : 'Texture: ${kGetTextureName(texture.asset)}',
-                style: TextStyle(
-                  fontFamily: 'Quicksand',
-                  color: kBrightnessAwareColor(context,
-                      lightColor: Colors.black54, darkColor: Colors.white54),
+                        : texture.asset == null
+                            ? 'Color: #${kGetColorString(color)}'
+                            : 'Texture: ${kGetTextureName(texture.asset)}',
+                    style: TextStyle(
+                      fontFamily: 'Quicksand',
+                      color: kBrightnessAwareColor(context,
+                          lightColor: Colors.black54,
+                          darkColor: Colors.white54),
+                    ),
+                  ),
+                  trailing: CustomizationIndicator(
+                    color: color,
+                    texture: noTexture ? null : texture.asset,
+                    textureBlendColor: noTexture ? null : texture.blendColor,
+                    textureBlendMode: noTexture
+                        ? null
+                        : kGetTextureBlendMode(texture.blendModeIndex),
+                  ),
                 ),
               ),
-              trailing: CustomizationIndicator(
-                color: color,
-                texture: noTexture ? null : texture.asset,
-                textureBlendColor: noTexture ? null : texture.blendColor,
-                textureBlendMode: noTexture
-                    ? null
-                    : kGetTextureBlendMode(texture.blendModeIndex),
-              ),
-              onTap: () => onTilePressed(context),
             ),
           ),
         ),

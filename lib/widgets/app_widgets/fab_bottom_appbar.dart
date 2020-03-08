@@ -92,20 +92,24 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     return Expanded(
       child: SizedBox(
         height: widget.height,
-        child: Material(
-          type: MaterialType.transparency,
-          child: InkWell(
-            onTap: () => onPressed(index),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ShowUp(
-                  delay: 100 * index,
-                  child:
-                      Icon(item.iconData, color: color, size: widget.iconSize),
-                ),
-              ],
+        child: Container(
+          margin: const EdgeInsets.all(4.0),
+          child: Material(
+            type: MaterialType.transparency,
+            child: InkWell(
+              customBorder: CircleBorder(),
+              onTap: () => onPressed(index),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ShowUp(
+                    delay: 100 * index,
+                    child: Icon(item.iconData,
+                        color: color, size: widget.iconSize),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

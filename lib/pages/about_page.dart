@@ -45,7 +45,8 @@ class AboutPage extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Container(
-            width: kDeviceWidth(context),
+            // width: kDeviceWidth(context),
+            padding: EdgeInsets.symmetric(horizontal: 32.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
@@ -70,7 +71,7 @@ class AboutPage extends StatelessWidget {
                   future: getAppVersion(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState != ConnectionState.done) {
-                      return Text('...');
+                      return aboutListTile(title: 'MobWear');
                     }
                     return aboutListTile(
                         title: 'MobWear', subtitle: snapshot.data);
@@ -80,7 +81,7 @@ class AboutPage extends StatelessWidget {
                   future: getDeviceID(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState != ConnectionState.done) {
-                      return Text('...');
+                      return aboutListTile(title: 'Device ID');
                     }
                     return aboutListTile(
                       title: 'Device ID',
@@ -110,6 +111,7 @@ class AboutPage extends StatelessWidget {
                     }),
                 aboutListTile(
                   title: 'Developer Info',
+                  subtitle: 'Find out who is behind this app',
                   icon: LineAwesomeIcons.code,
                   onTap: () {
                     showDialog<Widget>(
@@ -136,35 +138,41 @@ class AboutPage extends StatelessWidget {
   }) {
     return Column(
       children: <Widget>[
-        ListTile(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            mainAxisSize: MainAxisSize.min,
-            textBaseline: TextBaseline.alphabetic,
-            children: <Widget>[
-              icon != null ? Icon(icon, size: 18.0) : Container(),
-              SizedBox(width: 8.0),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Quicksand',
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          subtitle: subtitle != null
-              ? Text(
-                  subtitle,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Quicksand',
+        Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(10.0),
+            child: ListTile(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                mainAxisSize: MainAxisSize.min,
+                textBaseline: TextBaseline.alphabetic,
+                children: <Widget>[
+                  icon != null ? Icon(icon, size: 18.0) : Container(),
+                  SizedBox(width: 8.0),
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Quicksand',
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                )
-              : null,
-          onTap: onTap,
+                ],
+              ),
+              subtitle: subtitle != null
+                  ? Text(
+                      subtitle,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Quicksand',
+                      ),
+                    )
+                  : null,
+            ),
+            onTap: onTap,
+          ),
         ),
         Divider(indent: 200.0, endIndent: 200.0),
       ],

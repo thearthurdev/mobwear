@@ -39,44 +39,47 @@ class SettingsExpansionTile extends StatelessWidget {
                       lightColor: Colors.grey[100], darkColor: Colors.grey[900])
               : null,
         ),
-        child: ExpansionTile(
-          onExpansionChanged: (b) => onExpansionChanged(b),
-          title: ListTile(
-            contentPadding: EdgeInsets.zero,
-            title: Text(
-              title,
-              style: kTitleTextStyle,
-            ),
-            subtitle: AnimatedOpacity(
-              opacity: isExpanded ? 0.0 : 1.0,
-              duration: Duration(milliseconds: 300),
-              child: Text(
-                subtitle,
-                style: kSubtitleTextStyle,
+        child: Material(
+          type: MaterialType.transparency,
+          child: ExpansionTile(
+            onExpansionChanged: (b) => onExpansionChanged(b),
+            title: ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(
+                title,
+                style: kTitleTextStyle,
               ),
-            ),
-          ),
-          children: List.generate(
-            settingMap.length,
-            (int i) {
-              return ListTile(
-                title: Text(
-                  settingMap.keys.elementAt(i),
+              subtitle: AnimatedOpacity(
+                opacity: isExpanded ? 0.0 : 1.0,
+                duration: Duration(milliseconds: 300),
+                child: Text(
+                  subtitle,
                   style: kSubtitleTextStyle,
                 ),
-                trailing:
-                    selectedOptionCheck == settingMap.values.elementAt(i) ||
-                            selectedOptionCheck == i
-                        ? Icon(
-                            LineAwesomeIcons.check_circle,
-                            color: kBrightnessAwareColor(context,
-                                lightColor: Colors.black,
-                                darkColor: Colors.white),
-                          )
-                        : null,
-                onTap: () => onOptionSelected(i),
-              );
-            },
+              ),
+            ),
+            children: List.generate(
+              settingMap.length,
+              (int i) {
+                return ListTile(
+                  onTap: () => onOptionSelected(i),
+                  title: Text(
+                    settingMap.keys.elementAt(i),
+                    style: kSubtitleTextStyle,
+                  ),
+                  trailing:
+                      selectedOptionCheck == settingMap.values.elementAt(i) ||
+                              selectedOptionCheck == i
+                          ? Icon(
+                              LineAwesomeIcons.check_circle,
+                              color: kBrightnessAwareColor(context,
+                                  lightColor: Colors.black,
+                                  darkColor: Colors.white),
+                            )
+                          : null,
+                );
+              },
+            ),
           ),
         ),
       ),

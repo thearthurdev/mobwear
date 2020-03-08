@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:mobwear/pages/settings_page.dart';
 import 'package:mobwear/utils/constants.dart';
 
 /// A vertical tab widget for flutter
@@ -12,6 +10,7 @@ class VerticalTabs extends StatefulWidget {
   final double indicatorWidth;
   final List<Tab> tabs;
   final List<Widget> contents;
+  final List<Widget> actions;
   final TextDirection direction;
   final Color indicatorColor;
   final bool disabledChangePageFromContentView;
@@ -27,6 +26,7 @@ class VerticalTabs extends StatefulWidget {
     @required this.pageController,
     @required this.tabs,
     @required this.contents,
+    this.actions,
     this.tabsWidth = 50,
     this.itemExtent = 50,
     this.indicatorWidth = 3,
@@ -128,93 +128,85 @@ class _VerticalTabsState extends State<VerticalTabs>
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Expanded(
-                      child: ListView.builder(
-                        itemExtent: widget.itemExtent,
-                        itemCount: widget.tabs.length,
-                        itemBuilder: (context, index) {
-                          Tab tab = widget.tabs[index];
-                          Alignment alignment = Alignment.center;
-                          Widget child;
-                          if (tab.child != null) {
-                            child = tab.child;
-                          } else {
-                            child = Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                (tab.icon != null)
-                                    ? Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          tab.icon,
-                                        ],
-                                      )
-                                    : Container(),
-                                (tab.text != null)
-                                    ? Text(tab.text)
-                                    : Container(),
-                              ],
-                            );
-                          }
+                        Expanded(
+                          child: ListView.builder(
+                            itemExtent: widget.itemExtent,
+                            itemCount: widget.tabs.length,
+                            itemBuilder: (context, index) {
+                              Tab tab = widget.tabs[index];
+                              Alignment alignment = Alignment.center;
+                              Widget child;
+                              if (tab.child != null) {
+                                child = tab.child;
+                              } else {
+                                child = Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    (tab.icon != null)
+                                        ? Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              tab.icon,
+                                            ],
+                                          )
+                                        : Container(),
+                                    (tab.text != null)
+                                        ? Text(tab.text)
+                                        : Container(),
+                                  ],
+                                );
+                              }
 
-                          return GestureDetector(
-                            onTap: () {
-                              _changePageByTapView = true;
-                              setState(() {
-                                _selectTab(index);
-                              });
+                              return GestureDetector(
+                                onTap: () {
+                                  _changePageByTapView = true;
+                                  setState(() {
+                                    _selectTab(index);
+                                  });
 
-                              pageController.animateToPage(index,
-                                  duration: widget.changePageDuration,
-                                  curve: widget.changePageCurve);
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  ScaleTransition(
-                                    child: Container(
-                                      width: widget.indicatorWidth,
-                                      height: widget.itemExtent,
-                                      color: widget.indicatorColor,
-                                    ),
-                                    scale: Tween(begin: 0.0, end: 1.0).animate(
-                                      CurvedAnimation(
-                                        parent: animationControllers[index],
-                                        curve: Curves.elasticOut,
+                                  pageController.animateToPage(index,
+                                      duration: widget.changePageDuration,
+                                      curve: widget.changePageCurve);
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      ScaleTransition(
+                                        child: Container(
+                                          width: widget.indicatorWidth,
+                                          height: widget.itemExtent,
+                                          color: widget.indicatorColor,
+                                        ),
+                                        scale:
+                                            Tween(begin: 0.0, end: 1.0).animate(
+                                          CurvedAnimation(
+                                            parent: animationControllers[index],
+                                            curve: Curves.elasticOut,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      Expanded(
+                                        child: Container(
+                                          alignment: alignment,
+                                          padding: EdgeInsets.all(5),
+                                          child: child,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: alignment,
-                                      padding: EdgeInsets.all(5),
-                                      child: child,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    Divider(
-                      indent: 8.0,
-                      endIndent: 8.0,
-                    ),
-                    GestureDetector(
-                      child: Container(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(
-                          LineAwesomeIcons.cog,
+                                ),
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                      onTap: () =>
-                          Navigator.pushNamed(context, SettingsPage.id),
-                    ),
-                  ],
+                        Divider(
+                          indent: 8.0,
+                          endIndent: 8.0,
+                        ),
+                      ] +
+                      widget.actions,
                 ),
               ),
             ),

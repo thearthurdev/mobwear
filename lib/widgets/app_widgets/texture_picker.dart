@@ -28,38 +28,44 @@ class TexturePicker extends StatelessWidget {
                 itemCount: MyTexture.myTextures.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,
-                  childAspectRatio: 0.70,
+                  mainAxisSpacing: 8.0,
+                  childAspectRatio: 0.80,
                 ),
                 itemBuilder: (context, i) {
                   MyTexture myTexture = MyTexture.myTextures[i];
 
-                  return GestureDetector(
-                    onTap: () => provider.textureSelected(myTexture.asset),
-                    child: Container(
-                      child: Column(
-                        children: <Widget>[
-                          CustomizationIndicator(
-                            texture: myTexture.asset,
-                            textureBlendMode: blendMode,
-                            textureBlendColor: blendColor,
-                            size: 70.0,
-                            isSelected: selectedTexture == null
-                                ? currentTexture == myTexture.asset
-                                : selectedTexture == myTexture.asset,
-                          ),
-                          SizedBox(height: 4.0),
-                          Expanded(
-                            child: Text(
-                              myTexture.name,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontFamily: 'Quicksand',
-                                fontWeight: FontWeight.bold,
+                  return Material(
+                    type: MaterialType.transparency,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(10.0),
+                      onTap: () => provider.textureSelected(myTexture.asset),
+                      child: Container(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          children: <Widget>[
+                            CustomizationIndicator(
+                              texture: myTexture.asset,
+                              textureBlendMode: blendMode,
+                              textureBlendColor: blendColor,
+                              size: 70.0,
+                              isSelected: selectedTexture == null
+                                  ? currentTexture == myTexture.asset
+                                  : selectedTexture == myTexture.asset,
+                            ),
+                            SizedBox(height: 4.0),
+                            Expanded(
+                              child: Text(
+                                myTexture.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: 'Quicksand',
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );

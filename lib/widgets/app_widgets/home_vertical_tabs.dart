@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/custom_icons/custom_icons.dart';
 import 'package:mobwear/data/models/brand_model.dart';
 import 'package:mobwear/data/models/phone_model.dart';
+import 'package:mobwear/pages/settings_page.dart';
 import 'package:mobwear/providers/settings_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/no_phones_found_widget.dart';
@@ -95,6 +97,21 @@ class HomeVerticalTabs extends StatelessWidget {
       ),
       tabs: tabs,
       contents: contentsList(),
+      actions: <Widget>[
+        Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            customBorder: CircleBorder(),
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(
+                LineAwesomeIcons.cog,
+              ),
+            ),
+            onTap: () => Navigator.pushNamed(context, SettingsPage.id),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -21,56 +21,68 @@ class TextureBlendEditButton extends StatelessWidget {
         Color blendColor =
             provider.selectedBlendColor ?? provider.currentBlendColor;
 
+        bool enabled = selectedTexture != null
+            ? true
+            : currentTexture != null ? true : false;
+
         return ElevatedCard(
           margin: EdgeInsets.symmetric(horizontal: 4.0),
           color: kBrightnessAwareColor(context,
               lightColor: Colors.white, darkColor: Colors.grey[850]),
-          child: ListTile(
-            enabled: selectedTexture != null
-                ? true
-                : currentTexture != null ? true : false,
-            dense: true,
-            title: Text(
-              title,
-              style: TextStyle(
-                fontFamily: 'Quicksand',
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            subtitle: Text(
-              subtitle,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            trailing: title == 'Blend Mode'
-                ? null
-                : CustomizationIndicator(
-                    color: blendColor,
-                    size: kScreenAwareSize(25.0, context),
+          child: Material(
+            type: MaterialType.transparency,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(10.0),
+              child: ListTile(
+                enabled: selectedTexture != null
+                    ? true
+                    : currentTexture != null ? true : false,
+                dense: true,
+                title: Text(
+                  title,
+                  style: TextStyle(
+                    fontFamily: 'Quicksand',
+                    fontWeight: FontWeight.bold,
                   ),
-            onTap: title == 'Blend Mode'
-                ? () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return TextureBlendModePickerDialog();
-                      },
-                    );
-                  }
-                : () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return ColorPickerDialog(
-                          title: 'Blend Color',
-                          color: provider.selectedBlendColor ??
-                              provider.currentBlendColor,
-                          onSelectPressed: (selectedColor) =>
-                              provider.textureBlendColorSelected(selectedColor),
-                        );
-                      },
-                    );
-                  },
+                ),
+                subtitle: Text(
+                  subtitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: title == 'Blend Mode'
+                    ? null
+                    : CustomizationIndicator(
+                        color: blendColor,
+                        size: kScreenAwareSize(25.0, context),
+                      ),
+              ),
+              onTap: enabled
+                  ? title == 'Blend Mode'
+                      ? () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return TextureBlendModePickerDialog();
+                            },
+                          );
+                        }
+                      : () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return ColorPickerDialog(
+                                title: 'Blend Color',
+                                color: provider.selectedBlendColor ??
+                                    provider.currentBlendColor,
+                                onSelectPressed: (selectedColor) => provider
+                                    .textureBlendColorSelected(selectedColor),
+                              );
+                            },
+                          );
+                        }
+                  : null,
+            ),
           ),
         );
       },

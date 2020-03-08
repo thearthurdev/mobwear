@@ -175,24 +175,28 @@ class _WatermarkPickerDialogState extends State<WatermarkPickerDialog> {
     bool isSelected,
     Function onTap,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Center(
-        child: Container(
-          padding: EdgeInsets.all(8.0),
-          decoration: isSelected
-              ? BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                    color: color,
-                    width: 2.0,
-                  ),
-                )
-              : null,
-          child: Icon(
-            icon,
-            size: iconSize == null ? 30.0 : iconSize + 6.0,
-            color: color,
+    return Center(
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(10.0),
+          onTap: onTap,
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            decoration: isSelected
+                ? BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    border: Border.all(
+                      color: color,
+                      width: 2.0,
+                    ),
+                  )
+                : null,
+            child: Icon(
+              icon,
+              size: iconSize == null ? 30.0 : iconSize + 6.0,
+              color: color,
+            ),
           ),
         ),
       ),
