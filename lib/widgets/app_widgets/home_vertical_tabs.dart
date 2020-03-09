@@ -28,7 +28,9 @@ class HomeVerticalTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     List<List<PhoneModel>> phonesLists = PhoneModel.phonesLists;
 
-    List<Tab> tabs = List<Tab>.generate(BrandIcon.brandIcons.length, (i) {
+    List<Tab> tabs = List<Tab>.generate(
+        // BrandIcon.brandIcons.length
+        3, (i) {
       BrandIcon myBrandIcon = BrandIcon.brandIcons[i];
       return Tab(
         icon: Icon(

@@ -44,10 +44,10 @@ class TexturePicker extends StatelessWidget {
                         child: Column(
                           children: <Widget>[
                             CustomizationIndicator(
+                              size: 70.0,
                               texture: myTexture.asset,
                               textureBlendMode: blendMode,
                               textureBlendColor: blendColor,
-                              size: 70.0,
                               isSelected: selectedTexture == null
                                   ? currentTexture == myTexture.asset
                                   : selectedTexture == myTexture.asset,

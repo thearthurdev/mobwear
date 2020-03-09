@@ -82,7 +82,7 @@ class _GalleryPageState extends State<GalleryPage> {
               buildGalleryBody(context),
             ],
           ),
-          floatingActionButton: buildFAB(),
+          floatingActionButton: selectedItemKeys.isNotEmpty ? buildFAB() : null,
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
         ),
@@ -171,6 +171,7 @@ class _GalleryPageState extends State<GalleryPage> {
                   ],
                 ),
               ),
+              onLongPress: () => selectItem(i),
               onTap: () {
                 if (selectedItemKeys.isNotEmpty) {
                   selectItem(i);
@@ -185,7 +186,6 @@ class _GalleryPageState extends State<GalleryPage> {
                   );
                 }
               },
-              onLongPress: () => selectItem(i),
             ),
           );
         },

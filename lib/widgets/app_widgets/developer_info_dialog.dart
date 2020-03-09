@@ -27,57 +27,65 @@ class DeveloperInfoDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16.0, 16.0, 8.0, 8.0),
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          'Developer Info',
-                          style: kTitleTextStyle.copyWith(fontSize: 18.0),
-                        ),
-                      ],
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 16.0, 8.0, 8.0),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      'Developer Info',
+                      style: kTitleTextStyle.copyWith(fontSize: 18.0),
                     ),
+                  ],
+                ),
+              ),
+              Container(
+                height: kScreenAwareSize(160.0, context),
+                width: kDeviceWidth(context) - kScreenAwareSize(160.0, context),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/arthurdev_logo.png'),
+                    fit: BoxFit.fitWidth,
                   ),
-                  Container(
-                    height: kScreenAwareSize(160.0, context),
-                    width: kDeviceWidth(context) -
-                        kScreenAwareSize(160.0, context),
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/arthurdev_logo.png'),
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    'Delords Arthur',
-                    style: TextStyle(
-                      fontFamily: 'Righteous',
-                      fontSize: 22.0,
-                    ),
-                  ),
-                  Text('ArthurDev', style: kTitleTextStyle),
-                  SizedBox(height: 16.0),
-                ] +
-                List.generate(infoSections.length, (i) {
-                  return infoListTile(
-                    context,
-                    icon: infoSections.keys.elementAt(i),
-                    title: infoSections.values.elementAt(i),
-                  );
-                }) +
-                [
-                  ButtonBar(
-                    alignment: MainAxisAlignment.end,
-                    buttonTextTheme: ButtonTextTheme.normal,
-                    children: <Widget>[
-                      FlatButton(
-                        child: Text('Cancel', style: kTitleTextStyle),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ],
+                ),
+              ),
+              Text(
+                'Delords Arthur',
+                style: TextStyle(
+                  fontFamily: 'Righteous',
+                  fontSize: 22.0,
+                ),
+              ),
+              Text('ArthurDev', style: kTitleTextStyle),
+              SizedBox(height: 16.0),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: kBrightnessAwareColor(context,
+                      lightColor: Colors.grey[100], darkColor: Colors.black26),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(infoSections.length, (i) {
+                    return infoListTile(
+                      context,
+                      icon: infoSections.keys.elementAt(i),
+                      title: infoSections.values.elementAt(i),
+                    );
+                  }),
+                ),
+              ),
+              ButtonBar(
+                alignment: MainAxisAlignment.end,
+                buttonTextTheme: ButtonTextTheme.normal,
+                children: <Widget>[
+                  FlatButton(
+                    child: Text('Cancel', style: kTitleTextStyle),
+                    onPressed: () => Navigator.pop(context),
                   ),
                 ],
+              ),
+            ],
           ),
         ),
       ),

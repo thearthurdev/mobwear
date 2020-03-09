@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive/hive.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/custom_icons/custom_icons.dart';
-import 'package:mobwear/database/settings_database.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/developer_info_dialog.dart';
 import 'package:package_info/package_info.dart';
@@ -107,7 +105,7 @@ class AboutPage extends StatelessWidget {
                     subtitle: 'A bug sent is a bug squashed',
                     icon: LineAwesomeIcons.bug,
                     onTap: () {
-                      Hive.box(SettingsDatabase.settings).clear();
+                      // Hive.box(SettingsDatabase.settings).clear();
                     }),
                 aboutListTile(
                   title: 'Developer Info',
