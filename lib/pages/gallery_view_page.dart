@@ -6,6 +6,7 @@ import 'package:mobwear/data/models/gallery_item_model.dart';
 import 'package:mobwear/providers/gallery_provider.dart';
 import 'package:mobwear/widgets/app_widgets/gallery_item_delete_dialog.dart';
 import 'package:mobwear/widgets/app_widgets/gallery_item_info_dialog.dart';
+import 'package:mobwear/widgets/app_widgets/show_up_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
@@ -48,6 +49,8 @@ class _GalleryViewPageState extends State<GalleryViewPage> {
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         systemNavigationBarColor: Colors.black,
+        systemNavigationBarIconBrightness:
+            hideBars ? Brightness.dark : Brightness.light,
       ),
       child: WillPopScope(
         onWillPop: onWillPop,
@@ -148,9 +151,12 @@ class _GalleryViewPageState extends State<GalleryViewPage> {
                               LineAwesomeIcons.trash_o,
                             ];
 
-                            return IconButton(
-                              icon: Icon(actionIcons[i], color: Colors.white),
-                              onPressed: () => onActionPressed(i),
+                            return ShowUp(
+                              delay: 100 * i,
+                              child: IconButton(
+                                icon: Icon(actionIcons[i], color: Colors.white),
+                                onPressed: () => onActionPressed(i),
+                              ),
                             );
                           }),
                         ),

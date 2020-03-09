@@ -16,7 +16,7 @@ class GalleryItemDeleteDialog extends StatelessWidget {
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         systemNavigationBarColor: Colors.black,
-        systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarIconBrightness: Brightness.light,
       ),
       child: SingleChildScrollView(
         child: Container(

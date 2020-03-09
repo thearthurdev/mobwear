@@ -24,13 +24,13 @@ class HomeVerticalTabs extends StatelessWidget {
     @required this.phoneCarouselController,
   });
 
+  static bool tabIsSwiping = false;
+
   @override
   Widget build(BuildContext context) {
     List<List<PhoneModel>> phonesLists = PhoneModel.phonesLists;
 
-    List<Tab> tabs = List<Tab>.generate(
-        // BrandIcon.brandIcons.length
-        3, (i) {
+    List<Tab> tabs = List<Tab>.generate(BrandIcon.brandIcons.length, (i) {
       BrandIcon myBrandIcon = BrandIcon.brandIcons[i];
       return Tab(
         icon: Icon(
@@ -77,6 +77,7 @@ class HomeVerticalTabs extends StatelessWidget {
                     phonesList: phonesLists[i],
                     swiperController: phoneCarouselController,
                     tabsPageController: tabsPageController,
+                    tabIsSwiping: tabIsSwiping,
                   );
               }
 
@@ -87,33 +88,47 @@ class HomeVerticalTabs extends StatelessWidget {
       );
     }
 
-    return VerticalTabs(
-      pageController: tabsPageController,
-      contentScrollAxis: Axis.vertical,
-      tabsWidth: 50.0,
-      itemExtent: kScreenAwareSize(45, context),
-      indicatorColor: kBrightnessAwareColor(
-        context,
-        lightColor: Colors.black,
-        darkColor: Colors.white,
-      ),
-      tabs: tabs,
-      contents: contentsList(),
-      actions: <Widget>[
-        Material(
-          type: MaterialType.transparency,
-          child: InkWell(
-            customBorder: CircleBorder(),
-            child: Container(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(
-                LineAwesomeIcons.cog,
-              ),
-            ),
-            onTap: () => Navigator.pushNamed(context, SettingsPage.id),
-          ),
+    return NotificationListener(
+      onNotification: (ScrollNotification notification) {
+        if (notification is ScrollStartNotification) {
+          if (notification.dragDetails != null) {
+            tabIsSwiping = true;
+            phoneCarouselController.stopAutoplay();
+          }
+        } else if (notification is ScrollEndNotification) {
+          tabIsSwiping = false;
+          phoneCarouselController.startAutoplay();
+        }
+        return false;
+      },
+      child: VerticalTabs(
+        pageController: tabsPageController,
+        contentScrollAxis: Axis.vertical,
+        tabsWidth: 50.0,
+        itemExtent: kScreenAwareSize(45, context),
+        indicatorColor: kBrightnessAwareColor(
+          context,
+          lightColor: Colors.black,
+          darkColor: Colors.white,
         ),
-      ],
+        tabs: tabs,
+        contents: contentsList(),
+        actions: <Widget>[
+          Material(
+            type: MaterialType.transparency,
+            child: InkWell(
+              customBorder: CircleBorder(),
+              child: Container(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(
+                  LineAwesomeIcons.cog,
+                ),
+              ),
+              onTap: () => Navigator.pushNamed(context, SettingsPage.id),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

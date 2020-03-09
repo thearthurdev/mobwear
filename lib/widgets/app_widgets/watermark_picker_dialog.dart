@@ -29,7 +29,7 @@ class _WatermarkPickerDialogState extends State<WatermarkPickerDialog> {
         statusBarColor: Colors.transparent,
         systemNavigationBarColor: kBrightnessAwareColor(context,
             lightColor: Color(0xFF757575), darkColor: Color(0xFF060606)),
-        systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarIconBrightness: Brightness.light,
       ),
       child: Consumer<CustomizationProvider>(
         builder: (context, provider, child) {

@@ -12,11 +12,13 @@ class PhoneCarousel extends StatefulWidget {
   final List<PhoneModel> phonesList;
   final SwiperController swiperController;
   final PageController tabsPageController;
+  final bool tabIsSwiping;
 
   PhoneCarousel({
     @required this.phonesList,
     @required this.swiperController,
     @required this.tabsPageController,
+    this.tabIsSwiping = false,
   });
 
   @override
@@ -115,7 +117,8 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
           if (i == phonesList.length - 1 &&
               autoplayCarousel &&
               !userIsSwiping &&
-              !editPageOpen) {
+              !editPageOpen &&
+              !widget.tabIsSwiping) {
             int randomInt = Random().nextInt(PhoneModel.phonesLists.length);
             if (randomInt != tabsPageController.page.toInt()) {
               Future.delayed(Duration(milliseconds: 1400)).whenComplete(() {

@@ -18,17 +18,17 @@ class DeveloperInfoDialog extends StatelessWidget {
         statusBarColor: Colors.transparent,
         systemNavigationBarColor: kBrightnessAwareColor(context,
             lightColor: Color(0xFF757575), darkColor: Colors.black),
-        systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarIconBrightness: Brightness.light,
       ),
       child: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+          padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.fromLTRB(16.0, 16.0, 8.0, 8.0),
+                padding: const EdgeInsets.fromLTRB(16.0, 16.0, 8.0, 0.0),
                 child: Row(
                   children: <Widget>[
                     Text(
