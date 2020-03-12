@@ -11,7 +11,7 @@ class CustomizationProvider extends ChangeNotifier {
   bool isCustomizationCopied = false;
 
   //Box opened in this class to listen to changes. DO NOT REMOVE!
-  Box phonesBox = Hive.box(PhoneDatabase.phones);
+  Box phonesBox = PhoneDatabase.phonesBox;
 
   int currentPhoneID;
   int currentPhoneBrandIndex;

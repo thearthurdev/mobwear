@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive/hive.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/custom_icons/custom_icons.dart';
 import 'package:mobwear/database/settings_database.dart';
@@ -107,7 +106,7 @@ class AboutPage extends StatelessWidget {
                     subtitle: 'A bug sent is a bug squashed',
                     icon: LineAwesomeIcons.bug,
                     onLongPress: () {
-                      Hive.box(SettingsDatabase.settings).clear();
+                      SettingsDatabase.settingsBox.clear();
                       print('settings database cleared');
                     }),
                 aboutListTile(

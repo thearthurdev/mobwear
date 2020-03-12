@@ -215,9 +215,8 @@ class _PictureModePageState extends State<PictureModePage> {
               alignment: Alignment.center,
               children: <Widget>[
                 AspectRatio(
-                  aspectRatio: MyAspectRatio.myAspectRatios(
-                          context)[provider.aspectRatioIndex]
-                      .ratio,
+                  aspectRatio: MyAspectRatio
+                      .myAspectRatios[provider.aspectRatioIndex].ratio,
                   child: Container(
                     decoration: BoxDecoration(
                       border: border,

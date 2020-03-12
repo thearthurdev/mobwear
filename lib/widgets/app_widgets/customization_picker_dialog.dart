@@ -111,9 +111,7 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              ModePickerModel.myPickerModes[i].modeName
-                                  .split(' ')[1]
-                                  .toUpperCase(),
+                              ModePickerModel.myPickerModes[i].modeName,
                               style: kTitleTextStyle,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

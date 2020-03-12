@@ -32,11 +32,11 @@ class AspectRatioPickerDialog extends StatelessWidget {
             width: kDeviceWidth(context) - 200,
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: MyAspectRatio.myAspectRatios(context).length,
+              itemCount: MyAspectRatio.myAspectRatios.length,
               itemBuilder: (context, i) {
                 return ListTile(
                   contentPadding: EdgeInsets.symmetric(horizontal: 24.0),
-                  title: Text(MyAspectRatio.myAspectRatios(context)[i].name),
+                  title: Text(MyAspectRatio.myAspectRatios[i].name),
                   trailing: Provider.of<CustomizationProvider>(context)
                               .aspectRatioIndex ==
                           i

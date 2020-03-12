@@ -185,7 +185,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           );
                         });
 
-                        Box settingsBox = Hive.box(SettingsDatabase.settings);
+                        Box settingsBox = SettingsDatabase.settingsBox;
                         settingsBox.put(SettingsDatabase.initLaunchKey, 1);
                       } else {
                         setState(() => isSwipeLeft = true);

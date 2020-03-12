@@ -7,6 +7,7 @@ import 'package:mobwear/data/models/phone_model.dart';
 import 'package:mobwear/pages/settings_page.dart';
 import 'package:mobwear/providers/settings_provider.dart';
 import 'package:mobwear/utils/constants.dart';
+import 'package:mobwear/widgets/app_widgets/circle_accent_button.dart';
 import 'package:mobwear/widgets/app_widgets/no_phones_found_widget.dart';
 import 'package:mobwear/widgets/app_widgets/phone_carousel.dart';
 import 'package:mobwear/widgets/app_widgets/phone_grid.dart';
@@ -42,8 +43,23 @@ class HomeVerticalTabs extends StatelessWidget {
 
     List<Widget> contentsList() {
       return List<Widget>.generate(
-        phonesLists.length,
+        tabs.length,
         (i) {
+          if (i > phonesLists.length - 1) {
+            return Container(
+              margin: EdgeInsets.only(right: 50.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CircleAccentButton(icon: LineAwesomeIcons.mobile_phone),
+                  SizedBox(height: 8.0),
+                  Text('No phones found', style: kTitleTextStyle),
+                  SizedBox(height: 4.0),
+                  Text('Probably shipping delays', style: kSubtitleTextStyle),
+                ],
+              ),
+            );
+          }
           return FutureBuilder(
             future: Provider.of<SettingsProvider>(context).loadPhoneGroupView(),
             builder: (context, snapshot) {

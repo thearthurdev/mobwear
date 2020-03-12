@@ -4,10 +4,12 @@ class SettingsDatabase {
   static const String settings = 'settings';
   static const String initLaunchKey = 'initLaunchKey';
   static const String groupViewKey = 'groupViewKey';
-  static const String editPageTipsKey = 'editPageTipsKey';
-  static const String picPageTipsKey = 'picPageTipsKey';
   static const String themeIndexKey = 'themeIndexKey';
   static const String carouselAutoplayKey = 'carouselAutoplayKey';
+
+  //Onboarding tip Keys
+  static const String flipPhoneTipKey = 'flipPhoneTipKey';
+  static const String swipeCardTipKey = 'swipeCardTipKey';
 
   static var settingsBox = Hive.box(settings);
 
@@ -16,10 +18,12 @@ class SettingsDatabase {
       print('initializing settings database');
       settingsBox.put(initLaunchKey, 0);
       settingsBox.put(groupViewKey, 0);
-      settingsBox.put(editPageTipsKey, 0);
-      settingsBox.put(picPageTipsKey, 0);
       settingsBox.put(themeIndexKey, 2);
       settingsBox.put(carouselAutoplayKey, true);
+
+      //init tip keys
+      settingsBox.put(flipPhoneTipKey, 0);
+      settingsBox.put(swipeCardTipKey, 0);
     }
   }
 }

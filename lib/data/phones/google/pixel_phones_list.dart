@@ -6,24 +6,9 @@ import 'package:mobwear/data/phones/google/pixel_4_xl.dart';
 import 'package:mobwear/data/phones/google/pixel_xl.dart';
 
 List<PhoneModel> pixelPhonesList = [
-  PhoneModel(
-    id: 0100,
-    phone: PixelXL(),
-  ),
-  PhoneModel(
-    id: 0101,
-    phone: Pixel2(),
-  ),
-  PhoneModel(
-    id: 0102,
-    phone: Pixel2XL(),
-  ),
-  PhoneModel(
-    id: 0103,
-    phone: Pixel3XL(),
-  ),
-  PhoneModel(
-    id: 0104,
-    phone: Pixel4XL(),
-  ),
+  PhoneModel(id: 0100, phone: PixelXL()),
+  PhoneModel(id: 0101, phone: Pixel2()),
+  PhoneModel(id: 0102, phone: Pixel2XL()),
+  PhoneModel(id: 0103, phone: Pixel3XL()),
+  PhoneModel(id: 0104, phone: Pixel4XL()),
 ];

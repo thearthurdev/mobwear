@@ -72,7 +72,7 @@ void main() async {
 class MobWear extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Box settingsBox = Hive.box(SettingsDatabase.settings);
+    Box settingsBox = SettingsDatabase.settingsBox;
     bool isFirstLaunch = settingsBox.get(SettingsDatabase.initLaunchKey) == 0;
 
     return MaterialApp(

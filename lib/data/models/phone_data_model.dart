@@ -9,7 +9,7 @@ part 'phone_data_model.g.dart';
 
 @HiveType(typeId: 0)
 class PhoneDataModel {
-  ///id will be in the format ##,## => brandIndex,phoneIndex without the comma
+  //id will be in the format "##,##" => brandIndex,phoneIndex without the comma
   @HiveField(0)
   final int id;
   @HiveField(1)
@@ -26,6 +26,6 @@ class PhoneDataModel {
   static List<List<PhoneDataModel>> phonesDataLists = [
     pixelDataList,
     iPhoneDataList,
-    galaxyDataList
+    galaxyDataList,
   ];
 }

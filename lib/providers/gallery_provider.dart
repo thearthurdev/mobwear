@@ -6,7 +6,7 @@ import 'package:mobwear/data/models/gallery_item_model.dart';
 import 'package:mobwear/database/gallery_database.dart';
 
 class GalleryProvider extends ChangeNotifier {
-  Box galleryBox = Hive.box(GalleryDatabase.gallery);
+  Box galleryBox = GalleryDatabase.galleryBox;
   List<GalleryItem> galleryItems = [];
   int currentIndex;
 

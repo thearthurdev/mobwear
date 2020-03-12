@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:hive/hive.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/custom_icons/custom_icons.dart';
 import 'package:mobwear/data/models/texture_model.dart';
+import 'package:mobwear/database/gallery_database.dart';
+import 'package:mobwear/database/settings_database.dart';
 import 'package:mobwear/pages/gallery_page.dart';
 import 'package:mobwear/providers/gallery_provider.dart';
 import 'package:mobwear/providers/settings_provider.dart';
@@ -44,8 +45,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     tabsPageController.dispose();
-    Hive.box(PhoneDatabase.phones).close();
-
+    PhoneDatabase.phonesBox.close();
+    SettingsDatabase.settingsBox.close();
+    GalleryDatabase.galleryBox.close();
     super.dispose();
   }
 

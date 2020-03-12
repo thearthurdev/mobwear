@@ -6,7 +6,7 @@ import 'package:mobwear/utils/constants.dart';
 
 class ThemeProvider with ChangeNotifier {
   static String themeIndexKey = SettingsDatabase.themeIndexKey;
-  static Box settingsBox = Hive.box(SettingsDatabase.settings);
+  static Box settingsBox = SettingsDatabase.settingsBox;
   static int themeIndex = settingsBox.get(themeIndexKey) ?? 2;
 
   static Map<String, ThemeMode> myThemes = {

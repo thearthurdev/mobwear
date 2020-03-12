@@ -15,7 +15,7 @@ Map<String, bool> myAutoplayOptions = {
 };
 
 class SettingsProvider extends ChangeNotifier {
-  Box settingsBox = Hive.box(SettingsDatabase.settings);
+  Box settingsBox = SettingsDatabase.settingsBox;
 
   //Phone Group View Settings
   PhoneGroupView phoneGroupView;
