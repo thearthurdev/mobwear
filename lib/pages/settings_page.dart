@@ -60,7 +60,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 SizedBox(height: 16.0),
                 SettingsExpansionTile(
-                  title: 'Carousel autoplay',
+                  title: 'Carousel mode',
                   subtitle: settingsProvider.autoplayCarousel
                       ? 'Carousel will autoplay'
                       : 'Carousel will be stagnant',

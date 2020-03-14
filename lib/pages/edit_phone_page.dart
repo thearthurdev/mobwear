@@ -37,31 +37,52 @@ class _EditPhonePageState extends State<EditPhonePage>
   bool showFAB = true;
 
   static Box settingsBox = SettingsDatabase.settingsBox;
-  bool showTip = settingsBox.get(SettingsDatabase.flipPhoneTipKey) == 0;
+  bool showFlipTip = settingsBox.get(SettingsDatabase.flipPhoneTipKey) != 1;
+  bool showSwipeTip = settingsBox.get(SettingsDatabase.flipPhoneTipKey) != 1;
 
   @override
   void initState() {
     super.initState();
     scrollController = ScrollController();
     scrollController.addListener(scrollListener);
+    WidgetsBinding.instance.addPostFrameCallback((_) => showFlipTipFlushbar());
+  }
 
-    // if (showTip) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+  void showFlipTipFlushbar() {
+    if (showFlipTip) {
       Future.delayed(Duration(milliseconds: 1500), () {
-        MyFlushbars.showTipFlushbar(context,
-            title: 'Tip: Specs',
-            message:
-                'Want to view some of the specs of any phone?\nSimply flip it over!',
-            onDismiss: () {
-          flipCardKey.currentState.controller.reverse();
-          flipCardKey.currentState.isFront = true;
-        });
         flipCardKey.currentState.controller.forward();
         flipCardKey.currentState.isFront = false;
+        MyFlushbars.showTipFlushbar(
+          context,
+          title: 'Tip: Specs',
+          message: 'Want to view the specs of any phone? Simply flip it over!',
+          onDismiss: () {
+            flipCardKey.currentState.controller.reverse();
+            flipCardKey.currentState.isFront = true;
+            settingsBox.put(SettingsDatabase.flipPhoneTipKey, 1);
+
+            if (showSwipeTip) showSwipeTipFlushbar();
+          },
+        );
       });
-      //   settingsBox.put(SettingsDatabase.flipPhoneTipKey, 1);
+    }
+  }
+
+  void showSwipeTipFlushbar() {
+    setState(() => showFAB = false);
+    scrollController
+        .animateTo(scrollController.position.maxScrollExtent,
+            duration: Duration(milliseconds: 600),
+            curve: Curves.linearToEaseOut)
+        .whenComplete(() {
+      MyFlushbars.showTipFlushbar(
+        context,
+        title: 'Tip: Reset, Copy & Paste',
+        message: 'Swipe left or right on a card to access more actions',
+        onDismiss: () => settingsBox.put(SettingsDatabase.swipeCardTipKey, 1),
+      );
     });
-    // }
   }
 
   void scrollListener() {
@@ -126,19 +147,6 @@ class _EditPhonePageState extends State<EditPhonePage>
           }
         },
       ),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(LineAwesomeIcons.bars),
-          onPressed: () {
-            MyFlushbars.showTipFlushbar(
-              context,
-              title: 'Tip: Specs',
-              message:
-                  'Want to view the specs of this phone? Simply flip it over!',
-            );
-          },
-        ),
-      ],
     );
   }
 

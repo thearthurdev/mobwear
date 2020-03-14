@@ -12,7 +12,7 @@ import 'package:mobwear/widgets/phone_widgets/texture_decoration.dart';
 import 'package:provider/provider.dart';
 
 class Note10Plus extends StatelessWidget {
-  static final int phoneIndex = 2;
+  static final int phoneIndex = 1;
   static final int phoneBrandIndex = 2;
   static const String phoneBrand = 'Samsung';
   static const String phoneModel = 'Galaxy';
@@ -54,8 +54,8 @@ class Note10Plus extends StatelessWidget {
   Widget build(BuildContext context) {
     var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
 
-    var colors = phonesBox.get(0302).colors;
-    var textures = phonesBox.get(0302).textures;
+    var colors = phonesBox.get(0301).colors;
+    var textures = phonesBox.get(0301).textures;
 
     Color backPanelColor = colors['Back Panel'];
     Color cameraBumpColor = colors['Camera Bump'];

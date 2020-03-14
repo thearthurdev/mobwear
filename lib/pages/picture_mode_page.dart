@@ -5,17 +5,20 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:matrix_gesture_detector/matrix_gesture_detector.dart';
 import 'package:mobwear/data/models/aspect_ratio_model.dart';
 import 'package:mobwear/data/models/brand_model.dart';
 import 'package:mobwear/data/models/position_model.dart';
 import 'package:mobwear/data/models/texture_model.dart';
+import 'package:mobwear/database/settings_database.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/aspect_ratio_picker_dialog.dart';
 import 'package:mobwear/widgets/app_widgets/customization_picker_dialog.dart';
 import 'package:mobwear/widgets/app_widgets/fab_bottom_appbar.dart';
+import 'package:mobwear/widgets/app_widgets/flushbars.dart';
 import 'package:mobwear/widgets/app_widgets/save_image_dialog.dart';
 import 'package:mobwear/widgets/app_widgets/watermark_picker_dialog.dart';
 import 'package:provider/provider.dart';
@@ -41,11 +44,28 @@ class _PictureModePageState extends State<PictureModePage> {
   bool isCapturing = false;
   GlobalKey captureKey = GlobalKey();
 
+  static Box settingsBox = SettingsDatabase.settingsBox;
+  bool showMoveTip = settingsBox.get(SettingsDatabase.movePhoneTipKey) != 1;
+
   @override
   void initState() {
     super.initState();
     matrix = Matrix4.identity();
     initRandomColor = Colors.primaries[Random().nextInt(15)];
+    WidgetsBinding.instance.addPostFrameCallback((_) => showMoveTipFlushbar());
+  }
+
+  void showMoveTipFlushbar() {
+    if (showMoveTip) {
+      Future.delayed(Duration(milliseconds: 1500), () {
+        MyFlushbars.showTipFlushbar(
+          context,
+          title: 'Tip: Move, Rotate & Resize',
+          message: 'You can manipulate the phone to get the perfect picture',
+          onDismiss: () => settingsBox.put(SettingsDatabase.movePhoneTipKey, 1),
+        );
+      });
+    }
   }
 
   @override

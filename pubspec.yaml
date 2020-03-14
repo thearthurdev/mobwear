@@ -9,7 +9,6 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^0.1.2
-  shared_preferences: ^0.5.3+4
   provider: ^3.2.0
   toast: ^0.1.5
   line_awesome_icons: ^1.0.4+2

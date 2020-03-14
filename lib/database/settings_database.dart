@@ -10,6 +10,7 @@ class SettingsDatabase {
   //Onboarding tip Keys
   static const String flipPhoneTipKey = 'flipPhoneTipKey';
   static const String swipeCardTipKey = 'swipeCardTipKey';
+  static const String movePhoneTipKey = 'movePhoneTipKey';
 
   static var settingsBox = Hive.box(settings);
 
@@ -24,6 +25,7 @@ class SettingsDatabase {
       //init tip keys
       settingsBox.put(flipPhoneTipKey, 0);
       settingsBox.put(swipeCardTipKey, 0);
+      settingsBox.put(movePhoneTipKey, 0);
     }
   }
 }

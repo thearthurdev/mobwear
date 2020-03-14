@@ -50,12 +50,58 @@ class MyFlushbars {
       borderRadius: 10.0,
       dismissDirection: FlushbarDismissDirection.HORIZONTAL,
       backgroundColor: kBrightnessAwareColor(context,
-          lightColor: Colors.black87, darkColor: Colors.white),
+          lightColor: Colors.black, darkColor: Colors.white),
       onStatusChanged: (status) {
-        if (status == FlushbarStatus.DISMISSED) {
+        if (status == FlushbarStatus.DISMISSED && onDismiss != null) {
           onDismiss();
         }
       },
+    )..show(context);
+  }
+
+  static void showCustomizationActionFlushbar(
+    BuildContext context, {
+    String message,
+    String buttonText,
+    IconData icon,
+    Function onButtonPressed,
+  }) {
+    Flushbar(
+      messageText: Text(
+        message,
+        style: kTitleTextStyle.copyWith(
+          color: kBrightnessAwareColor(context,
+              lightColor: Colors.white, darkColor: Colors.black),
+        ),
+      ),
+      icon: Icon(
+        icon,
+        color: kBrightnessAwareColor(context,
+            lightColor: Colors.white, darkColor: Colors.black),
+      ),
+      shouldIconPulse: false,
+      flushbarStyle: FlushbarStyle.FLOATING,
+      margin: EdgeInsets.all(8.0),
+      borderRadius: 10.0,
+      duration: Duration(milliseconds: 2000),
+      dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+      backgroundColor: kBrightnessAwareColor(context,
+          lightColor: Colors.black, darkColor: Colors.white),
+      mainButton: buttonText != null
+          ? FlatButton(
+              onPressed: () {
+                if (onButtonPressed != null) onButtonPressed();
+              },
+              child: Text(
+                buttonText,
+                style: kTitleTextStyle.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: kBrightnessAwareColor(context,
+                      lightColor: Colors.white, darkColor: Colors.black),
+                ),
+              ),
+            )
+          : null,
     )..show(context);
   }
 }

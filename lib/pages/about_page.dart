@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/custom_icons/custom_icons.dart';
+import 'package:mobwear/database/phone_database.dart';
 import 'package:mobwear/database/settings_database.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/developer_info_dialog.dart';
@@ -100,15 +101,20 @@ class AboutPage extends StatelessWidget {
                   subtitle: 'Don\'t have all the fun alone',
                   icon: LineAwesomeIcons.share_alt,
                   onTap: () {},
+                  onLongPress: () {
+                    PhoneDatabase.phonesBox.clear();
+                    print('phones database cleared');
+                  },
                 ),
                 aboutListTile(
-                    title: 'Send bug report',
-                    subtitle: 'A bug sent is a bug squashed',
-                    icon: LineAwesomeIcons.bug,
-                    onLongPress: () {
-                      SettingsDatabase.settingsBox.clear();
-                      print('settings database cleared');
-                    }),
+                  title: 'Send bug report',
+                  subtitle: 'A bug sent is a bug squashed',
+                  icon: LineAwesomeIcons.bug,
+                  onLongPress: () {
+                    SettingsDatabase.settingsBox.clear();
+                    print('settings database cleared');
+                  },
+                ),
                 aboutListTile(
                   title: 'Developer Info',
                   subtitle: 'Find out who is behind this app',

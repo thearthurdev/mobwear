@@ -7,19 +7,6 @@ List<PhoneDataModel> galaxyDataList = [
     id: 0300,
     colors: {
       'Camera Bump': Colors.black,
-      'Back Panel': Colors.black,
-      'Fingerprint Sensor': Colors.black,
-      'Samsung Logo': Colors.white60,
-    },
-    textures: {
-      'Camera Bump': MyTexture(),
-      'Back Panel': MyTexture(),
-    },
-  ),
-  PhoneDataModel(
-    id: 0301,
-    colors: {
-      'Camera Bump': Colors.black,
       'Back Panel': Colors.blue[700],
       'Samsung Logo': Colors.white60,
     },
@@ -29,7 +16,7 @@ List<PhoneDataModel> galaxyDataList = [
     },
   ),
   PhoneDataModel(
-    id: 0302,
+    id: 0301,
     colors: {
       'Camera Bump': Colors.black,
       'Back Panel': Colors.red[800],

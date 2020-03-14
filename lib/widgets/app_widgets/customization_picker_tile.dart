@@ -5,11 +5,11 @@ import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/data/models/texture_model.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
-import 'package:mobwear/widgets/app_widgets/custom_snack_bar.dart';
 import 'package:mobwear/widgets/app_widgets/customization_indicator.dart';
 import 'package:mobwear/widgets/app_widgets/customization_picker_dialog.dart';
 import 'package:mobwear/widgets/app_widgets/elevated_card.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:mobwear/widgets/app_widgets/flushbars.dart';
 import 'package:mobwear/widgets/app_widgets/show_up_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -192,12 +192,15 @@ class CustomizationPickerTile extends StatelessWidget {
     Provider.of<CustomizationProvider>(context).setCurrentSide(index);
     Provider.of<CustomizationProvider>(context).setTempValues(noTexture);
     Provider.of<CustomizationProvider>(context).resetCustomization(noTexture);
-    CustomSnackBar.showSnackBar(
+    MyFlushbars.showCustomizationActionFlushbar(
       context,
-      noTexture: noTexture,
-      undo: true,
-      text:
+      icon: LineAwesomeIcons.refresh,
+      message:
           '${Provider.of<CustomizationProvider>(context).currentSide} customization reset',
+      buttonText: 'Undo',
+      onButtonPressed: () {
+        Provider.of<CustomizationProvider>(context).undo(noTexture);
+      },
     );
   }
 
@@ -205,11 +208,13 @@ class CustomizationPickerTile extends StatelessWidget {
     Provider.of<CustomizationProvider>(context).setCurrentSide(index);
     Provider.of<CustomizationProvider>(context).setPreviousSide();
     Provider.of<CustomizationProvider>(context).copyCustomization(noTexture);
-    CustomSnackBar.showSnackBar(
+    MyFlushbars.showCustomizationActionFlushbar(
       context,
-      noTexture: noTexture,
-      text:
+      icon: LineAwesomeIcons.copy,
+      message:
           '${Provider.of<CustomizationProvider>(context).currentSide} customization copied',
+      buttonText: 'Okay',
+      onButtonPressed: () {},
     );
   }
 
@@ -220,18 +225,21 @@ class CustomizationPickerTile extends StatelessWidget {
     Provider.of<CustomizationProvider>(context).setTempValues(noTexture);
     try {
       Provider.of<CustomizationProvider>(context).pasteCustomization(noTexture);
-      CustomSnackBar.showSnackBar(
+      MyFlushbars.showCustomizationActionFlushbar(
         context,
-        noTexture: noTexture,
-        undo: true,
-        text:
+        icon: LineAwesomeIcons.paste,
+        message:
             '$previousSide customization pasted to ${Provider.of<CustomizationProvider>(context).currentSide}',
+        buttonText: 'Undo',
+        onButtonPressed: () {
+          Provider.of<CustomizationProvider>(context).undo(noTexture);
+        },
       );
     } catch (e) {
-      CustomSnackBar.showSnackBar(
+      MyFlushbars.showCustomizationActionFlushbar(
         context,
-        noTexture: noTexture,
-        text: 'Cannot apply texture here',
+        icon: LineAwesomeIcons.warning,
+        message: 'Cannot apply texture here',
       );
     }
   }

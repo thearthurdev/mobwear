@@ -53,6 +53,7 @@ class _SpecsScreenState extends State<SpecsScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.only(top: 16.0),
       child: PageView(
         controller: pageController,
         physics: NeverScrollableScrollPhysics(),
@@ -85,6 +86,7 @@ class _SpecsScreenState extends State<SpecsScreen> {
               List specsList = snapshot.data;
 
               return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Expanded(
                     child: Center(
@@ -97,34 +99,36 @@ class _SpecsScreenState extends State<SpecsScreen> {
                       ),
                     ),
                   ),
-                  GridView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+                    child: GridView.builder(
+                      itemCount: 6,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      itemBuilder: (context, i) {
+                        return Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: CircleAccentButton(
+                            icon: specIcons[i].icon,
+                            index: i,
+                            onTap: () {
+                              pageController.animateToPage(
+                                1,
+                                duration: Duration(milliseconds: 300),
+                                curve: Curves.fastLinearToSlowEaseIn,
+                              );
+                              selectedSpec = i;
+                              spec = specsList[i];
+                              page = 1;
+                              setState(() {});
+                            },
+                          ),
+                        );
+                      },
                     ),
-                    itemCount: 6,
-                    itemBuilder: (context, i) {
-                      IconData icon = specIcons[i].icon;
-                      return Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: CircleAccentButton(
-                          icon: icon,
-                          index: i,
-                          onTap: () {
-                            pageController.animateToPage(
-                              1,
-                              duration: Duration(milliseconds: 300),
-                              curve: Curves.fastLinearToSlowEaseIn,
-                            );
-                            selectedSpec = i;
-                            spec = specsList[i];
-                            page = 1;
-                            setState(() {});
-                          },
-                        ),
-                      );
-                    },
                   ),
                 ],
               );
@@ -134,19 +138,16 @@ class _SpecsScreenState extends State<SpecsScreen> {
             children: <Widget>[
               Align(
                 alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 0.0, top: 20.0),
-                  child: IconButton(
-                    icon: Icon(LineAwesomeIcons.angle_left),
-                    onPressed: () {
-                      page = 0;
-                      pageController.animateToPage(
-                        0,
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    },
-                  ),
+                child: IconButton(
+                  icon: Icon(LineAwesomeIcons.angle_left),
+                  onPressed: () {
+                    page = 0;
+                    pageController.animateToPage(
+                      0,
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  },
                 ),
               ),
               Expanded(

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
@@ -14,7 +16,7 @@ import 'package:mobwear/widgets/app_widgets/phone_grid.dart';
 import 'package:mobwear/widgets/app_widgets/vertical_tabs.dart';
 import 'package:provider/provider.dart';
 
-class HomeVerticalTabs extends StatelessWidget {
+class HomeVerticalTabs extends StatefulWidget {
   final PageController tabsPageController;
   final ScrollController phoneGridController;
   final SwiperController phoneCarouselController;
@@ -25,100 +27,42 @@ class HomeVerticalTabs extends StatelessWidget {
     @required this.phoneCarouselController,
   });
 
-  static bool tabIsSwiping = false;
+  @override
+  _HomeVerticalTabsState createState() => _HomeVerticalTabsState();
+}
+
+class _HomeVerticalTabsState extends State<HomeVerticalTabs> {
+  bool tabIsSwiping;
+  int randomInt;
+  List<List<PhoneModel>> phonesLists = PhoneModel.phonesLists;
+  List<String> randomExcuses;
+
+  @override
+  void initState() {
+    super.initState();
+    tabIsSwiping = false;
+    randomInt = Random().nextInt(PhoneModel.excuses.length);
+    PhoneModel.excuses.shuffle();
+    randomExcuses = PhoneModel.excuses;
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<List<PhoneModel>> phonesLists = PhoneModel.phonesLists;
-
-    List<Tab> tabs = List<Tab>.generate(BrandIcon.brandIcons.length, (i) {
-      BrandIcon myBrandIcon = BrandIcon.brandIcons[i];
-      return Tab(
-        icon: Icon(
-          myBrandIcon.icon,
-          size: myBrandIcon.size,
-        ),
-      );
-    });
-
-    List<Widget> contentsList() {
-      return List<Widget>.generate(
-        tabs.length,
-        (i) {
-          if (i > phonesLists.length - 1) {
-            return Container(
-              margin: EdgeInsets.only(right: 50.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CircleAccentButton(icon: LineAwesomeIcons.mobile_phone),
-                  SizedBox(height: 8.0),
-                  Text('No phones found', style: kTitleTextStyle),
-                  SizedBox(height: 4.0),
-                  Text('Probably shipping delays', style: kSubtitleTextStyle),
-                ],
-              ),
-            );
-          }
-          return FutureBuilder(
-            future: Provider.of<SettingsProvider>(context).loadPhoneGroupView(),
-            builder: (context, snapshot) {
-              if (snapshot.data == null &&
-                  snapshot.connectionState != ConnectionState.done) {
-                return Center(
-                  child: Container(
-                    margin: EdgeInsets.only(right: 52.0),
-                    child: Icon(
-                      CustomIcons.mobwear,
-                      color: kBrightnessAwareColor(context,
-                          lightColor: Colors.black, darkColor: Colors.white),
-                      size: kScreenAwareSize(40.0, context),
-                    ),
-                  ),
-                );
-              }
-              if (!snapshot.hasData || snapshot.hasError) {
-                return Center(child: NoPhonesFound());
-              }
-
-              dynamic view() {
-                if (snapshot.data == PhoneGroupView.grid)
-                  return PhoneGrid(
-                    phonesList: phonesLists[i],
-                    brandIndex: i,
-                    controller: phoneGridController,
-                  );
-                if (snapshot.data == PhoneGroupView.carousel)
-                  return PhoneCarousel(
-                    phonesList: phonesLists[i],
-                    swiperController: phoneCarouselController,
-                    tabsPageController: tabsPageController,
-                    tabIsSwiping: tabIsSwiping,
-                  );
-              }
-
-              return view();
-            },
-          );
-        },
-      );
-    }
-
     return NotificationListener(
       onNotification: (ScrollNotification notification) {
         if (notification is ScrollStartNotification) {
           if (notification.dragDetails != null) {
             tabIsSwiping = true;
-            phoneCarouselController.stopAutoplay();
+            widget.phoneCarouselController.stopAutoplay();
           }
         } else if (notification is ScrollEndNotification) {
           tabIsSwiping = false;
-          phoneCarouselController.startAutoplay();
+          widget.phoneCarouselController.startAutoplay();
         }
         return false;
       },
       child: VerticalTabs(
-        pageController: tabsPageController,
+        pageController: widget.tabsPageController,
         contentScrollAxis: Axis.vertical,
         tabsWidth: 50.0,
         itemExtent: kScreenAwareSize(45, context),
@@ -133,6 +77,7 @@ class HomeVerticalTabs extends StatelessWidget {
           Material(
             type: MaterialType.transparency,
             child: InkWell(
+              onTap: () => Navigator.pushNamed(context, SettingsPage.id),
               customBorder: CircleBorder(),
               child: Container(
                 padding: EdgeInsets.all(8.0),
@@ -140,11 +85,90 @@ class HomeVerticalTabs extends StatelessWidget {
                   LineAwesomeIcons.cog,
                 ),
               ),
-              onTap: () => Navigator.pushNamed(context, SettingsPage.id),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  List<Tab> tabs = List<Tab>.generate(BrandIcon.brandIcons.length, (i) {
+    BrandIcon myBrandIcon = BrandIcon.brandIcons[i];
+    return Tab(
+      icon: Icon(
+        myBrandIcon.icon,
+        size: myBrandIcon.size,
+      ),
+    );
+  });
+
+  List<Widget> contentsList() {
+    return List<Widget>.generate(
+      tabs.length,
+      (i) {
+        if (i > phonesLists.length - 1) {
+          int reverseIndex = tabs.length - i;
+
+          return Container(
+            margin: EdgeInsets.only(right: 50.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                CircleAccentButton(icon: BrandModel.brands[i].brandIcon.icon),
+                SizedBox(height: 8.0),
+                Text('No ${BrandModel.brandNames[i]} phones found',
+                    style: kTitleTextStyle),
+                SizedBox(height: 4.0),
+                Text(
+                  randomExcuses[reverseIndex],
+                  style: kSubtitleTextStyle,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          );
+        }
+        return FutureBuilder(
+          future: Provider.of<SettingsProvider>(context).loadPhoneGroupView(),
+          builder: (context, snapshot) {
+            if (snapshot.data == null &&
+                snapshot.connectionState != ConnectionState.done) {
+              return Center(
+                child: Container(
+                  margin: EdgeInsets.only(right: 52.0),
+                  child: Icon(
+                    CustomIcons.mobwear,
+                    color: kBrightnessAwareColor(context,
+                        lightColor: Colors.black, darkColor: Colors.white),
+                    size: kScreenAwareSize(40.0, context),
+                  ),
+                ),
+              );
+            }
+            if (!snapshot.hasData || snapshot.hasError) {
+              return Center(child: NoPhonesFound());
+            }
+
+            dynamic view() {
+              if (snapshot.data == PhoneGroupView.grid)
+                return PhoneGrid(
+                  phonesList: phonesLists[i],
+                  brandIndex: i,
+                  controller: widget.phoneGridController,
+                );
+              if (snapshot.data == PhoneGroupView.carousel)
+                return PhoneCarousel(
+                  phonesList: phonesLists[i],
+                  swiperController: widget.phoneCarouselController,
+                  tabsPageController: widget.tabsPageController,
+                  tabIsSwiping: tabIsSwiping,
+                );
+            }
+
+            return view();
+          },
+        );
+      },
     );
   }
 }

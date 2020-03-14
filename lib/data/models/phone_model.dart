@@ -13,4 +13,15 @@ class PhoneModel {
     iPhonePhonesList,
     galaxyPhonesList,
   ];
+
+  static List<String> excuses = [
+    'Probably due to shipping delays',
+    'Check back soon',
+    'They might arrive in next update',
+    'Try the other available brands',
+    'Oops, let\'s wait a while longer',
+    'Manufacturing takes time, sadly',
+    'ETA unknown, but arrive they shall',
+    'They\'ll be in soon'
+  ];
 }

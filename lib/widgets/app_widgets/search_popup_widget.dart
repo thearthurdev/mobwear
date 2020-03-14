@@ -56,11 +56,9 @@ class SearchPopupWidget extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: kBrightnessAwareColor(
-                  context,
-                  lightColor: Colors.black38,
-                  darkColor: Colors.black38,
-                ),
+                color: kBrightnessAwareColor(context,
+                    lightColor: Colors.blueGrey.withOpacity(0.2),
+                    darkColor: Colors.black26),
                 blurRadius: 10.0,
                 offset: Offset(0.0, 6.0),
               ),

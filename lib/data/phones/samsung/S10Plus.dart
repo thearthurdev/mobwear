@@ -11,7 +11,7 @@ import 'package:mobwear/widgets/phone_widgets/heart_rate_sensor.dart';
 import 'package:provider/provider.dart';
 
 class S10Plus extends StatelessWidget {
-  static final int phoneIndex = 1;
+  static final int phoneIndex = 0;
   static final int phoneBrandIndex = 2;
   static const String phoneBrand = 'Samsung';
   static const String phoneModel = 'Galaxy';
@@ -71,8 +71,8 @@ class S10Plus extends StatelessWidget {
   Widget build(BuildContext context) {
     var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
 
-    var colors = phonesBox.get(0301).colors;
-    var textures = phonesBox.get(0301).textures;
+    var colors = phonesBox.get(0300).colors;
+    var textures = phonesBox.get(0300).textures;
 
     Color backPanelColor = colors['Back Panel'];
     Color cameraBumpColor = colors['Camera Bump'];
