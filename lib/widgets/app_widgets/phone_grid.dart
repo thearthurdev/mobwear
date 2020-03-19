@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobwear/data/models/phone_model.dart';
 import 'package:mobwear/pages/edit_phone_page.dart';
+import 'package:mobwear/utils/constants.dart';
 
 class PhoneGrid extends StatelessWidget {
   final List<PhoneModel> phonesList;
@@ -25,7 +26,8 @@ class PhoneGrid extends StatelessWidget {
             (phonesList.length.isOdd && phonesList.length > 1 ? 1 : 0),
         scrollDirection: Axis.horizontal,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+          // crossAxisCount: (kDeviceHeight(context) / 350.0).round(),
+          crossAxisCount: kDeviceHeight(context) < 500.0 ? 1 : 2,
           childAspectRatio: 16 / 9,
         ),
         itemBuilder: (context, i) {

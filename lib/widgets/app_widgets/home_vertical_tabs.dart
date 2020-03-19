@@ -57,7 +57,9 @@ class _HomeVerticalTabsState extends State<HomeVerticalTabs> {
           }
         } else if (notification is ScrollEndNotification) {
           tabIsSwiping = false;
-          widget.phoneCarouselController.startAutoplay();
+          if (Provider.of<SettingsProvider>(context).autoplayCarousel) {
+            widget.phoneCarouselController.startAutoplay();
+          }
         }
         return false;
       },
@@ -77,7 +79,16 @@ class _HomeVerticalTabsState extends State<HomeVerticalTabs> {
           Material(
             type: MaterialType.transparency,
             child: InkWell(
-              onTap: () => Navigator.pushNamed(context, SettingsPage.id),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return SettingsPage(
+                        phoneCarouselController:
+                            widget.phoneCarouselController);
+                  },
+                ),
+              ),
               customBorder: CircleBorder(),
               child: Container(
                 padding: EdgeInsets.all(8.0),

@@ -156,7 +156,7 @@ class _SpecsScreenState extends State<SpecsScreen> {
                   child: Column(
                     // mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      SizedBox(height: 16.0),
+                      SizedBox(height: 32.0),
                       CircleAccentButton(
                         icon: specIcons[selectedSpec].icon ?? Icons.close,
                         index: selectedSpec ?? 0,
@@ -172,9 +172,14 @@ class _SpecsScreenState extends State<SpecsScreen> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          spec ?? '',
+                          spec ?? 'No data found',
                           textAlign: TextAlign.center,
                           style: TextStyle(
+                            color: spec == null
+                                ? kBrightnessAwareColor(context,
+                                    lightColor: Colors.black38,
+                                    darkColor: Colors.white38)
+                                : null,
                             fontSize: 18.0,
                             fontFamily: 'Quicksand',
                             fontWeight: FontWeight.bold,

@@ -72,7 +72,9 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
             padding: EdgeInsets.fromLTRB(
               kScreenAwareSize(24.0, context),
               kScreenAwareSize(24.0, context),
-              kScreenAwareSize(52.0, context),
+              kDeviceHeight(context) < 700.0
+                  ? 60.0
+                  : kScreenAwareSize(52.0, context),
               kScreenAwareSize(24.0, context),
             ),
             child: Hero(
@@ -107,8 +109,6 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
           ).whenComplete(
             () {
               editPageOpen = false;
-              // tabsPageController.jumpToPage(
-              //     phonesList[reverseIndex(i)].phone.getPhoneBrandIndex);
               swiperController.move(i, animation: false);
             },
           );

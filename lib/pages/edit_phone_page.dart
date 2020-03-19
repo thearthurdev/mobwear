@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:mobwear/database/phone_database.dart';
 import 'package:mobwear/database/settings_database.dart';
 import 'package:mobwear/pages/picture_mode_page.dart';
 import 'package:mobwear/providers/customization_provider.dart';
@@ -53,6 +51,7 @@ class _EditPhonePageState extends State<EditPhonePage>
       Future.delayed(Duration(milliseconds: 1500), () {
         flipCardKey.currentState.controller.forward();
         flipCardKey.currentState.isFront = false;
+        flipCardKey.currentState.setState(() {});
         MyFlushbars.showTipFlushbar(
           context,
           title: 'Tip: Specs',
@@ -161,23 +160,18 @@ class _EditPhonePageState extends State<EditPhonePage>
             maxHeight: kScreenAwareSize(475.0, context),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 24.0),
-              child: ValueListenableBuilder(
-                valueListenable: PhoneDatabase.phonesBox.listenable(),
-                builder: (context, box, child) {
-                  return Hero(
-                    tag: widget.phoneID,
-                    child: GestureDetector(
-                      onHorizontalDragUpdate: (details) => flipPhone(details),
-                      child: FlipCard(
-                        flipOnTouch: false,
-                        speed: 300,
-                        key: flipCardKey,
-                        front: widget.phone,
-                        back: widget.phone.getPhoneFront,
-                      ),
-                    ),
-                  );
-                },
+              child: Hero(
+                tag: widget.phoneID,
+                child: GestureDetector(
+                  onHorizontalDragUpdate: (details) => flipPhone(details),
+                  child: FlipCard(
+                    flipOnTouch: false,
+                    speed: 300,
+                    key: flipCardKey,
+                    front: widget.phone,
+                    back: widget.phone.getPhoneFront,
+                  ),
+                ),
               ),
             ),
           ),

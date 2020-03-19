@@ -150,7 +150,9 @@ class _PictureModePageState extends State<PictureModePage> {
   FloatingActionButton buildFAB(BuildContext context) {
     return FloatingActionButton(
       elevation: 2.0,
-      onPressed: () => saveImage(),
+      onPressed: () {
+        if (!isCapturing) saveImage();
+      },
       child: isCapturing
           ? Container(
               height: 24.0,

@@ -130,12 +130,13 @@ class _VerticalTabsState extends State<VerticalTabs>
                   children: <Widget>[
                         Expanded(
                           child: ListView.builder(
-                            itemExtent: widget.itemExtent,
+                            // itemExtent: widget.itemExtent,
                             itemCount: widget.tabs.length,
                             itemBuilder: (context, index) {
                               Tab tab = widget.tabs[index];
                               Alignment alignment = Alignment.center;
                               Widget child;
+
                               if (tab.child != null) {
                                 child = tab.child;
                               } else {

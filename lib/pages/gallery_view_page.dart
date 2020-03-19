@@ -89,7 +89,11 @@ class _GalleryViewPageState extends State<GalleryViewPage> {
                             ),
                           );
                         },
-                        onPageChanged: (i) => setState(() => currentIndex = i),
+                        onPageChanged: (i) => setState(() {
+                          currentIndex = i;
+                          Provider.of<GalleryProvider>(context)
+                              .setCurrentIndex(i);
+                        }),
                       ),
                       Container(
                         height: 100.0,

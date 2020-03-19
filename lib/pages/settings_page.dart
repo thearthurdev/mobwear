@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/pages/about_page.dart';
 import 'package:mobwear/providers/settings_provider.dart';
@@ -10,6 +11,10 @@ import 'package:provider/provider.dart';
 
 class SettingsPage extends StatefulWidget {
   static const String id = '/SettingsPage';
+
+  final SwiperController phoneCarouselController;
+
+  const SettingsPage({this.phoneCarouselController});
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -60,18 +65,24 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 SizedBox(height: 16.0),
                 SettingsExpansionTile(
-                  title: 'Carousel mode',
-                  subtitle: settingsProvider.autoplayCarousel
-                      ? 'Carousel will autoplay'
-                      : 'Carousel will be stagnant',
-                  settingMap: myAutoplayOptions,
-                  isExpanded: isAutoplayExpanded,
-                  selectedOptionCheck: settingsProvider.autoplayCarousel,
-                  onExpansionChanged: (b) =>
-                      setState(() => isAutoplayExpanded = b),
-                  onOptionSelected: (i) => settingsProvider
-                      .changeAutoPlay(myAutoplayOptions.values.elementAt(i)),
-                ),
+                    title: 'Carousel mode',
+                    subtitle: settingsProvider.autoplayCarousel
+                        ? 'Carousel will autoplay'
+                        : 'Carousel will be stagnant',
+                    settingMap: myAutoplayOptions,
+                    isExpanded: isAutoplayExpanded,
+                    selectedOptionCheck: settingsProvider.autoplayCarousel,
+                    onExpansionChanged: (b) =>
+                        setState(() => isAutoplayExpanded = b),
+                    onOptionSelected: (i) {
+                      settingsProvider.changeAutoPlay(
+                          myAutoplayOptions.values.elementAt(i));
+                      if (i == 0) {
+                        widget.phoneCarouselController.startAutoplay();
+                      } else {
+                        widget.phoneCarouselController.stopAutoplay();
+                      }
+                    }),
                 SizedBox(height: 16.0),
                 settingsListTile(
                   context: context,
