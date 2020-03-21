@@ -76,24 +76,27 @@ class _HomeVerticalTabsState extends State<HomeVerticalTabs> {
         tabs: tabs,
         contents: contentsList(),
         actions: <Widget>[
-          Material(
-            type: MaterialType.transparency,
-            child: InkWell(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return SettingsPage(
-                        phoneCarouselController:
-                            widget.phoneCarouselController);
-                  },
+          Container(
+            margin: const EdgeInsets.only(bottom: 16.0),
+            child: Material(
+              type: MaterialType.transparency,
+              child: InkWell(
+                customBorder: CircleBorder(),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return SettingsPage(
+                          phoneCarouselController:
+                              widget.phoneCarouselController);
+                    },
+                  ),
                 ),
-              ),
-              customBorder: CircleBorder(),
-              child: Container(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(
-                  LineAwesomeIcons.cog,
+                child: Container(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    LineAwesomeIcons.cog,
+                  ),
                 ),
               ),
             ),

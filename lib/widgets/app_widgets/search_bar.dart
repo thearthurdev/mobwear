@@ -75,33 +75,31 @@ class SearchBar extends StatelessWidget {
                 ),
               ),
             ),
-            _isFocused
-                ? Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: GestureDetector(
-                      child: Icon(
-                        LineAwesomeIcons.close,
-                        color: kThemeBrightness(context) == Brightness.light
-                            ? Colors.black87
-                            : Colors.white70,
-                        size: 18,
-                      ),
-                      onTap: onCloseTap,
-                    ),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: GestureDetector(
-                      child: Icon(
-                        LineAwesomeIcons.search,
-                        color: kThemeBrightness(context) == Brightness.light
-                            ? Colors.black87
-                            : Colors.white70,
-                        size: 18,
-                      ),
-                      onTap: () => _focusNode.requestFocus(),
-                    ),
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: Material(
+                type: MaterialType.transparency,
+                child: InkWell(
+                  customBorder: CircleBorder(),
+                  onTap: () {
+                    if (_isFocused) {
+                      onCloseTap();
+                    } else {
+                      _focusNode.requestFocus();
+                    }
+                  },
+                  child: Icon(
+                    _isFocused
+                        ? LineAwesomeIcons.close
+                        : LineAwesomeIcons.search,
+                    color: kThemeBrightness(context) == Brightness.light
+                        ? Colors.black87
+                        : Colors.white70,
+                    size: 18,
                   ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

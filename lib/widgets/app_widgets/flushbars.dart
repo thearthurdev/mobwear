@@ -84,7 +84,6 @@ class MyFlushbars {
       margin: EdgeInsets.all(8.0),
       borderRadius: 10.0,
       duration: Duration(milliseconds: 2000),
-      dismissDirection: FlushbarDismissDirection.HORIZONTAL,
       backgroundColor: kBrightnessAwareColor(context,
           lightColor: Colors.black, darkColor: Colors.white),
       mainButton: buttonText != null

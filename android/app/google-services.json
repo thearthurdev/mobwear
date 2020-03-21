@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "788069486532",
+    "firebase_url": "https://mobwear-2020.firebaseio.com",
+    "project_id": "mobwear-2020",
+    "storage_bucket": "mobwear-2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788069486532:android:0df957924b77610c1bde91",
+        "android_client_info": {
+          "package_name": "com.arthurdev.mobwear"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "788069486532-ktnj7h9d5e1m0d9feisral1dvaookspi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arthurdev.mobwear",
+            "certificate_hash": "cc78d959004ad35dd709ebcc20f5cf0701b92444"
+          }
+        },
+        {
+          "client_id": "788069486532-s5ehgr0d8lu5012bs14vi57o1dbs5fib.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDu9wZK4ih00ndHUTd31XU7gQ-Lbhhunwo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "788069486532-s5ehgr0d8lu5012bs14vi57o1dbs5fib.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

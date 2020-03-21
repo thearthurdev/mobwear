@@ -240,6 +240,8 @@ class CustomizationPickerTile extends StatelessWidget {
         context,
         icon: LineAwesomeIcons.warning,
         message: 'Cannot apply texture here',
+        buttonText: 'Okay',
+        onButtonPressed: () {},
       );
     }
   }
