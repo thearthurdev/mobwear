@@ -8,11 +8,11 @@ import 'package:mobwear/widgets/phone_widgets/fingerprint_sensor.dart';
 import 'package:mobwear/widgets/phone_widgets/flash.dart';
 import 'package:mobwear/widgets/phone_widgets/microphone.dart';
 import 'package:mobwear/widgets/phone_widgets/screen.dart';
-import 'package:mobwear/widgets/phone_widgets/texture_decoration.dart';
 import 'package:provider/provider.dart';
 
 class Pixel2 extends StatelessWidget {
   static final int phoneIndex = 1;
+  static final int phoneID = 0101;
   static final int phoneBrandIndex = 0;
   static const String phoneBrand = 'Google';
   static const String phoneModel = 'Pixel';
@@ -22,12 +22,10 @@ class Pixel2 extends StatelessWidget {
     phoneName: phoneName,
     phoneModel: phoneModel,
     phoneBrand: phoneBrand,
-    bezelVertical: 120.0,
+    phoneID: phoneID,
+    verticalPadding: 120.0,
     innerCornerRadius: 0.0,
     screenAlignment: Alignment.center,
-    notchAlignment: Alignment(0.0, -1.0),
-    notchHeight: 35.0,
-    notchWidth: 100.0,
     cornerRadius: 20.0,
   );
 
@@ -41,8 +39,8 @@ class Pixel2 extends StatelessWidget {
   Widget build(BuildContext context) {
     var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
 
-    var colors = phonesBox.get(0101).colors;
-    var textures = phonesBox.get(0101).textures;
+    var colors = phonesBox.get(phoneID).colors;
+    var textures = phonesBox.get(phoneID).textures;
 
     Color glossyPanelColor = colors['Glossy Panel'];
     Color mattePanelColor = colors['Matte Panel'];
@@ -61,80 +59,58 @@ class Pixel2 extends StatelessWidget {
 
     return FittedBox(
       child: BackPanel(
-        cornerRadius: 20.0,
-        backPanelColor: glossyPanelColor,
-        bezelColor: glossyPanelColor,
-        texture: glossyPanelTexture,
-        textureBlendColor: glossyPanelTextureBlendColor,
-        textureBlendMode: glossyPanelTextureBlendMode,
+        backPanelColor: mattePanelColor,
+        texture: mattePanelTexture,
+        textureBlendColor: mattePanelTextureBlendColor,
+        textureBlendMode: mattePanelTextureBlendMode,
         child: Stack(
           children: <Widget>[
+            Column(
+              children: <Widget>[
+                BackPanel(
+                  height: 100.0,
+                  noShadow: true,
+                  backPanelColor: glossyPanelColor,
+                  texture: glossyPanelTexture,
+                  textureBlendColor: glossyPanelTextureBlendColor,
+                  textureBlendMode: glossyPanelTextureBlendMode,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(23.0),
+                    topRight: Radius.circular(23.0),
+                    bottomLeft: Radius.circular(2.0),
+                    bottomRight: Radius.circular(2.0),
+                  ),
+                ),
+              ],
+            ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: Container(
-                width: 240.0,
-                height: 380.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.zero,
-                    topRight: Radius.zero,
-                    bottomLeft: Radius.circular(20.0),
-                    bottomRight: Radius.circular(20.0),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 110.0),
+                  FingerprintSensor(
+                    diameter: 37.0,
+                    sensorColor: fingerprintSensorColor,
                   ),
-                  color: mattePanelColor,
-                ),
-                child: Container(
-                  width: 240.0,
-                  height: 380.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.zero,
-                      topRight: Radius.zero,
-                      bottomLeft: Radius.circular(20.0),
-                      bottomRight: Radius.circular(20.0),
-                    ),
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.transparent,
-                        mattePanelColor.computeLuminance() > 0.335
-                            ? Colors.black12
-                            : Colors.black26
-                      ],
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                    ),
-                    image: textureDecoration(
-                      texture: mattePanelTexture,
-                      textureBlendColor: mattePanelTextureBlendColor,
-                      textureBlendMode: mattePanelTextureBlendMode,
-                    ),
+                  Expanded(
+                    child: SizedBox(),
                   ),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(height: 20.0),
-                      FingerprintSensor(
-                        diameter: 37.0,
-                        sensorColor: fingerprintSensorColor,
-                        trimColor: Colors.grey[800],
-                      ),
-                      Expanded(
-                        child: SizedBox(),
-                      ),
-                      Icon(
-                        BrandIcons.google,
-                        color: logoColor,
-                        size: 30.0,
-                      ),
-                      SizedBox(height: 70.0),
-                    ],
+                  Icon(
+                    BrandIcons.google,
+                    color: logoColor,
+                    size: 26.0,
                   ),
-                ),
+                  SizedBox(height: 70.0),
+                ],
               ),
             ),
             Positioned(
               top: 15.0,
               left: 65.0,
-              child: Camera(trimColor: Colors.grey[800]),
+              child: Camera(
+                trimColor: Colors.grey[700],
+                lenseColor: Colors.grey[700],
+              ),
             ),
             Positioned(
               top: 25.0,
@@ -142,7 +118,7 @@ class Pixel2 extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Flash(diameter: 15.0),
-                  SizedBox(height: 10.0),
+                  SizedBox(height: 15.0),
                   Row(
                     children: <Widget>[
                       Microphone(),
@@ -152,7 +128,7 @@ class Pixel2 extends StatelessWidget {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:mobwear/providers/customization_provider.dart';
+import 'package:provider/provider.dart';
 
 class IPhoneHomeButton extends StatelessWidget {
-  final double diameter, trimWidth;
-  final Color buttonColor, trimColor, backPanelColor;
+  final double diameter, trimWidth, squareMargin;
+  final Color buttonColor, squareColor, trimColor, backPanelColor;
   final bool hasElevation, hasSquare;
+  final int phoneID;
+  final String bezelsSide;
 
   const IPhoneHomeButton({
+    @required this.phoneID,
     this.diameter = 40.0,
     this.trimWidth = 2.0,
+    this.squareMargin = 20.0,
     this.buttonColor = Colors.white,
+    this.bezelsSide,
+    this.squareColor,
     this.trimColor,
     this.hasElevation = false,
     this.backPanelColor = Colors.black,
@@ -17,6 +25,10 @@ class IPhoneHomeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
+
+    var boxTrimColor = phonesBox.get(phoneID).colors[bezelsSide ?? 'Bezels'];
+
     return Container(
       width: diameter,
       height: diameter,
@@ -28,9 +40,13 @@ class IPhoneHomeButton extends StatelessWidget {
             shape: BoxShape.circle,
             color: buttonColor,
             border: Border.all(
-              color: trimColor ?? buttonColor.computeLuminance() > 0.335
-                  ? Colors.grey[300]
-                  : Colors.grey[800],
+              color: trimColor == null
+                  ? boxTrimColor == null
+                      ? buttonColor.computeLuminance() > 0.335
+                          ? Colors.grey[300]
+                          : Colors.grey[800]
+                      : boxTrimColor.withOpacity(0.5)
+                  : trimColor,
               width: trimWidth,
             ),
             boxShadow: hasElevation
@@ -50,16 +66,19 @@ class IPhoneHomeButton extends StatelessWidget {
                   alignment: Alignment.center,
                   children: <Widget>[
                     Container(
-                      width: diameter - 20.0,
-                      height: diameter - 20.0,
+                      width: diameter - squareMargin,
+                      height: diameter - squareMargin,
                       decoration: BoxDecoration(
                         shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(squareMargin / 4.5),
                         color: buttonColor,
                         border: Border.all(
-                          color: buttonColor.computeLuminance() > 0.335
-                              ? Colors.grey[300]
-                              : Colors.grey[800],
-                          width: 2.0,
+                          color: squareColor == null
+                              ? buttonColor.computeLuminance() > 0.335
+                                  ? Colors.grey[300]
+                                  : Colors.grey[800]
+                              : squareColor,
+                          width: 1.5,
                         ),
                       ),
                     ),

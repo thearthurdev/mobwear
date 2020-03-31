@@ -2,23 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:mobwear/utils/constants.dart';
 
 class BackPanel extends StatefulWidget {
-  final double width, height, cornerRadius, bezelWidth;
-  final Color backPanelColor, bezelColor, textureBlendColor;
+  final double width, height, cornerRadius, bezelsWidth;
+  final Color backPanelColor, bezelsColor, textureBlendColor;
+  final BorderRadiusGeometry borderRadius;
   final String texture;
   final BlendMode textureBlendMode;
+  final BoxFit textureFit;
   final Widget child;
+  final bool noShadow;
 
   const BackPanel({
     @required this.backPanelColor,
-    @required this.bezelColor,
+    this.bezelsColor = Colors.transparent,
     this.texture,
     this.child,
+    this.borderRadius,
     this.width = 240.0,
     this.height = 480.0,
     this.cornerRadius = 23.0,
-    this.bezelWidth = 1.0,
+    this.bezelsWidth = 1.0,
+    this.noShadow = false,
     this.textureBlendColor,
     this.textureBlendMode,
+    this.textureFit,
   });
 
   @override
@@ -40,18 +46,24 @@ class _BackPanelState extends State<BackPanel> {
       width: widget.width + 1.2,
       height: widget.height + 1.2,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(widget.cornerRadius),
-        color: kThemeBrightness(context) == Brightness.light
+        borderRadius: widget.borderRadius == null
+            ? BorderRadius.circular(widget.cornerRadius)
+            : widget.borderRadius,
+        color: kThemeBrightness(context) == Brightness.light || widget.noShadow
             ? Colors.transparent
             : Colors.grey[800],
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            offset: Offset(5, 5),
-            blurRadius: 10.0,
-            spreadRadius: 2.0,
-          ),
-        ],
+        boxShadow: widget.noShadow
+            ? null
+            : [
+                BoxShadow(
+                  color: kBrightnessAwareColor(context,
+                      lightColor: Colors.blueGrey.withOpacity(0.2),
+                      darkColor: Colors.black26),
+                  offset: Offset(5, 5),
+                  blurRadius: 10.0,
+                  spreadRadius: 2.0,
+                ),
+              ],
       ),
       child: Center(
         child: AnimatedContainer(
@@ -60,10 +72,12 @@ class _BackPanelState extends State<BackPanel> {
           height: widget.height,
           child: widget.child == null ? Container() : widget.child,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(widget.cornerRadius),
+            borderRadius: widget.borderRadius == null
+                ? BorderRadius.circular(widget.cornerRadius)
+                : widget.borderRadius,
             border: Border.all(
-              color: widget.bezelColor,
-              width: widget.bezelWidth,
+              color: widget.bezelsColor,
+              width: widget.bezelsWidth,
             ),
             color: widget.texture == null
                 ? widget.backPanelColor
@@ -72,7 +86,7 @@ class _BackPanelState extends State<BackPanel> {
                 ? null
                 : DecorationImage(
                     image: AssetImage(widget.texture),
-                    fit: BoxFit.cover,
+                    fit: widget.textureFit ?? BoxFit.cover,
                     colorFilter: widget.textureBlendMode == null
                         ? null
                         : ColorFilter.mode(

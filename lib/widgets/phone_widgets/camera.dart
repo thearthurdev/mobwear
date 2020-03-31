@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 
 class Camera extends StatelessWidget {
   final double diameter, trimWidth, lenseDiameter;
-  final Color trimColor, backPanelColor;
+  final Color trimColor, lenseColor, backPanelColor;
   final bool hasElevation;
 
   const Camera({
     this.diameter = 35.0,
     this.trimWidth = 5.0,
     this.lenseDiameter = 10.0,
-    this.trimColor,
     this.hasElevation = false,
+    this.trimColor,
+    this.lenseColor,
     this.backPanelColor = Colors.black,
   });
 
@@ -25,15 +26,24 @@ class Camera extends StatelessWidget {
           height: diameter,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: trimColor ?? Colors.grey[400],
+            color: trimColor ?? Colors.grey[600],
             boxShadow: hasElevation
                 ? [
                     BoxShadow(
                       color: backPanelColor.computeLuminance() > 0.335
-                          ? Colors.black26
-                          : Colors.black38,
+                          ? Colors.black.withOpacity(0.1)
+                          : Colors.black.withOpacity(0.2),
                       spreadRadius: 1.0,
                       blurRadius: 3.0,
+                      offset: Offset(2.0, 2.0),
+                    ),
+                    BoxShadow(
+                      color: backPanelColor.computeLuminance() > 0.335
+                          ? Colors.black.withOpacity(0.1)
+                          : Colors.black.withOpacity(0.2),
+                      spreadRadius: 1.0,
+                      blurRadius: 3.0,
+                      offset: Offset(-0.2, -0.2),
                     )
                   ]
                 : null,
@@ -54,7 +64,7 @@ class Camera extends StatelessWidget {
                 height: lenseDiameter,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.grey[700],
+                  color: lenseColor ?? Colors.grey[900],
                 ),
               ),
               Container(

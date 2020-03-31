@@ -11,19 +11,12 @@ import 'package:mobwear/widgets/phone_widgets/screen.dart';
 import 'package:provider/provider.dart';
 
 class Pixel4XL extends StatelessWidget {
-  static final int phoneIndex = 4;
+  static final int phoneIndex = 5;
+  static final int phoneID = 0105;
   static final int phoneBrandIndex = 0;
   static const String phoneBrand = 'Google';
   static const String phoneModel = 'Pixel';
   static const String phoneName = 'Pixel 4 XL';
-
-  final Screen front = Screen(
-    phoneName: phoneName,
-    phoneModel: phoneModel,
-    phoneBrand: phoneBrand,
-    bezelVertical: 40.0,
-    screenAlignment: Alignment(0.0, 0.6),
-  );
 
   get getPhoneFront => front;
   get getPhoneName => phoneName;
@@ -31,17 +24,26 @@ class Pixel4XL extends StatelessWidget {
   get getPhoneBrandIndex => phoneBrandIndex;
   get getPhoneIndex => phoneIndex;
 
+  final Screen front = Screen(
+    phoneName: phoneName,
+    phoneModel: phoneModel,
+    phoneBrand: phoneBrand,
+    phoneID: phoneID,
+    verticalPadding: 40.0,
+    screenAlignment: Alignment(0.0, 0.5),
+  );
+
   @override
   Widget build(BuildContext context) {
     var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
 
-    var colors = phonesBox.get(0104).colors;
-    var textures = phonesBox.get(0104).textures;
+    var colors = phonesBox.get(phoneID).colors;
+    var textures = phonesBox.get(phoneID).textures;
 
     Color cameraBumpColor = colors['Camera Bump'];
     Color backPanelColor = colors['Back Panel'];
     Color logoColor = colors['Google Logo'];
-    Color bezelColor = colors['Bezels'];
+    Color bezelsColor = colors['Bezels'];
 
     String cameraBumpTexture = textures['Camera Bump'].asset;
     Color cameraBumpTextureBlendColor = textures['Camera Bump'].blendColor;
@@ -56,7 +58,7 @@ class Pixel4XL extends StatelessWidget {
     Camera camera = Camera(
       diameter: 28.0,
       trimWidth: 3.0,
-      trimColor: Colors.grey[900],
+      trimColor: Colors.white.withOpacity(0.05),
     );
 
     CameraBump cameraBump = CameraBump(
@@ -100,9 +102,9 @@ class Pixel4XL extends StatelessWidget {
     return FittedBox(
       child: BackPanel(
         cornerRadius: 30.0,
-        bezelWidth: 4.0,
+        bezelsWidth: 4.0,
         backPanelColor: backPanelColor,
-        bezelColor: bezelColor,
+        bezelsColor: bezelsColor,
         texture: backPanelTexture,
         textureBlendColor: backPanelTextureBlendColor,
         textureBlendMode: backPanelTextureBlendMode,
@@ -110,32 +112,33 @@ class Pixel4XL extends StatelessWidget {
           fit: StackFit.expand,
           children: <Widget>[
             Container(
+              margin: const EdgeInsets.only(top: 4.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(26.0),
                 gradient: LinearGradient(
                   colors: [
                     Colors.transparent,
                     backPanelColor.computeLuminance() > 0.335
-                        ? Colors.black12
-                        : Colors.black26
+                        ? Colors.black.withOpacity(0.0)
+                        : Colors.black.withOpacity(0.18)
                   ],
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
               ),
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                    child: SizedBox(),
-                  ),
-                  Icon(
-                    BrandIcons.google,
-                    color: logoColor,
-                    size: 30.0,
-                  ),
-                  SizedBox(height: 70.0),
-                ],
-              ),
+            ),
+            Column(
+              children: <Widget>[
+                Expanded(
+                  child: SizedBox(),
+                ),
+                Icon(
+                  BrandIcons.google,
+                  color: logoColor,
+                  size: 26.0,
+                ),
+                SizedBox(height: 70.0),
+              ],
             ),
             Positioned(
               top: 10.0,

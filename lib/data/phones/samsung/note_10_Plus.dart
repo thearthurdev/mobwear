@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 
 class Note10Plus extends StatelessWidget {
   static final int phoneIndex = 1;
+  static final int phoneID = 0301;
   static final int phoneBrandIndex = 2;
   static const String phoneBrand = 'Samsung';
   static const String phoneModel = 'Galaxy';
@@ -22,10 +23,11 @@ class Note10Plus extends StatelessWidget {
     phoneName: phoneName,
     phoneModel: phoneModel,
     phoneBrand: phoneBrand,
+    phoneID: phoneID,
     screenWidth: 240.0,
     screenHeight: 510.0,
-    bezelHorizontal: 5.0,
-    bezelVertical: 15.0,
+    horizontalPadding: 5.0,
+    verticalPadding: 15.0,
     screenAlignment: Alignment(0.0, -0.5),
     innerCornerRadius: 6.0,
     cornerRadius: 6.0,
@@ -54,13 +56,13 @@ class Note10Plus extends StatelessWidget {
   Widget build(BuildContext context) {
     var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
 
-    var colors = phonesBox.get(0301).colors;
-    var textures = phonesBox.get(0301).textures;
+    var colors = phonesBox.get(phoneID).colors;
+    var textures = phonesBox.get(phoneID).textures;
 
     Color backPanelColor = colors['Back Panel'];
     Color cameraBumpColor = colors['Camera Bump'];
     Color logoColor = colors['Samsung Logo'];
-    Color bezelColor = colors['Bezels'];
+    Color bezelsColor = colors['Bezels'];
 
     String cameraBumpTexture = textures['Camera Bump'].asset;
     Color cameraBumpTextureBlendColor = textures['Camera Bump'].blendColor;
@@ -112,7 +114,6 @@ class Note10Plus extends StatelessWidget {
             height: 510,
             cornerRadius: 6.0,
             backPanelColor: Colors.transparent,
-            bezelColor: Colors.transparent,
             child: Container(),
           ),
           ClipRRect(
@@ -126,11 +127,11 @@ class Note10Plus extends StatelessWidget {
                 color: backPanelColor,
                 border: Border(
                   top: BorderSide(
-                    color: bezelColor,
+                    color: bezelsColor,
                     width: 3.0,
                   ),
                   bottom: BorderSide(
-                    color: bezelColor,
+                    color: bezelsColor,
                     width: 3.0,
                   ),
                 ),

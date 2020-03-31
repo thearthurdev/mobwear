@@ -11,7 +11,8 @@ import 'package:mobwear/widgets/phone_widgets/screen.dart';
 import 'package:provider/provider.dart';
 
 class IPhone11ProMax extends StatelessWidget {
-  static final int phoneIndex = 4;
+  static final int phoneIndex = 13;
+  static final int phoneID = 0213;
   static final int phoneBrandIndex = 1;
   static const String phoneBrand = 'Apple';
   static const String phoneModel = 'iPhone';
@@ -21,7 +22,9 @@ class IPhone11ProMax extends StatelessWidget {
     phoneName: phoneName,
     phoneModel: phoneModel,
     phoneBrand: phoneBrand,
+    phoneID: phoneID,
     hasNotch: true,
+    bezelsWidth: 2.0,
   );
 
   get getPhoneFront => front;
@@ -34,12 +37,13 @@ class IPhone11ProMax extends StatelessWidget {
   Widget build(BuildContext context) {
     var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
 
-    var colors = phonesBox.get(0204).colors;
-    var textures = phonesBox.get(0204).textures;
+    var colors = phonesBox.get(phoneID).colors;
+    var textures = phonesBox.get(phoneID).textures;
 
     Color cameraBumpColor = colors['Camera Bump'];
     Color backPanelColor = colors['Back Panel'];
     Color logoColor = colors['Apple Logo'];
+    Color bezelsColor = colors['Bezels'];
 
     String cameraBumpTexture = textures['Camera Bump'].asset;
     Color cameraBumpTextureBlendColor = textures['Camera Bump'].blendColor;
@@ -51,9 +55,17 @@ class IPhone11ProMax extends StatelessWidget {
     BlendMode backPanelTextureBlendMode =
         kGetTextureBlendMode(textures['Back Panel'].blendModeIndex);
 
+    Camera camera = Camera(
+      diameter: 34.0,
+      trimColor: backPanelColor,
+      hasElevation: true,
+    );
+
     CameraBump cameraBump = CameraBump(
       width: 100.0,
       height: 100.0,
+      cornerRadius: 26.0,
+      borderWidth: 2.0,
       cameraBumpColor: cameraBumpColor,
       backPanelColor: backPanelColor,
       texture: cameraBumpTexture,
@@ -63,17 +75,17 @@ class IPhone11ProMax extends StatelessWidget {
         Positioned(
           left: 3.0,
           top: 3.0,
-          child: Camera(),
+          child: camera,
         ),
         Positioned(
           left: 3.0,
           bottom: 3.0,
-          child: Camera(),
+          child: camera,
         ),
         Positioned(
           right: 3.0,
           top: 22.5,
-          child: Camera(),
+          child: camera,
         ),
         Positioned(
           right: 12.0,
@@ -92,34 +104,18 @@ class IPhone11ProMax extends StatelessWidget {
       child: BackPanel(
         width: 250.0,
         height: 500.0,
-        cornerRadius: 30.0,
+        cornerRadius: 34.0,
+        bezelsWidth: 3.0,
         backPanelColor: backPanelColor,
-        bezelColor: backPanelColor,
+        bezelsColor: bezelsColor,
         texture: backPanelTexture,
         textureBlendColor: backPanelTextureBlendColor,
         textureBlendMode: backPanelTextureBlendMode,
         child: Stack(
           children: <Widget>[
-            Container(
-              width: 250.0,
-              height: 500.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30.0),
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.transparent,
-                    backPanelColor.computeLuminance() > 0.335
-                        ? Colors.black12
-                        : Colors.black26
-                  ],
-                  begin: FractionalOffset(0.5, 0.0),
-                  end: FractionalOffset(0.0, 0.5),
-                ),
-              ),
-            ),
             Positioned(
-              top: 5.0,
-              left: 5.0,
+              top: 8.0,
+              left: 8.0,
               child: cameraBump,
             ),
             Align(

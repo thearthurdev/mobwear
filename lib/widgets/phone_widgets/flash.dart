@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class Flash extends StatelessWidget {
-  final double diameter;
+  final double diameter, height;
 
-  const Flash({this.diameter = 20.0});
+  const Flash({this.diameter = 20.0, this.height});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: diameter,
-      height: diameter,
+      height: height ?? diameter,
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
+        borderRadius: BorderRadius.circular(100.0),
         color: Colors.yellow[200],
         border: Border.all(
           color: Colors.grey[200],

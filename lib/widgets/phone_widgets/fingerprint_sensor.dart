@@ -20,7 +20,7 @@ class FingerprintSensor extends StatelessWidget {
         shape: BoxShape.circle,
         color: sensorColor,
         border: Border.all(
-          color: trimColor ?? Colors.grey[400],
+          color: trimColor ?? Colors.black.withOpacity(0.04),
           width: trimWidth,
         ),
       ),

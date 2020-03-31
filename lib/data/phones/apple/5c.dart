@@ -4,28 +4,48 @@ import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
-import 'package:mobwear/widgets/phone_widgets/camera_bump.dart';
 import 'package:mobwear/widgets/phone_widgets/flash.dart';
+import 'package:mobwear/widgets/phone_widgets/iPhone_home_button.dart';
 import 'package:mobwear/widgets/phone_widgets/iPhone_text_marks.dart';
 import 'package:mobwear/widgets/phone_widgets/microphone.dart';
 import 'package:mobwear/widgets/phone_widgets/screen.dart';
 import 'package:provider/provider.dart';
 
-class IPhoneXSMax extends StatelessWidget {
-  static final int phoneIndex = 11;
-  static final int phoneID = 0211;
+class IPhone5C extends StatelessWidget {
+  static final int phoneIndex = 3;
+  static final int phoneID = 0203;
   static final int phoneBrandIndex = 1;
   static const String phoneBrand = 'Apple';
   static const String phoneModel = 'iPhone';
-  static const String phoneName = 'iPhone XS Max';
+  static const String phoneName = 'iPhone 5C';
 
   final Screen front = Screen(
     phoneName: phoneName,
     phoneModel: phoneModel,
     phoneBrand: phoneBrand,
     phoneID: phoneID,
-    hasNotch: true,
-    bezelsWidth: 2.0,
+    screenHeight: 470.0,
+    horizontalPadding: 26.0,
+    verticalPadding: 140.0,
+    bezelsWidth: 3.0,
+    cornerRadius: 32.0,
+    innerCornerRadius: 0.0,
+    bezelsSide: 'Back Panel',
+    screenItems: <Widget>[
+      Align(
+        alignment: Alignment(0.0, 0.945),
+        child: IPhoneHomeButton(
+          phoneID: phoneID,
+          diameter: 45.0,
+          squareMargin: 27.0,
+          trimWidth: 1.5,
+          hasSquare: true,
+          buttonColor: Colors.black,
+          trimColor: Colors.white.withOpacity(0.05),
+          squareColor: Colors.white.withOpacity(0.3),
+        ),
+      ),
+    ],
   );
 
   get getPhoneFront => front;
@@ -41,96 +61,55 @@ class IPhoneXSMax extends StatelessWidget {
     var colors = phonesBox.get(phoneID).colors;
     var textures = phonesBox.get(phoneID).textures;
 
-    Color cameraBumpColor = colors['Camera Bump'];
     Color backPanelColor = colors['Back Panel'];
     Color logoColor = colors['Apple Logo'];
     Color textMarksColor = colors['Texts & Markings'];
-    Color bezelsColor = colors['Bezels'];
-
-    String cameraBumpTexture = textures['Camera Bump'].asset;
-    Color cameraBumpTextureBlendColor = textures['Camera Bump'].blendColor;
-    BlendMode cameraBumpTextureBlendMode =
-        kGetTextureBlendMode(textures['Camera Bump'].blendModeIndex);
 
     String backPanelTexture = textures['Back Panel'].asset;
     Color backPanelTextureBlendColor = textures['Back Panel'].blendColor;
     BlendMode backPanelTextureBlendMode =
         kGetTextureBlendMode(textures['Back Panel'].blendModeIndex);
 
-    Camera camera = Camera(
-      diameter: 20.0,
-      lenseDiameter: 6.0,
-      trimWidth: 3.0,
-      trimColor: Colors.grey[900],
-    );
-
-    CameraBump cameraBump = CameraBump(
-      width: 35.0,
-      height: 80.0,
-      borderWidth: 1.5,
-      elevationSpreadRadius: 1.0,
-      elevationBlurRadius: 4.0,
-      cameraBumpColor: cameraBumpColor,
-      backPanelColor: backPanelColor,
-      texture: cameraBumpTexture,
-      textureBlendColor: cameraBumpTextureBlendColor,
-      textureBlendMode: cameraBumpTextureBlendMode,
-      borderColor: Colors.white.withOpacity(0.3),
-      cameraBumpPartsPadding: 0.0,
-      cameraBumpParts: [
-        Positioned(
-          left: 7.0,
-          top: 7.0,
-          child: camera,
-        ),
-        Positioned(
-          left: 7.0,
-          bottom: 7.0,
-          child: camera,
-        ),
-        Positioned(
-          left: 10.0,
-          top: 33.0,
-          child: Flash(diameter: 15.0),
-        ),
-        Positioned(
-          right: 4.0,
-          bottom: 27.0,
-          child: Microphone(),
-        ),
-      ],
-    );
-
     return FittedBox(
       child: BackPanel(
-        width: 250.0,
-        height: 500.0,
-        cornerRadius: 34.0,
-        bezelsWidth: 3.0,
+        height: 470.0,
+        cornerRadius: 32.0,
+        bezelsWidth: 0.0,
         backPanelColor: backPanelColor,
-        bezelsColor: bezelsColor,
         texture: backPanelTexture,
         textureBlendColor: backPanelTextureBlendColor,
         textureBlendMode: backPanelTextureBlendMode,
         child: Stack(
           children: <Widget>[
-            Positioned(
-              top: 15.0,
-              left: 15.0,
-              child: cameraBump,
-            ),
             Align(
-              alignment: Alignment(0.0, -0.5),
+              alignment: Alignment(0.0, -0.52),
               child: Icon(
                 BrandIcons.apple,
                 color: logoColor,
                 size: 60.0,
               ),
             ),
+            Positioned(
+              top: 18.0,
+              left: 22.0,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Camera(diameter: 25.0),
+                  SizedBox(width: 6.0),
+                  Microphone(diameter: 4.5),
+                  SizedBox(width: 6.0),
+                  Flash(diameter: 12.0),
+                ],
+              ),
+            ),
             Align(
-              alignment: Alignment(0.0, 0.6),
+              alignment: Alignment(0.0, 0.7),
               child: IPhoneTextMarks(
                 color: textMarksColor,
+                idNumbersText: true,
+                isSingleLine: true,
+                phoneID: phoneID.toString(),
               ),
             ),
           ],

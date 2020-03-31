@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 class CameraBump extends StatelessWidget {
   final double width, height, cornerRadius, cameraBumpPartsPadding, borderWidth;
+  final double elevationSpreadRadius, elevationBlurRadius;
   final Color cameraBumpColor, backPanelColor, borderColor, textureBlendColor;
   final String texture;
   final BlendMode textureBlendMode;
   final List<Widget> cameraBumpParts;
-  final bool isMatte;
+  final bool hasElevation, isMatte;
 
   const CameraBump({
     @required this.width,
@@ -17,6 +18,9 @@ class CameraBump extends StatelessWidget {
     this.cameraBumpColor = Colors.teal,
     this.cameraBumpPartsPadding = 20.0,
     this.cornerRadius = 20.0,
+    this.elevationSpreadRadius,
+    this.elevationBlurRadius,
+    this.hasElevation = true,
     this.isMatte = false,
     this.borderWidth = 0.0,
     this.borderColor,
@@ -31,35 +35,45 @@ class CameraBump extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(cornerRadius),
-          border: Border.all(
-            color: borderColor ?? Colors.transparent,
-            width: borderWidth,
-          ),
-          color: texture == null ? cameraBumpColor : Colors.transparent,
-          image: texture == null
-              ? null
-              : DecorationImage(
-                  image: AssetImage(texture),
-                  colorFilter: textureBlendMode == null
-                      ? null
-                      : ColorFilter.mode(
-                          textureBlendColor,
-                          textureBlendMode,
-                        ),
-                  fit: BoxFit.cover,
+        borderRadius: BorderRadius.circular(cornerRadius),
+        border: Border.all(
+          color: borderColor ?? Colors.transparent,
+          width: borderWidth,
+        ),
+        color: texture == null ? cameraBumpColor : Colors.transparent,
+        image: texture == null
+            ? null
+            : DecorationImage(
+                image: AssetImage(texture),
+                colorFilter: textureBlendMode == null
+                    ? null
+                    : ColorFilter.mode(
+                        textureBlendColor,
+                        textureBlendMode,
+                      ),
+                fit: BoxFit.cover,
+              ),
+        boxShadow: cameraBumpColor.alpha < 160 || !hasElevation
+            ? null
+            : [
+                BoxShadow(
+                  color: backPanelColor.computeLuminance() > 0.335
+                      ? Colors.black.withOpacity(0.1)
+                      : Colors.black.withOpacity(0.2),
+                  spreadRadius: elevationSpreadRadius ?? 1.0,
+                  blurRadius: elevationBlurRadius ?? 3.0,
+                  offset: Offset(2.0, 2.0),
                 ),
-          boxShadow: cameraBumpColor.alpha < 160
-              ? null
-              : [
-                  BoxShadow(
-                    color: backPanelColor.computeLuminance() > 0.335
-                        ? Colors.black12
-                        : Colors.black38,
-                    spreadRadius: 1.0,
-                    blurRadius: 3.0,
-                  ),
-                ]),
+                BoxShadow(
+                  color: backPanelColor.computeLuminance() > 0.335
+                      ? Colors.black.withOpacity(0.1)
+                      : Colors.black.withOpacity(0.2),
+                  spreadRadius: elevationSpreadRadius ?? 1.0,
+                  blurRadius: elevationBlurRadius ?? 3.0,
+                  offset: Offset(-0.2, -0.2),
+                ),
+              ],
+      ),
       child: FittedBox(
         child: Stack(
           children: <Widget>[
@@ -67,7 +81,7 @@ class CameraBump extends StatelessWidget {
               width: width - cameraBumpPartsPadding,
               height: height - cameraBumpPartsPadding,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(cornerRadius - 4.0),
+                borderRadius: BorderRadius.circular(cornerRadius - 6.0),
                 gradient: cameraBumpColor.alpha == 0
                     ? null
                     : isMatte
@@ -76,11 +90,11 @@ class CameraBump extends StatelessWidget {
                             colors: [
                               Colors.transparent,
                               backPanelColor.computeLuminance() > 0.335
-                                  ? Colors.black12
-                                  : Colors.black26
+                                  ? Colors.black.withOpacity(0.1)
+                                  : Colors.black.withOpacity(0.2)
                             ],
-                            begin: FractionalOffset(0.5, 0.0),
-                            end: FractionalOffset(0.0, 0.5),
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           )
                         //Glossy Effect
                         : LinearGradient(
@@ -88,11 +102,11 @@ class CameraBump extends StatelessWidget {
                               Colors.transparent,
                               cameraBumpColor.computeLuminance() > 0.335
                                   ? Colors.black.withOpacity(0.05)
-                                  : Colors.black.withOpacity(0.15),
+                                  : Colors.black.withOpacity(0.10),
                             ],
-                            stops: [0.2, 0.2],
-                            begin: FractionalOffset(0.5, 0.3),
-                            end: FractionalOffset(0.0, 0.5),
+                            stops: [0.6, 0.6],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
               ),
               child: Stack(

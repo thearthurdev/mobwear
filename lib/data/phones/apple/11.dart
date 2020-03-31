@@ -11,7 +11,8 @@ import 'package:mobwear/widgets/phone_widgets/screen.dart';
 import 'package:provider/provider.dart';
 
 class IPhone11 extends StatelessWidget {
-  static final int phoneIndex = 3;
+  static final int phoneIndex = 12;
+  static final int phoneID = 0212;
   static final int phoneBrandIndex = 1;
   static const String phoneBrand = 'Apple';
   static const String phoneModel = 'iPhone';
@@ -21,7 +22,9 @@ class IPhone11 extends StatelessWidget {
     phoneName: phoneName,
     phoneModel: phoneModel,
     phoneBrand: phoneBrand,
+    phoneID: phoneID,
     hasNotch: true,
+    bezelsWidth: 2.0,
   );
 
   get getPhoneFront => front;
@@ -34,12 +37,13 @@ class IPhone11 extends StatelessWidget {
   Widget build(BuildContext context) {
     var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
 
-    var colors = phonesBox.get(0203).colors;
-    var textures = phonesBox.get(0203).textures;
+    var colors = phonesBox.get(phoneID).colors;
+    var textures = phonesBox.get(phoneID).textures;
 
     Color cameraBumpColor = colors['Camera Bump'];
     Color backPanelColor = colors['Back Panel'];
     Color logoColor = colors['Apple Logo'];
+    Color bezelsColor = colors['Bezels'];
 
     String cameraBumpTexture = textures['Camera Bump'].asset;
     Color cameraBumpTextureBlendColor = textures['Camera Bump'].blendColor;
@@ -51,9 +55,19 @@ class IPhone11 extends StatelessWidget {
     BlendMode backPanelTextureBlendMode =
         kGetTextureBlendMode(textures['Back Panel'].blendModeIndex);
 
+    Camera camera = Camera(
+      diameter: 34.0,
+      trimColor: backPanelColor,
+      hasElevation: true,
+    );
+
     CameraBump cameraBump = CameraBump(
-      width: 100.0,
+      width: 90.0,
       height: 100.0,
+      cornerRadius: 28.0,
+      elevationBlurRadius: 1.0,
+      elevationSpreadRadius: 1.0,
+      cameraBumpPartsPadding: 18.0,
       cameraBumpColor: cameraBumpColor,
       backPanelColor: backPanelColor,
       texture: cameraBumpTexture,
@@ -62,22 +76,22 @@ class IPhone11 extends StatelessWidget {
       isMatte: true,
       cameraBumpParts: [
         Positioned(
-          left: 3.0,
-          top: 3.0,
-          child: Camera(),
+          left: 4.0,
+          top: 4.0,
+          child: camera,
         ),
         Positioned(
-          left: 3.0,
-          bottom: 3.0,
-          child: Camera(),
+          left: 4.0,
+          bottom: 4.0,
+          child: camera,
         ),
         Positioned(
-          right: 10.0,
-          top: 32.0,
-          child: Flash(),
+          right: 8.0,
+          top: 33.0,
+          child: Flash(diameter: 16.0),
         ),
         Positioned(
-          right: 17.0,
+          right: 15.0,
           top: 20.0,
           child: Microphone(),
         ),
@@ -88,35 +102,18 @@ class IPhone11 extends StatelessWidget {
       child: BackPanel(
         width: 250.0,
         height: 500.0,
-        cornerRadius: 30.0,
+        cornerRadius: 34.0,
+        bezelsWidth: 3.0,
         backPanelColor: backPanelColor,
-        bezelColor: backPanelColor,
+        bezelsColor: bezelsColor,
         texture: backPanelTexture,
         textureBlendColor: backPanelTextureBlendColor,
         textureBlendMode: backPanelTextureBlendMode,
         child: Stack(
           children: <Widget>[
-            Container(
-              width: 250.0,
-              height: 500.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30.0),
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.transparent,
-                    backPanelColor.computeLuminance() > 0.335
-                        ? Colors.black.withOpacity(0.019)
-                        : Colors.black.withOpacity(0.025),
-                  ],
-                  stops: [0.2, 0.2],
-                  begin: FractionalOffset(0.7, 0.3),
-                  end: FractionalOffset(0.0, 0.5),
-                ),
-              ),
-            ),
             Positioned(
-              top: 5.0,
-              left: 5.0,
+              top: 8.0,
+              left: 8.0,
               child: cameraBump,
             ),
             Align(

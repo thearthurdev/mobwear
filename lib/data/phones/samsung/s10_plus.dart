@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 
 class S10Plus extends StatelessWidget {
   static final int phoneIndex = 0;
+  static final int phoneID = 0300;
   static final int phoneBrandIndex = 2;
   static const String phoneBrand = 'Samsung';
   static const String phoneModel = 'Galaxy';
@@ -28,10 +29,11 @@ class S10Plus extends StatelessWidget {
     phoneName: phoneName,
     phoneModel: phoneModel,
     phoneBrand: phoneBrand,
+    phoneID: phoneID,
     screenWidth: 240.0,
     screenHeight: 490.0,
-    bezelHorizontal: 6.0,
-    bezelVertical: 25.0,
+    horizontalPadding: 6.0,
+    verticalPadding: 25.0,
     screenAlignment: Alignment(0.0, -0.1),
     innerCornerRadius: 20.0,
     cornerRadius: 25.0,
@@ -71,8 +73,8 @@ class S10Plus extends StatelessWidget {
   Widget build(BuildContext context) {
     var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
 
-    var colors = phonesBox.get(0300).colors;
-    var textures = phonesBox.get(0300).textures;
+    var colors = phonesBox.get(phoneID).colors;
+    var textures = phonesBox.get(phoneID).textures;
 
     Color backPanelColor = colors['Back Panel'];
     Color cameraBumpColor = colors['Camera Bump'];
@@ -135,7 +137,7 @@ class S10Plus extends StatelessWidget {
         height: 490,
         cornerRadius: 25.0,
         backPanelColor: backPanelColor,
-        bezelColor: backPanelColor,
+        bezelsColor: backPanelColor,
         texture: backPanelTexture,
         textureBlendColor: backPanelTextureBlendColor,
         textureBlendMode: backPanelTextureBlendMode,

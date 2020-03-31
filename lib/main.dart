@@ -78,6 +78,8 @@ class MobWear extends StatelessWidget {
     return MaterialApp(
       title: 'MobWear',
       themeMode: Provider.of<ThemeProvider>(context).getThemeMode,
+      debugShowCheckedModeBanner: false,
+      debugShowMaterialGrid: false,
       theme: ThemeProvider.lightTheme,
       darkTheme: ThemeProvider.darkTheme,
       builder: (context, child) {
@@ -89,8 +91,6 @@ class MobWear extends StatelessWidget {
       // locale: DevicePreview.of(context).locale,
       // builder: DevicePreview.appBuilder,
       home: isFirstLaunch ? OnboardingPage() : HomePage(),
-      debugShowCheckedModeBanner: false,
-      debugShowMaterialGrid: false,
       routes: {
         SettingsPage.id: (context) => SettingsPage(),
         EditPhonePage.id: (context) => EditPhonePage(),

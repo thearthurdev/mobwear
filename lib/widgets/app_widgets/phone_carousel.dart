@@ -89,7 +89,7 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
             activeColor: kBrightnessAwareColor(context,
                 lightColor: Colors.black, darkColor: Colors.white),
             color: kBrightnessAwareColor(context,
-                lightColor: Colors.grey[350], darkColor: Colors.grey[800]),
+                lightColor: Colors.grey[200], darkColor: Colors.grey[900]),
             size: kScreenAwareSize(8.0, context),
             activeSize: kScreenAwareSize(8.0, context),
           ),

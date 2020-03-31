@@ -6,31 +6,26 @@ import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/fingerprint_sensor.dart';
 import 'package:mobwear/widgets/phone_widgets/flash.dart';
-import 'package:mobwear/widgets/phone_widgets/microphone.dart';
 import 'package:mobwear/widgets/phone_widgets/screen.dart';
 import 'package:mobwear/widgets/phone_widgets/texture_decoration.dart';
 import 'package:provider/provider.dart';
 
-class Pixel3XL extends StatelessWidget {
-  static final int phoneIndex = 3;
-  static final int phoneID = 0103;
+class Pixel3AXL extends StatelessWidget {
+  static final int phoneIndex = 4;
+  static final int phoneID = 0104;
   static final int phoneBrandIndex = 0;
   static const String phoneBrand = 'Google';
   static const String phoneModel = 'Pixel';
-  static const String phoneName = 'Pixel 3 XL';
+  static const String phoneName = 'Pixel 3A XL';
 
   final Screen front = Screen(
     phoneName: phoneName,
     phoneModel: phoneModel,
     phoneBrand: phoneBrand,
     phoneID: phoneID,
-    hasNotch: true,
-    verticalPadding: 40.0,
-    screenAlignment: Alignment(0.0, -0.6),
-    notchAlignment: Alignment(0.0, -1.0),
-    notchHeight: 35.0,
-    notchWidth: 100.0,
-    cornerRadius: 23.0,
+    verticalPadding: 70.0,
+    screenAlignment: Alignment(0.0, -0.2),
+    cornerRadius: 26.0,
   );
 
   get getPhoneFront => front;
@@ -68,6 +63,7 @@ class Pixel3XL extends StatelessWidget {
         texture: glossyPanelTexture,
         textureBlendColor: glossyPanelTextureBlendColor,
         textureBlendMode: glossyPanelTextureBlendMode,
+        cornerRadius: 26.0,
         child: Stack(
           children: <Widget>[
             Align(
@@ -76,7 +72,7 @@ class Pixel3XL extends StatelessWidget {
                 width: 240.0,
                 height: 380.0,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(23.0),
+                  borderRadius: BorderRadius.circular(26.0),
                   border: mattePanelTexture == null
                       ? Border.all(
                           color: Colors.grey.withOpacity(0.05),
@@ -89,7 +85,7 @@ class Pixel3XL extends StatelessWidget {
                   width: 240.0,
                   height: 380.0,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(23.0),
+                    borderRadius: BorderRadius.circular(26.0),
                     gradient: LinearGradient(
                       colors: [
                         Colors.transparent,
@@ -133,9 +129,7 @@ class Pixel3XL extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Camera(),
-                  SizedBox(width: 8.0),
-                  Microphone(),
-                  SizedBox(width: 8.0),
+                  SizedBox(width: 12.0),
                   Flash(
                     diameter: 15.0,
                   ),
