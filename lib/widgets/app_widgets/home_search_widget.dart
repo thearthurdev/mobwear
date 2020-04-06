@@ -98,11 +98,17 @@ class HomeSearchWidget extends StatelessWidget {
 
           int i = reverseIndex(item.phoneIndex);
 
-          if (i < 4) i = 0;
+          if (i < 4 && kDeviceHeight(context) > 500.0) {
+            i = 0;
+          } else if (kDeviceHeight(context) < 500.0) {
+            if (i < 3) i = 0;
+          }
+
+          double moveMultiplier = kDeviceHeight(context) < 500.0 ? 0.32 : 0.09;
 
           phoneGridController
               .animateTo(
-            kDeviceHeight(context) * 0.08 * i,
+            kDeviceHeight(context) * moveMultiplier * i,
             duration: Duration(milliseconds: 500),
             curve: Curves.easeOut,
           )

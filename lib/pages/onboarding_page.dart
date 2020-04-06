@@ -141,61 +141,72 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 alignment: Alignment.bottomCenter,
                 child: ShowUp(
                   delay: 400,
-                  child: GestureDetector(
-                    child: Container(
-                      width: kDeviceWidth(context) -
-                          kScreenAwareSize(150.0, context),
-                      height: kScreenAwareSize(50.0, context),
-                      margin: EdgeInsets.only(bottom: 16.0),
-                      decoration: BoxDecoration(
+                  child: Container(
+                    width: kDeviceWidth(context) -
+                        kScreenAwareSize(150.0, context),
+                    height: kScreenAwareSize(50.0, context),
+                    margin: EdgeInsets.only(bottom: 16.0),
+                    decoration: BoxDecoration(
+                      color: kBrightnessAwareColor(context,
+                          lightColor: Colors.white, darkColor: Colors.black),
+                      borderRadius: BorderRadius.circular(
+                          kScreenAwareSize(16.0, context)),
+                      border: Border.all(
                         color: kBrightnessAwareColor(context,
-                            lightColor: Colors.white, darkColor: Colors.black),
+                            lightColor: Colors.transparent,
+                            darkColor: Colors.white.withOpacity(0.03)),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: kBrightnessAwareColor(context,
+                              lightColor: Colors.blueGrey.withOpacity(0.2),
+                              darkColor: Colors.black26),
+                          blurRadius: 10.0,
+                          offset: Offset(5.0, 6.0),
+                        ),
+                      ],
+                    ),
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: InkWell(
                         borderRadius: BorderRadius.circular(
                             kScreenAwareSize(16.0, context)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: kBrightnessAwareColor(context,
-                                lightColor: Colors.blueGrey.withOpacity(0.2),
-                                darkColor: Colors.black26),
-                            blurRadius: 10.0,
-                            offset: Offset(5.0, 6.0),
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: isDone
-                            ? CircularProgressIndicator()
-                            : Text(
-                                isLastSlide ? 'Get Started' : 'Next',
-                                style: kTitleTextStyle.copyWith(
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 16.0,
+                        onTap: () {
+                          if (isLastSlide) {
+                            setState(() => isDone = true);
+                            Future.delayed(Duration(milliseconds: 2000))
+                                .whenComplete(() {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()),
+                              );
+                            });
+
+                            Box settingsBox = SettingsDatabase.settingsBox;
+                            settingsBox.put(SettingsDatabase.initLaunchKey, 1);
+                          } else {
+                            setState(() => isSwipeLeft = true);
+                            controller.animateToPage(
+                              currentPage + 1,
+                              duration: Duration(milliseconds: 300),
+                              curve: Curves.decelerate,
+                            );
+                          }
+                        },
+                        child: Center(
+                          child: isDone
+                              ? CircularProgressIndicator()
+                              : Text(
+                                  isLastSlide ? 'Get Started' : 'Next',
+                                  style: kTitleTextStyle.copyWith(
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 16.0,
+                                  ),
                                 ),
-                              ),
+                        ),
                       ),
                     ),
-                    onTap: () {
-                      if (isLastSlide) {
-                        setState(() => isDone = true);
-                        Future.delayed(Duration(milliseconds: 2000))
-                            .whenComplete(() {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
-                          );
-                        });
-
-                        Box settingsBox = SettingsDatabase.settingsBox;
-                        settingsBox.put(SettingsDatabase.initLaunchKey, 1);
-                      } else {
-                        setState(() => isSwipeLeft = true);
-                        controller.animateToPage(
-                          currentPage + 1,
-                          duration: Duration(milliseconds: 300),
-                          curve: Curves.decelerate,
-                        );
-                      }
-                    },
                   ),
                 ),
               ),

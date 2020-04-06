@@ -25,8 +25,10 @@ class Pixel2 extends StatelessWidget {
     phoneID: phoneID,
     verticalPadding: 120.0,
     innerCornerRadius: 0.0,
+    cornerRadius: 23.0,
+    bezelsWidth: 1.5,
+    bezelsSide: 'Matte Panel',
     screenAlignment: Alignment.center,
-    cornerRadius: 20.0,
   );
 
   get getPhoneName => phoneName;
@@ -110,6 +112,10 @@ class Pixel2 extends StatelessWidget {
               child: Camera(
                 trimColor: Colors.grey[700],
                 lenseColor: Colors.grey[700],
+                trimWidth: 3.0,
+                elevationSpreadRadius: 0.2,
+                elevationBlurRadius: 1.5,
+                hasElevation: true,
               ),
             ),
             Positioned(

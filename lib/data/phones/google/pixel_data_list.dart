@@ -51,6 +51,7 @@ List<PhoneDataModel> pixelDataList = [
       'Matte Panel': Color(0xFFFAEDED),
       'Fingerprint Sensor': Color(0xFFFAEDED),
       'Google Logo': Color(0xFFF5DAD5),
+      'Bezels': Color(0xFFF5EAE8),
     },
     textures: {
       'Glossy Panel': MyTexture(),
@@ -64,6 +65,7 @@ List<PhoneDataModel> pixelDataList = [
       'Matte Panel': Color(0xFFE3E6FA),
       'Fingerprint Sensor': Color(0xFFE3E6FA),
       'Google Logo': Color(0xFFD8D8F0),
+      'Bezels': Color(0xFFD8D8F0),
     },
     textures: {
       'Glossy Panel': MyTexture(),

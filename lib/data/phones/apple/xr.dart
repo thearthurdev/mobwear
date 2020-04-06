@@ -25,9 +25,9 @@ class IPhoneXR extends StatelessWidget {
     phoneID: phoneID,
     hasNotch: true,
     screenWidth: 250.0,
-    horizontalPadding: 20.0,
-    verticalPadding: 20.0,
-    bezelsWidth: 3.0,
+    horizontalPadding: 24.0,
+    verticalPadding: 24.0,
+    bezelsWidth: 2.0,
   );
 
   get getPhoneName => phoneName;

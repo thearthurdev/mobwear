@@ -12,13 +12,11 @@ class PhoneCarousel extends StatefulWidget {
   final List<PhoneModel> phonesList;
   final SwiperController swiperController;
   final PageController tabsPageController;
-  final bool tabIsSwiping;
 
   PhoneCarousel({
     @required this.phonesList,
     @required this.swiperController,
     @required this.tabsPageController,
-    this.tabIsSwiping = false,
   });
 
   @override
@@ -46,6 +44,7 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
     bool userIsSwiping = false;
     bool autoplayCarousel =
         Provider.of<SettingsProvider>(context).autoplayCarousel;
+    bool tabIsSwiping = Provider.of<SettingsProvider>(context).tabIsSwiping;
 
     return NotificationListener(
       onNotification: (ScrollNotification notification) {
@@ -118,7 +117,7 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
               autoplayCarousel &&
               !userIsSwiping &&
               !editPageOpen &&
-              !widget.tabIsSwiping) {
+              !tabIsSwiping) {
             int randomInt = Random().nextInt(PhoneModel.phonesLists.length);
             if (randomInt != tabsPageController.page.toInt()) {
               Future.delayed(Duration(milliseconds: 1400)).whenComplete(() {

@@ -171,7 +171,7 @@ List<PhoneDataModel> iPhoneDataList = [
       'Camera Bump': Color(0xFF59655C),
       'Back Panel': Color(0xFF4E5850),
       'Apple Logo': Color(0xFF424A43),
-      'Bezels': Color(0xFF384B39),
+      'Bezels': Color(0xFF3D4940),
     },
     textures: {
       'Camera Bump': MyTexture(),

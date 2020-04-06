@@ -5,26 +5,30 @@ import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/camera_bump.dart';
-import 'package:mobwear/widgets/phone_widgets/flash.dart';
-import 'package:mobwear/widgets/phone_widgets/microphone.dart';
 import 'package:mobwear/widgets/phone_widgets/screen.dart';
+import 'package:mobwear/widgets/phone_widgets/heart_rate_sensor.dart';
 import 'package:provider/provider.dart';
 
-class IPhone11ProMax extends StatelessWidget {
-  static final int phoneIndex = 13;
-  static final int phoneID = 0213;
-  static final int phoneBrandIndex = 1;
-  static const String phoneBrand = 'Apple';
-  static const String phoneModel = 'iPhone';
-  static const String phoneName = 'iPhone 11 Pro Max';
+class S7 extends StatelessWidget {
+  static final int phoneIndex = 0;
+  static final int phoneID = 0300;
+  static final int phoneBrandIndex = 2;
+  static const String phoneBrand = 'Samsung';
+  static const String phoneModel = 'Galaxy';
+  static const String phoneName = 'Galaxy S7';
 
   final Screen front = Screen(
     phoneName: phoneName,
     phoneModel: phoneModel,
     phoneBrand: phoneBrand,
     phoneID: phoneID,
-    hasNotch: true,
-    bezelsWidth: 1.5,
+    screenWidth: 240.0,
+    screenHeight: 490.0,
+    horizontalPadding: 6.0,
+    verticalPadding: 25.0,
+    screenAlignment: Alignment(0.0, -0.1),
+    innerCornerRadius: 20.0,
+    cornerRadius: 25.0,
   );
 
   get getPhoneFront => front;
@@ -40,15 +44,15 @@ class IPhone11ProMax extends StatelessWidget {
     var colors = phonesBox.get(phoneID).colors;
     var textures = phonesBox.get(phoneID).textures;
 
-    Color cameraBumpColor = colors['Camera Bump'];
     Color backPanelColor = colors['Back Panel'];
-    Color logoColor = colors['Apple Logo'];
+    Color cameraBumpColor = colors['Camera'];
+    Color logoColor = colors['Samsung Logo'];
     Color bezelsColor = colors['Bezels'];
 
-    String cameraBumpTexture = textures['Camera Bump'].asset;
-    Color cameraBumpTextureBlendColor = textures['Camera Bump'].blendColor;
+    String cameraBumpTexture = textures['Camera'].asset;
+    Color cameraBumpTextureBlendColor = textures['Camera'].blendColor;
     BlendMode cameraBumpTextureBlendMode =
-        kGetTextureBlendMode(textures['Camera Bump'].blendModeIndex);
+        kGetTextureBlendMode(textures['Camera'].blendModeIndex);
 
     String backPanelTexture = textures['Back Panel'].asset;
     Color backPanelTextureBlendColor = textures['Back Panel'].blendColor;
@@ -56,75 +60,65 @@ class IPhone11ProMax extends StatelessWidget {
         kGetTextureBlendMode(textures['Back Panel'].blendModeIndex);
 
     Camera camera = Camera(
-      diameter: 34.0,
-      trimColor: backPanelColor,
-      hasElevation: true,
+      diameter: 20.0,
+      trimWidth: 3.0,
+      lenseDiameter: 8.0,
+      trimColor: Colors.grey[900],
     );
 
     CameraBump cameraBump = CameraBump(
-      width: 100.0,
-      height: 100.0,
-      cornerRadius: 26.0,
-      borderWidth: 2.0,
+      width: 60.0,
+      height: 60.0,
+      cornerRadius: 10.0,
       cameraBumpColor: cameraBumpColor,
       backPanelColor: backPanelColor,
       texture: cameraBumpTexture,
       textureBlendColor: cameraBumpTextureBlendColor,
       textureBlendMode: cameraBumpTextureBlendMode,
+      cameraBumpPartsPadding: 2.0,
+      borderWidth: 1.2,
+      borderColor: Colors.grey[500],
       cameraBumpParts: [
-        Positioned(
-          left: 3.0,
-          top: 3.0,
-          child: camera,
-        ),
-        Positioned(
-          left: 3.0,
-          bottom: 3.0,
-          child: camera,
-        ),
-        Positioned(
-          right: 3.0,
-          top: 22.5,
-          child: camera,
-        ),
-        Positioned(
-          right: 12.0,
-          top: 4.0,
-          child: Flash(diameter: 15.0),
-        ),
-        Positioned(
-          right: 17.0,
-          bottom: 9.0,
-          child: Microphone(),
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  camera,
+                ],
+              ),
+            ],
+          ),
         ),
       ],
     );
 
     return FittedBox(
       child: BackPanel(
-        width: 250.0,
-        height: 500.0,
-        cornerRadius: 34.0,
-        bezelsWidth: 3.0,
+        height: 490,
+        cornerRadius: 32.0,
+        bezelsWidth: 1.5,
         backPanelColor: backPanelColor,
         bezelsColor: bezelsColor,
         texture: backPanelTexture,
         textureBlendColor: backPanelTextureBlendColor,
         textureBlendMode: backPanelTextureBlendMode,
-        child: Stack(
+        child: Column(
           children: <Widget>[
-            Positioned(
-              top: 8.0,
-              left: 8.0,
-              child: cameraBump,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                cameraBump,
+                SizedBox(width: 4.0),
+                HeartRateSensor(),
+              ],
             ),
-            Align(
-              alignment: Alignment.center,
-              child: Icon(
-                BrandIcons.apple,
-                color: logoColor,
-                size: 60.0,
-              ),
+            Icon(
+              BrandIcons.samsung3,
+              color: logoColor,
+              size: 54.0,
             ),
           ],
         ),

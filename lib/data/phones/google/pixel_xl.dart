@@ -26,12 +26,11 @@ class PixelXL extends StatelessWidget {
     phoneID: phoneID,
     verticalPadding: 120.0,
     innerCornerRadius: 0.0,
-    screenAlignment: Alignment.center,
-    notchAlignment: Alignment(0.0, -1.0),
-    notchHeight: 35.0,
-    notchWidth: 100.0,
     cornerRadius: 33.0,
+    bezelsWidth: 1.5,
+    bezelsSide: 'Matte Panel',
     screenFaceColor: Colors.white,
+    screenAlignment: Alignment.center,
   );
 
   get getPhoneFront => front;

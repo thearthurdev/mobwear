@@ -28,8 +28,8 @@ class Screen extends StatefulWidget {
   const Screen({
     this.screenWidth = 240.0,
     this.screenHeight = 500.0,
-    this.verticalPadding = 15.0,
-    this.horizontalPadding = 15.0,
+    this.verticalPadding = 18.0,
+    this.horizontalPadding = 18.0,
     this.cornerRadius = 30.0,
     this.bezelsWidth = 1.0,
     this.hasNotch = false,
@@ -72,10 +72,10 @@ class _ScreenState extends State<Screen> {
             borderRadius: BorderRadius.circular(widget.cornerRadius),
             border: Border.all(
               color: widget.bezelsColor == null
-                  ? boxBezelsColor == null
+                  ? boxBezelsColor == null || boxBezelsColor == Colors.black
                       ? kThemeBrightness(context) == Brightness.light
                           ? Colors.transparent
-                          : Colors.grey[800]
+                          : Colors.grey[900]
                       : boxBezelsColor
                   : widget.bezelsColor,
               width: widget.bezelsWidth,

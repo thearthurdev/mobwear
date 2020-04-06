@@ -52,9 +52,9 @@ class IndicatorDot extends StatelessWidget {
 }
 
 class PageIndicator extends StatefulWidget {
-  final int currentSectionIndex;
+  final int currentSelectionIndex;
 
-  const PageIndicator(this.currentSectionIndex);
+  const PageIndicator(this.currentSelectionIndex);
 
   @override
   _PageIndicatorState createState() => _PageIndicatorState();
@@ -69,7 +69,7 @@ class _PageIndicatorState extends State<PageIndicator> {
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
         return IndicatorDot(
-          isSelected: index == widget.currentSectionIndex,
+          isSelected: index == widget.currentSelectionIndex,
           context: context,
         );
       },

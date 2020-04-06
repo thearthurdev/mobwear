@@ -30,7 +30,6 @@ class IPhone5 extends StatelessWidget {
     bezelsWidth: 2.0,
     cornerRadius: 32.0,
     innerCornerRadius: 0.0,
-    bezelsColor: Color(0xFFEEEEEE),
     screenFaceColor: Colors.white,
     screenItems: <Widget>[
       Align(

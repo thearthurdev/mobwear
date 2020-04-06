@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/CustomIcons.ttf
 ///
-///
+/// 
 ///
 import 'package:flutter/widgets.dart';
 
@@ -20,17 +20,16 @@ class CustomIcons {
 
   static const _kFontFam = 'CustomIcons';
 
-  static const IconData ce = const IconData(0xe800, fontFamily: _kFontFam);
-  static const IconData turtoise =
-      const IconData(0xe801, fontFamily: _kFontFam);
-  static const IconData hare = const IconData(0xe802, fontFamily: _kFontFam);
-  static const IconData weee = const IconData(0xe803, fontFamily: _kFontFam);
-  static const IconData mobwear = const IconData(0xe804, fontFamily: _kFontFam);
-  static const IconData carousel_view =
-      const IconData(0xe807, fontFamily: _kFontFam);
-  static const IconData texture_wood_alt =
-      const IconData(0xe808, fontFamily: _kFontFam);
-  static const IconData color_palette_alt =
-      const IconData(0xe809, fontFamily: _kFontFam);
-  static const IconData image = const IconData(0xe80a, fontFamily: _kFontFam);
+  static const IconData ce = IconData(0xe800, fontFamily: _kFontFam);
+  static const IconData turtoise = IconData(0xe801, fontFamily: _kFontFam);
+  static const IconData hare = IconData(0xe802, fontFamily: _kFontFam);
+  static const IconData weee = IconData(0xe803, fontFamily: _kFontFam);
+  static const IconData mobwear = IconData(0xe804, fontFamily: _kFontFam);
+  static const IconData back_arrow = IconData(0xe805, fontFamily: _kFontFam);
+  static const IconData shopping_bag = IconData(0xe806, fontFamily: _kFontFam);
+  static const IconData carousel_view = IconData(0xe807, fontFamily: _kFontFam);
+  static const IconData texture_wood_alt = IconData(0xe808, fontFamily: _kFontFam);
+  static const IconData color_palette_alt = IconData(0xe809, fontFamily: _kFontFam);
+  static const IconData image = IconData(0xe80a, fontFamily: _kFontFam);
+  static const IconData paint_bucket = IconData(0xe80b, fontFamily: _kFontFam);
 }

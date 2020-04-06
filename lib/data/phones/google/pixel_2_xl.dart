@@ -24,8 +24,10 @@ class Pixel2XL extends StatelessWidget {
     phoneBrand: phoneBrand,
     phoneID: phoneID,
     verticalPadding: 50.0,
-    screenAlignment: Alignment.center,
     cornerRadius: 23.0,
+    bezelsWidth: 1.5,
+    bezelsSide: 'Matte Panel',
+    screenAlignment: Alignment.center,
   );
 
   get getPhoneFront => front;
@@ -107,7 +109,14 @@ class Pixel2XL extends StatelessWidget {
             Positioned(
               top: 30.0,
               left: 25.0,
-              child: Camera(),
+              child: Camera(
+                trimColor: Colors.grey[800],
+                lenseColor: Colors.grey[800],
+                trimWidth: 3.0,
+                elevationSpreadRadius: 0.2,
+                elevationBlurRadius: 1.5,
+                hasElevation: true,
+              ),
             ),
             Positioned(
               top: 40.0,
@@ -115,7 +124,7 @@ class Pixel2XL extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Flash(diameter: 15.0),
-                  SizedBox(height: 4.0),
+                  SizedBox(height: 6.0),
                   Row(
                     children: <Widget>[
                       Microphone(),

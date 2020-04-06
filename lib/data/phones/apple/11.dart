@@ -24,7 +24,7 @@ class IPhone11 extends StatelessWidget {
     phoneBrand: phoneBrand,
     phoneID: phoneID,
     hasNotch: true,
-    bezelsWidth: 2.0,
+    bezelsWidth: 1.5,
   );
 
   get getPhoneFront => front;

@@ -59,6 +59,13 @@ flutter:
     - family: Quicksand
       fonts:
         - asset: assets/fonts/Quicksand-Regular.ttf
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Black.ttf
+    - family: Archivo
+      fonts:
+        - asset: assets/fonts/Archivo-Regular.ttf
     - family: BrandIcons
       fonts:
         - asset: assets/fonts/BrandIcons.ttf

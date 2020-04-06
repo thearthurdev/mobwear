@@ -29,7 +29,6 @@ class IPhone4S extends StatelessWidget {
     bezelsWidth: 2.0,
     cornerRadius: 36.0,
     innerCornerRadius: 0.0,
-    bezelsColor: Color(0xFFEEEEEE),
     screenFaceColor: Colors.white,
     screenItems: <Widget>[
       Align(

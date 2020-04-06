@@ -32,7 +32,6 @@ class HomeVerticalTabs extends StatefulWidget {
 }
 
 class _HomeVerticalTabsState extends State<HomeVerticalTabs> {
-  bool tabIsSwiping;
   int randomInt;
   List<List<PhoneModel>> phonesLists = PhoneModel.phonesLists;
   List<String> randomExcuses;
@@ -40,7 +39,6 @@ class _HomeVerticalTabsState extends State<HomeVerticalTabs> {
   @override
   void initState() {
     super.initState();
-    tabIsSwiping = false;
     randomInt = Random().nextInt(PhoneModel.excuses.length);
     PhoneModel.excuses.shuffle();
     randomExcuses = PhoneModel.excuses;
@@ -52,11 +50,11 @@ class _HomeVerticalTabsState extends State<HomeVerticalTabs> {
       onNotification: (ScrollNotification notification) {
         if (notification is ScrollStartNotification) {
           if (notification.dragDetails != null) {
-            tabIsSwiping = true;
+            Provider.of<SettingsProvider>(context).changeTabSwipingStatus(true);
             widget.phoneCarouselController.stopAutoplay();
           }
         } else if (notification is ScrollEndNotification) {
-          tabIsSwiping = false;
+          Provider.of<SettingsProvider>(context).changeTabSwipingStatus(false);
           if (Provider.of<SettingsProvider>(context).autoplayCarousel) {
             widget.phoneCarouselController.startAutoplay();
           }
@@ -175,7 +173,6 @@ class _HomeVerticalTabsState extends State<HomeVerticalTabs> {
                   phonesList: phonesLists[i],
                   swiperController: widget.phoneCarouselController,
                   tabsPageController: widget.tabsPageController,
-                  tabIsSwiping: tabIsSwiping,
                 );
             }
 

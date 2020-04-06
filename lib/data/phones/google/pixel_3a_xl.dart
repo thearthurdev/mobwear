@@ -7,7 +7,6 @@ import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/fingerprint_sensor.dart';
 import 'package:mobwear/widgets/phone_widgets/flash.dart';
 import 'package:mobwear/widgets/phone_widgets/screen.dart';
-import 'package:mobwear/widgets/phone_widgets/texture_decoration.dart';
 import 'package:provider/provider.dart';
 
 class Pixel3AXL extends StatelessWidget {
@@ -24,8 +23,9 @@ class Pixel3AXL extends StatelessWidget {
     phoneBrand: phoneBrand,
     phoneID: phoneID,
     verticalPadding: 70.0,
-    screenAlignment: Alignment(0.0, -0.2),
     cornerRadius: 26.0,
+    bezelsWidth: 1.5,
+    screenAlignment: Alignment(0.0, -0.2),
   );
 
   get getPhoneFront => front;
@@ -45,6 +45,7 @@ class Pixel3AXL extends StatelessWidget {
     Color mattePanelColor = colors['Matte Panel'];
     Color fingerprintSensorColor = colors['Fingerprint Sensor'];
     Color logoColor = colors['Google Logo'];
+    Color bezelsColor = colors['Bezels'];
 
     String glossyPanelTexture = textures['Glossy Panel'].asset;
     Color glossyPanelTextureBlendColor = textures['Glossy Panel'].blendColor;
@@ -59,11 +60,12 @@ class Pixel3AXL extends StatelessWidget {
     return FittedBox(
       child: BackPanel(
         backPanelColor: glossyPanelColor,
-        bezelsColor: glossyPanelColor,
+        bezelsColor: bezelsColor,
         texture: glossyPanelTexture,
         textureBlendColor: glossyPanelTextureBlendColor,
         textureBlendMode: glossyPanelTextureBlendMode,
         cornerRadius: 26.0,
+        bezelsWidth: 1.5,
         child: Stack(
           children: <Widget>[
             Align(
@@ -81,27 +83,16 @@ class Pixel3AXL extends StatelessWidget {
                       : null,
                   color: mattePanelColor,
                 ),
-                child: Container(
+                child: BackPanel(
                   width: 240.0,
                   height: 380.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(26.0),
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.transparent,
-                        mattePanelColor.computeLuminance() > 0.335
-                            ? Colors.transparent
-                            : Colors.black12
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    image: textureDecoration(
-                      texture: mattePanelTexture,
-                      textureBlendColor: mattePanelTextureBlendColor,
-                      textureBlendMode: mattePanelTextureBlendMode,
-                    ),
-                  ),
+                  cornerRadius: 26.0,
+                  bezelsWidth: 0.0,
+                  noShadow: true,
+                  backPanelColor: mattePanelColor,
+                  texture: mattePanelTexture,
+                  textureBlendColor: mattePanelTextureBlendColor,
+                  textureBlendMode: mattePanelTextureBlendMode,
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: 20.0),
@@ -128,7 +119,13 @@ class Pixel3AXL extends StatelessWidget {
               left: 20.0,
               child: Row(
                 children: <Widget>[
-                  Camera(),
+                  Camera(
+                    trimColor: Colors.grey[700],
+                    lenseColor: Colors.grey[700],
+                    trimWidth: 3.0,
+                    elevationSpreadRadius: 0.5,
+                    hasElevation: true,
+                  ),
                   SizedBox(width: 12.0),
                   Flash(
                     diameter: 15.0,

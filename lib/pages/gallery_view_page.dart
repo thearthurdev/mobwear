@@ -79,7 +79,6 @@ class _GalleryViewPageState extends State<GalleryViewPage> {
                         itemCount: items.length,
                         itemBuilder: (context, i) {
                           GalleryItem item = items[i];
-
                           return Hero(
                             tag: item.imageDateTime,
                             child: Padding(

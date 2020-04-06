@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CameraBump extends StatelessWidget {
-  final double width, height, cornerRadius, cameraBumpPartsPadding, borderWidth;
+  final double width,
+      height,
+      cornerRadius,
+      effectCornerRadius,
+      cameraBumpPartsPadding,
+      borderWidth;
   final double elevationSpreadRadius, elevationBlurRadius;
   final Color cameraBumpColor, backPanelColor, borderColor, textureBlendColor;
   final String texture;
@@ -18,6 +23,7 @@ class CameraBump extends StatelessWidget {
     this.cameraBumpColor = Colors.teal,
     this.cameraBumpPartsPadding = 20.0,
     this.cornerRadius = 20.0,
+    this.effectCornerRadius = 20.0,
     this.elevationSpreadRadius,
     this.elevationBlurRadius,
     this.hasElevation = true,
@@ -81,7 +87,7 @@ class CameraBump extends StatelessWidget {
               width: width - cameraBumpPartsPadding,
               height: height - cameraBumpPartsPadding,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(cornerRadius - 6.0),
+                borderRadius: BorderRadius.circular(effectCornerRadius),
                 gradient: cameraBumpColor.alpha == 0
                     ? null
                     : isMatte
@@ -101,8 +107,8 @@ class CameraBump extends StatelessWidget {
                             colors: [
                               Colors.transparent,
                               cameraBumpColor.computeLuminance() > 0.335
-                                  ? Colors.black.withOpacity(0.05)
-                                  : Colors.black.withOpacity(0.10),
+                                  ? Colors.black.withOpacity(0.03)
+                                  : Colors.black.withOpacity(0.07),
                             ],
                             stops: [0.6, 0.6],
                             begin: Alignment.topLeft,

@@ -30,6 +30,7 @@ class Pixel4XL extends StatelessWidget {
     phoneBrand: phoneBrand,
     phoneID: phoneID,
     verticalPadding: 40.0,
+    bezelsWidth: 1.5,
     screenAlignment: Alignment(0.0, 0.5),
   );
 
@@ -58,12 +59,14 @@ class Pixel4XL extends StatelessWidget {
     Camera camera = Camera(
       diameter: 28.0,
       trimWidth: 3.0,
-      trimColor: Colors.white.withOpacity(0.05),
+      trimColor: Colors.white.withOpacity(0.03),
     );
 
     CameraBump cameraBump = CameraBump(
       width: 80.0,
       height: 80.0,
+      borderWidth: 1.0,
+      borderColor: cameraBumpColor.withOpacity(0.05),
       cameraBumpColor: cameraBumpColor,
       backPanelColor: backPanelColor,
       texture: cameraBumpTexture,
@@ -111,22 +114,6 @@ class Pixel4XL extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(top: 4.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(26.0),
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.transparent,
-                    backPanelColor.computeLuminance() > 0.335
-                        ? Colors.black.withOpacity(0.0)
-                        : Colors.black.withOpacity(0.18)
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-            ),
             Column(
               children: <Widget>[
                 Expanded(

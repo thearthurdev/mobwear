@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Camera extends StatelessWidget {
-  final double diameter, trimWidth, lenseDiameter;
+  final double diameter, trimWidth, lenseDiameter, elevation;
+  final double elevationSpreadRadius, elevationBlurRadius;
   final Color trimColor, lenseColor, backPanelColor;
   final bool hasElevation;
 
@@ -9,6 +10,9 @@ class Camera extends StatelessWidget {
     this.diameter = 35.0,
     this.trimWidth = 5.0,
     this.lenseDiameter = 10.0,
+    this.elevation,
+    this.elevationSpreadRadius,
+    this.elevationBlurRadius,
     this.hasElevation = false,
     this.trimColor,
     this.lenseColor,
@@ -33,16 +37,16 @@ class Camera extends StatelessWidget {
                       color: backPanelColor.computeLuminance() > 0.335
                           ? Colors.black.withOpacity(0.1)
                           : Colors.black.withOpacity(0.2),
-                      spreadRadius: 1.0,
-                      blurRadius: 3.0,
+                      spreadRadius: elevationSpreadRadius ?? 1.0,
+                      blurRadius: elevationBlurRadius ?? 3.0,
                       offset: Offset(2.0, 2.0),
                     ),
                     BoxShadow(
                       color: backPanelColor.computeLuminance() > 0.335
                           ? Colors.black.withOpacity(0.1)
                           : Colors.black.withOpacity(0.2),
-                      spreadRadius: 1.0,
-                      blurRadius: 3.0,
+                      spreadRadius: elevationSpreadRadius ?? 1.0,
+                      blurRadius: elevationBlurRadius ?? 3.0,
                       offset: Offset(-0.2, -0.2),
                     )
                   ]
