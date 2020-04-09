@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 
 class HomeSearchWidget extends StatelessWidget {
   final PageController tabsPageController;
-  final ScrollController phoneGridController;
+  final PageController phoneGridController;
   final SwiperController phoneCarouselController;
 
   const HomeSearchWidget({

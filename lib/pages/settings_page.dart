@@ -66,12 +66,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 SizedBox(height: 16.0),
                 SettingsExpansionTile(
                     title: 'Carousel mode',
-                    subtitle: settingsProvider.autoplayCarousel
+                    subtitle: settingsProvider.autoPlayCarousel
                         ? 'Carousel will autoplay'
                         : 'Carousel will be stagnant',
                     settingMap: myAutoplayOptions,
                     isExpanded: isAutoplayExpanded,
-                    selectedOptionCheck: settingsProvider.autoplayCarousel,
+                    selectedOptionCheck: settingsProvider.autoPlayCarousel,
                     onExpansionChanged: (b) =>
                         setState(() => isAutoplayExpanded = b),
                     onOptionSelected: (i) {

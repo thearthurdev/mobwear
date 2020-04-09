@@ -18,7 +18,7 @@ import 'package:provider/provider.dart';
 
 class HomeVerticalTabs extends StatefulWidget {
   final PageController tabsPageController;
-  final ScrollController phoneGridController;
+  final PageController phoneGridController;
   final SwiperController phoneCarouselController;
 
   const HomeVerticalTabs({
@@ -55,7 +55,7 @@ class _HomeVerticalTabsState extends State<HomeVerticalTabs> {
           }
         } else if (notification is ScrollEndNotification) {
           Provider.of<SettingsProvider>(context).changeTabSwipingStatus(false);
-          if (Provider.of<SettingsProvider>(context).autoplayCarousel) {
+          if (Provider.of<SettingsProvider>(context).autoPlayCarousel) {
             widget.phoneCarouselController.startAutoplay();
           }
         }

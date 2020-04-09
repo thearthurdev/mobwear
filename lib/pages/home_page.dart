@@ -24,16 +24,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  PageController tabsPageController = PageController();
-  ScrollController phoneGridController = PageController();
-  SwiperController phoneCarouselController = SwiperController();
+  PageController tabsPageController;
+  PageController phoneGridController;
+  SwiperController phoneCarouselController;
 
   @override
   void initState() {
     super.initState();
+
     MyTexture.loadTextureAssets(context);
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+
+    tabsPageController = PageController();
+    phoneGridController = PageController();
+    phoneCarouselController = SwiperController();
   }
 
   @override
@@ -45,6 +50,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     tabsPageController.dispose();
+    phoneGridController.dispose();
+    phoneCarouselController.dispose();
     PhoneDatabase.phonesBox.close();
     SettingsDatabase.settingsBox.close();
     GalleryDatabase.galleryBox.close();
@@ -75,13 +82,13 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: Text('MobWear'),
           centerTitle: true,
-          leading: IconButton(
-            icon: Icon(LineAwesomeIcons.refresh),
-            onPressed: () {
-              PhoneDatabase.phonesBox.clear();
-              print('phones database cleared');
-            },
-          ),
+          // leading: IconButton(
+          //   icon: Icon(LineAwesomeIcons.refresh),
+          //   onPressed: () {
+          //     PhoneDatabase.phonesBox.clear();
+          //     print('phones database cleared');
+          //   },
+          // ),
           actions: <Widget>[
             FutureBuilder(
               future:

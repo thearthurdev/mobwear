@@ -35,19 +35,19 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   //Carousel Autoplay Settings
-  bool autoplayCarousel;
+  bool autoPlayCarousel;
   bool tabIsSwiping = false;
   String carouselAutoplayKey = SettingsDatabase.carouselAutoplayKey;
 
   Future<bool> loadAutoPlay() async {
     bool b = settingsBox.get(carouselAutoplayKey) ?? true;
-    autoplayCarousel = b;
-    return autoplayCarousel;
+    autoPlayCarousel = b;
+    return autoPlayCarousel;
   }
 
   void changeAutoPlay(bool b) async {
-    autoplayCarousel = b;
-    settingsBox.put(carouselAutoplayKey, autoplayCarousel);
+    autoPlayCarousel = b;
+    settingsBox.put(carouselAutoplayKey, autoPlayCarousel);
     notifyListeners();
   }
 

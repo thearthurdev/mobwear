@@ -35,7 +35,8 @@ dependencies:
   flushbar: ^1.9.1
   firebase_storage: ^3.1.3
   firebase_core: ^0.4.4+3
-  firebase_analytics: ^5.0.11
+  firebase_analytics: ^5.0.11 
+  smooth_page_indicator: ^0.1.5
 
 dev_dependencies:
   flutter_test:
