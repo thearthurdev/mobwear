@@ -3,6 +3,7 @@ import 'package:mobwear/custom_icons/brand_icons.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
+import 'package:mobwear/widgets/phone_widgets/button.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/flash.dart';
 import 'package:mobwear/widgets/phone_widgets/iPhone_home_button.dart';
@@ -19,6 +20,52 @@ class IPhone5 extends StatelessWidget {
   static const String phoneModel = 'iPhone';
   static const String phoneName = 'iPhone 5';
 
+  static String boxColorKey = 'Bezels';
+
+  static List<Button> topButtons(bool invert) {
+    double xAlignment = invert ? 0.67 : -0.67;
+
+    return [
+      Button(
+        height: 2.5,
+        width: 35.0,
+        xAlignment: xAlignment,
+        position: ButtonPosition.top,
+        phoneID: phoneID,
+        boxColorKey: boxColorKey,
+      ),
+    ];
+  }
+
+  static List<Button> rightButtons(bool invert) {
+    ButtonPosition position =
+        invert ? ButtonPosition.left : ButtonPosition.right;
+
+    return [
+      Button(
+        height: 22.0,
+        yAlignment: -0.73,
+        position: position,
+        phoneID: phoneID,
+        boxColorKey: boxColorKey,
+      ),
+      Button(
+        height: 18.0,
+        yAlignment: -0.54,
+        position: position,
+        phoneID: phoneID,
+        boxColorKey: boxColorKey,
+      ),
+      Button(
+        height: 18.0,
+        yAlignment: -0.36,
+        position: position,
+        phoneID: phoneID,
+        boxColorKey: boxColorKey,
+      ),
+    ];
+  }
+
   final Screen front = Screen(
     phoneName: phoneName,
     phoneModel: phoneModel,
@@ -31,6 +78,8 @@ class IPhone5 extends StatelessWidget {
     cornerRadius: 32.0,
     innerCornerRadius: 0.0,
     screenFaceColor: Colors.white,
+    topButtons: topButtons(true),
+    leftButtons: rightButtons(true),
     screenItems: <Widget>[
       Align(
         alignment: Alignment(0.0, 0.945),
@@ -86,6 +135,8 @@ class IPhone5 extends StatelessWidget {
         texture: topBottomPanelTexture,
         textureBlendColor: topBottomPanelTextureBlendColor,
         textureBlendMode: topBottomPanelTextureBlendMode,
+        topButtons: topButtons(false),
+        rightButtons: rightButtons(false),
         bezelsWidth: 2.0,
         child: Stack(
           children: <Widget>[
@@ -96,6 +147,7 @@ class IPhone5 extends StatelessWidget {
                 width: 250.0,
                 cornerRadius: 0.0,
                 noShadow: true,
+                noButtons: true,
                 backPanelColor: middlePanelColor,
                 texture: middlePanelTexture,
                 textureBlendColor: middlePanelTextureBlendColor,

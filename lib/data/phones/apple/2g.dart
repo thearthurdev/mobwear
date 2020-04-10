@@ -3,6 +3,7 @@ import 'package:mobwear/custom_icons/brand_icons.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
+import 'package:mobwear/widgets/phone_widgets/button.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/iPhone_home_button.dart';
 import 'package:mobwear/widgets/phone_widgets/iPhone_text_marks.dart';
@@ -17,6 +18,55 @@ class IPhone2G extends StatelessWidget {
   static const String phoneModel = 'iPhone';
   static const String phoneName = 'iPhone 2G';
 
+  static Color buttonsColor = Colors.black;
+
+  static List<Button> topButtons(bool invert) {
+    double xAlignment = invert ? 0.67 : -0.67;
+
+    return [
+      Button(
+        height: 2.0,
+        width: 35.0,
+        xAlignment: xAlignment,
+        position: ButtonPosition.top,
+        phoneID: phoneID,
+        color: buttonsColor,
+      ),
+    ];
+  }
+
+  static List<Button> rightButtons(bool invert) {
+    ButtonPosition position =
+        invert ? ButtonPosition.left : ButtonPosition.right;
+
+    return [
+      Button(
+        height: 18.0,
+        width: 2.0,
+        yAlignment: -0.78,
+        position: position,
+        phoneID: phoneID,
+        color: buttonsColor,
+      ),
+      Button(
+        height: 24.0,
+        width: 2.0,
+        yAlignment: -0.6,
+        position: position,
+        phoneID: phoneID,
+        color: buttonsColor,
+      ),
+      Button(
+        height: 24.0,
+        width: 2.0,
+        yAlignment: -0.4,
+        position: position,
+        phoneID: phoneID,
+        color: buttonsColor,
+      ),
+    ];
+  }
+
   final Screen front = Screen(
     phoneName: phoneName,
     phoneModel: phoneModel,
@@ -24,17 +74,19 @@ class IPhone2G extends StatelessWidget {
     phoneID: phoneID,
     screenHeight: 450.0,
     horizontalPadding: 26.0,
-    verticalPadding: 140.0,
+    verticalPadding: 150.0,
     bezelsWidth: 8.0,
     cornerRadius: 36.0,
     innerCornerRadius: 0.0,
     bezelsColor: Color(0xFFBBC3C7),
+    topButtons: topButtons(true),
+    leftButtons: rightButtons(true),
     screenItems: <Widget>[
       Align(
-        alignment: Alignment(0.0, 0.96),
+        alignment: Alignment(0.0, 0.95),
         child: IPhoneHomeButton(
           phoneID: phoneID,
-          diameter: 45.0,
+          diameter: 48.0,
           squareMargin: 27.0,
           hasSquare: true,
           buttonColor: Colors.black,
@@ -77,8 +129,10 @@ class IPhone2G extends StatelessWidget {
       child: BackPanel(
         height: 450.0,
         cornerRadius: 36.0,
-        backPanelColor: Colors.transparent,
         bezelsWidth: 0.0,
+        backPanelColor: Colors.transparent,
+        topButtons: topButtons(false),
+        rightButtons: rightButtons(false),
         child: Stack(
           children: <Widget>[
             Align(
@@ -86,6 +140,7 @@ class IPhone2G extends StatelessWidget {
               child: BackPanel(
                 height: 352.0,
                 noShadow: true,
+                noButtons: true,
                 backPanelColor: topPanelColor,
                 texture: topPanelTexture,
                 textureBlendColor: topPanelTextureBlendColor,
@@ -101,6 +156,7 @@ class IPhone2G extends StatelessWidget {
               child: BackPanel(
                 height: 100.0,
                 noShadow: true,
+                noButtons: true,
                 backPanelColor: bottomPanelColor,
                 texture: bottomPanelTexture,
                 textureBlendColor: bottomPanelTextureBlendColor,

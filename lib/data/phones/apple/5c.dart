@@ -3,6 +3,7 @@ import 'package:mobwear/custom_icons/brand_icons.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
+import 'package:mobwear/widgets/phone_widgets/button.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/flash.dart';
 import 'package:mobwear/widgets/phone_widgets/iPhone_home_button.dart';
@@ -19,6 +20,46 @@ class IPhone5C extends StatelessWidget {
   static const String phoneModel = 'iPhone';
   static const String phoneName = 'iPhone 5C';
 
+  static List<Button> topButtons(bool invert) {
+    double xAlignment = invert ? 0.67 : -0.67;
+
+    return [
+      Button(
+        height: 2.5,
+        width: 35.0,
+        xAlignment: xAlignment,
+        position: ButtonPosition.top,
+        phoneID: phoneID,
+      ),
+    ];
+  }
+
+  static List<Button> rightButtons(bool invert) {
+    ButtonPosition position =
+        invert ? ButtonPosition.left : ButtonPosition.right;
+
+    return [
+      Button(
+        height: 18.0,
+        yAlignment: -0.73,
+        position: position,
+        phoneID: phoneID,
+      ),
+      Button(
+        height: 35.0,
+        yAlignment: -0.58,
+        position: position,
+        phoneID: phoneID,
+      ),
+      Button(
+        height: 35.0,
+        yAlignment: -0.36,
+        position: position,
+        phoneID: phoneID,
+      ),
+    ];
+  }
+
   final Screen front = Screen(
     phoneName: phoneName,
     phoneModel: phoneModel,
@@ -30,7 +71,9 @@ class IPhone5C extends StatelessWidget {
     bezelsWidth: 3.0,
     cornerRadius: 32.0,
     innerCornerRadius: 0.0,
-    bezelsSide: 'Back Panel',
+    boxColorKey: 'Back Panel',
+    topButtons: topButtons(true),
+    leftButtons: rightButtons(true),
     screenItems: <Widget>[
       Align(
         alignment: Alignment(0.0, 0.945),
@@ -74,11 +117,13 @@ class IPhone5C extends StatelessWidget {
       child: BackPanel(
         height: 470.0,
         cornerRadius: 32.0,
-        bezelsWidth: 0.0,
+        bezelsColor: backPanelColor,
         backPanelColor: backPanelColor,
         texture: backPanelTexture,
         textureBlendColor: backPanelTextureBlendColor,
         textureBlendMode: backPanelTextureBlendMode,
+        topButtons: topButtons(false),
+        rightButtons: rightButtons(false),
         child: Stack(
           children: <Widget>[
             Align(

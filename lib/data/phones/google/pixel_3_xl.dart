@@ -3,6 +3,7 @@ import 'package:mobwear/custom_icons/brand_icons.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
+import 'package:mobwear/widgets/phone_widgets/button.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/fingerprint_sensor.dart';
 import 'package:mobwear/widgets/phone_widgets/flash.dart';
@@ -18,6 +19,28 @@ class Pixel3XL extends StatelessWidget {
   static const String phoneModel = 'Pixel';
   static const String phoneName = 'Pixel 3 XL';
 
+  static List<Button> leftButtons(bool invert) {
+    ButtonPosition position =
+        invert ? ButtonPosition.right : ButtonPosition.left;
+
+    return [
+      Button(
+        height: 32.0,
+        yAlignment: -0.45,
+        position: position,
+        phoneID: phoneID,
+        boxColorKey: 'Power Button',
+      ),
+      Button(
+        height: 80.0,
+        yAlignment: -0.1,
+        position: position,
+        phoneID: phoneID,
+        boxColorKey: 'Bezels',
+      ),
+    ];
+  }
+
   final Screen front = Screen(
     phoneName: phoneName,
     phoneModel: phoneModel,
@@ -26,11 +49,12 @@ class Pixel3XL extends StatelessWidget {
     hasNotch: true,
     verticalPadding: 40.0,
     notchHeight: 35.0,
-    notchWidth: 100.0,
+    notchWidth: 90.0,
     cornerRadius: 23.0,
     bezelsWidth: 1.5,
     notchAlignment: Alignment(0.0, -1.0),
     screenAlignment: Alignment(0.0, -0.6),
+    rightButtons: leftButtons(true),
   );
 
   get getPhoneFront => front;
@@ -69,6 +93,7 @@ class Pixel3XL extends StatelessWidget {
         texture: glossyPanelTexture,
         textureBlendColor: glossyPanelTextureBlendColor,
         textureBlendMode: glossyPanelTextureBlendMode,
+        leftButtons: leftButtons(false),
         bezelsWidth: 1.5,
         child: Stack(
           children: <Widget>[
@@ -93,6 +118,7 @@ class Pixel3XL extends StatelessWidget {
                   cornerRadius: 23.0,
                   bezelsWidth: 0.0,
                   noShadow: true,
+                  noButtons: true,
                   backPanelColor: mattePanelColor,
                   texture: mattePanelTexture,
                   textureBlendColor: mattePanelTextureBlendColor,

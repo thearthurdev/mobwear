@@ -3,6 +3,7 @@ import 'package:mobwear/custom_icons/brand_icons.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
+import 'package:mobwear/widgets/phone_widgets/button.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/flash.dart';
 import 'package:mobwear/widgets/phone_widgets/iPhone_home_button.dart';
@@ -19,6 +20,46 @@ class IPhone6Plus extends StatelessWidget {
   static const String phoneModel = 'iPhone';
   static const String phoneName = 'iPhone 6 Plus';
 
+  static List<Button> leftButtons(bool invert) {
+    ButtonPosition position =
+        invert ? ButtonPosition.right : ButtonPosition.left;
+
+    return [
+      Button(
+        height: 35.0,
+        yAlignment: -0.53,
+        position: position,
+        phoneID: phoneID,
+      ),
+    ];
+  }
+
+  static List<Button> rightButtons(bool invert) {
+    ButtonPosition position =
+        invert ? ButtonPosition.left : ButtonPosition.right;
+
+    return [
+      Button(
+        height: 16.0,
+        yAlignment: -0.73,
+        position: position,
+        phoneID: phoneID,
+      ),
+      Button(
+        height: 35.0,
+        yAlignment: -0.56,
+        position: position,
+        phoneID: phoneID,
+      ),
+      Button(
+        height: 35.0,
+        yAlignment: -0.36,
+        position: position,
+        phoneID: phoneID,
+      ),
+    ];
+  }
+
   final Screen front = Screen(
     phoneName: phoneName,
     phoneModel: phoneModel,
@@ -30,13 +71,15 @@ class IPhone6Plus extends StatelessWidget {
     innerCornerRadius: 0.0,
     bezelsWidth: 2.0,
     screenFaceColor: Colors.white,
-    bezelsSide: 'Back Panel',
+    boxColorKey: 'Back Panel',
+    leftButtons: rightButtons(true),
+    rightButtons: leftButtons(true),
     screenItems: <Widget>[
       Align(
         alignment: Alignment(0.0, 0.965),
         child: IPhoneHomeButton(
           phoneID: phoneID,
-          bezelsSide: 'Back Panel',
+          boxColorKey: 'Back Panel',
           diameter: 38.0,
         ),
       ),
@@ -72,6 +115,7 @@ class IPhone6Plus extends StatelessWidget {
         child: BackPanel(
           backPanelColor: Colors.transparent,
           noShadow: true,
+          noButtons: true,
           width: 245.0,
           height: 42.0,
           bezelsWidth: 5.0,
@@ -103,9 +147,12 @@ class IPhone6Plus extends StatelessWidget {
         height: 500.0,
         cornerRadius: 36.0,
         backPanelColor: backPanelColor,
+        bezelsColor: backPanelColor,
         texture: backPanelTexture,
         textureBlendColor: backPanelTextureBlendColor,
         textureBlendMode: backPanelTextureBlendMode,
+        leftButtons: leftButtons(false),
+        rightButtons: rightButtons(false),
         child: Stack(
           children: <Widget>[
             Align(

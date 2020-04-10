@@ -122,7 +122,6 @@ class _HomeVerticalTabsState extends State<HomeVerticalTabs> {
           int reverseIndex = tabs.length - i;
 
           return Container(
-            margin: EdgeInsets.only(right: 50.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[

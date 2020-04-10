@@ -3,6 +3,7 @@ import 'package:mobwear/custom_icons/brand_icons.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
+import 'package:mobwear/widgets/phone_widgets/button.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/camera_bump.dart';
 import 'package:mobwear/widgets/phone_widgets/flash.dart';
@@ -18,11 +19,27 @@ class Pixel4XL extends StatelessWidget {
   static const String phoneModel = 'Pixel';
   static const String phoneName = 'Pixel 4 XL';
 
-  get getPhoneFront => front;
-  get getPhoneName => phoneName;
-  get getPhoneBrand => phoneBrand;
-  get getPhoneBrandIndex => phoneBrandIndex;
-  get getPhoneIndex => phoneIndex;
+  static List<Button> leftButtons(bool invert) {
+    ButtonPosition position =
+        invert ? ButtonPosition.right : ButtonPosition.left;
+
+    return [
+      Button(
+        height: 32.0,
+        yAlignment: -0.5,
+        position: position,
+        phoneID: phoneID,
+        boxColorKey: 'Power Button',
+      ),
+      Button(
+        height: 80.0,
+        yAlignment: -0.2,
+        position: position,
+        phoneID: phoneID,
+        color: Colors.black,
+      ),
+    ];
+  }
 
   final Screen front = Screen(
     phoneName: phoneName,
@@ -32,7 +49,14 @@ class Pixel4XL extends StatelessWidget {
     verticalPadding: 40.0,
     bezelsWidth: 1.5,
     screenAlignment: Alignment(0.0, 0.5),
+    rightButtons: leftButtons(true),
   );
+
+  get getPhoneFront => front;
+  get getPhoneName => phoneName;
+  get getPhoneBrand => phoneBrand;
+  get getPhoneBrandIndex => phoneBrandIndex;
+  get getPhoneIndex => phoneIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -111,6 +135,7 @@ class Pixel4XL extends StatelessWidget {
         texture: backPanelTexture,
         textureBlendColor: backPanelTextureBlendColor,
         textureBlendMode: backPanelTextureBlendMode,
+        leftButtons: leftButtons(false),
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[

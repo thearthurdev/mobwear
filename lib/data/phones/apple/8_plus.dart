@@ -3,6 +3,7 @@ import 'package:mobwear/custom_icons/brand_icons.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
+import 'package:mobwear/widgets/phone_widgets/button.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/camera_bump.dart';
 import 'package:mobwear/widgets/phone_widgets/flash.dart';
@@ -20,6 +21,46 @@ class IPhone8Plus extends StatelessWidget {
   static const String phoneModel = 'iPhone';
   static const String phoneName = 'iPhone 8 Plus';
 
+  static List<Button> leftButtons(bool invert) {
+    ButtonPosition position =
+        invert ? ButtonPosition.right : ButtonPosition.left;
+
+    return [
+      Button(
+        height: 35.0,
+        yAlignment: -0.6,
+        position: position,
+        phoneID: phoneID,
+      ),
+    ];
+  }
+
+  static List<Button> rightButtons(bool invert) {
+    ButtonPosition position =
+        invert ? ButtonPosition.left : ButtonPosition.right;
+
+    return [
+      Button(
+        height: 16.0,
+        yAlignment: -0.7,
+        position: position,
+        phoneID: phoneID,
+      ),
+      Button(
+        height: 35.0,
+        yAlignment: -0.55,
+        position: position,
+        phoneID: phoneID,
+      ),
+      Button(
+        height: 35.0,
+        yAlignment: -0.36,
+        position: position,
+        phoneID: phoneID,
+      ),
+    ];
+  }
+
   final Screen front = Screen(
     phoneName: phoneName,
     phoneModel: phoneModel,
@@ -31,6 +72,8 @@ class IPhone8Plus extends StatelessWidget {
     innerCornerRadius: 0.0,
     bezelsWidth: 2.0,
     screenFaceColor: Colors.white,
+    leftButtons: rightButtons(true),
+    rightButtons: leftButtons(true),
     screenItems: <Widget>[
       Align(
         alignment: Alignment(0.0, 0.965),
@@ -117,6 +160,8 @@ class IPhone8Plus extends StatelessWidget {
         texture: backPanelTexture,
         textureBlendColor: backPanelTextureBlendColor,
         textureBlendMode: backPanelTextureBlendMode,
+        leftButtons: leftButtons(false),
+        rightButtons: rightButtons(false),
         child: Stack(
           children: <Widget>[
             Positioned(

@@ -3,6 +3,7 @@ import 'package:mobwear/custom_icons/brand_icons.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
+import 'package:mobwear/widgets/phone_widgets/button.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/fingerprint_sensor.dart';
 import 'package:mobwear/widgets/phone_widgets/flash.dart';
@@ -19,6 +20,28 @@ class PixelXL extends StatelessWidget {
   static const String phoneModel = 'Pixel';
   static const String phoneName = 'Pixel XL';
 
+  static List<Button> leftButtons(bool invert) {
+    ButtonPosition position =
+        invert ? ButtonPosition.right : ButtonPosition.left;
+
+    return [
+      Button(
+        height: 32.0,
+        yAlignment: -0.45,
+        position: position,
+        phoneID: phoneID,
+        boxColorKey: 'Matte Panel',
+      ),
+      Button(
+        height: 80.0,
+        yAlignment: -0.08,
+        position: position,
+        phoneID: phoneID,
+        boxColorKey: 'Matte Panel',
+      ),
+    ];
+  }
+
   final Screen front = Screen(
     phoneName: phoneName,
     phoneModel: phoneModel,
@@ -28,9 +51,10 @@ class PixelXL extends StatelessWidget {
     innerCornerRadius: 0.0,
     cornerRadius: 33.0,
     bezelsWidth: 1.5,
-    bezelsSide: 'Matte Panel',
+    boxColorKey: 'Matte Panel',
     screenFaceColor: Colors.white,
     screenAlignment: Alignment.center,
+    rightButtons: leftButtons(true),
   );
 
   get getPhoneFront => front;
@@ -107,6 +131,7 @@ class PixelXL extends StatelessWidget {
         texture: mattePanelTexture,
         textureBlendColor: mattePanelTextureBlendColor,
         textureBlendMode: mattePanelTextureBlendMode,
+        leftButtons: leftButtons(false),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(23.0),
           child: Stack(
@@ -143,8 +168,8 @@ class PixelXL extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(25.0),
                       topRight: Radius.circular(25.0),
-                      bottomLeft: Radius.circular(10.0),
-                      bottomRight: Radius.circular(10.0),
+                      bottomLeft: Radius.circular(8.0),
+                      bottomRight: Radius.circular(8.0),
                     ),
                     color: glossyPanelColor,
                     image: textureDecoration(

@@ -4,12 +4,13 @@ import 'package:mobwear/utils/constants.dart';
 class BackPanel extends StatefulWidget {
   final double width, height, cornerRadius, bezelsWidth;
   final Color backPanelColor, bezelsColor, textureBlendColor;
+  final List<Widget> leftButtons, rightButtons, topButtons;
   final BorderRadiusGeometry borderRadius;
   final String texture;
   final BlendMode textureBlendMode;
   final BoxFit textureFit;
   final Widget child;
-  final bool noShadow;
+  final bool noShadow, noButtons;
 
   const BackPanel({
     @required this.backPanelColor,
@@ -22,9 +23,13 @@ class BackPanel extends StatefulWidget {
     this.cornerRadius = 23.0,
     this.bezelsWidth = 1.0,
     this.noShadow = false,
+    this.noButtons = false,
     this.textureBlendColor,
     this.textureBlendMode,
     this.textureFit,
+    this.leftButtons,
+    this.rightButtons,
+    this.topButtons,
   });
 
   @override
@@ -42,6 +47,23 @@ class _BackPanelState extends State<BackPanel> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.noButtons) return backPanel(context);
+
+    return Column(
+      children: <Widget>[
+        topButtons(widget.topButtons),
+        Row(
+          children: <Widget>[
+            sideButtons(widget.leftButtons),
+            backPanel(context),
+            sideButtons(widget.rightButtons),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget backPanel(BuildContext context) {
     return Container(
       width: widget.width + 1.2,
       height: widget.height + 1.2,
@@ -50,7 +72,7 @@ class _BackPanelState extends State<BackPanel> {
             ? BorderRadius.circular(widget.cornerRadius)
             : widget.borderRadius,
         color: kThemeBrightness(context) == Brightness.light || widget.noShadow
-            ? Colors.transparent
+            ? widget.noShadow ? Colors.transparent : widget.bezelsColor
             : widget.bezelsColor == null ||
                     widget.bezelsColor == Colors.black ||
                     widget.bezelsColor.alpha < 20
@@ -101,5 +123,27 @@ class _BackPanelState extends State<BackPanel> {
         ),
       ),
     );
+  }
+
+  Widget sideButtons(List<Widget> buttons) {
+    return buttons != null && !widget.noButtons
+        ? Container(
+            height: widget.height,
+            child: Stack(
+              children: buttons,
+            ),
+          )
+        : SizedBox();
+  }
+
+  Widget topButtons(List<Widget> buttons) {
+    return buttons != null && !widget.noButtons
+        ? Container(
+            width: widget.width,
+            child: Stack(
+              children: buttons,
+            ),
+          )
+        : SizedBox();
   }
 }

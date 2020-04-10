@@ -3,6 +3,7 @@ import 'package:mobwear/custom_icons/brand_icons.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
+import 'package:mobwear/widgets/phone_widgets/button.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/camera_bump.dart';
 import 'package:mobwear/widgets/phone_widgets/flash.dart';
@@ -18,6 +19,46 @@ class IPhone11 extends StatelessWidget {
   static const String phoneModel = 'iPhone';
   static const String phoneName = 'iPhone 11';
 
+  static List<Button> leftButtons(bool invert) {
+    ButtonPosition position =
+        invert ? ButtonPosition.right : ButtonPosition.left;
+
+    return [
+      Button(
+        height: 60.0,
+        yAlignment: -0.45,
+        position: position,
+        phoneID: phoneID,
+      ),
+    ];
+  }
+
+  static List<Button> rightButtons(bool invert) {
+    ButtonPosition position =
+        invert ? ButtonPosition.left : ButtonPosition.right;
+
+    return [
+      Button(
+        height: 16.0,
+        yAlignment: -0.7,
+        position: position,
+        phoneID: phoneID,
+      ),
+      Button(
+        height: 40.0,
+        yAlignment: -0.55,
+        position: position,
+        phoneID: phoneID,
+      ),
+      Button(
+        height: 40.0,
+        yAlignment: -0.33,
+        position: position,
+        phoneID: phoneID,
+      ),
+    ];
+  }
+
   final Screen front = Screen(
     phoneName: phoneName,
     phoneModel: phoneModel,
@@ -25,6 +66,8 @@ class IPhone11 extends StatelessWidget {
     phoneID: phoneID,
     hasNotch: true,
     bezelsWidth: 1.5,
+    leftButtons: rightButtons(true),
+    rightButtons: leftButtons(true),
   );
 
   get getPhoneFront => front;
@@ -109,6 +152,8 @@ class IPhone11 extends StatelessWidget {
         texture: backPanelTexture,
         textureBlendColor: backPanelTextureBlendColor,
         textureBlendMode: backPanelTextureBlendMode,
+        leftButtons: leftButtons(false),
+        rightButtons: rightButtons(false),
         child: Stack(
           children: <Widget>[
             Positioned(

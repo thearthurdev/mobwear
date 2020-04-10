@@ -3,6 +3,7 @@ import 'package:mobwear/custom_icons/brand_icons.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
+import 'package:mobwear/widgets/phone_widgets/button.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/fingerprint_sensor.dart';
 import 'package:mobwear/widgets/phone_widgets/flash.dart';
@@ -18,6 +19,28 @@ class Pixel2 extends StatelessWidget {
   static const String phoneModel = 'Pixel';
   static const String phoneName = 'Pixel 2';
 
+  static List<Button> leftButtons(bool invert) {
+    ButtonPosition position =
+        invert ? ButtonPosition.right : ButtonPosition.left;
+
+    return [
+      Button(
+        height: 32.0,
+        yAlignment: -0.47,
+        position: position,
+        phoneID: phoneID,
+        boxColorKey: 'Power Button',
+      ),
+      Button(
+        height: 80.0,
+        yAlignment: -0.12,
+        position: position,
+        phoneID: phoneID,
+        boxColorKey: 'Matte Panel',
+      ),
+    ];
+  }
+
   final Screen front = Screen(
     phoneName: phoneName,
     phoneModel: phoneModel,
@@ -27,8 +50,9 @@ class Pixel2 extends StatelessWidget {
     innerCornerRadius: 0.0,
     cornerRadius: 23.0,
     bezelsWidth: 1.5,
-    bezelsSide: 'Matte Panel',
+    boxColorKey: 'Matte Panel',
     screenAlignment: Alignment.center,
+    rightButtons: leftButtons(true),
   );
 
   get getPhoneName => phoneName;
@@ -62,9 +86,12 @@ class Pixel2 extends StatelessWidget {
     return FittedBox(
       child: BackPanel(
         backPanelColor: mattePanelColor,
+        bezelsColor: mattePanelColor,
         texture: mattePanelTexture,
         textureBlendColor: mattePanelTextureBlendColor,
         textureBlendMode: mattePanelTextureBlendMode,
+        bezelsWidth: 0.4,
+        leftButtons: leftButtons(false),
         child: Stack(
           children: <Widget>[
             Column(
@@ -72,6 +99,7 @@ class Pixel2 extends StatelessWidget {
                 BackPanel(
                   height: 100.0,
                   noShadow: true,
+                  noButtons: true,
                   backPanelColor: glossyPanelColor,
                   texture: glossyPanelTexture,
                   textureBlendColor: glossyPanelTextureBlendColor,

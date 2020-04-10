@@ -3,6 +3,7 @@ import 'package:mobwear/custom_icons/brand_icons.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
+import 'package:mobwear/widgets/phone_widgets/button.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/flash.dart';
 import 'package:mobwear/widgets/phone_widgets/iPhone_home_button.dart';
@@ -18,18 +19,67 @@ class IPhone4S extends StatelessWidget {
   static const String phoneModel = 'iPhone';
   static const String phoneName = 'iPhone 4S';
 
+  static String boxColorKey = 'Bezels';
+
+  static List<Button> topButtons(bool invert) {
+    double xAlignment = invert ? 0.63 : -0.63;
+
+    return [
+      Button(
+        height: 2.5,
+        width: 35.0,
+        xAlignment: xAlignment,
+        position: ButtonPosition.top,
+        phoneID: phoneID,
+        boxColorKey: boxColorKey,
+      ),
+    ];
+  }
+
+  static List<Button> rightButtons(bool invert) {
+    ButtonPosition position =
+        invert ? ButtonPosition.left : ButtonPosition.right;
+
+    return [
+      Button(
+        height: 22.0,
+        yAlignment: -0.73,
+        position: position,
+        phoneID: phoneID,
+        boxColorKey: boxColorKey,
+      ),
+      Button(
+        height: 18.0,
+        yAlignment: -0.54,
+        position: position,
+        phoneID: phoneID,
+        boxColorKey: boxColorKey,
+      ),
+      Button(
+        height: 18.0,
+        yAlignment: -0.36,
+        position: position,
+        phoneID: phoneID,
+        boxColorKey: boxColorKey,
+      ),
+    ];
+  }
+
   final Screen front = Screen(
     phoneName: phoneName,
     phoneModel: phoneModel,
     phoneBrand: phoneBrand,
     phoneID: phoneID,
     screenHeight: 450.0,
+    screenWidth: 235.0,
     horizontalPadding: 26.0,
     verticalPadding: 140.0,
     bezelsWidth: 2.0,
     cornerRadius: 36.0,
     innerCornerRadius: 0.0,
     screenFaceColor: Colors.white,
+    topButtons: topButtons(true),
+    leftButtons: rightButtons(true),
     screenItems: <Widget>[
       Align(
         alignment: Alignment(0.0, 0.94),
@@ -71,6 +121,7 @@ class IPhone4S extends StatelessWidget {
 
     return FittedBox(
       child: BackPanel(
+        width: 235.0,
         height: 450.0,
         cornerRadius: 36.0,
         backPanelColor: backPanelColor,
@@ -78,6 +129,8 @@ class IPhone4S extends StatelessWidget {
         texture: backPanelTexture,
         textureBlendColor: backPanelTextureBlendColor,
         textureBlendMode: backPanelTextureBlendMode,
+        topButtons: topButtons(false),
+        rightButtons: rightButtons(false),
         bezelsWidth: 2.0,
         child: Stack(
           children: <Widget>[
@@ -90,8 +143,8 @@ class IPhone4S extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 25.0,
-              left: 25.0,
+              top: 20.0,
+              left: 20.0,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[

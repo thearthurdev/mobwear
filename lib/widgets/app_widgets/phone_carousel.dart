@@ -76,7 +76,8 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
               itemBuilder: (context, i) {
                 return Padding(
                   padding: EdgeInsets.fromLTRB(
-                    kScreenAwareSize(24.0, context),
+                    50.0,
+                    // kScreenAwareSize(24.0, context),
                     kScreenAwareSize(24.0, context),
                     kScreenAwareSize(16.0, context),
                     kScreenAwareSize(16.0, context),

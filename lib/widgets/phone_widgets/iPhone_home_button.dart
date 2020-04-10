@@ -7,7 +7,7 @@ class IPhoneHomeButton extends StatelessWidget {
   final Color buttonColor, squareColor, trimColor, backPanelColor;
   final bool hasElevation, hasSquare;
   final int phoneID;
-  final String bezelsSide;
+  final String boxColorKey;
 
   const IPhoneHomeButton({
     @required this.phoneID,
@@ -15,7 +15,7 @@ class IPhoneHomeButton extends StatelessWidget {
     this.trimWidth = 2.0,
     this.squareMargin = 20.0,
     this.buttonColor = Colors.white,
-    this.bezelsSide,
+    this.boxColorKey,
     this.squareColor,
     this.trimColor,
     this.hasElevation = false,
@@ -27,7 +27,7 @@ class IPhoneHomeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
 
-    var boxTrimColor = phonesBox.get(phoneID).colors[bezelsSide ?? 'Bezels'];
+    var boxTrimColor = phonesBox.get(phoneID).colors[boxColorKey ?? 'Bezels'];
 
     return Container(
       width: diameter,
