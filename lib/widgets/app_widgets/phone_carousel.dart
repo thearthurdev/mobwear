@@ -78,9 +78,7 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
                   padding: EdgeInsets.fromLTRB(
                     kScreenAwareSize(24.0, context),
                     kScreenAwareSize(24.0, context),
-                    kDeviceHeight(context) < 700.0
-                        ? 60.0
-                        : kScreenAwareSize(52.0, context),
+                    kScreenAwareSize(16.0, context),
                     kScreenAwareSize(16.0, context),
                   ),
                   child: Hero(
@@ -138,8 +136,8 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
             ),
           ),
           Container(
-            width: 140.0,
-            margin: EdgeInsets.only(right: 50.0, bottom: 8.0),
+            width: kScreenAwareSize(100.0, context),
+            margin: EdgeInsets.only(bottom: 8.0),
             child: ScrollingPageIndicator(
               controller: pageIndicatorController,
               itemCount: phonesList.length,

@@ -12,8 +12,8 @@ import 'package:provider/provider.dart';
 
 class Pixel4XL extends StatelessWidget {
   static final int phoneIndex = 5;
-  static final int phoneID = 0105;
-  static final int phoneBrandIndex = 0;
+  static final int phoneID = 0205;
+  static final int phoneBrandIndex = 1;
   static const String phoneBrand = 'Google';
   static const String phoneModel = 'Pixel';
   static const String phoneName = 'Pixel 4 XL';

@@ -24,7 +24,7 @@ class IndicatorDot extends StatelessWidget {
       padding: const EdgeInsets.only(right: 8.0),
       child: GestureDetector(
         child: AnimatedContainer(
-          duration: Duration(milliseconds: 200),
+          duration: Duration(milliseconds: 300),
           width: kScreenAwareSize(size, context),
           height: kScreenAwareSize(size, context),
           decoration: BoxDecoration(

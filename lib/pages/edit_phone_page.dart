@@ -69,9 +69,12 @@ class _EditPhonePageState extends State<EditPhonePage>
   }
 
   void showSwipeTipFlushbar() {
+    double maxScrollExtent = scrollController.position.maxScrollExtent;
+
     setState(() => showFAB = false);
     scrollController
-        .animateTo(scrollController.position.maxScrollExtent,
+        .animateTo(
+            maxScrollExtent > 400.0 ? maxScrollExtent * 0.5 : maxScrollExtent,
             duration: Duration(milliseconds: 600),
             curve: Curves.linearToEaseOut)
         .whenComplete(() {

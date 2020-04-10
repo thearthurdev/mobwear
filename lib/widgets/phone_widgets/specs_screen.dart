@@ -76,10 +76,9 @@ class _SpecsScreenState extends State<SpecsScreen> {
                   children: <Widget>[
                     CircleAccentButton(icon: LineAwesomeIcons.gears),
                     SizedBox(height: 8.0),
-                    Text(
-                      'No specs found',
-                      style: kTitleTextStyle,
-                    ),
+                    Text('No specs found', style: kTitleTextStyle),
+                    SizedBox(height: 4.0),
+                    Text('Try again later', style: kSubtitleTextStyle),
                   ],
                 );
               }

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:mobwear/utils/constants.dart';
 
@@ -84,9 +86,8 @@ class _VerticalTabsState extends State<VerticalTabs>
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            AnimatedContainer(
-              padding: EdgeInsets.only(left: 50.0),
-              duration: Duration(milliseconds: 300),
+            Container(
+              // padding: EdgeInsets.only(left: 50.0),
               width: kDeviceWidth(context) - widget.tabsWidth,
               height: double.maxFinite,
               child: ClipRRect(
@@ -120,94 +121,103 @@ class _VerticalTabsState extends State<VerticalTabs>
             ),
             Align(
               alignment: Alignment.centerLeft,
-              child: Container(
-                margin: EdgeInsets.only(top: 16.0),
-                width: widget.tabsWidth,
-                color: kBrightnessAwareColor(context,
-                    lightColor: Colors.white, darkColor: Colors.black),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                        Expanded(
-                          child: ListView.builder(
-                            // itemExtent: widget.itemExtent,
-                            itemCount: widget.tabs.length,
-                            itemBuilder: (context, index) {
-                              Tab tab = widget.tabs[index];
-                              Alignment alignment = Alignment.center;
-                              Widget child;
+              child: ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                  child: Container(
+                    width: widget.tabsWidth,
+                    color: kBrightnessAwareColor(context,
+                        lightColor: Colors.white70, darkColor: Colors.black87),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                            Expanded(
+                              child: ListView.builder(
+                                // itemExtent: widget.itemExtent,
+                                padding: EdgeInsets.only(top: 16.0),
+                                itemCount: widget.tabs.length,
+                                itemBuilder: (context, index) {
+                                  Tab tab = widget.tabs[index];
+                                  Alignment alignment = Alignment.center;
+                                  Widget child;
 
-                              if (tab.child != null) {
-                                child = tab.child;
-                              } else {
-                                child = Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    (tab.icon != null)
-                                        ? Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              tab.icon,
-                                            ],
-                                          )
-                                        : Container(),
-                                    (tab.text != null)
-                                        ? Text(tab.text)
-                                        : Container(),
-                                  ],
-                                );
-                              }
+                                  if (tab.child != null) {
+                                    child = tab.child;
+                                  } else {
+                                    child = Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        (tab.icon != null)
+                                            ? Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  tab.icon,
+                                                ],
+                                              )
+                                            : Container(),
+                                        (tab.text != null)
+                                            ? Text(tab.text)
+                                            : Container(),
+                                      ],
+                                    );
+                                  }
 
-                              return GestureDetector(
-                                onTap: () {
-                                  _changePageByTapView = true;
-                                  setState(() {
-                                    _selectTab(index);
-                                  });
+                                  return GestureDetector(
+                                    onTap: () {
+                                      _changePageByTapView = true;
+                                      setState(() {
+                                        _selectTab(index);
+                                      });
 
-                                  pageController.animateToPage(index,
-                                      duration: widget.changePageDuration,
-                                      curve: widget.changePageCurve);
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      ScaleTransition(
-                                        child: Container(
-                                          width: widget.indicatorWidth,
-                                          height: widget.itemExtent,
-                                          color: widget.indicatorColor,
-                                        ),
-                                        scale:
-                                            Tween(begin: 0.0, end: 1.0).animate(
-                                          CurvedAnimation(
-                                            parent: animationControllers[index],
-                                            curve: Curves.elasticOut,
+                                      pageController.animateToPage(index,
+                                          duration: widget.changePageDuration,
+                                          curve: widget.changePageCurve);
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          ScaleTransition(
+                                            child: Container(
+                                              width: widget.indicatorWidth,
+                                              height: widget.itemExtent,
+                                              color: widget.indicatorColor,
+                                            ),
+                                            scale: Tween(begin: 0.0, end: 1.0)
+                                                .animate(
+                                              CurvedAnimation(
+                                                parent:
+                                                    animationControllers[index],
+                                                curve: Curves.elasticOut,
+                                              ),
+                                            ),
                                           ),
-                                        ),
+                                          Expanded(
+                                            child: Container(
+                                              alignment: alignment,
+                                              padding: EdgeInsets.all(5),
+                                              child: child,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      Expanded(
-                                        child: Container(
-                                          alignment: alignment,
-                                          padding: EdgeInsets.all(5),
-                                          child: child,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        Divider(
-                          indent: 8.0,
-                          endIndent: 8.0,
-                        ),
-                      ] +
-                      widget.actions,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            Container(
+                              color: kBrightnessAwareColor(context,
+                                  lightColor: Colors.black12,
+                                  darkColor: Colors.white12),
+                              width: 32.0,
+                              height: 1.0,
+                            ),
+                          ] +
+                          widget.actions,
+                    ),
+                  ),
                 ),
               ),
             ),

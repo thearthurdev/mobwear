@@ -57,7 +57,7 @@ class _ScreenState extends State<Screen> {
   Widget build(BuildContext context) {
     var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
 
-    var boxBezelsColor =
+    Color boxBezelsColor =
         phonesBox.get(widget.phoneID).colors[widget.bezelsSide ?? 'Bezels'];
 
     //Screen frame
@@ -72,7 +72,9 @@ class _ScreenState extends State<Screen> {
             borderRadius: BorderRadius.circular(widget.cornerRadius),
             border: Border.all(
               color: widget.bezelsColor == null
-                  ? boxBezelsColor == null || boxBezelsColor == Colors.black
+                  ? boxBezelsColor == null ||
+                          boxBezelsColor == Colors.black ||
+                          boxBezelsColor.alpha < 40
                       ? kThemeBrightness(context) == Brightness.light
                           ? Colors.transparent
                           : Colors.grey[900]

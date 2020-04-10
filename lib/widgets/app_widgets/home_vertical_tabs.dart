@@ -75,7 +75,7 @@ class _HomeVerticalTabsState extends State<HomeVerticalTabs> {
         contents: contentsList(),
         actions: <Widget>[
           Container(
-            margin: const EdgeInsets.only(bottom: 16.0),
+            margin: const EdgeInsets.only(bottom: 8.0, top: 8.0),
             child: Material(
               type: MaterialType.transparency,
               child: InkWell(

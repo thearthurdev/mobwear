@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/data/models/texture_model.dart';
 import 'package:mobwear/providers/customization_provider.dart';
@@ -8,7 +9,6 @@ import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/customization_indicator.dart';
 import 'package:mobwear/widgets/app_widgets/customization_picker_dialog.dart';
 import 'package:mobwear/widgets/app_widgets/elevated_card.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mobwear/widgets/app_widgets/flushbars.dart';
 import 'package:mobwear/widgets/app_widgets/show_up_widget.dart';
 import 'package:provider/provider.dart';
@@ -33,21 +33,22 @@ class CustomizationPickerTile extends StatelessWidget {
     this.isSharePage = false,
   });
 
+  static SlidableController slidableController = SlidableController();
+
   @override
   Widget build(BuildContext context) {
     MyTexture texture =
         noTexture ? null : this.texture ?? textures.values.elementAt(index);
     Color color = this.color ?? colors.values.elementAt(index);
 
-    final SlidableController slidableController = SlidableController();
-
     return ShowUp(
       direction: ShowUpFrom.bottom,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
         child: Slidable(
+          key: Key(title),
           controller: slidableController,
-          actionPane: SlidableDrawerActionPane(),
+          actionPane: SlidableBehindActionPane(),
           actionExtentRatio: 0.2,
           actions: isSharePage
               ? null
@@ -89,40 +90,13 @@ class CustomizationPickerTile extends StatelessWidget {
                         .isCustomizationCopied,
                   ),
                 ],
-          child: ElevatedCard(
-            child: Material(
-              type: MaterialType.transparency,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(10.0),
-                onTap: () => onTilePressed(context),
-                child: ListTile(
-                  title: Text(title ?? colors.keys.elementAt(index),
-                      style: kTitleTextStyle),
-                  subtitle: Text(
-                    noTexture
-                        ? 'Color: #${kGetColorString(color)}'
-                        : texture.asset == null
-                            ? 'Color: #${kGetColorString(color)}'
-                            : 'Texture: ${kGetTextureName(texture.asset)}',
-                    style: TextStyle(
-                      fontFamily: 'Quicksand',
-                      color: kBrightnessAwareColor(context,
-                          lightColor: Colors.black54,
-                          darkColor: Colors.white54),
-                    ),
-                  ),
-                  trailing: CustomizationIndicator(
-                    color: color,
-                    texture: noTexture ? null : texture.asset,
-                    textureBlendColor: noTexture ? null : texture.blendColor,
-                    textureBlendMode: noTexture
-                        ? null
-                        : kGetTextureBlendMode(texture.blendModeIndex),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          child: CustomizationPickerCard(
+              title: title,
+              colors: colors,
+              index: index,
+              noTexture: noTexture,
+              color: color,
+              texture: texture),
         ),
       ),
     );
@@ -150,39 +124,6 @@ class CustomizationPickerTile extends StatelessWidget {
               ? color
               : kBrightnessAwareColor(context,
                   lightColor: Colors.grey[400], darkColor: Colors.grey[600]),
-        ),
-      ),
-    );
-  }
-
-  void onTilePressed(BuildContext context) {
-    Provider.of<CustomizationProvider>(context).isSharePage = false;
-    Provider.of<CustomizationProvider>(context).selectedTexture = null;
-    Provider.of<CustomizationProvider>(context).changeCopyStatus(false);
-    Provider.of<CustomizationProvider>(context).setCurrentSide(index);
-    Provider.of<CustomizationProvider>(context).getCurrentColor(index);
-    Provider.of<CustomizationProvider>(context).resetSelectedValues();
-
-    if (!noTexture)
-      Provider.of<CustomizationProvider>(context)
-          .getCurrentSideTextureDetails(i: index);
-
-    int initIndex() {
-      if (noTexture) {
-        return 0;
-      } else {
-        if (Provider.of<CustomizationProvider>(context).currentTexture != null)
-          return 1;
-      }
-      return 0;
-    }
-
-    showDialog<Widget>(
-      context: context,
-      builder: (BuildContext context) => Dialog(
-        child: CustomizationPickerDialog(
-          noTexture: noTexture,
-          initPickerModeIndex: initIndex(),
         ),
       ),
     );
@@ -244,5 +185,96 @@ class CustomizationPickerTile extends StatelessWidget {
         onButtonPressed: () {},
       );
     }
+  }
+}
+
+class CustomizationPickerCard extends StatelessWidget {
+  const CustomizationPickerCard({
+    Key key,
+    @required this.title,
+    @required this.colors,
+    @required this.index,
+    @required this.noTexture,
+    @required this.color,
+    @required this.texture,
+  }) : super(key: key);
+
+  final String title;
+  final Map colors;
+  final int index;
+  final bool noTexture;
+  final Color color;
+  final MyTexture texture;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedCard(
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(10.0),
+          onTap: () => onTilePressed(context),
+          child: ListTile(
+            title: Text(title ?? colors.keys.elementAt(index),
+                style: kTitleTextStyle),
+            subtitle: Text(
+              noTexture
+                  ? 'Color: #${kGetColorString(color)}'
+                  : texture.asset == null
+                      ? 'Color: #${kGetColorString(color)}'
+                      : 'Texture: ${kGetTextureName(texture.asset)}',
+              style: TextStyle(
+                fontFamily: 'Quicksand',
+                color: kBrightnessAwareColor(context,
+                    lightColor: Colors.black54, darkColor: Colors.white54),
+              ),
+            ),
+            trailing: CustomizationIndicator(
+              color: color,
+              texture: noTexture ? null : texture.asset,
+              textureBlendColor: noTexture ? null : texture.blendColor,
+              textureBlendMode: noTexture
+                  ? null
+                  : kGetTextureBlendMode(texture.blendModeIndex),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void onTilePressed(BuildContext context) {
+    Slidable.of(context).close();
+
+    Provider.of<CustomizationProvider>(context).isSharePage = false;
+    Provider.of<CustomizationProvider>(context).selectedTexture = null;
+    Provider.of<CustomizationProvider>(context).changeCopyStatus(false);
+    Provider.of<CustomizationProvider>(context).setCurrentSide(index);
+    Provider.of<CustomizationProvider>(context).getCurrentColor(index);
+    Provider.of<CustomizationProvider>(context).resetSelectedValues();
+
+    if (!noTexture)
+      Provider.of<CustomizationProvider>(context)
+          .getCurrentSideTextureDetails(i: index);
+
+    int initIndex() {
+      if (noTexture) {
+        return 0;
+      } else {
+        if (Provider.of<CustomizationProvider>(context).currentTexture != null)
+          return 1;
+      }
+      return 0;
+    }
+
+    showDialog<Widget>(
+      context: context,
+      builder: (BuildContext context) => Dialog(
+        child: CustomizationPickerDialog(
+          noTexture: noTexture,
+          initPickerModeIndex: initIndex(),
+        ),
+      ),
+    );
   }
 }

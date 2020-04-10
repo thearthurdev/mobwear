@@ -51,7 +51,11 @@ class _BackPanelState extends State<BackPanel> {
             : widget.borderRadius,
         color: kThemeBrightness(context) == Brightness.light || widget.noShadow
             ? Colors.transparent
-            : Colors.grey[800],
+            : widget.bezelsColor == null ||
+                    widget.bezelsColor == Colors.black ||
+                    widget.bezelsColor.alpha < 20
+                ? Colors.grey[850]
+                : widget.bezelsColor,
         boxShadow: widget.noShadow
             ? null
             : [
@@ -79,9 +83,8 @@ class _BackPanelState extends State<BackPanel> {
               color: widget.bezelsColor,
               width: widget.bezelsWidth,
             ),
-            color: widget.texture == null
-                ? widget.backPanelColor
-                : Colors.transparent,
+            color:
+                widget.texture == null ? widget.backPanelColor : Colors.black,
             image: widget.texture == null
                 ? null
                 : DecorationImage(

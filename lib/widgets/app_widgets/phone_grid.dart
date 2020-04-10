@@ -18,43 +18,40 @@ class PhoneGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     int reverseIndex(i) => phonesList.length - 1 - i;
 
-    return Container(
-      padding: EdgeInsets.only(top: 8.0),
-      child: GridView.builder(
-        controller: controller,
-        itemCount: phonesList.length +
-            (phonesList.length.isOdd && phonesList.length > 1 ? 1 : 0),
-        scrollDirection: Axis.horizontal,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          // crossAxisCount: (kDeviceHeight(context) / 350.0).round(),
-          crossAxisCount: kDeviceHeight(context) < 500.0 ? 1 : 2,
-          childAspectRatio: 16 / 9,
-        ),
-        itemBuilder: (context, i) {
-          return GestureDetector(
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Hero(
-                tag: phonesList[reverseIndex(i)].id,
-                child: phonesList[reverseIndex(i)].phone,
-              ),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return EditPhonePage(
-                      phone: phonesList[reverseIndex(i)].phone,
-                      phoneID: phonesList[reverseIndex(i)].id,
-                    );
-                  },
-                ),
-              );
-            },
-          );
-        },
+    return GridView.builder(
+      controller: controller,
+      padding: EdgeInsets.only(top: 6.0, left: 50.0),
+      itemCount: phonesList.length +
+          (phonesList.length.isOdd && phonesList.length > 1 ? 1 : 0),
+      scrollDirection: Axis.horizontal,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: kDeviceHeight(context) < 500.0 ? 1 : 2,
+        childAspectRatio: 16 / 9,
       ),
+      itemBuilder: (context, i) {
+        return GestureDetector(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Hero(
+              tag: phonesList[reverseIndex(i)].id,
+              child: phonesList[reverseIndex(i)].phone,
+            ),
+          ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return EditPhonePage(
+                    phone: phonesList[reverseIndex(i)].phone,
+                    phoneID: phonesList[reverseIndex(i)].id,
+                  );
+                },
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

@@ -9,8 +9,8 @@ class PhoneModel {
   PhoneModel({this.id, this.phone});
 
   static List<List<PhoneModel>> phonesLists = [
-    pixelPhonesList,
     iPhonePhonesList,
+    pixelPhonesList,
     galaxyPhonesList,
   ];
 

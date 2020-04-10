@@ -150,17 +150,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       color: kBrightnessAwareColor(context,
                           lightColor: Colors.white, darkColor: Colors.black),
                       borderRadius: BorderRadius.circular(
-                          kScreenAwareSize(16.0, context)),
-                      border: Border.all(
-                        color: kBrightnessAwareColor(context,
-                            lightColor: Colors.transparent,
-                            darkColor: Colors.white.withOpacity(0.03)),
+                        kScreenAwareSize(16.0, context),
                       ),
                       boxShadow: [
                         BoxShadow(
                           color: kBrightnessAwareColor(context,
                               lightColor: Colors.blueGrey.withOpacity(0.2),
-                              darkColor: Colors.black26),
+                              darkColor: Colors.grey[900].withOpacity(0.15)),
                           blurRadius: 10.0,
                           offset: Offset(5.0, 6.0),
                         ),

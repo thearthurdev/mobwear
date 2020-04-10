@@ -190,21 +190,25 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
   }
 
   Widget dialogButton({BuildContext context, String label, Function onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-        decoration: BoxDecoration(
+    return Container(
+      height: 60.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: kBrightnessAwareColor(context,
+            lightColor: Colors.black, darkColor: Colors.white),
+      ),
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
           borderRadius: BorderRadius.circular(10.0),
-          color: kBrightnessAwareColor(context,
-              lightColor: Colors.black, darkColor: Colors.white),
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: kTitleTextStyle.copyWith(
-              color: kBrightnessAwareColor(context,
-                  lightColor: Colors.white, darkColor: Colors.black),
+          onTap: onTap,
+          child: Center(
+            child: Text(
+              label,
+              style: kTitleTextStyle.copyWith(
+                color: kBrightnessAwareColor(context,
+                    lightColor: Colors.white, darkColor: Colors.black),
+              ),
             ),
           ),
         ),

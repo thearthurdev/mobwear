@@ -48,8 +48,8 @@ class _ScrollingPageIndicatorState extends State<ScrollingPageIndicator> {
 
   Widget selectedIndicator() {
     return Container(
-      width: 30.0,
-      height: 30.0,
+      width: 32.0,
+      height: 32.0,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(

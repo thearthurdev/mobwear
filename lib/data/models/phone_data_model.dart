@@ -24,8 +24,8 @@ class PhoneDataModel {
   });
 
   static List<List<PhoneDataModel>> phonesDataLists = [
-    pixelDataList,
     iPhoneDataList,
+    pixelDataList,
     galaxyDataList,
   ];
 }

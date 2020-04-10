@@ -12,8 +12,8 @@ import 'package:provider/provider.dart';
 
 class IPhoneXR extends StatelessWidget {
   static final int phoneIndex = 10;
-  static final int phoneID = 0210;
-  static final int phoneBrandIndex = 1;
+  static final int phoneID = 0110;
+  static final int phoneBrandIndex = 0;
   static const String phoneBrand = 'Apple';
   static const String phoneModel = 'iPhone';
   static const String phoneName = 'iPhone XR';

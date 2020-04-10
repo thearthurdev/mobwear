@@ -43,93 +43,92 @@ class AboutPage extends StatelessWidget {
             onPressed: () => Navigator.pop(context),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            // width: kDeviceWidth(context),
-            padding: EdgeInsets.symmetric(horizontal: 32.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(height: 24.0),
-                Container(
-                  width: kScreenAwareSize(100.0, context),
-                  height: kScreenAwareSize(100.0, context),
-                  decoration: BoxDecoration(
-                    color: kBrightnessAwareColor(context,
-                        lightColor: Colors.black, darkColor: Colors.white),
-                    borderRadius:
-                        BorderRadius.circular(kScreenAwareSize(16.0, context)),
-                  ),
-                  child: Icon(
-                    CustomIcons.mobwear,
-                    color: kBrightnessAwareColor(context,
-                        lightColor: Colors.white, darkColor: Colors.black),
-                    size: kScreenAwareSize(80.0, context),
-                  ),
+        body: Container(
+          // width: kDeviceWidth(context),
+          padding: EdgeInsets.symmetric(horizontal: 32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(height: 24.0),
+              Container(
+                width: kScreenAwareSize(100.0, context),
+                height: kScreenAwareSize(100.0, context),
+                decoration: BoxDecoration(
+                  color: kBrightnessAwareColor(context,
+                      lightColor: Colors.black, darkColor: Colors.white),
+                  borderRadius:
+                      BorderRadius.circular(kScreenAwareSize(16.0, context)),
                 ),
-                FutureBuilder(
-                  future: getAppVersion(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState != ConnectionState.done) {
-                      return aboutListTile(title: 'MobWear');
-                    }
-                    return aboutListTile(
-                        title: 'MobWear', subtitle: snapshot.data);
-                  },
+                child: Icon(
+                  CustomIcons.mobwear,
+                  color: kBrightnessAwareColor(context,
+                      lightColor: Colors.white, darkColor: Colors.black),
+                  size: kScreenAwareSize(80.0, context),
                 ),
-                FutureBuilder(
-                  future: getDeviceID(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState != ConnectionState.done) {
-                      return aboutListTile(title: 'Device ID');
-                    }
-                    return aboutListTile(
-                      title: 'Device ID',
-                      subtitle: snapshot.data,
-                      icon: LineAwesomeIcons.mobile_phone,
-                    );
-                  },
-                ),
-                aboutListTile(
-                  title: 'Rate this app',
-                  subtitle: 'If you love it and you know it give it 5 stars',
-                  icon: LineAwesomeIcons.star_o,
-                  onTap: () {},
-                ),
-                aboutListTile(
-                  title: 'Share this app',
-                  subtitle: 'Don\'t have all the fun alone',
-                  icon: LineAwesomeIcons.share_alt,
-                  onTap: () {},
-                  onLongPress: () {
-                    PhoneDatabase.phonesBox.clear();
-                    print('phones database cleared');
-                  },
-                ),
-                aboutListTile(
-                  title: 'Send bug report',
-                  subtitle: 'A bug sent is a bug squashed',
-                  icon: LineAwesomeIcons.bug,
-                  onLongPress: () {
-                    SettingsDatabase.settingsBox.clear();
-                    print('settings database cleared');
-                  },
-                ),
-                aboutListTile(
-                  title: 'Developer Info',
-                  subtitle: 'Find out who is behind this app',
-                  icon: LineAwesomeIcons.code,
-                  onTap: () {
-                    showDialog<Widget>(
-                      context: context,
-                      builder: (BuildContext context) => Dialog(
-                        child: DeveloperInfoDialog(),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
+              ),
+              FutureBuilder(
+                future: getAppVersion(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return aboutListTile(title: 'MobWear');
+                  }
+                  return aboutListTile(
+                      title: 'MobWear', subtitle: snapshot.data);
+                },
+              ),
+              FutureBuilder(
+                future: getDeviceID(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return aboutListTile(title: 'Device ID');
+                  }
+                  return aboutListTile(
+                    title: 'Device ID',
+                    subtitle: snapshot.data,
+                    icon: LineAwesomeIcons.mobile_phone,
+                  );
+                },
+              ),
+              aboutListTile(
+                title: 'Rate this app',
+                subtitle: 'If you love it and you know it give it 5 stars',
+                icon: LineAwesomeIcons.star_o,
+                onTap: () {},
+              ),
+              aboutListTile(
+                title: 'Share this app',
+                subtitle: 'Don\'t have all the fun alone',
+                icon: LineAwesomeIcons.share_alt,
+                onTap: () {},
+                onLongPress: () {
+                  PhoneDatabase.phonesBox.clear();
+                  print('phones database cleared');
+                },
+              ),
+              aboutListTile(
+                title: 'Send bug report',
+                subtitle: 'A bug sent is a bug squashed',
+                icon: LineAwesomeIcons.bug,
+                onLongPress: () {
+                  SettingsDatabase.settingsBox.clear();
+                  print('settings database cleared');
+                },
+              ),
+              aboutListTile(
+                title: 'Developer Info',
+                subtitle: 'Find out who is behind this app',
+                icon: LineAwesomeIcons.code,
+                onTap: () {
+                  showDialog<Widget>(
+                    context: context,
+                    builder: (BuildContext context) => Dialog(
+                      child: DeveloperInfoDialog(),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),
@@ -182,7 +181,7 @@ class AboutPage extends StatelessWidget {
             onLongPress: onLongPress,
           ),
         ),
-        Divider(indent: 200.0, endIndent: 200.0),
+        // Divider(indent: 200.0, endIndent: 200.0),
       ],
     );
   }
