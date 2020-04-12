@@ -21,8 +21,7 @@ class PhoneGrid extends StatelessWidget {
     return GridView.builder(
       controller: controller,
       padding: EdgeInsets.only(top: 6.0, left: 50.0),
-      itemCount: phonesList.length +
-          (phonesList.length.isOdd && phonesList.length > 1 ? 1 : 0),
+      itemCount: phonesList.length,
       scrollDirection: Axis.horizontal,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: kDeviceHeight(context) < 500.0 ? 1 : 2,

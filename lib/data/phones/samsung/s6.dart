@@ -11,13 +11,13 @@ import 'package:mobwear/widgets/phone_widgets/screen.dart';
 import 'package:mobwear/widgets/phone_widgets/heart_rate_sensor.dart';
 import 'package:provider/provider.dart';
 
-class S7 extends StatelessWidget {
+class S6 extends StatelessWidget {
   static final int phoneIndex = 0;
-  static final int phoneID = 0201;
+  static final int phoneID = 0200;
   static final int phoneBrandIndex = 1;
   static const String phoneBrand = 'Samsung';
   static const String phoneModel = 'Galaxy';
-  static const String phoneName = 'Galaxy S7';
+  static const String phoneName = 'Galaxy S6';
 
   static String boxColorKey = 'Bezels';
 
@@ -64,11 +64,11 @@ class S7 extends StatelessWidget {
     phoneBrand: phoneBrand,
     phoneID: phoneID,
     screenHeight: 490.0,
-    horizontalPadding: 14.0,
+    horizontalPadding: 18.0,
     verticalPadding: 110.0,
-    cornerRadius: 33.0,
+    cornerRadius: 36.0,
     innerCornerRadius: 0.0,
-    bezelsWidth: 1.5,
+    bezelsWidth: 3.0,
     hasBackPanelColor: true,
     screenAlignment: Alignment.center,
     leftButtons: rightButtons(true),
@@ -79,7 +79,6 @@ class S7 extends StatelessWidget {
         child: GalaxyHomeButton(
           phoneID: phoneID,
           hasElevation: true,
-          cornerRadius: 10.0,
         ),
       ),
     ],
@@ -114,9 +113,9 @@ class S7 extends StatelessWidget {
         kGetTextureBlendMode(textures['Back Panel'].blendModeIndex);
 
     CameraBump cameraBump = CameraBump(
-      width: 52.0,
-      height: 52.0,
-      cornerRadius: 18.0,
+      width: 46.0,
+      height: 46.0,
+      cornerRadius: 14.0,
       borderWidth: 2.5,
       cameraBumpPartsPadding: 2.0,
       effectCornerRadius: 14.0,
@@ -133,7 +132,16 @@ class S7 extends StatelessWidget {
           alignment: Alignment.center,
           child: Camera(
             diameter: 26.0,
-            trimColor: Colors.grey[800],
+            lenseDiameter: 14.0,
+            lenseColor: Colors.grey[800],
+            trimColor: Colors.black,
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14.0),
+            color:
+                cameraBumpTexture == null ? Colors.black26 : Colors.transparent,
           ),
         ),
       ],
@@ -142,8 +150,8 @@ class S7 extends StatelessWidget {
     return FittedBox(
       child: BackPanel(
         height: 490,
-        cornerRadius: 33.0,
-        bezelsWidth: 1.5,
+        cornerRadius: 36.0,
+        bezelsWidth: 3.5,
         backPanelColor: backPanelColor,
         bezelsColor: bezelsColor,
         texture: backPanelTexture,
@@ -159,11 +167,11 @@ class S7 extends StatelessWidget {
                 width: 60.0,
                 height: 60.0,
                 borderWidth: 0.3,
-                cornerRadius: 22.0,
+                cornerRadius: 20.0,
                 cameraBumpPartsPadding: 0.0,
                 hasElevation: false,
                 backPanelColor: backPanelColor,
-                cameraBumpColor: backPanelColor,
+                cameraBumpColor: cameraBumpColor,
                 borderColor: Colors.black,
                 cameraBumpParts: [
                   Center(child: cameraBump),
@@ -171,18 +179,18 @@ class S7 extends StatelessWidget {
               ),
             ),
             Align(
-              alignment: Alignment(0.5, -0.74),
+              alignment: Alignment(0.5, -0.728),
               child: HeartRateSensor(
                 width: 24.0,
-                height: 56.0,
+                height: 48.0,
                 borderWidth: 1.6,
-                cornerRadius: 10.0,
+                cornerRadius: 8.0,
                 flashSize: 10.0,
-                dotSize: 8.0,
+                dotSize: 6.0,
                 hasFlash: true,
                 borderColor: Colors.grey[400],
                 color: Colors.black,
-                dot23Colors: Colors.grey[850],
+                dot23Colors: Colors.grey[800],
               ),
             ),
             Align(

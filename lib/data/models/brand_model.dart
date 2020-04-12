@@ -13,8 +13,8 @@ class BrandIcon {
 
   static List<BrandIcon> brandIcons = [
     BrandIcon(icon: BrandIcons.apple),
-    BrandIcon(icon: BrandIcons.google),
     BrandIcon(icon: BrandIcons.samsung1),
+    BrandIcon(icon: BrandIcons.google),
     BrandIcon(icon: BrandIcons.huawei),
     BrandIcon(icon: BrandIcons.oneplus),
     BrandIcon(icon: BrandIcons.xiaomi),
@@ -36,8 +36,8 @@ class BrandModel {
 
   static List<String> brandNames = [
     'Apple',
-    'Google',
     'Samsung',
+    'Google',
     'Huawei',
     'OnePlus',
     'Xiaomi',

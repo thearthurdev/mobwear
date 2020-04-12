@@ -12,8 +12,8 @@ import 'package:provider/provider.dart';
 
 class S10Plus extends StatelessWidget {
   static final int phoneIndex = 0;
-  static final int phoneID = 0300;
-  static final int phoneBrandIndex = 2;
+  static final int phoneID = 0200;
+  static final int phoneBrandIndex = 1;
   static const String phoneBrand = 'Samsung';
   static const String phoneModel = 'Galaxy';
   static const String phoneName = 'Galaxy S10 Plus';

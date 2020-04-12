@@ -6,14 +6,14 @@ import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/specs_screen.dart';
 import 'package:provider/provider.dart';
 
-class Screen extends StatefulWidget {
+class Screen extends StatelessWidget {
   final double screenWidth, screenHeight, bezelsWidth;
   final double verticalPadding, horizontalPadding;
   final double cornerRadius, innerCornerRadius;
   final double notchWidth, notchHeight;
   final String boxColorKey;
   final int phoneID;
-  final bool hasNotch, noButtons;
+  final bool hasNotch, noButtons, hasBackPanelColor;
   final Alignment screenAlignment, notchAlignment;
   final Color screenFaceColor, bezelsColor;
   final List<Widget> leftButtons, rightButtons, topButtons;
@@ -34,6 +34,7 @@ class Screen extends StatefulWidget {
     this.bezelsWidth = 1.0,
     this.hasNotch = false,
     this.noButtons = false,
+    this.hasBackPanelColor = false,
     this.screenAlignment = Alignment.center,
     this.notchAlignment = Alignment.topCenter,
     this.notchWidth = 120.0,
@@ -49,29 +50,19 @@ class Screen extends StatefulWidget {
   });
 
   @override
-  _ScreenState createState() => _ScreenState();
-}
-
-class _ScreenState extends State<Screen> {
-  @override
   Widget build(BuildContext context) {
-    var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
-
-    Color boxBezelsColor =
-        phonesBox.get(widget.phoneID).colors[widget.boxColorKey ?? 'Bezels'];
-
-    if (widget.noButtons) return screen(boxBezelsColor, context);
+    if (noButtons) return screen(context);
 
     return FittedBox(
       child: Center(
         child: Column(
           children: <Widget>[
-            topButtons(widget.topButtons),
+            topButtonsList(topButtons),
             Row(
               children: <Widget>[
-                sideButtons(widget.leftButtons),
-                screen(boxBezelsColor, context),
-                sideButtons(widget.rightButtons),
+                sideButtonsList(leftButtons),
+                screen(context),
+                sideButtonsList(rightButtons),
               ],
             ),
           ],
@@ -80,17 +71,25 @@ class _ScreenState extends State<Screen> {
     );
   }
 
-  Widget screen(Color boxBezelsColor, BuildContext context) {
+  Widget screen(BuildContext context) {
+    var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
+
+    Color boxBezelsColor =
+        phonesBox.get(phoneID).colors[boxColorKey ?? 'Bezels'];
+
+    Color boxBackPanelColor =
+        phonesBox.get(phoneID).colors[boxColorKey ?? 'Back Panel'];
+
     //Screen frame
     return AnimatedContainer(
-      width: widget.screenWidth,
-      height: widget.screenHeight,
+      width: screenWidth,
+      height: screenHeight,
       duration: Duration(milliseconds: 300),
       decoration: BoxDecoration(
-        color: widget.screenFaceColor,
-        borderRadius: BorderRadius.circular(widget.cornerRadius),
+        color: hasBackPanelColor ? boxBackPanelColor : screenFaceColor,
+        borderRadius: BorderRadius.circular(cornerRadius),
         border: Border.all(
-          color: widget.bezelsColor == null
+          color: bezelsColor == null
               ? boxBezelsColor == null ||
                       boxBezelsColor == Colors.black ||
                       boxBezelsColor.alpha < 40
@@ -98,8 +97,8 @@ class _ScreenState extends State<Screen> {
                       ? Colors.transparent
                       : Colors.grey[900]
                   : boxBezelsColor
-              : widget.bezelsColor,
-          width: widget.bezelsWidth,
+              : bezelsColor,
+          width: bezelsWidth,
         ),
         boxShadow: [
           BoxShadow(
@@ -115,17 +114,17 @@ class _ScreenState extends State<Screen> {
       child: Stack(
         children: <Widget>[
           Align(
-            alignment: widget.screenAlignment,
-            heightFactor: widget.verticalPadding,
+            alignment: screenAlignment,
+            heightFactor: verticalPadding,
             //Screen itself
             child: Container(
-              width: widget.screenWidth - widget.horizontalPadding,
-              height: widget.screenHeight - widget.verticalPadding,
+              width: screenWidth - horizontalPadding,
+              height: screenHeight - verticalPadding,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(
-                  widget.innerCornerRadius != null
-                      ? widget.innerCornerRadius
-                      : widget.cornerRadius - 5.0,
+                  innerCornerRadius != null
+                      ? innerCornerRadius
+                      : cornerRadius - 5.0,
                 ),
                 color: kThemeBrightness(context) == Brightness.light
                     ? Colors.white
@@ -133,13 +132,13 @@ class _ScreenState extends State<Screen> {
               ),
             ),
           ),
-          widget.hasNotch
+          hasNotch
               ? Align(
-                  alignment: widget.notchAlignment,
+                  alignment: notchAlignment,
                   //Notch
                   child: Container(
-                    width: widget.notchWidth,
-                    height: widget.notchHeight,
+                    width: notchWidth,
+                    height: notchHeight,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(0.0),
@@ -155,23 +154,23 @@ class _ScreenState extends State<Screen> {
           Center(
             child: Stack(
               fit: StackFit.expand,
-              children: widget.screenItems ?? [],
+              children: screenItems ?? [],
             ),
           ),
           Align(
-            alignment: widget.screenAlignment,
-            heightFactor: widget.verticalPadding,
+            alignment: screenAlignment,
+            heightFactor: verticalPadding,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(
-                widget.innerCornerRadius != null
-                    ? widget.innerCornerRadius
-                    : widget.cornerRadius - 5.0,
+                innerCornerRadius != null
+                    ? innerCornerRadius
+                    : cornerRadius - 5.0,
               ),
               child: Container(
-                width: widget.screenWidth - widget.horizontalPadding,
-                height: widget.screenHeight - widget.verticalPadding,
+                width: screenWidth - horizontalPadding,
+                height: screenHeight - verticalPadding,
                 decoration: BoxDecoration(
-                  border: widget.screenFaceColor == Colors.white
+                  border: screenFaceColor == Colors.white
                       ? kThemeBrightness(context) == Brightness.light
                           ? Border.all(
                               color: Colors.grey[300],
@@ -181,9 +180,9 @@ class _ScreenState extends State<Screen> {
                       : null,
                 ),
                 child: SpecsScreen(
-                  phoneBrand: widget.phoneBrand,
-                  phoneModel: widget.phoneModel,
-                  phoneName: widget.phoneName,
+                  phoneBrand: phoneBrand,
+                  phoneModel: phoneModel,
+                  phoneName: phoneName,
                 ),
               ),
             ),
@@ -193,10 +192,10 @@ class _ScreenState extends State<Screen> {
     );
   }
 
-  Widget sideButtons(List<Widget> buttons) {
-    return buttons != null && !widget.noButtons
+  Widget sideButtonsList(List<Widget> buttons) {
+    return buttons != null && !noButtons
         ? Container(
-            height: widget.screenHeight,
+            height: screenHeight,
             child: Stack(
               children: buttons,
             ),
@@ -204,10 +203,10 @@ class _ScreenState extends State<Screen> {
         : SizedBox();
   }
 
-  Widget topButtons(List<Widget> buttons) {
-    return buttons != null && !widget.noButtons
+  Widget topButtonsList(List<Widget> buttons) {
+    return buttons != null && !noButtons
         ? Container(
-            width: widget.screenWidth,
+            width: screenWidth,
             child: Stack(
               children: buttons,
             ),

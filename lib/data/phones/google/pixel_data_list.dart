@@ -4,7 +4,7 @@ import 'package:mobwear/data/models/texture_model.dart';
 
 List<PhoneDataModel> pixelDataList = [
   PhoneDataModel(
-    id: 0200,
+    id: 0300,
     colors: {
       'Glossy Panel': Colors.white,
       'Matte Panel': Colors.grey[200],
@@ -19,7 +19,7 @@ List<PhoneDataModel> pixelDataList = [
     },
   ),
   PhoneDataModel(
-    id: 0201,
+    id: 0301,
     colors: {
       'Glossy Panel': Color(0xFFBACCD9),
       'Matte Panel': Color(0xFFBFD1DF),
@@ -33,7 +33,7 @@ List<PhoneDataModel> pixelDataList = [
     },
   ),
   PhoneDataModel(
-    id: 0202,
+    id: 0302,
     colors: {
       'Glossy Panel': Colors.black,
       'Matte Panel': Color(0xFFFCFCFC),
@@ -47,7 +47,7 @@ List<PhoneDataModel> pixelDataList = [
     },
   ),
   PhoneDataModel(
-    id: 0203,
+    id: 0303,
     colors: {
       'Glossy Panel': Color(0xFFFDF6F5),
       'Matte Panel': Color(0xFFFFFAF9),
@@ -62,7 +62,7 @@ List<PhoneDataModel> pixelDataList = [
     },
   ),
   PhoneDataModel(
-    id: 0204,
+    id: 0304,
     colors: {
       'Glossy Panel': Color(0xFFE1EDF7),
       'Matte Panel': Color(0xFFE4EFF7),
@@ -77,7 +77,7 @@ List<PhoneDataModel> pixelDataList = [
     },
   ),
   PhoneDataModel(
-    id: 0205,
+    id: 0305,
     colors: {
       'Camera Bump': Colors.black,
       'Back Panel': Color(0xFFF5795D),

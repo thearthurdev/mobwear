@@ -10,8 +10,8 @@ class PhoneModel {
 
   static List<List<PhoneModel>> phonesLists = [
     iPhonePhonesList,
-    pixelPhonesList,
     galaxyPhonesList,
+    pixelPhonesList,
   ];
 
   static List<String> excuses = [

@@ -22,7 +22,9 @@ class SearchItem {
   static void getSearchItems() {
     allSearchItems.clear();
     for (List<PhoneModel> phonesList in PhoneModel.phonesLists) {
-      for (PhoneModel phoneModel in phonesList) {
+      List<PhoneModel> revPhonesList = phonesList.reversed.toList();
+
+      for (PhoneModel phoneModel in revPhonesList) {
         allSearchItems.add(
           SearchItem(
             phoneModel.phone,

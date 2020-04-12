@@ -3,61 +3,83 @@ import 'package:mobwear/custom_icons/brand_icons.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
+import 'package:mobwear/widgets/phone_widgets/button.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/camera_bump.dart';
-import 'package:mobwear/widgets/phone_widgets/flash.dart';
+import 'package:mobwear/widgets/phone_widgets/galaxy_home_button.dart';
 import 'package:mobwear/widgets/phone_widgets/screen.dart';
 import 'package:mobwear/widgets/phone_widgets/heart_rate_sensor.dart';
 import 'package:provider/provider.dart';
 
 class S8Plus extends StatelessWidget {
-  static final int phoneIndex = 1;
-  static final int phoneID = 0301;
-  static final int phoneBrandIndex = 2;
+  static final int phoneIndex = 0;
+  static final int phoneID = 0203;
+  static final int phoneBrandIndex = 1;
   static const String phoneBrand = 'Samsung';
   static const String phoneModel = 'Galaxy';
   static const String phoneName = 'Galaxy S8+';
 
-  static final Camera camera1 = Camera(
-    trimColor: Colors.grey[700],
-    diameter: 14.0,
-    lenseDiameter: 4.0,
-    trimWidth: 1.0,
-  );
+  static String boxColorKey = 'Bezels';
+
+  static List<Button> leftButtons(bool invert) {
+    ButtonPosition position =
+        invert ? ButtonPosition.right : ButtonPosition.left;
+
+    return [
+      Button(
+        height: 36.0,
+        yAlignment: -0.2,
+        position: position,
+        phoneID: phoneID,
+        boxColorKey: boxColorKey,
+      ),
+    ];
+  }
+
+  static List<Button> rightButtons(bool invert) {
+    ButtonPosition position =
+        invert ? ButtonPosition.left : ButtonPosition.right;
+
+    return [
+      Button(
+        height: 36.0,
+        yAlignment: -0.68,
+        position: position,
+        phoneID: phoneID,
+        boxColorKey: boxColorKey,
+      ),
+      Button(
+        height: 36.0,
+        yAlignment: -0.46,
+        position: position,
+        phoneID: phoneID,
+        boxColorKey: boxColorKey,
+      ),
+    ];
+  }
 
   final Screen front = Screen(
     phoneName: phoneName,
     phoneModel: phoneModel,
     phoneBrand: phoneBrand,
     phoneID: phoneID,
-    screenWidth: 240.0,
     screenHeight: 490.0,
-    horizontalPadding: 6.0,
-    verticalPadding: 25.0,
-    screenAlignment: Alignment(0.0, -0.1),
-    innerCornerRadius: 20.0,
-    cornerRadius: 25.0,
+    horizontalPadding: 14.0,
+    verticalPadding: 110.0,
+    cornerRadius: 33.0,
+    innerCornerRadius: 0.0,
+    bezelsWidth: 1.5,
+    hasBackPanelColor: true,
+    screenAlignment: Alignment.center,
+    leftButtons: rightButtons(true),
+    rightButtons: leftButtons(true),
     screenItems: <Widget>[
       Align(
-        alignment: Alignment(0.9, -0.965),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            width: 42.0,
-            height: 20.0,
-            decoration: BoxDecoration(
-                color: Colors.black, borderRadius: BorderRadius.circular(20.0)),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 3.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  camera1,
-                  camera1,
-                ],
-              ),
-            ),
-          ),
+        alignment: Alignment(0.0, 0.946),
+        child: GalaxyHomeButton(
+          phoneID: phoneID,
+          hasElevation: true,
+          cornerRadius: 10.0,
         ),
       ),
     ],
@@ -91,43 +113,27 @@ class S8Plus extends StatelessWidget {
     BlendMode backPanelTextureBlendMode =
         kGetTextureBlendMode(textures['Back Panel'].blendModeIndex);
 
-    Camera camera2 = Camera(
-      diameter: 20.0,
-      trimWidth: 3.0,
-      lenseDiameter: 8.0,
-      trimColor: Colors.grey[900],
-    );
-
     CameraBump cameraBump = CameraBump(
-      width: 160.0,
-      height: 40.0,
-      cornerRadius: 10.0,
+      width: 47.0,
+      height: 47.0,
+      cornerRadius: 14.0,
+      borderWidth: 2.5,
+      cameraBumpPartsPadding: 2.0,
+      effectCornerRadius: 14.0,
       cameraBumpColor: cameraBumpColor,
+      borderColor: cameraBumpTexture == null
+          ? Colors.white.withOpacity(0.2)
+          : Colors.transparent,
       backPanelColor: backPanelColor,
       texture: cameraBumpTexture,
       textureBlendColor: cameraBumpTextureBlendColor,
       textureBlendMode: cameraBumpTextureBlendMode,
-      cameraBumpPartsPadding: 2.0,
-      borderWidth: 1.2,
-      borderColor: Colors.grey[500],
       cameraBumpParts: [
-        Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              camera2,
-              camera2,
-              Row(
-                children: <Widget>[
-                  camera2,
-                  SizedBox(width: 10.0),
-                  Flash(diameter: 15.0),
-                  SizedBox(width: 4.0),
-                  HeartRateSensor(),
-                ],
-              ),
-            ],
+        Align(
+          alignment: Alignment.center,
+          child: Camera(
+            diameter: 26.0,
+            trimColor: Colors.grey[800],
           ),
         ),
       ],
@@ -135,45 +141,57 @@ class S8Plus extends StatelessWidget {
 
     return FittedBox(
       child: BackPanel(
-        height: 490,
-        cornerRadius: 25.0,
+        height: 500,
+        cornerRadius: 33.0,
+        bezelsWidth: 1.5,
         backPanelColor: backPanelColor,
         bezelsColor: bezelsColor,
         texture: backPanelTexture,
         textureBlendColor: backPanelTextureBlendColor,
         textureBlendMode: backPanelTextureBlendMode,
+        leftButtons: leftButtons(false),
+        rightButtons: rightButtons(false),
         child: Stack(
-          fit: StackFit.expand,
           children: <Widget>[
-            Container(
-              width: 240.0,
-              height: 490.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25.0),
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.transparent,
-                    backPanelColor.computeLuminance() > 0.335
-                        ? Colors.black.withOpacity(0.019)
-                        : Colors.black.withOpacity(0.025),
-                  ],
-                  stops: [0.2, 0.2],
-                  begin: FractionalOffset(0.7, 0.3),
-                  end: FractionalOffset(0.0, 0.5),
-                ),
-              ),
-              child: Align(
-                alignment: Alignment(-0.150, -0.3),
-                child: Icon(
-                  BrandIcons.samsung3,
-                  color: logoColor,
-                  size: 54.0,
-                ),
+            Align(
+              alignment: Alignment(0.0, -0.75),
+              child: CameraBump(
+                width: 50.0,
+                height: 50.0,
+                borderWidth: 0.3,
+                cornerRadius: 16.0,
+                cameraBumpPartsPadding: 0.0,
+                hasElevation: false,
+                backPanelColor: backPanelColor,
+                cameraBumpColor: backPanelColor,
+                borderColor: Colors.black,
+                cameraBumpParts: [
+                  Center(child: cameraBump),
+                ],
               ),
             ),
             Align(
-              alignment: Alignment(0.0, -0.7),
-              child: cameraBump,
+              alignment: Alignment(-0.38, -0.73),
+              child: HeartRateSensor(
+                width: 12.0,
+                height: 42.0,
+                borderWidth: 0.0,
+                cornerRadius: 4.0,
+                flashSize: 10.0,
+                dotSize: 8.0,
+                hasFlash: true,
+                color: Colors.black12,
+                borderColor: Colors.grey[400],
+                dot23Colors: Colors.grey[850],
+              ),
+            ),
+            Align(
+              alignment: Alignment(-0.145, -0.35),
+              child: Icon(
+                BrandIcons.samsung3,
+                color: logoColor,
+                size: 54.0,
+              ),
             ),
           ],
         ),

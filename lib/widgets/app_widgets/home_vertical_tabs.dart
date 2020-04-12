@@ -146,7 +146,6 @@ class _HomeVerticalTabsState extends State<HomeVerticalTabs> {
                 snapshot.connectionState != ConnectionState.done) {
               return Center(
                 child: Container(
-                  margin: EdgeInsets.only(right: 52.0),
                   child: Icon(
                     CustomIcons.mobwear,
                     color: kBrightnessAwareColor(context,
