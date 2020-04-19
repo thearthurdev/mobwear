@@ -119,7 +119,9 @@ class Pixel2 extends StatelessWidget {
                 children: <Widget>[
                   SizedBox(height: 110.0),
                   FingerprintSensor(
+                    phoneID: phoneID,
                     diameter: 37.0,
+                    boxColorKey: 'Matte Panel',
                     sensorColor: fingerprintSensorColor,
                   ),
                   Expanded(

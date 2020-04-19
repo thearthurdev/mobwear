@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 class Camera extends StatelessWidget {
-  final double diameter, trimWidth, lenseDiameter, elevation;
-  final double elevationSpreadRadius, elevationBlurRadius;
+  final double width, height, diameter, trimWidth, lenseDiameter, elevation;
+  final double cornerRadius, elevationSpreadRadius, elevationBlurRadius;
   final Color trimColor, lenseColor, backPanelColor;
   final bool hasElevation;
 
   const Camera({
+    this.width,
+    this.height,
+    this.cornerRadius = 10.0,
     this.diameter = 35.0,
     this.trimWidth = 5.0,
     this.lenseDiameter = 10.0,
@@ -22,14 +25,19 @@ class Camera extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: diameter,
-      height: diameter,
+      width: width ?? diameter,
+      height: height ?? diameter,
       child: FittedBox(
         child: Container(
-          width: diameter,
-          height: diameter,
+          width: width ?? diameter,
+          height: height ?? diameter,
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
+            shape: width == null || height == null
+                ? BoxShape.circle
+                : BoxShape.rectangle,
+            borderRadius: width == null || height == null
+                ? null
+                : BorderRadius.circular(cornerRadius),
             color: trimColor ?? Colors.grey[600],
             boxShadow: hasElevation
                 ? [
@@ -56,10 +64,17 @@ class Camera extends StatelessWidget {
             alignment: Alignment.center,
             children: <Widget>[
               Container(
-                width: diameter - trimWidth,
-                height: diameter - trimWidth,
+                width: (width ?? diameter) - trimWidth,
+                height: (height ?? diameter) - trimWidth,
                 decoration: BoxDecoration(
-                  shape: BoxShape.circle,
+                  shape: width == null || height == null || width == height
+                      ? BoxShape.circle
+                      : BoxShape.rectangle,
+                  borderRadius:
+                      width == null || height == null || width == height
+                          ? null
+                          : BorderRadius.circular(
+                              cornerRadius - (cornerRadius > 2.0 ? 2.0 : 0.0)),
                   color: Colors.black,
                 ),
               ),

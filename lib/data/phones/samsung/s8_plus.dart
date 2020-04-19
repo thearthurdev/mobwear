@@ -3,10 +3,11 @@ import 'package:mobwear/custom_icons/brand_icons.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
+import 'package:mobwear/widgets/phone_widgets/back_panel_gradient.dart';
 import 'package:mobwear/widgets/phone_widgets/button.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/camera_bump.dart';
-import 'package:mobwear/widgets/phone_widgets/galaxy_home_button.dart';
+import 'package:mobwear/widgets/phone_widgets/fingerprint_sensor.dart';
 import 'package:mobwear/widgets/phone_widgets/screen.dart';
 import 'package:mobwear/widgets/phone_widgets/heart_rate_sensor.dart';
 import 'package:provider/provider.dart';
@@ -63,26 +64,16 @@ class S8Plus extends StatelessWidget {
     phoneModel: phoneModel,
     phoneBrand: phoneBrand,
     phoneID: phoneID,
-    screenHeight: 490.0,
-    horizontalPadding: 14.0,
-    verticalPadding: 110.0,
+    screenWidth: 235.0,
+    screenHeight: 510.0,
+    horizontalPadding: 12.0,
+    verticalPadding: 50.0,
     cornerRadius: 33.0,
-    innerCornerRadius: 0.0,
-    bezelsWidth: 1.5,
-    hasBackPanelColor: true,
-    screenAlignment: Alignment.center,
+    innerCornerRadius: 20.0,
+    bezelsWidth: 2.0,
+    screenAlignment: Alignment(0.0, 0.0),
     leftButtons: rightButtons(true),
     rightButtons: leftButtons(true),
-    screenItems: <Widget>[
-      Align(
-        alignment: Alignment(0.0, 0.946),
-        child: GalaxyHomeButton(
-          phoneID: phoneID,
-          hasElevation: true,
-          cornerRadius: 10.0,
-        ),
-      ),
-    ],
   );
 
   get getPhoneFront => front;
@@ -98,8 +89,9 @@ class S8Plus extends StatelessWidget {
     var colors = phonesBox.get(phoneID).colors;
     var textures = phonesBox.get(phoneID).textures;
 
-    Color backPanelColor = colors['Back Panel'];
     Color cameraBumpColor = colors['Camera'];
+    Color backPanelColor = colors['Back Panel'];
+    Color fingerprintSensorColor = colors['Fingerprint Sensor'];
     Color logoColor = colors['Samsung Logo'];
     Color bezelsColor = colors['Bezels'];
 
@@ -113,7 +105,7 @@ class S8Plus extends StatelessWidget {
     BlendMode backPanelTextureBlendMode =
         kGetTextureBlendMode(textures['Back Panel'].blendModeIndex);
 
-    CameraBump cameraBump = CameraBump(
+    CameraBump camera = CameraBump(
       width: 47.0,
       height: 47.0,
       cornerRadius: 14.0,
@@ -141,7 +133,8 @@ class S8Plus extends StatelessWidget {
 
     return FittedBox(
       child: BackPanel(
-        height: 500,
+        width: 235.0,
+        height: 510.0,
         cornerRadius: 33.0,
         bezelsWidth: 1.5,
         backPanelColor: backPanelColor,
@@ -154,20 +147,13 @@ class S8Plus extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Align(
-              alignment: Alignment(0.0, -0.75),
-              child: CameraBump(
-                width: 50.0,
-                height: 50.0,
-                borderWidth: 0.3,
-                cornerRadius: 16.0,
-                cameraBumpPartsPadding: 0.0,
-                hasElevation: false,
+              alignment: Alignment.center,
+              child: BackPanelGradient(
+                width: 229.0,
+                height: 504.0,
+                cornerRadius: 30.0,
+                stops: [0.0, 0.04, 0.1, 0.2, 0.8, 0.9, 0.96, 1.0],
                 backPanelColor: backPanelColor,
-                cameraBumpColor: backPanelColor,
-                borderColor: Colors.black,
-                cameraBumpParts: [
-                  Center(child: cameraBump),
-                ],
               ),
             ),
             Align(
@@ -181,8 +167,33 @@ class S8Plus extends StatelessWidget {
                 dotSize: 8.0,
                 hasFlash: true,
                 color: Colors.black12,
-                borderColor: Colors.grey[400],
-                dot23Colors: Colors.grey[850],
+                borderColor: Colors.transparent,
+              ),
+            ),
+            Align(
+              alignment: Alignment(0.0, -0.75),
+              child: CameraBump(
+                width: 50.0,
+                height: 50.0,
+                borderWidth: 0.3,
+                cornerRadius: 16.0,
+                cameraBumpPartsPadding: 0.0,
+                hasElevation: false,
+                backPanelColor: backPanelColor,
+                cameraBumpColor: backPanelColor,
+                borderColor: Colors.black,
+                cameraBumpParts: [
+                  Center(child: camera),
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment(0.48, -0.74),
+              child: FingerprintSensor(
+                phoneID: phoneID,
+                width: 28.0,
+                height: 48.0,
+                sensorColor: fingerprintSensorColor,
               ),
             ),
             Align(

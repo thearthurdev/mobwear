@@ -67,7 +67,7 @@ class Button extends StatelessWidget {
                       boxBackPanelColor == Colors.black ||
                       boxBackPanelColor.alpha < 40
                   ? kThemeBrightness(context) == Brightness.light
-                      ? Colors.transparent
+                      ? boxBackPanelColor
                       : Colors.grey[900]
                   : boxBackPanelColor
               : color,

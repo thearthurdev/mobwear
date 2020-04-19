@@ -8,17 +8,18 @@ import 'package:mobwear/widgets/phone_widgets/button.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/camera_bump.dart';
 import 'package:mobwear/widgets/phone_widgets/fingerprint_sensor.dart';
+import 'package:mobwear/widgets/phone_widgets/flash.dart';
 import 'package:mobwear/widgets/phone_widgets/screen.dart';
 import 'package:mobwear/widgets/phone_widgets/heart_rate_sensor.dart';
 import 'package:provider/provider.dart';
 
-class S9Plus extends StatelessWidget {
+class Note9 extends StatelessWidget {
   static final int phoneIndex = 0;
-  static final int phoneID = 0206;
+  static final int phoneID = 0207;
   static final int phoneBrandIndex = 1;
   static const String phoneBrand = 'Samsung';
   static const String phoneModel = 'Galaxy';
-  static const String phoneName = 'Galaxy S9+';
+  static const String phoneName = 'Galaxy Note 9';
 
   static String boxColorKey = 'Bezels';
 
@@ -29,7 +30,7 @@ class S9Plus extends StatelessWidget {
     return [
       Button(
         height: 40.0,
-        yAlignment: -0.43,
+        yAlignment: -0.4,
         position: position,
         phoneID: phoneID,
         boxColorKey: boxColorKey,
@@ -44,14 +45,14 @@ class S9Plus extends StatelessWidget {
     return [
       Button(
         height: 76.0,
-        yAlignment: -0.68,
+        yAlignment: -0.66,
         position: position,
         phoneID: phoneID,
         boxColorKey: boxColorKey,
       ),
       Button(
         height: 40.0,
-        yAlignment: -0.26,
+        yAlignment: -0.24,
         position: position,
         phoneID: phoneID,
         boxColorKey: boxColorKey,
@@ -68,8 +69,8 @@ class S9Plus extends StatelessWidget {
     screenHeight: 510.0,
     horizontalPadding: 10.0,
     verticalPadding: 44.0,
-    cornerRadius: 28.0,
-    innerCornerRadius: 20.0,
+    cornerRadius: 16.0,
+    innerCornerRadius: 12.0,
     bezelsWidth: 2.0,
     screenAlignment: Alignment(0.0, 0.0),
     leftButtons: rightButtons(true),
@@ -105,20 +106,14 @@ class S9Plus extends StatelessWidget {
     BlendMode backPanelTextureBlendMode =
         kGetTextureBlendMode(textures['Back Panel'].blendModeIndex);
 
-    Camera camera = Camera(
-      width: 24.0,
-      height: 26.0,
-      trimWidth: 3.0,
-      trimColor: Colors.grey[800],
-    );
-
     CameraBump cameraBump = CameraBump(
-      width: 42.0,
-      height: 78.0,
-      cornerRadius: 14.0,
-      borderWidth: 2.5,
+      width: 128.0,
+      height: 50.0,
+      cornerRadius: 10.0,
+      borderWidth: 1.0,
       cameraBumpPartsPadding: 2.0,
       effectCornerRadius: 14.0,
+      hasEffect: false,
       hasElevation: false,
       cameraBumpColor: cameraBumpColor,
       borderColor: cameraBumpTexture == null
@@ -129,11 +124,35 @@ class S9Plus extends StatelessWidget {
       textureBlendColor: cameraBumpTextureBlendColor,
       textureBlendMode: cameraBumpTextureBlendMode,
       cameraBumpParts: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            camera,
-            camera,
+            Camera(
+              diameter: 26.0,
+              trimWidth: 3.0,
+              trimColor: Colors.grey[800],
+            ),
+            SizedBox(width: 6.0),
+            Camera(
+              diameter: 34.0,
+              trimWidth: 3.0,
+              trimColor: Colors.grey[800],
+            ),
+            SizedBox(width: 1.0),
+            Flash(
+              width: 14.0,
+              height: 14.0,
+              cornerRadius: 4.0,
+            ),
+            HeartRateSensor(
+              width: 14.0,
+              height: 32.0,
+              borderWidth: 0.0,
+              cornerRadius: 5.0,
+              dotSize: 8.0,
+              color: Colors.grey[900],
+              borderColor: Colors.transparent,
+            ),
           ],
         ),
       ],
@@ -143,7 +162,7 @@ class S9Plus extends StatelessWidget {
       child: BackPanel(
         width: 235.0,
         height: 510.0,
-        cornerRadius: 28.0,
+        cornerRadius: 16.0,
         bezelsWidth: 1.5,
         backPanelColor: backPanelColor,
         bezelsColor: bezelsColor,
@@ -159,7 +178,7 @@ class S9Plus extends StatelessWidget {
               child: BackPanelGradient(
                 width: 229.0,
                 height: 504.0,
-                cornerRadius: 22.0,
+                cornerRadius: 12.0,
                 stops: [0.0, 0.04, 0.1, 0.2, 0.8, 0.9, 0.96, 1.0],
                 backPanelColor: backPanelColor,
               ),
@@ -167,51 +186,34 @@ class S9Plus extends StatelessWidget {
             Align(
               alignment: Alignment(0.0, -0.75),
               child: CameraBump(
-                width: 46.0,
-                height: 120.0,
+                width: 128.0,
+                height: 46.0,
                 borderWidth: 0.3,
-                cornerRadius: 16.0,
-                effectCornerRadius: 14.0,
+                cornerRadius: 10.0,
+                effectCornerRadius: 10.0,
                 cameraBumpPartsPadding: 0.0,
-                padding: 1.0,
+                padding: 0.0,
                 hasEffect: false,
                 elevationSpreadRadius: 0.1,
                 backPanelColor: backPanelColor,
                 cameraBumpColor: Colors.white.withOpacity(0.04),
                 borderColor: Colors.black,
-                cameraBumpParts: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      cameraBump,
-                      FingerprintSensor(
-                        phoneID: phoneID,
-                        width: 44.0,
-                        height: 30.0,
-                        cornerRadius: 13.0,
-                        sensorColor: fingerprintSensorColor,
-                      ),
-                    ],
-                  ),
-                ],
+                cameraBumpParts: [cameraBump],
               ),
             ),
             Align(
-              alignment: Alignment(0.43, -0.70),
-              child: HeartRateSensor(
-                width: 12.0,
-                height: 42.0,
-                borderWidth: 0.0,
-                cornerRadius: 5.0,
-                flashSize: 10.0,
-                dotSize: 8.0,
-                hasFlash: true,
-                color: Colors.black12,
-                borderColor: Colors.transparent,
+              alignment: Alignment(0.0, -0.52),
+              child: FingerprintSensor(
+                phoneID: phoneID,
+                width: 44.0,
+                height: 28.0,
+                trimWidth: 1.5,
+                cornerRadius: 8.0,
+                sensorColor: fingerprintSensorColor,
               ),
             ),
             Align(
-              alignment: Alignment(-0.145, -0.20),
+              alignment: Alignment(-0.145, -0.31),
               child: Icon(
                 BrandIcons.samsung3,
                 color: logoColor,

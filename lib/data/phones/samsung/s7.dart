@@ -3,6 +3,7 @@ import 'package:mobwear/custom_icons/brand_icons.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
+import 'package:mobwear/widgets/phone_widgets/back_panel_gradient.dart';
 import 'package:mobwear/widgets/phone_widgets/button.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/camera_bump.dart';
@@ -154,6 +155,16 @@ class S7 extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Align(
+              alignment: Alignment.center,
+              child: BackPanelGradient(
+                width: 238.0,
+                height: 496.0,
+                cornerRadius: 33.0,
+                stops: [0.0, 0.05, 0.1, 0.2, 0.8, 0.9, 0.95, 1.0],
+                backPanelColor: backPanelColor,
+              ),
+            ),
+            Align(
               alignment: Alignment(0.0, -0.75),
               child: CameraBump(
                 width: 60.0,
@@ -182,7 +193,6 @@ class S7 extends StatelessWidget {
                 hasFlash: true,
                 borderColor: Colors.grey[400],
                 color: Colors.black,
-                dot23Colors: Colors.grey[850],
               ),
             ),
             Align(

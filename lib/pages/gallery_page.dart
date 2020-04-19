@@ -140,53 +140,64 @@ class _GalleryPageState extends State<GalleryPage> {
         itemCount: items.length,
         staggeredTileBuilder: (int i) => StaggeredTile.fit(2),
         itemBuilder: (BuildContext context, int i) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child: GestureDetector(
-              child: Hero(
-                tag: items[i].imageDateTime,
-                child: Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: <Widget>[
-                    Image.memory(items[i].imageBytes),
-                    selectedItemKeys.contains(items[i].imageFileName)
-                        ? Align(
-                            alignment: Alignment.bottomRight,
-                            child: Container(
-                              width: 24.0,
-                              height: 24.0,
-                              margin: const EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.0),
-                                color: Colors.black26,
-                              ),
-                              child: Icon(
-                                LineAwesomeIcons.check_circle,
-                                color: Colors.white,
-                                size: 18.0,
-                              ),
-                            ),
-                          )
-                        : Container(),
-                  ],
-                ),
-              ),
-              onLongPress: () => selectItem(i),
-              onTap: () {
-                if (selectedItemKeys.isNotEmpty) {
-                  selectItem(i);
-                } else {
-                  Provider.of<GalleryProvider>(context).setCurrentIndex(i);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      // fullscreenDialog: true,
-                      builder: (context) => GalleryViewPage(),
+          return GestureDetector(
+            child: Hero(
+              tag: items[i].imageDateTime,
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.all(0.1),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      border: Border.all(
+                        color: kBrightnessAwareColor(context,
+                            lightColor: Colors.grey.withOpacity(0.06),
+                            darkColor: Colors.grey[900]),
+                      ),
                     ),
-                  );
-                }
-              },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Image.memory(items[i].imageBytes),
+                    ),
+                  ),
+                  selectedItemKeys.contains(items[i].imageFileName)
+                      ? Align(
+                          alignment: Alignment.bottomRight,
+                          child: Container(
+                            width: 24.0,
+                            height: 24.0,
+                            margin: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: Colors.black26,
+                            ),
+                            child: Icon(
+                              LineAwesomeIcons.check_circle,
+                              color: Colors.white,
+                              size: 18.0,
+                            ),
+                          ),
+                        )
+                      : Container(),
+                ],
+              ),
             ),
+            onLongPress: () => selectItem(i),
+            onTap: () {
+              if (selectedItemKeys.isNotEmpty) {
+                selectItem(i);
+              } else {
+                Provider.of<GalleryProvider>(context).setCurrentIndex(i);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    // fullscreenDialog: true,
+                    builder: (context) => GalleryViewPage(),
+                  ),
+                );
+              }
+            },
           );
         },
       ),

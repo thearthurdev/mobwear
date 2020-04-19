@@ -46,6 +46,12 @@ class _EditPhonePageState extends State<EditPhonePage>
     WidgetsBinding.instance.addPostFrameCallback((_) => showFlipTipFlushbar());
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Provider.of<CustomizationProvider>(context).changeEditPageStatus(true);
+  }
+
   void showFlipTipFlushbar() {
     if (showFlipTip) {
       Future.delayed(Duration(milliseconds: 1500), () {
@@ -145,6 +151,8 @@ class _EditPhonePageState extends State<EditPhonePage>
           if (!flipCardKey.currentState.isFront) {
             flipPhoneAndPop();
           } else {
+            Provider.of<CustomizationProvider>(context)
+                .changeEditPageStatus(false);
             Navigator.pop(context);
           }
         },
@@ -162,7 +170,8 @@ class _EditPhonePageState extends State<EditPhonePage>
             minHeight: kScreenAwareSize(1.0, context),
             maxHeight: kScreenAwareSize(475.0, context),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
               child: Hero(
                 tag: widget.phoneID,
                 child: GestureDetector(
@@ -263,6 +272,7 @@ class _EditPhonePageState extends State<EditPhonePage>
   void flipPhoneAndPop() {
     flipCardKey.currentState.controller.reverse().then((v) {
       flipCardKey.currentState.isFront = true;
+      Provider.of<CustomizationProvider>(context).changeEditPageStatus(false);
       Navigator.pop(context);
     });
   }
@@ -272,6 +282,7 @@ class _EditPhonePageState extends State<EditPhonePage>
       flipPhoneAndPop();
       return Future.value(false);
     }
+    Provider.of<CustomizationProvider>(context).changeEditPageStatus(false);
     return Future.value(true);
   }
 }

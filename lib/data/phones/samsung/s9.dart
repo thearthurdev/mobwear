@@ -12,13 +12,13 @@ import 'package:mobwear/widgets/phone_widgets/screen.dart';
 import 'package:mobwear/widgets/phone_widgets/heart_rate_sensor.dart';
 import 'package:provider/provider.dart';
 
-class S9Plus extends StatelessWidget {
+class S9 extends StatelessWidget {
   static final int phoneIndex = 0;
-  static final int phoneID = 0206;
+  static final int phoneID = 0205;
   static final int phoneBrandIndex = 1;
   static const String phoneBrand = 'Samsung';
   static const String phoneModel = 'Galaxy';
-  static const String phoneName = 'Galaxy S9+';
+  static const String phoneName = 'Galaxy S9';
 
   static String boxColorKey = 'Bezels';
 
@@ -29,7 +29,7 @@ class S9Plus extends StatelessWidget {
     return [
       Button(
         height: 40.0,
-        yAlignment: -0.43,
+        yAlignment: -0.37,
         position: position,
         phoneID: phoneID,
         boxColorKey: boxColorKey,
@@ -44,7 +44,7 @@ class S9Plus extends StatelessWidget {
     return [
       Button(
         height: 76.0,
-        yAlignment: -0.68,
+        yAlignment: -0.71,
         position: position,
         phoneID: phoneID,
         boxColorKey: boxColorKey,
@@ -66,7 +66,7 @@ class S9Plus extends StatelessWidget {
     phoneID: phoneID,
     screenWidth: 235.0,
     screenHeight: 510.0,
-    horizontalPadding: 10.0,
+    horizontalPadding: 8.0,
     verticalPadding: 44.0,
     cornerRadius: 28.0,
     innerCornerRadius: 20.0,
@@ -89,33 +89,26 @@ class S9Plus extends StatelessWidget {
     var colors = phonesBox.get(phoneID).colors;
     var textures = phonesBox.get(phoneID).textures;
 
-    Color cameraBumpColor = colors['Camera Bump'];
+    Color cameraBumpColor = colors['Camera'];
     Color backPanelColor = colors['Back Panel'];
     Color fingerprintSensorColor = colors['Fingerprint Sensor'];
     Color logoColor = colors['Samsung Logo'];
     Color bezelsColor = colors['Bezels'];
 
-    String cameraBumpTexture = textures['Camera Bump'].asset;
-    Color cameraBumpTextureBlendColor = textures['Camera Bump'].blendColor;
+    String cameraBumpTexture = textures['Camera'].asset;
+    Color cameraBumpTextureBlendColor = textures['Camera'].blendColor;
     BlendMode cameraBumpTextureBlendMode =
-        kGetTextureBlendMode(textures['Camera Bump'].blendModeIndex);
+        kGetTextureBlendMode(textures['Camera'].blendModeIndex);
 
     String backPanelTexture = textures['Back Panel'].asset;
     Color backPanelTextureBlendColor = textures['Back Panel'].blendColor;
     BlendMode backPanelTextureBlendMode =
         kGetTextureBlendMode(textures['Back Panel'].blendModeIndex);
 
-    Camera camera = Camera(
-      width: 24.0,
-      height: 26.0,
-      trimWidth: 3.0,
-      trimColor: Colors.grey[800],
-    );
-
-    CameraBump cameraBump = CameraBump(
-      width: 42.0,
-      height: 78.0,
-      cornerRadius: 14.0,
+    CameraBump camera = CameraBump(
+      width: 51.0,
+      height: 58.0,
+      cornerRadius: 16.0,
       borderWidth: 2.5,
       cameraBumpPartsPadding: 2.0,
       effectCornerRadius: 14.0,
@@ -129,12 +122,14 @@ class S9Plus extends StatelessWidget {
       textureBlendColor: cameraBumpTextureBlendColor,
       textureBlendMode: cameraBumpTextureBlendMode,
       cameraBumpParts: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            camera,
-            camera,
-          ],
+        Align(
+          alignment: Alignment.center,
+          child: Camera(
+            width: 26.0,
+            height: 28.0,
+            trimWidth: 3.0,
+            trimColor: Colors.grey[800],
+          ),
         ),
       ],
     );
@@ -167,13 +162,13 @@ class S9Plus extends StatelessWidget {
             Align(
               alignment: Alignment(0.0, -0.75),
               child: CameraBump(
-                width: 46.0,
-                height: 120.0,
+                width: 54.0,
+                height: 100.0,
                 borderWidth: 0.3,
                 cornerRadius: 16.0,
                 effectCornerRadius: 14.0,
                 cameraBumpPartsPadding: 0.0,
-                padding: 1.0,
+                padding: 1.4,
                 hasEffect: false,
                 elevationSpreadRadius: 0.1,
                 backPanelColor: backPanelColor,
@@ -183,12 +178,12 @@ class S9Plus extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      cameraBump,
+                      camera,
                       FingerprintSensor(
                         phoneID: phoneID,
-                        width: 44.0,
+                        width: 51.0,
                         height: 30.0,
-                        cornerRadius: 13.0,
+                        cornerRadius: 12.0,
                         sensorColor: fingerprintSensorColor,
                       ),
                     ],
@@ -202,7 +197,7 @@ class S9Plus extends StatelessWidget {
                 width: 12.0,
                 height: 42.0,
                 borderWidth: 0.0,
-                cornerRadius: 5.0,
+                cornerRadius: 4.0,
                 flashSize: 10.0,
                 dotSize: 8.0,
                 hasFlash: true,
@@ -211,7 +206,7 @@ class S9Plus extends StatelessWidget {
               ),
             ),
             Align(
-              alignment: Alignment(-0.145, -0.20),
+              alignment: Alignment(-0.145, -0.27),
               child: Icon(
                 BrandIcons.samsung3,
                 color: logoColor,

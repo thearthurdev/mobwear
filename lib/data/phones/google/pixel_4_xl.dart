@@ -3,6 +3,7 @@ import 'package:mobwear/custom_icons/brand_icons.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/back_panel.dart';
+import 'package:mobwear/widgets/phone_widgets/back_panel_gradient.dart';
 import 'package:mobwear/widgets/phone_widgets/button.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/camera_bump.dart';
@@ -139,6 +140,16 @@ class Pixel4XL extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
+            Align(
+              alignment: Alignment.center,
+              child: BackPanelGradient(
+                width: 235.0,
+                height: 510.0,
+                cornerRadius: 26.0,
+                stops: [0.0, 0.01, 0.03, 0.2, 0.8, 0.97, 0.99, 1.0],
+                backPanelColor: backPanelColor,
+              ),
+            ),
             Column(
               children: <Widget>[
                 Expanded(

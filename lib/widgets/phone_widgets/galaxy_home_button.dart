@@ -26,8 +26,6 @@ class GalaxyHomeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
 
-    // var boxTrimColor = phonesBox.get(phoneID).colors[boxColorKey ?? 'Bezels'];
-
     var boxBackPanelColor =
         phonesBox.get(phoneID).colors[boxColorKey ?? 'Back Panel'];
 

@@ -183,9 +183,11 @@ class PixelXL extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 20.0),
                       child: FingerprintSensor(
-                          diameter: 45.0,
-                          sensorColor: fingerprintSensorColor,
-                          trimColor: Colors.black.withOpacity(0.05)),
+                        phoneID: phoneID,
+                        diameter: 45.0,
+                        boxColorKey: 'Glossy Panel',
+                        sensorColor: fingerprintSensorColor,
+                      ),
                     ),
                   ),
                 ),

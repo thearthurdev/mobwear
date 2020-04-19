@@ -123,8 +123,10 @@ class Pixel3AXL extends StatelessWidget {
                     children: <Widget>[
                       SizedBox(height: 20.0),
                       FingerprintSensor(
-                        sensorColor: fingerprintSensorColor,
+                        phoneID: phoneID,
                         diameter: 37.0,
+                        boxColorKey: 'Matte Panel',
+                        sensorColor: fingerprintSensorColor,
                       ),
                       Expanded(
                         child: SizedBox(),
