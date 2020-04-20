@@ -114,7 +114,11 @@ class Note10Plus extends StatelessWidget {
       texture: cameraBumpTexture,
       textureBlendColor: cameraBumpTextureBlendColor,
       textureBlendMode: cameraBumpTextureBlendMode,
-      borderColor: backPanelColor,
+      borderColor: cameraBumpTexture == null
+          ? backPanelColor.computeLuminance() > 0.335
+              ? Colors.grey[400].withOpacity(0.7)
+              : Colors.grey[700].withOpacity(0.7)
+          : Colors.transparent,
       cameraBumpParts: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0),

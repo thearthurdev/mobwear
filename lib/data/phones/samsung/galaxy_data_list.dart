@@ -169,4 +169,85 @@ List<PhoneDataModel> galaxyDataList = [
       'Wallpaper': MyTexture(),
     },
   ),
+  PhoneDataModel(
+    id: 0212,
+    colors: {
+      'Camera Bump': Color(0xFF000000),
+      'Back Panel': Color(0xFF2558A6),
+      'Samsung Logo': Color(0xFFC2CDD5),
+      'Bezels': Color(0xFF214F94),
+    },
+    textures: {
+      'Camera Bump': MyTexture(),
+      'Back Panel': MyTexture(),
+    },
+  ),
+  PhoneDataModel(
+    id: 0213,
+    colors: {
+      'Camera Bump': Color(0xFF000000),
+      'Back Panel': Color(0xFFAA0104),
+      'Samsung Logo': Color(0xFFC6B5B5),
+      'Bezels': Color(0xFFAA0104),
+    },
+    textures: {
+      'Camera Bump': MyTexture(),
+      'Back Panel': MyTexture(),
+    },
+  ),
+  PhoneDataModel(
+    id: 0214,
+    colors: {
+      'Camera Bump': Color(0xFF000000),
+      'Top Panel': Color(0xFFC38BDD),
+      'Bottom Panel': Color(0xFFC38BDD),
+      // 'Samsung Logo': Color(0xFFDAD7D7),
+      'Top Panel Bezels': Color(0xFFAAA7BD),
+      'Bottom Panel Bezels': Color(0xFFAAA7BD),
+    },
+    textures: {
+      'Camera Bump': MyTexture(),
+      'Top Panel': MyTexture(),
+      'Bottom Panel': MyTexture(),
+    },
+  ),
+  PhoneDataModel(
+    id: 0215,
+    colors: {
+      'Camera Bump': Color(0xFF000000),
+      'Back Panel': Color(0xFFEED4D9),
+      'Samsung Logo': Color(0xFFF9F2F4),
+      'Bezels': Color(0xFFE0C8CD),
+    },
+    textures: {
+      'Camera Bump': MyTexture(),
+      'Back Panel': MyTexture(),
+    },
+  ),
+  PhoneDataModel(
+    id: 0216,
+    colors: {
+      'Camera Bump': Color(0xFF000000),
+      'Back Panel': Color(0xFFCBEAFD),
+      'Samsung Logo': Color(0xFFF6FAFD),
+      'Bezels': Color(0xFFC1DFF1),
+    },
+    textures: {
+      'Camera Bump': MyTexture(),
+      'Back Panel': MyTexture(),
+    },
+  ),
+  PhoneDataModel(
+    id: 0217,
+    colors: {
+      'Camera Bump': Color(0xFF000000),
+      'Back Panel': Color(0xFF000000),
+      'Samsung Logo': Color(0xFF7D7D7D),
+      'Bezels': Color(0xFF000000),
+    },
+    textures: {
+      'Camera Bump': MyTexture(),
+      'Back Panel': MyTexture(),
+    },
+  ),
 ];

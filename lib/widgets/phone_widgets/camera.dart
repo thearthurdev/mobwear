@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Camera extends StatelessWidget {
-  final double width, height, diameter, trimWidth, lenseDiameter, elevation;
+  final double width, height, diameter, trimWidth, elevation;
+  final double lenseWidth, lenseHeight, lenseDiameter, lenseCornerRadius;
   final double cornerRadius, elevationSpreadRadius, elevationBlurRadius;
   final Color trimColor, lenseColor, backPanelColor;
   final bool hasElevation;
@@ -13,13 +14,16 @@ class Camera extends StatelessWidget {
     this.diameter = 35.0,
     this.trimWidth = 5.0,
     this.lenseDiameter = 10.0,
+    this.lenseCornerRadius = 4.0,
+    this.lenseWidth,
+    this.lenseHeight,
     this.elevation,
     this.elevationSpreadRadius,
     this.elevationBlurRadius,
-    this.hasElevation = false,
     this.trimColor,
     this.lenseColor,
     this.backPanelColor = Colors.black,
+    this.hasElevation = false,
   });
 
   @override
@@ -67,22 +71,27 @@ class Camera extends StatelessWidget {
                 width: (width ?? diameter) - trimWidth,
                 height: (height ?? diameter) - trimWidth,
                 decoration: BoxDecoration(
-                  shape: width == null || height == null || width == height
+                  shape: width == null || height == null
                       ? BoxShape.circle
                       : BoxShape.rectangle,
-                  borderRadius:
-                      width == null || height == null || width == height
-                          ? null
-                          : BorderRadius.circular(
-                              cornerRadius - (cornerRadius > 2.0 ? 2.0 : 0.0)),
+                  borderRadius: width == null || height == null
+                      ? null
+                      : BorderRadius.circular(
+                          cornerRadius - (cornerRadius > 2.0 ? 2.0 : 0.0)),
                   color: Colors.black,
                 ),
               ),
               Container(
-                width: lenseDiameter,
-                height: lenseDiameter,
+                width: lenseWidth ?? lenseDiameter,
+                height: lenseHeight ?? lenseDiameter,
                 decoration: BoxDecoration(
-                  shape: BoxShape.circle,
+                  shape: lenseWidth == null || lenseHeight == null
+                      ? BoxShape.circle
+                      : BoxShape.rectangle,
+                  borderRadius: width == null || lenseHeight == null
+                      ? null
+                      : BorderRadius.circular(lenseCornerRadius -
+                          (lenseCornerRadius > 2.0 ? 2.0 : 0.0)),
                   color: lenseColor ?? Colors.grey[900],
                 ),
               ),

@@ -8,19 +8,17 @@ import 'package:mobwear/widgets/phone_widgets/button.dart';
 import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/camera_bump.dart';
 import 'package:mobwear/widgets/phone_widgets/flash.dart';
+import 'package:mobwear/widgets/phone_widgets/microphone.dart';
 import 'package:mobwear/widgets/phone_widgets/screen.dart';
-import 'package:mobwear/widgets/phone_widgets/heart_rate_sensor.dart';
 import 'package:provider/provider.dart';
 
-class S10Plus extends StatelessWidget {
-  static final int phoneIndex = 0;
-  static final int phoneID = 0209;
+class S20 extends StatelessWidget {
+  static final int phoneIndex = 1;
+  static final int phoneID = 0215;
   static final int phoneBrandIndex = 1;
   static const String phoneBrand = 'Samsung';
   static const String phoneModel = 'Galaxy';
-  static const String phoneName = 'Galaxy S10+';
-
-  static String boxColorKey = 'Bezels';
+  static const String phoneName = 'Galaxy S20';
 
   static List<Button> leftButtons(bool invert) {
     ButtonPosition position =
@@ -28,42 +26,19 @@ class S10Plus extends StatelessWidget {
 
     return [
       Button(
-        height: 40.0,
-        yAlignment: -0.64,
-        position: position,
-        phoneID: phoneID,
-        boxColorKey: boxColorKey,
-      ),
-    ];
-  }
-
-  static List<Button> rightButtons(bool invert) {
-    ButtonPosition position =
-        invert ? ButtonPosition.left : ButtonPosition.right;
-
-    return [
-      Button(
         height: 70.0,
-        yAlignment: -0.7,
+        yAlignment: -0.57,
         position: position,
         phoneID: phoneID,
-        boxColorKey: boxColorKey,
       ),
       Button(
         height: 40.0,
-        yAlignment: -0.3,
+        yAlignment: -0.16,
         position: position,
         phoneID: phoneID,
-        boxColorKey: boxColorKey,
       ),
     ];
   }
-
-  static Camera camera1 = Camera(
-    diameter: 14.0,
-    trimWidth: 2.0,
-    trimColor: Colors.grey[850],
-  );
 
   final Screen front = Screen(
     phoneName: phoneName,
@@ -72,29 +47,22 @@ class S10Plus extends StatelessWidget {
     phoneID: phoneID,
     screenWidth: 235.0,
     screenHeight: 510.0,
-    horizontalPadding: 10.0,
-    verticalPadding: 26.0,
-    cornerRadius: 22.0,
-    innerCornerRadius: 16.0,
-    bezelsWidth: 1.5,
-    screenAlignment: Alignment(0.0, -0.3),
-    leftButtons: rightButtons(true),
+    horizontalPadding: 12.0,
+    verticalPadding: 18.0,
+    cornerRadius: 26.0,
+    innerCornerRadius: 22.0,
+    bezelsWidth: 2.0,
+    screenAlignment: Alignment(0.0, -0.26),
+    rightButtons: leftButtons(true),
     screenItems: <Widget>[
       Align(
-        alignment: Alignment(0.84, -0.93),
-        child: Container(
-          padding: EdgeInsets.all(2.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: Colors.black,
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              camera1,
-              SizedBox(width: 10.0),
-              camera1,
-            ],
+        alignment: Alignment.topCenter,
+        child: Padding(
+          padding: const EdgeInsets.all(9.0),
+          child: Camera(
+            diameter: 15.0,
+            lenseDiameter: 5.0,
+            trimWidth: 0.0,
           ),
         ),
       ),
@@ -114,8 +82,8 @@ class S10Plus extends StatelessWidget {
     var colors = phonesBox.get(phoneID).colors;
     var textures = phonesBox.get(phoneID).textures;
 
-    Color cameraBumpColor = colors['Camera Bump'];
     Color backPanelColor = colors['Back Panel'];
+    Color cameraBumpColor = colors['Camera Bump'];
     Color logoColor = colors['Samsung Logo'];
     Color bezelsColor = colors['Bezels'];
 
@@ -131,59 +99,52 @@ class S10Plus extends StatelessWidget {
 
     Camera camera = Camera(
       diameter: 20.0,
+      trimWidth: 3.0,
+      lenseDiameter: 8.0,
       trimColor: Colors.grey[900],
     );
 
     CameraBump cameraBump = CameraBump(
-      width: 140.0,
-      height: 40.0,
-      cornerRadius: 12.0,
+      width: 64.0,
+      height: 120.0,
+      cornerRadius: 18.0,
       borderWidth: 1.5,
       cameraBumpPartsPadding: 2.0,
-      effectCornerRadius: 14.0,
       elevationSpreadRadius: 0.3,
-      hasEffect: false,
-      hasElevation: false,
       cameraBumpColor: cameraBumpColor,
-      // borderColor: cameraBumpTexture == null
-      //     ? backPanelColor.computeLuminance() > 0.335
-      //         ? Colors.white.withOpacity(0.5)
-      //         : Colors.white.withOpacity(0.2)
-      //     : Colors.transparent,
+      backPanelColor: backPanelColor,
+      texture: cameraBumpTexture,
+      textureBlendColor: cameraBumpTextureBlendColor,
+      textureBlendMode: cameraBumpTextureBlendMode,
       borderColor: cameraBumpTexture == null
           ? backPanelColor.computeLuminance() > 0.335
               ? Colors.grey[400].withOpacity(0.7)
               : Colors.grey[700].withOpacity(0.7)
           : Colors.transparent,
-      backPanelColor: backPanelColor,
-      texture: cameraBumpTexture,
-      textureBlendColor: cameraBumpTextureBlendColor,
-      textureBlendMode: cameraBumpTextureBlendMode,
       cameraBumpParts: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            camera,
-            SizedBox(width: 6.0),
-            camera,
-            SizedBox(width: 6.0),
-            camera,
-            SizedBox(width: 6.0),
-            Flash(
-              width: 14.0,
-              height: 14.0,
-              cornerRadius: 4.0,
-            ),
-            HeartRateSensor(
-              width: 14.0,
-              height: 28.0,
-              borderWidth: 0.0,
-              cornerRadius: 5.0,
-              dotSize: 8.0,
-              color: Colors.grey[900],
-              borderColor: Colors.transparent,
-            ),
-          ],
+        Positioned(
+          top: 8.0,
+          left: 8.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              camera,
+              SizedBox(height: 21.0),
+              camera,
+              SizedBox(height: 21.0),
+              camera,
+            ],
+          ),
+        ),
+        Positioned(
+          top: 12.0,
+          right: 9.0,
+          child: Flash(diameter: 10.0),
+        ),
+        Positioned(
+          bottom: 14.0,
+          right: 10.0,
+          child: Microphone(diameter: 4.5),
         ),
       ],
     );
@@ -192,7 +153,7 @@ class S10Plus extends StatelessWidget {
       child: BackPanel(
         width: 235.0,
         height: 510.0,
-        cornerRadius: 22.0,
+        cornerRadius: 26.0,
         bezelsWidth: 1.5,
         backPanelColor: backPanelColor,
         bezelsColor: bezelsColor,
@@ -200,40 +161,26 @@ class S10Plus extends StatelessWidget {
         textureBlendColor: backPanelTextureBlendColor,
         textureBlendMode: backPanelTextureBlendMode,
         leftButtons: leftButtons(false),
-        rightButtons: rightButtons(false),
         child: Stack(
+          fit: StackFit.expand,
           children: <Widget>[
             Align(
               alignment: Alignment.center,
               child: BackPanelGradient(
-                width: 229.0,
-                height: 504.0,
-                cornerRadius: 18.0,
+                width: 230.0,
+                height: 506.0,
+                cornerRadius: 24.0,
                 stops: [0.0, 0.02, 0.06, 0.2, 0.8, 0.94, 0.98, 1.0],
                 backPanelColor: backPanelColor,
               ),
             ),
-            Align(
-              alignment: Alignment(0.0, -0.75),
-              child: CameraBump(
-                width: 146.0,
-                height: 38.0,
-                borderWidth: 0.3,
-                cornerRadius: 12.0,
-                effectCornerRadius: 10.0,
-                cameraBumpPartsPadding: 0.0,
-                padding: 0.0,
-                hasEffect: false,
-                hasElevation: true,
-                elevationSpreadRadius: 0.1,
-                backPanelColor: backPanelColor,
-                cameraBumpColor: backPanelColor,
-                borderColor: Colors.black26,
-                cameraBumpParts: [cameraBump],
-              ),
+            Positioned(
+              top: 20.0,
+              left: 20.0,
+              child: cameraBump,
             ),
             Align(
-              alignment: Alignment(-0.145, -0.31),
+              alignment: Alignment(-0.150, 0.6),
               child: Icon(
                 BrandIcons.samsung3,
                 color: logoColor,

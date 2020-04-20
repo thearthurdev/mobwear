@@ -82,13 +82,13 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: Text('MobWear'),
           centerTitle: true,
-          leading: IconButton(
-            icon: Icon(LineAwesomeIcons.refresh),
-            onPressed: () {
-              PhoneDatabase.phonesBox.clear();
-              print('phones database cleared');
-            },
-          ),
+          // leading: IconButton(
+          //   icon: Icon(LineAwesomeIcons.refresh),
+          //   onPressed: () {
+          //     PhoneDatabase.phonesBox.clear();
+          //     print('phones database cleared');
+          //   },
+          // ),
           actions: <Widget>[
             FutureBuilder(
               future:

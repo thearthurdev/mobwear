@@ -46,47 +46,84 @@ class Fold extends StatelessWidget {
     trimColor: Colors.grey[850],
   );
 
-  final Screen front = Screen(
-    phoneName: phoneName,
-    phoneModel: phoneModel,
-    phoneBrand: phoneBrand,
-    phoneID: phoneID,
-    screenWidth: 376.0,
-    screenHeight: 510.0,
-    horizontalPadding: 28.0,
-    verticalPadding: 28.0,
-    cornerRadius: 24.0,
-    innerCornerRadius: 16.0,
-    bezelsWidth: 3.0,
-    rightButtons: leftButtons(true),
-    screenAlignment: Alignment.center,
-    screenItems: <Widget>[
-      Align(
-        alignment: Alignment.topRight,
-        child: Container(
-          width: 140.0,
-          height: 36.0,
-          padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(18.0),
-              topRight: Radius.circular(18.0),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  final Widget front = FittedBox(
+    child: Container(
+      width: 376.0,
+      height: 513.0,
+      child: Stack(
+        children: <Widget>[
+          Row(
             children: <Widget>[
-              SizedBox(width: 8.0),
-              camera1,
-              SizedBox(width: 12.0),
-              camera1,
-              Expanded(child: SizedBox()),
+              BackPanel(
+                width: 180.0,
+                height: 510.0,
+                backPanelColor: Colors.black,
+                bezelsColor: Colors.grey[900],
+                borderRadius: BorderRadius.horizontal(
+                  left: Radius.circular(24.0),
+                  right: Radius.circular(6.0),
+                ),
+              ),
+              BackPanel(
+                width: 180.0,
+                height: 510.0,
+                backPanelColor: Colors.black,
+                bezelsColor: Colors.grey[900],
+                rightButtons: leftButtons(true),
+                borderRadius: BorderRadius.horizontal(
+                  left: Radius.circular(6.0),
+                  right: Radius.circular(24.0),
+                ),
+              ),
             ],
           ),
-        ),
+          Align(
+            alignment: Alignment(-0.3, 0.0),
+            child: Screen(
+              phoneName: phoneName,
+              phoneModel: phoneModel,
+              phoneBrand: phoneBrand,
+              phoneID: phoneID,
+              screenWidth: 336.0,
+              screenHeight: 486.0,
+              horizontalPadding: 1.0,
+              verticalPadding: 1.0,
+              cornerRadius: 24.0,
+              innerCornerRadius: 16.0,
+              bezelsWidth: 0.0,
+              screenAlignment: Alignment.center,
+              screenItems: <Widget>[
+                Align(
+                  alignment: Alignment(1.0, -1.02),
+                  child: Container(
+                    width: 130.0,
+                    height: 30.0,
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(18.0),
+                        topRight: Radius.circular(14.0),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        SizedBox(width: 8.0),
+                        camera1,
+                        SizedBox(width: 12.0),
+                        camera1,
+                        Expanded(child: SizedBox()),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
-    ],
+    ),
   );
 
   get getPhoneFront => front;
@@ -149,7 +186,11 @@ class Fold extends StatelessWidget {
       texture: cameraBumpTexture,
       textureBlendColor: cameraBumpTextureBlendColor,
       textureBlendMode: cameraBumpTextureBlendMode,
-      borderColor: backPanelColor,
+      borderColor: cameraBumpTexture == null
+          ? backPanelColor.computeLuminance() > 0.335
+              ? Colors.grey[400].withOpacity(0.7)
+              : Colors.grey[700].withOpacity(0.7)
+          : Colors.transparent,
       cameraBumpParts: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0),

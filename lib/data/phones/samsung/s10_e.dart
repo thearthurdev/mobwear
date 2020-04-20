@@ -118,7 +118,11 @@ class S10E extends StatelessWidget {
       //         ? Colors.white.withOpacity(0.5)
       //         : Colors.white.withOpacity(0.2)
       //     : Colors.transparent,
-      borderColor: backPanelColor,
+      borderColor: cameraBumpTexture == null
+          ? backPanelColor.computeLuminance() > 0.335
+              ? Colors.grey[400].withOpacity(0.7)
+              : Colors.grey[700].withOpacity(0.7)
+          : Colors.transparent,
       backPanelColor: backPanelColor,
       texture: cameraBumpTexture,
       textureBlendColor: cameraBumpTextureBlendColor,
@@ -201,7 +205,11 @@ class S10E extends StatelessWidget {
                 elevationSpreadRadius: 0.1,
                 backPanelColor: backPanelColor,
                 cameraBumpColor: backPanelColor,
-                borderColor: backPanelColor,
+                borderColor: cameraBumpTexture == null
+                    ? backPanelColor.computeLuminance() > 0.335
+                        ? Colors.grey[400].withOpacity(0.7)
+                        : Colors.grey[700].withOpacity(0.7)
+                    : Colors.transparent,
                 cameraBumpParts: [cameraBump],
               ),
             ),
