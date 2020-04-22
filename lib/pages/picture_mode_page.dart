@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:matrix_gesture_detector/matrix_gesture_detector.dart';
+import 'package:mobwear/custom_icons/custom_icons.dart';
 import 'package:mobwear/data/models/aspect_ratio_model.dart';
 import 'package:mobwear/data/models/brand_model.dart';
 import 'package:mobwear/data/models/position_model.dart';
@@ -139,9 +140,9 @@ class _PictureModePageState extends State<PictureModePage> {
       notchedShape: CircularNotchedRectangle(),
       onItemSelected: (i) => onItemSelected(i),
       items: [
-        FABBottomAppBarItem(LineAwesomeIcons.edit),
-        FABBottomAppBarItem(LineAwesomeIcons.file_word_o),
-        FABBottomAppBarItem(LineAwesomeIcons.arrows_alt),
+        FABBottomAppBarItem(LineAwesomeIcons.photo),
+        FABBottomAppBarItem(LineAwesomeIcons.tint),
+        FABBottomAppBarItem(CustomIcons.aspect_ratio2, size: 20.0),
         FABBottomAppBarItem(LineAwesomeIcons.refresh),
       ],
     );

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/database/settings_database.dart';
+import 'package:mobwear/pages/dataPage.dart';
 import 'package:mobwear/pages/picture_mode_page.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
@@ -157,13 +158,13 @@ class _EditPhonePageState extends State<EditPhonePage>
           }
         },
       ),
-      // actions: <Widget>[
-      //   IconButton(
-      //     icon: Icon(LineAwesomeIcons.database),
-      //     onPressed: () => Navigator.push(
-      //         context, MaterialPageRoute(builder: (context) => DataPage())),
-      //   ),
-      // ],
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(LineAwesomeIcons.database),
+          onPressed: () => Navigator.push(
+              context, MaterialPageRoute(builder: (context) => DataPage())),
+        ),
+      ],
     );
   }
 
@@ -208,8 +209,9 @@ class _EditPhonePageState extends State<EditPhonePage>
   }
 
   Widget buildCustomizationTileList(BuildContext context) {
-    Map textures = Provider.of<CustomizationProvider>(context).currentTextures;
-    Map colors = Provider.of<CustomizationProvider>(context).currentColors;
+    Map textures =
+        Provider.of<CustomizationProvider>(context).currentTextures();
+    Map colors = Provider.of<CustomizationProvider>(context).currentColors();
 
     return ListView.builder(
       itemCount: colors.length,

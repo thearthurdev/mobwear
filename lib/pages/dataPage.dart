@@ -19,6 +19,9 @@ class DataPage extends StatelessWidget {
         .phonesDataLists[currentPhoneBrandIndex].reversed
         .toList();
 
+    List phonesBoxDataList =
+        PhoneDatabase.phonesBox.values.toList().reversed.toList();
+
     List<PhoneModel> phonesList =
         PhoneModel.phonesLists[currentPhoneBrandIndex].reversed.toList();
 
@@ -46,15 +49,17 @@ class DataPage extends StatelessWidget {
           return dataCard(
             phoneID: phonesDataList[i].id,
             phoneName: phonesList[i].phone.getPhoneName,
-            colors: phonesDataList[i].colors,
-            textures: phonesDataList[i].textures,
+            defaultColors: phonesDataList[i].colors,
+            boxColors: phonesBoxDataList[i].colors,
+            // textures: phonesDataList[i].textures,
           );
         },
       ),
     );
   }
 
-  Widget dataCard({int phoneID, String phoneName, colors, textures}) {
+  Widget dataCard(
+      {int phoneID, String phoneName, defaultColors, boxColors, textures}) {
     return ElevatedCard(
       padding: EdgeInsets.all(8.0),
       margin: EdgeInsets.all(16.0),
@@ -69,13 +74,17 @@ class DataPage extends StatelessWidget {
             subtitle: Text('$phoneName'),
           ),
           ListTile(
-            title: Text('Colors'),
-            subtitle: Text('$colors'),
+            title: Text('Default Colors'),
+            subtitle: Text('$defaultColors'),
           ),
           ListTile(
-            title: Text('Textures'),
-            subtitle: Text('$textures'),
+            title: Text('Box Colors'),
+            subtitle: Text('$boxColors'),
           ),
+          // ListTile(
+          //   title: Text('Textures'),
+          //   subtitle: Text('$textures'),
+          // ),
         ],
       ),
     );

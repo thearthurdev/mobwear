@@ -49,6 +49,7 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
     bool autoPlayCarousel =
         Provider.of<SettingsProvider>(context).autoPlayCarousel;
     bool tabIsSwiping = Provider.of<SettingsProvider>(context).tabIsSwiping;
+    bool isWidescreen = kDeviceWidth(context) > kDeviceHeight(context);
 
     return NotificationListener(
       onNotification: (ScrollNotification notification) {
@@ -71,13 +72,13 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
               duration: 900,
               autoplayDelay: 2500,
               outer: true,
-              fade: 1.0,
-              scale: 1.0,
+              fade: isWidescreen ? 0.1 : 1.0,
+              scale: isWidescreen ? 0.3 : 1.0,
+              viewportFraction: isWidescreen ? 0.3 : 1.0,
               itemBuilder: (context, i) {
                 return Padding(
                   padding: EdgeInsets.fromLTRB(
-                    50.0,
-                    // kScreenAwareSize(24.0, context),
+                    kScreenAwareSize(24.0, context),
                     kScreenAwareSize(24.0, context),
                     kScreenAwareSize(16.0, context),
                     kScreenAwareSize(16.0, context),
@@ -138,7 +139,9 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
           ),
           Container(
             width: kScreenAwareSize(100.0, context),
-            margin: EdgeInsets.only(bottom: 8.0),
+            margin: EdgeInsets.only(
+              bottom: 8.0,
+            ),
             child: ScrollingPageIndicator(
               controller: pageIndicatorController,
               itemCount: phonesList.length,

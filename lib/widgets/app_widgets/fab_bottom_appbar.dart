@@ -4,8 +4,9 @@ import 'package:mobwear/widgets/app_widgets/show_up_widget.dart';
 
 class FABBottomAppBarItem {
   final IconData iconData;
+  final double size;
 
-  FABBottomAppBarItem(this.iconData);
+  FABBottomAppBarItem(this.iconData, {this.size});
 }
 
 class FABBottomAppBar extends StatefulWidget {
@@ -106,7 +107,7 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
                   ShowUp(
                     delay: 100 * index,
                     child: Icon(item.iconData,
-                        color: color, size: widget.iconSize),
+                        color: color, size: item.size ?? widget.iconSize),
                   ),
                 ],
               ),

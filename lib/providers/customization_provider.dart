@@ -19,11 +19,13 @@ class CustomizationProvider extends ChangeNotifier {
   int currentPhoneID;
   int currentPhoneBrandIndex;
   int currentPhoneIndex;
-  PhoneDataModel currentPhoneData;
   String currentSide;
   String previousSide;
+  PhoneDataModel currentPhoneData;
+  Map<String, Color> currentColors() => currentPhoneData.colors;
+  Map<String, MyTexture> currentTextures() => currentPhoneData.textures;
 
-  void setCurrentSide(int i) => currentSide = currentColors.keys.elementAt(i);
+  void setCurrentSide(int i) => currentSide = currentColors().keys.elementAt(i);
   void setPreviousSide() => previousSide = currentSide;
 
   void setCurrentPhoneData({int phoneID, int phoneBrandIndex, int phoneIndex}) {
@@ -31,9 +33,6 @@ class CustomizationProvider extends ChangeNotifier {
     currentPhoneData = PhoneDatabase.phonesBox.get(phoneID);
     currentPhoneBrandIndex = phoneBrandIndex;
     currentPhoneIndex = phoneIndex;
-
-    getColors();
-    getTextures();
   }
 
   void changeCopyStatus(bool status) {
@@ -44,13 +43,13 @@ class CustomizationProvider extends ChangeNotifier {
   void copyCustomization(bool noTexture) {
     resetSelectedValues();
     if (!noTexture) {
-      colorSelected(currentColors[currentSide]);
-      textureSelected(currentTextures[currentSide].asset);
-      textureBlendColorSelected(currentTextures[currentSide].blendColor);
+      colorSelected(currentColors()[currentSide]);
+      textureSelected(currentTextures()[currentSide].asset);
+      textureBlendColorSelected(currentTextures()[currentSide].blendColor);
       textureBlendModeIndexSelected(
-          currentTextures[currentSide].blendModeIndex);
+          currentTextures()[currentSide].blendModeIndex);
     } else {
-      colorSelected(currentColors[currentSide]);
+      colorSelected(currentColors()[currentSide]);
     }
 
     isCustomizationCopied = true;
@@ -70,11 +69,11 @@ class CustomizationProvider extends ChangeNotifier {
         .phonesDataLists[currentPhoneBrandIndex][currentPhoneIndex]
         .colors[currentSide];
 
-    currentColors[currentSide] = defaultSideColor;
+    currentColors()[currentSide] = defaultSideColor;
     if (!noTexture) {
-      currentTextures[currentSide].asset = null;
-      currentTextures[currentSide].blendColor = Colors.deepOrange;
-      currentTextures[currentSide].blendModeIndex = 0;
+      currentTextures()[currentSide].asset = null;
+      currentTextures()[currentSide].blendColor = Colors.deepOrange;
+      currentTextures()[currentSide].blendModeIndex = 0;
     }
 
     updateDatabase();
@@ -89,12 +88,12 @@ class CustomizationProvider extends ChangeNotifier {
   void setTempValues(bool noTexture) {
     resetTempValues();
     if (!noTexture) {
-      tempColor = currentColors[currentSide];
-      tempTexture = currentTextures[currentSide].asset;
-      tempBlendColor = currentTextures[currentSide].blendColor;
-      tempBlendModeIndex = currentTextures[currentSide].blendModeIndex;
+      tempColor = currentColors()[currentSide];
+      tempTexture = currentTextures()[currentSide].asset;
+      tempBlendColor = currentTextures()[currentSide].blendColor;
+      tempBlendModeIndex = currentTextures()[currentSide].blendModeIndex;
     } else {
-      tempColor = currentColors[currentSide];
+      tempColor = currentColors()[currentSide];
     }
   }
 
@@ -120,22 +119,22 @@ class CustomizationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resetTempValues() {
-    tempColor = null;
-    tempTexture = null;
-    tempBlendColor = null;
-    tempBlendModeIndex = null;
-  }
-
   void updateDatabase() {
     PhoneDatabase.phonesBox.put(
       currentPhoneID,
       PhoneDataModel(
         id: currentPhoneID,
-        colors: currentColors,
-        textures: currentTextures,
+        colors: currentColors(),
+        textures: currentTextures(),
       ),
     );
+  }
+
+  void resetTempValues() {
+    tempColor = null;
+    tempTexture = null;
+    tempBlendColor = null;
+    tempBlendModeIndex = null;
   }
 
   void resetSelectedValues() {
@@ -153,6 +152,11 @@ class CustomizationProvider extends ChangeNotifier {
     currentBlendColor = null;
     currentBlendModeIndex = null;
     watermarkColor = null;
+  }
+
+  void resetCurrentMaps() {
+    currentColors().clear();
+    currentTextures().clear();
   }
 
   //PICTURE MODE
@@ -200,23 +204,24 @@ class CustomizationProvider extends ChangeNotifier {
   }
 
   //PHONE COLORS
-  Map<String, Color> currentColors = {};
   Color currentColor, selectedColor;
 
-  void getColors() => currentColors.addAll(currentPhoneData.colors);
-
   void getCurrentColor(int i) =>
-      currentColor = currentColors.values.elementAt(i);
+      currentColor = currentColors().values.elementAt(i);
 
   void colorSelected(Color color) => selectedColor = color;
 
   void changeColor(bool noTexture) {
     if (isSharePage) {
       currentColor = selectedColor;
-      if (!noTexture) currentTexture = null;
+      if (!noTexture) {
+        currentTexture = null;
+      }
     } else {
-      currentColors[currentSide] = selectedColor ?? currentColor;
-      if (!noTexture) currentTextures[currentSide].asset = null;
+      currentColors()[currentSide] = selectedColor ?? currentColor;
+      if (!noTexture) {
+        currentTextures()[currentSide].asset = null;
+      }
 
       updateDatabase();
     }
@@ -224,13 +229,10 @@ class CustomizationProvider extends ChangeNotifier {
   }
 
   //PHONE TEXTURES
-  Map<String, MyTexture> currentTextures = {};
   String currentTexture, selectedTexture;
   Color currentBlendColor, selectedBlendColor;
   int currentBlendModeIndex, selectedBlendModeIndex;
   BlendMode currentBlendMode;
-
-  void getTextures() => currentTextures.addAll(currentPhoneData.textures);
 
   void getCurrentSideTextureDetails({int i}) {
     if (isSharePage) {
@@ -240,7 +242,7 @@ class CustomizationProvider extends ChangeNotifier {
         currentBlendModeIndex = 0;
       }
     } else {
-      MyTexture myTexture = currentTextures.values.elementAt(i);
+      MyTexture myTexture = currentTextures().values.elementAt(i);
 
       currentTexture = myTexture.asset;
       currentBlendColor = myTexture.blendColor;
@@ -274,10 +276,10 @@ class CustomizationProvider extends ChangeNotifier {
       currentBlendColor = selectedBlendColor ?? currentBlendColor;
       currentBlendModeIndex = selectedBlendModeIndex ?? currentBlendModeIndex;
     } else {
-      currentTextures[currentSide].asset = selectedTexture ?? currentTexture;
-      currentTextures[currentSide].blendColor =
+      currentTextures()[currentSide].asset = selectedTexture ?? currentTexture;
+      currentTextures()[currentSide].blendColor =
           selectedBlendColor ?? currentBlendColor;
-      currentTextures[currentSide].blendModeIndex =
+      currentTextures()[currentSide].blendModeIndex =
           selectedBlendModeIndex ?? currentBlendModeIndex;
 
       updateDatabase();
