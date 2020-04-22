@@ -12,7 +12,7 @@ import 'package:mobwear/widgets/phone_widgets/screen.dart';
 import 'package:provider/provider.dart';
 
 class Note10Lite extends StatelessWidget {
-  static final int phoneIndex = 1;
+  static final int phoneIndex = 13;
   static final int phoneID = 0213;
   static final int phoneBrandIndex = 1;
   static const String phoneBrand = 'Samsung';

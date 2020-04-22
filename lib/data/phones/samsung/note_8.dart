@@ -13,7 +13,7 @@ import 'package:mobwear/widgets/phone_widgets/heart_rate_sensor.dart';
 import 'package:provider/provider.dart';
 
 class Note8 extends StatelessWidget {
-  static final int phoneIndex = 0;
+  static final int phoneIndex = 4;
   static final int phoneID = 0204;
   static final int phoneBrandIndex = 1;
   static const String phoneBrand = 'Samsung';

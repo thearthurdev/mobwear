@@ -13,7 +13,7 @@ import 'package:mobwear/widgets/phone_widgets/screen.dart';
 import 'package:provider/provider.dart';
 
 class S20 extends StatelessWidget {
-  static final int phoneIndex = 1;
+  static final int phoneIndex = 15;
   static final int phoneID = 0215;
   static final int phoneBrandIndex = 1;
   static const String phoneBrand = 'Samsung';

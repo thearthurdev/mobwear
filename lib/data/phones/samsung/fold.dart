@@ -12,7 +12,7 @@ import 'package:mobwear/widgets/phone_widgets/speaker.dart';
 import 'package:provider/provider.dart';
 
 class Fold extends StatelessWidget {
-  static final int phoneIndex = 1;
+  static final int phoneIndex = 11;
   static final int phoneID = 0211;
   static final int phoneBrandIndex = 1;
   static const String phoneBrand = 'Samsung';

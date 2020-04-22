@@ -200,10 +200,10 @@ class CustomizationProvider extends ChangeNotifier {
   }
 
   //PHONE COLORS
-  Map currentColors;
+  Map<String, Color> currentColors = {};
   Color currentColor, selectedColor;
 
-  void getColors() => currentColors = currentPhoneData.colors;
+  void getColors() => currentColors.addAll(currentPhoneData.colors);
 
   void getCurrentColor(int i) =>
       currentColor = currentColors.values.elementAt(i);
@@ -224,13 +224,13 @@ class CustomizationProvider extends ChangeNotifier {
   }
 
   //PHONE TEXTURES
-  Map currentTextures;
+  Map<String, MyTexture> currentTextures = {};
   String currentTexture, selectedTexture;
   Color currentBlendColor, selectedBlendColor;
   int currentBlendModeIndex, selectedBlendModeIndex;
   BlendMode currentBlendMode;
 
-  void getTextures() => currentTextures = currentPhoneData.textures;
+  void getTextures() => currentTextures.addAll(currentPhoneData.textures);
 
   void getCurrentSideTextureDetails({int i}) {
     if (isSharePage) {

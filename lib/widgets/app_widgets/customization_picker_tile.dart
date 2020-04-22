@@ -43,6 +43,7 @@ class CustomizationPickerTile extends StatelessWidget {
 
     return ShowUp(
       direction: ShowUpFrom.bottom,
+      delay: 60 * index,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
         child: Slidable(

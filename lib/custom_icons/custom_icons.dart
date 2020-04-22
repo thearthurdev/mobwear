@@ -19,17 +19,22 @@ class CustomIcons {
   CustomIcons._();
 
   static const _kFontFam = 'CustomIcons';
+  static const _kFontPkg = null;
 
-  static const IconData ce = IconData(0xe800, fontFamily: _kFontFam);
-  static const IconData turtoise = IconData(0xe801, fontFamily: _kFontFam);
-  static const IconData hare = IconData(0xe802, fontFamily: _kFontFam);
-  static const IconData weee = IconData(0xe803, fontFamily: _kFontFam);
-  static const IconData mobwear = IconData(0xe804, fontFamily: _kFontFam);
-  static const IconData back_arrow = IconData(0xe805, fontFamily: _kFontFam);
-  static const IconData shopping_bag = IconData(0xe806, fontFamily: _kFontFam);
-  static const IconData carousel_view = IconData(0xe807, fontFamily: _kFontFam);
-  static const IconData texture_wood_alt = IconData(0xe808, fontFamily: _kFontFam);
-  static const IconData color_palette_alt = IconData(0xe809, fontFamily: _kFontFam);
-  static const IconData image = IconData(0xe80a, fontFamily: _kFontFam);
-  static const IconData paint_bucket = IconData(0xe80b, fontFamily: _kFontFam);
+  static const IconData ce = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData turtoise = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData hare = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData weee = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData mobwear = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData back_arrow = IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData shopping_bag = IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData carousel_view = IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData texture_wood_alt = IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData color_palette_alt = IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData image = IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData paint_bucket = IconData(0xe80b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData aspect_ratio1 = IconData(0xe80c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData aspect_ratio2 = IconData(0xe80d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData background1 = IconData(0xe80e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData background2 = IconData(0xe80f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
