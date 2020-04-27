@@ -18,9 +18,11 @@ import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/aspect_ratio_picker_dialog.dart';
 import 'package:mobwear/widgets/app_widgets/customization_picker_dialog.dart';
+import 'package:mobwear/widgets/app_widgets/elevated_card.dart';
 import 'package:mobwear/widgets/app_widgets/fab_bottom_appbar.dart';
 import 'package:mobwear/widgets/app_widgets/flushbars.dart';
 import 'package:mobwear/widgets/app_widgets/save_image_dialog.dart';
+import 'package:mobwear/widgets/app_widgets/show_up_widget.dart';
 import 'package:mobwear/widgets/app_widgets/watermark_picker_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
@@ -43,7 +45,15 @@ class _PictureModePageState extends State<PictureModePage> {
   Color initRandomColor, backgroundColor;
   MyTexture backgroundTexture;
   bool isCapturing = false;
+  bool isWideScreen;
   GlobalKey captureKey = GlobalKey();
+
+  Map<String, IconData> picEditActions = {
+    'Background': LineAwesomeIcons.photo,
+    'Watermark': LineAwesomeIcons.tint,
+    'AspectRatio': CustomIcons.aspect_ratio2,
+    'Reset': LineAwesomeIcons.refresh,
+  };
 
   static Box settingsBox = SettingsDatabase.settingsBox;
   bool showMoveTip = settingsBox.get(SettingsDatabase.movePhoneTipKey) != 1;
@@ -71,10 +81,13 @@ class _PictureModePageState extends State<PictureModePage> {
 
   @override
   Widget build(BuildContext context) {
+    isWideScreen = kIsWideScreen(context);
+
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         systemNavigationBarColor: kBrightnessAwareColor(context,
-            lightColor: Colors.white, darkColor: Color(0xFF0C0C0C)),
+            lightColor: Colors.white,
+            darkColor: isWideScreen ? Colors.black : Color(0xFF0C0C0C)),
         systemNavigationBarIconBrightness:
             kThemeBrightness(context) == Brightness.light
                 ? Brightness.dark
@@ -91,15 +104,7 @@ class _PictureModePageState extends State<PictureModePage> {
               blendModeIndex: provider.currentBlendModeIndex ?? 0,
             );
 
-            return Scaffold(
-              resizeToAvoidBottomInset: false,
-              appBar: buildAppBar(),
-              body: buildPictureCanvas(provider),
-              floatingActionButton: buildFAB(context),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerDocked,
-              bottomNavigationBar: buildBottomAppBar(),
-            );
+            return buildBody();
           },
         ),
       ),
@@ -129,14 +134,88 @@ class _PictureModePageState extends State<PictureModePage> {
     );
   }
 
+  Widget buildBody() {
+    if (isWideScreen) {
+      return buildWideScreenLayout();
+    }
+
+    return buildNormalLayout();
+  }
+
+  Widget buildWideScreenLayout() {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: buildAppBar(),
+      body: Row(
+        children: <Widget>[
+          Expanded(
+            flex: 5,
+            child: buildPictureCanvas(),
+          ),
+          Expanded(
+            flex: 3,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Column(
+                children: List.generate(
+                  picEditActions.length + 1,
+                  (i) {
+                    if (i == picEditActions.length) {
+                      return Container(
+                        margin: EdgeInsets.all(8.0),
+                        child: buildFAB(context),
+                      );
+                    }
+                    return ShowUp(
+                      delay: 100 * i,
+                      child: ElevatedCard(
+                        margin: EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 16.0),
+                        child: Material(
+                          type: MaterialType.transparency,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(10.0),
+                            onTap: () => onItemSelected(i),
+                            child: ListTile(
+                              title: Text(picEditActions.keys.elementAt(i),
+                                  style: kTitleTextStyle),
+                              trailing: Icon(
+                                picEditActions.values.elementAt(i),
+                                color: kBrightnessAwareColor(context,
+                                    lightColor: Colors.black,
+                                    darkColor: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildNormalLayout() {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: buildAppBar(),
+      body: buildPictureCanvas(),
+      floatingActionButton: buildFAB(context),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: buildBottomAppBar(),
+    );
+  }
+
   Widget buildBottomAppBar() {
     return FABBottomAppBar(
       centerItemText: 'Save',
       foregroundColor: kBrightnessAwareColor(context,
           lightColor: Colors.black, darkColor: Colors.white),
-      selectedColor: Theme.of(context).brightness == Brightness.light
-          ? Colors.red[900]
-          : Colors.red,
       notchedShape: CircularNotchedRectangle(),
       onItemSelected: (i) => onItemSelected(i),
       items: [
@@ -149,29 +228,44 @@ class _PictureModePageState extends State<PictureModePage> {
   }
 
   FloatingActionButton buildFAB(BuildContext context) {
+    Widget fabIcon = isCapturing
+        ? Container(
+            height: 24.0,
+            width: 24.0,
+            padding: EdgeInsets.all(4.5),
+            child: CircularProgressIndicator(
+              strokeWidth: 1.5,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                kBrightnessAwareColor(context,
+                    lightColor: Colors.white, darkColor: Colors.black),
+              ),
+            ),
+          )
+        : Icon(LineAwesomeIcons.save);
+
+    if (isWideScreen) {
+      return FloatingActionButton.extended(
+        onPressed: () {
+          if (!isCapturing) saveImage();
+        },
+        label: Text('Save', style: kTitleTextStyle),
+        icon: fabIcon,
+      );
+    }
     return FloatingActionButton(
+      isExtended: isWideScreen,
       elevation: 2.0,
       onPressed: () {
         if (!isCapturing) saveImage();
       },
-      child: isCapturing
-          ? Container(
-              height: 24.0,
-              width: 24.0,
-              padding: EdgeInsets.all(4.5),
-              child: CircularProgressIndicator(
-                strokeWidth: 1.5,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  kBrightnessAwareColor(context,
-                      lightColor: Colors.white, darkColor: Colors.black),
-                ),
-              ),
-            )
-          : Icon(LineAwesomeIcons.save),
+      child: fabIcon,
     );
   }
 
-  Widget buildPictureCanvas(CustomizationProvider provider) {
+  Widget buildPictureCanvas() {
+    CustomizationProvider provider =
+        Provider.of<CustomizationProvider>(context);
+
     DecorationImage backgroundImage = backgroundTexture.asset == null
         ? null
         : DecorationImage(

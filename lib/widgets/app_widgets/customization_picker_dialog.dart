@@ -29,6 +29,7 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
   int pickerModeIndex;
   int modeCount;
   bool isSharePage;
+  bool isWideScreen;
   dynamic provider;
 
   @override
@@ -47,6 +48,8 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
 
   @override
   Widget build(BuildContext context) {
+    isWideScreen = kIsWideScreen(context);
+
     List<Widget> pickerModeViews = [
       ColorPicker(
         color: provider.currentColor ?? widget.initRandomColor,
@@ -67,7 +70,8 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
         systemNavigationBarColor: kBrightnessAwareColor(
           context,
           lightColor: Color(0xFF757575),
-          darkColor: isSharePage ? Color(0xFF060606) : Colors.black,
+          darkColor:
+              isSharePage && !isWideScreen ? Color(0xFF060606) : Colors.black,
         ),
         systemNavigationBarIconBrightness:
             kThemeBrightness(context) == Brightness.light

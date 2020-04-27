@@ -157,7 +157,7 @@ List<PhoneDataModel> galaxyDataList = [
       'Camera Bump': Color(0xFF000000),
       'Back Panel': Color(0xFF4F40CD),
       'Front Panel': Color(0xFF000000),
-      'Wallpaper': Color(0xFF0F0F0F),
+      'Screen': Color(0xFF0F0F0F),
       // 'Samsung Logo': Color(0xFFDAD7D7),
       'Back Panel Bezels': Color(0xFF4F40CD),
       'Front Panel Bezels': Color(0xFF000000),
@@ -166,7 +166,7 @@ List<PhoneDataModel> galaxyDataList = [
       'Camera Bump': MyTexture(),
       'Back Panel': MyTexture(),
       'Front Panel': MyTexture(),
-      'Wallpaper': MyTexture(),
+      'Screen': MyTexture(),
     },
   ),
   PhoneDataModel(

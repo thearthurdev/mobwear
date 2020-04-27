@@ -82,7 +82,7 @@ class _ScrollingPageIndicatorState extends State<ScrollingPageIndicator> {
                     size = 16.0;
                   if (i == selectedIndex - 2 || i == selectedIndex + 2)
                     size = 12.0;
-                  if (i == selectedIndex - 3 || i == selectedIndex + 3)
+                  if (i <= selectedIndex - 3 || i >= selectedIndex + 3)
                     size = 8.0;
                   return size;
                 }

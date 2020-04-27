@@ -58,7 +58,7 @@ class OnboardingPage extends StatefulWidget {
 
 class _OnboardingPageState extends State<OnboardingPage> {
   int currentPage;
-  bool isSwipeLeft, isLastSlide, isDone;
+  bool isSwipeLeft, isLastSlide, isDone, isWideScreen;
   PageController controller;
 
   @override
@@ -68,6 +68,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     isSwipeLeft = true;
     isLastSlide = false;
     isDone = false;
+    isWideScreen = false;
     controller = PageController();
     controller.addListener(handleSwipes);
     OnboardingSlide.loadImageAssets(context);
@@ -111,181 +112,292 @@ class _OnboardingPageState extends State<OnboardingPage> {
       ),
       child: Scaffold(
         body: SafeArea(
-          child: Stack(
-            children: <Widget>[
-              PageView(
-                controller: controller,
-                onPageChanged: (i) => setState(() {
-                  currentPage = i;
-                  isLastSlide = currentPage == 2 ? true : false;
-                }),
-                children: List.generate(3, (i) {
-                  return onboardingSlide(
-                    title: OnboardingSlide.slides[i].title,
-                    subtitle: OnboardingSlide.slides[i].subtitle,
-                    imageAsset: OnboardingSlide.slides[i].imageAsset,
-                    cardGradient: OnboardingSlide.slides[i].cardGradient,
-                  );
-                }),
-              ),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  margin:
-                      EdgeInsets.symmetric(horizontal: 40.0, vertical: 26.0),
-                  height: 30.0,
-                  child: PageIndicator(currentPage),
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: ShowUp(
-                  delay: 400,
-                  child: Container(
-                    width: kDeviceWidth(context) -
-                        kScreenAwareSize(150.0, context),
-                    height: kScreenAwareSize(50.0, context),
-                    margin: EdgeInsets.only(bottom: 16.0),
-                    decoration: BoxDecoration(
-                      color: kBrightnessAwareColor(context,
-                          lightColor: Colors.white, darkColor: Colors.black),
-                      borderRadius: BorderRadius.circular(
-                        kScreenAwareSize(16.0, context),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: kBrightnessAwareColor(context,
-                              lightColor: Colors.blueGrey.withOpacity(0.2),
-                              darkColor: Colors.grey[900].withOpacity(0.15)),
-                          blurRadius: 10.0,
-                          offset: Offset(5.0, 6.0),
+          child: LayoutBuilder(builder: (context, constraints) {
+            isWideScreen = constraints.maxWidth >= kTabletBreakpoint;
+
+            if (isWideScreen) {
+              return wideScreenLayout();
+            }
+
+            return normalLayout();
+          }),
+        ),
+      ),
+    );
+  }
+
+  Widget wideScreenLayout() {
+    return Stack(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.topLeft,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 40.0, vertical: 26.0),
+            height: 30.0,
+            child: pageIndicator(),
+          ),
+        ),
+        PageView(
+          controller: controller,
+          onPageChanged: (i) => setState(() {
+            currentPage = i;
+            isLastSlide = currentPage == 2 ? true : false;
+          }),
+          children: List.generate(
+            3,
+            (i) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.fromLTRB(40.0, 80.0, 0.0, 0.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        titleText(title: OnboardingSlide.slides[i].title),
+                        SizedBox(height: 40.0),
+                        ShowUp(
+                          direction:
+                              isSwipeLeft ? ShowUpFrom.right : ShowUpFrom.left,
+                          delay: 50,
+                          child: actionButton(context),
                         ),
                       ],
                     ),
-                    child: Material(
-                      type: MaterialType.transparency,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(
-                            kScreenAwareSize(16.0, context)),
-                        onTap: () {
-                          if (isLastSlide) {
-                            setState(() => isDone = true);
-                            Future.delayed(Duration(milliseconds: 2000))
-                                .whenComplete(() {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()),
-                              );
-                            });
-
-                            Box settingsBox = SettingsDatabase.settingsBox;
-                            settingsBox.put(SettingsDatabase.initLaunchKey, 1);
-                          } else {
-                            setState(() => isSwipeLeft = true);
-                            controller.animateToPage(
-                              currentPage + 1,
-                              duration: Duration(milliseconds: 300),
-                              curve: Curves.decelerate,
-                            );
-                          }
-                        },
-                        child: Center(
-                          child: isDone
-                              ? CircularProgressIndicator()
-                              : Text(
-                                  isLastSlide ? 'Get Started' : 'Next',
-                                  style: kTitleTextStyle.copyWith(
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 16.0,
-                                  ),
-                                ),
-                        ),
+                  ),
+                  Expanded(
+                    // flex: 5,
+                    child: Container(
+                      // color: Colors.teal,
+                      padding: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 0.0),
+                      child: onboardingSlide(
+                        subtitle: OnboardingSlide.slides[i].subtitle,
+                        imageAsset: OnboardingSlide.slides[i].imageAsset,
+                        cardGradient: OnboardingSlide.slides[i].cardGradient,
                       ),
                     ),
                   ),
-                ),
-              ),
-            ],
+                ],
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget normalLayout() {
+    return Stack(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.topLeft,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 40.0, vertical: 26.0),
+            height: 30.0,
+            child: pageIndicator(),
+          ),
+        ),
+        PageView(
+          controller: controller,
+          onPageChanged: (i) => setState(() {
+            currentPage = i;
+            isLastSlide = currentPage == 2 ? true : false;
+          }),
+          children: List.generate(
+            3,
+            (i) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(40.0, 60.0, 0.0, 0.0),
+                    child: titleText(title: OnboardingSlide.slides[i].title),
+                  ),
+                  Expanded(
+                    child: onboardingSlide(
+                      subtitle: OnboardingSlide.slides[i].subtitle,
+                      imageAsset: OnboardingSlide.slides[i].imageAsset,
+                      cardGradient: OnboardingSlide.slides[i].cardGradient,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: ShowUp(
+            delay: 400,
+            child: actionButton(context),
+          ),
+        ),
+      ],
+    );
+  }
+
+  PageIndicator pageIndicator() {
+    return PageIndicator(
+      currentSelectionIndex: currentPage,
+      dotSize: isWideScreen ? 20.0 : null,
+    );
+  }
+
+  Widget actionButton(BuildContext context) {
+    return Container(
+      width: isWideScreen
+          ? kScreenAwareSize(220.0, context)
+          : kDeviceWidth(context) - kScreenAwareSize(150.0, context),
+      height: isWideScreen
+          ? kScreenAwareSize(70.0, context)
+          : kScreenAwareSize(50.0, context),
+      margin: EdgeInsets.only(bottom: 16.0),
+      decoration: BoxDecoration(
+        color: kBrightnessAwareColor(
+          context,
+          lightColor: Colors.white,
+          darkColor: isWideScreen ? Colors.white : Colors.black,
+        ),
+        // color: Colors.teal,
+        borderRadius: BorderRadius.circular(
+          kScreenAwareSize(16.0, context),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: kBrightnessAwareColor(context,
+                lightColor: Colors.blueGrey.withOpacity(0.2),
+                darkColor: Colors.grey[900].withOpacity(0.15)),
+            blurRadius: 10.0,
+            offset: Offset(5.0, 6.0),
+          ),
+        ],
+      ),
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(kScreenAwareSize(16.0, context)),
+          onTap: onButtonPressed,
+          child: Center(
+            child: isDone
+                ? CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      kBrightnessAwareColor(
+                        context,
+                        lightColor: Colors.black,
+                        darkColor: isWideScreen ? Colors.black : Colors.white,
+                      ),
+                    ),
+                  )
+                : Text(
+                    isLastSlide ? 'Get Started' : 'Next',
+                    style: kTitleTextStyle.copyWith(
+                      color: kBrightnessAwareColor(
+                        context,
+                        lightColor: Colors.black,
+                        darkColor: isWideScreen ? Colors.black : Colors.white,
+                      ),
+                      fontWeight: FontWeight.w900,
+                      fontSize: 16.0,
+                    ),
+                  ),
           ),
         ),
       ),
     );
   }
 
+  void onButtonPressed() {
+    if (isLastSlide) {
+      setState(() => isDone = true);
+      Future.delayed(Duration(milliseconds: 2000)).whenComplete(() {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      });
+
+      Box settingsBox = SettingsDatabase.settingsBox;
+      settingsBox.put(SettingsDatabase.initLaunchKey, 1);
+    } else {
+      setState(() => isSwipeLeft = true);
+      controller.animateToPage(
+        currentPage + 1,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.decelerate,
+      );
+    }
+  }
+
+  Widget titleText({String title}) {
+    return ShowUp(
+      direction: isSwipeLeft ? ShowUpFrom.right : ShowUpFrom.left,
+      delay: 50,
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: kScreenAwareSize(isWideScreen ? 70.0 : 40.0, context),
+          fontFamily: 'Righteous',
+          letterSpacing: 1.5,
+        ),
+      ),
+    );
+  }
+
   Widget onboardingSlide({
-    @required String title,
     @required String subtitle,
     @required String imageAsset,
     @required List<Color> cardGradient,
   }) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 26.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(height: 48.0),
-          ShowUp(
-            direction: isSwipeLeft ? ShowUpFrom.right : ShowUpFrom.left,
-            delay: 50,
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: kScreenAwareSize(40.0, context),
-                fontFamily: 'Righteous',
-                letterSpacing: 1.5,
-              ),
+      child: ShowUp(
+        direction: isSwipeLeft ? ShowUpFrom.right : ShowUpFrom.left,
+        child: Container(
+          padding: EdgeInsets.all(16.0),
+          margin: EdgeInsets.only(bottom: 16.0),
+          decoration: BoxDecoration(
+            borderRadius:
+                BorderRadius.circular(kScreenAwareSize(35.0, context)),
+            gradient: LinearGradient(
+              colors: cardGradient,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
           ),
-          SizedBox(height: 24.0),
-          Expanded(
-            child: ShowUp(
-              direction: isSwipeLeft ? ShowUpFrom.right : ShowUpFrom.left,
-              child: Container(
-                padding: EdgeInsets.all(16.0),
-                margin: EdgeInsets.only(bottom: 16.0),
-                decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.circular(kScreenAwareSize(35.0, context)),
-                  gradient: LinearGradient(
-                    colors: cardGradient,
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(
+                    kScreenAwareSize(isWideScreen ? 16.0 : 12.0, context)),
+                child: Text(
+                  subtitle,
+                  maxLines: 4,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
+                  style: kTitleTextStyle.copyWith(
+                    fontSize:
+                        kScreenAwareSize(isWideScreen ? 22.0 : 16.0, context),
+                    letterSpacing: 1.5,
+                    color: Colors.white,
                   ),
                 ),
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(kScreenAwareSize(12.0, context)),
-                      child: Text(
-                        subtitle,
-                        maxLines: 4,
-                        overflow: TextOverflow.ellipsis,
-                        style: kTitleTextStyle.copyWith(
-                          fontSize: kScreenAwareSize(16.0, context),
-                          letterSpacing: 1.5,
-                          color: Colors.white,
-                        ),
-                      ),
+              ),
+              Expanded(
+                flex: 4,
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(imageAsset),
+                      fit: BoxFit.scaleDown,
                     ),
-                    Expanded(
-                      flex: 4,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(imageAsset),
-                            fit: BoxFit.scaleDown,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: kScreenAwareSize(16.0, context)),
-                  ],
+                  ),
                 ),
               ),
-            ),
+              SizedBox(height: kScreenAwareSize(16.0, context)),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

@@ -11,7 +11,7 @@ class IndicatorDot extends StatelessWidget {
     this.isSelected = false,
     this.context,
     this.onPressed,
-    this.size = 10,
+    this.size,
   });
 
   @override
@@ -25,8 +25,8 @@ class IndicatorDot extends StatelessWidget {
       child: GestureDetector(
         child: AnimatedContainer(
           duration: Duration(milliseconds: 300),
-          width: kScreenAwareSize(size, context),
-          height: kScreenAwareSize(size, context),
+          width: kScreenAwareSize(size ?? 10.0, context),
+          height: kScreenAwareSize(size ?? 10.0, context),
           decoration: BoxDecoration(
               color: isSelected
                   ? kBrightnessAwareColor(context,
@@ -53,8 +53,9 @@ class IndicatorDot extends StatelessWidget {
 
 class PageIndicator extends StatefulWidget {
   final int currentSelectionIndex;
+  final double dotSize;
 
-  const PageIndicator(this.currentSelectionIndex);
+  const PageIndicator({this.currentSelectionIndex, this.dotSize});
 
   @override
   _PageIndicatorState createState() => _PageIndicatorState();
@@ -71,6 +72,7 @@ class _PageIndicatorState extends State<PageIndicator> {
         return IndicatorDot(
           isSelected: index == widget.currentSelectionIndex,
           context: context,
+          size: widget.dotSize ?? null,
         );
       },
     );

@@ -49,7 +49,7 @@ class CustomizationPickerTile extends StatelessWidget {
         child: Slidable(
           key: Key(title),
           controller: slidableController,
-          actionPane: SlidableDrawerActionPane(),
+          actionPane: SlidableBehindActionPane(),
           actionExtentRatio: 0.2,
           actions: isSharePage
               ? null

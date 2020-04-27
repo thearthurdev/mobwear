@@ -25,6 +25,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
   // final imageSaver = ImageSaver();
   String phoneName;
   String phoneBrand;
+  bool isWideScreen;
 
   @override
   void initState() {
@@ -76,11 +77,14 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
 
   @override
   Widget build(BuildContext context) {
+    isWideScreen = kIsWideScreen(context);
+
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         systemNavigationBarColor: kBrightnessAwareColor(context,
-            lightColor: Color(0xFF757575), darkColor: Color(0xFF060606)),
+            lightColor: Color(0xFF757575),
+            darkColor: isWideScreen ? Colors.black : Color(0xFF060606)),
         systemNavigationBarIconBrightness:
             kThemeBrightness(context) == Brightness.light
                 ? Brightness.dark

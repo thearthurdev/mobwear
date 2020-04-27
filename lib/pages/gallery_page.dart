@@ -20,6 +20,7 @@ class GalleryPage extends StatefulWidget {
 class _GalleryPageState extends State<GalleryPage> {
   List<GalleryItem> items;
   List<String> selectedItemKeys = [];
+  bool isWideScreen;
 
   @override
   void didChangeDependencies() {
@@ -29,6 +30,8 @@ class _GalleryPageState extends State<GalleryPage> {
 
   @override
   Widget build(BuildContext context) {
+    isWideScreen = kIsWideScreen(context);
+
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -134,7 +137,7 @@ class _GalleryPageState extends State<GalleryPage> {
     return SliverPadding(
       padding: EdgeInsets.all(16.0),
       sliver: SliverStaggeredGrid.countBuilder(
-        crossAxisCount: 4,
+        crossAxisCount: isWideScreen ? 8 : 4,
         mainAxisSpacing: 16.0,
         crossAxisSpacing: 16.0,
         itemCount: items.length,

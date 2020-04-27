@@ -142,7 +142,7 @@ class Fold extends StatelessWidget {
     Color cameraBumpColor = colors['Camera Bump'];
     Color backPanelColor = colors['Back Panel'];
     Color frontPanelColor = colors['Front Panel'];
-    Color wallpaper = colors['Wallpaper'];
+    Color screen = colors['Screen'];
     // Color logoColor = colors['Samsung Logo'];
     Color backBezelsColor = colors['Back Panel Bezels'];
     Color frontBezelsColor = colors['Front Panel Bezels'];
@@ -162,10 +162,10 @@ class Fold extends StatelessWidget {
     BlendMode frontPanelTextureBlendMode =
         kGetTextureBlendMode(textures['Front Panel'].blendModeIndex);
 
-    String wallpaperTexture = textures['Wallpaper'].asset;
-    Color wallpaperTextureBlendColor = textures['Wallpaper'].blendColor;
-    BlendMode wallpaperTextureBlendMode =
-        kGetTextureBlendMode(textures['Wallpaper'].blendModeIndex);
+    String screenTexture = textures['Screen'].asset;
+    Color screenTextureBlendColor = textures['Screen'].blendColor;
+    BlendMode screenTextureBlendMode =
+        kGetTextureBlendMode(textures['Screen'].blendModeIndex);
 
     Camera camera = Camera(
       diameter: 20.0,
@@ -303,10 +303,10 @@ class Fold extends StatelessWidget {
                               width: 150.0,
                               height: 350.0,
                               cornerRadius: 18.0,
-                              backPanelColor: wallpaper,
-                              texture: wallpaperTexture,
-                              textureBlendColor: wallpaperTextureBlendColor,
-                              textureBlendMode: wallpaperTextureBlendMode,
+                              backPanelColor: screen,
+                              texture: screenTexture,
+                              textureBlendColor: screenTextureBlendColor,
+                              textureBlendMode: screenTextureBlendMode,
                               noShadow: true,
                               noButtons: true,
                             ),

@@ -32,8 +32,11 @@ class EditPhonePage extends StatefulWidget {
 class _EditPhonePageState extends State<EditPhonePage>
     with SingleTickerProviderStateMixin {
   GlobalKey<FlipCardState> flipCardKey = GlobalKey<FlipCardState>();
-  ScrollController scrollController;
-  bool showFAB = true;
+  ScrollController scrollController1;
+  ScrollController scrollController2;
+  ScrollController currentController;
+  bool showFAB;
+  bool isWideScreen;
 
   static Box settingsBox = SettingsDatabase.settingsBox;
   bool showFlipTip = settingsBox.get(SettingsDatabase.flipPhoneTipKey) != 1;
@@ -42,8 +45,11 @@ class _EditPhonePageState extends State<EditPhonePage>
   @override
   void initState() {
     super.initState();
-    scrollController = ScrollController();
-    scrollController.addListener(scrollListener);
+    showFAB = true;
+    scrollController1 = ScrollController();
+    scrollController2 = ScrollController();
+    scrollController1.addListener(scrollListener);
+    scrollController2.addListener(scrollListener);
     WidgetsBinding.instance.addPostFrameCallback((_) => showFlipTipFlushbar());
   }
 
@@ -67,7 +73,6 @@ class _EditPhonePageState extends State<EditPhonePage>
             flipCardKey.currentState.controller.reverse();
             flipCardKey.currentState.isFront = true;
             settingsBox.put(SettingsDatabase.flipPhoneTipKey, 1);
-
             if (showSwipeTip) showSwipeTipFlushbar();
           },
         );
@@ -76,29 +81,34 @@ class _EditPhonePageState extends State<EditPhonePage>
   }
 
   void showSwipeTipFlushbar() {
-    double maxScrollExtent = scrollController.position.maxScrollExtent;
-
-    setState(() => showFAB = false);
-    scrollController
-        .animateTo(
-            maxScrollExtent > 400.0 ? maxScrollExtent * 0.5 : maxScrollExtent,
-            duration: Duration(milliseconds: 600),
-            curve: Curves.linearToEaseOut)
-        .whenComplete(() {
+    void showSwipeTip() {
       MyFlushbars.showTipFlushbar(
         context,
         title: 'Tip: Reset, Copy & Paste',
         message: 'Swipe left or right on a card to access more actions',
         onDismiss: () => settingsBox.put(SettingsDatabase.swipeCardTipKey, 1),
       );
-    });
+    }
+
+    if (isWideScreen) {
+      showSwipeTip();
+    } else {
+      double maxScrollExtent = scrollController1.position.maxScrollExtent;
+      setState(() => showFAB = false);
+      scrollController1
+          .animateTo(
+              maxScrollExtent > 400.0 ? maxScrollExtent * 0.5 : maxScrollExtent,
+              duration: Duration(milliseconds: 600),
+              curve: Curves.linearToEaseOut)
+          .whenComplete(() => showSwipeTip());
+    }
   }
 
   void scrollListener() {
-    if (scrollController.position.userScrollDirection ==
+    if (currentController.position.userScrollDirection ==
         ScrollDirection.reverse) {
       if (showFAB == true) setState(() => showFAB = false);
-    } else if (scrollController.position.userScrollDirection ==
+    } else if (currentController.position.userScrollDirection ==
         ScrollDirection.forward) {
       if (showFAB == false) setState(() => showFAB = true);
     }
@@ -106,12 +116,16 @@ class _EditPhonePageState extends State<EditPhonePage>
 
   @override
   void dispose() {
-    scrollController.dispose();
+    scrollController1.dispose();
+    scrollController2.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    isWideScreen = kIsWideScreen(context);
+    currentController = isWideScreen ? scrollController2 : scrollController1;
+
     Provider.of<CustomizationProvider>(context).setCurrentPhoneData(
       phoneID: widget.phoneID,
       phoneBrandIndex: widget.phone.getPhoneBrandIndex,
@@ -135,8 +149,9 @@ class _EditPhonePageState extends State<EditPhonePage>
           appBar: buildAppBar(),
           body: buildBody(),
           floatingActionButton: buildFAB(),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
+          floatingActionButtonLocation: isWideScreen
+              ? FloatingActionButtonLocation.endFloat
+              : FloatingActionButtonLocation.centerFloat,
         ),
       ),
     );
@@ -169,8 +184,34 @@ class _EditPhonePageState extends State<EditPhonePage>
   }
 
   Widget buildBody() {
+    if (isWideScreen) {
+      return buildWideScreenLayout();
+    }
+
+    return buildNormalLayout();
+  }
+
+  Widget buildWideScreenLayout() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          flex: 2,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 24.0),
+            child: buildPhone(),
+          ),
+        ),
+        Expanded(
+          flex: 3,
+          child: buildCustomizationTileList(context),
+        ),
+      ],
+    );
+  }
+
+  Widget buildNormalLayout() {
     return CustomScrollView(
-      controller: scrollController,
+      controller: scrollController1,
       slivers: <Widget>[
         SliverPersistentHeader(
           pinned: true,
@@ -180,19 +221,7 @@ class _EditPhonePageState extends State<EditPhonePage>
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
-              child: Hero(
-                tag: widget.phoneID,
-                child: GestureDetector(
-                  onHorizontalDragUpdate: (details) => flipPhone(details),
-                  child: FlipCard(
-                    flipOnTouch: false,
-                    speed: 300,
-                    key: flipCardKey,
-                    front: widget.phone,
-                    back: widget.phone.getPhoneFront,
-                  ),
-                ),
-              ),
+              child: buildPhone(),
             ),
           ),
         ),
@@ -208,6 +237,22 @@ class _EditPhonePageState extends State<EditPhonePage>
     );
   }
 
+  Widget buildPhone() {
+    return Hero(
+      tag: widget.phoneID,
+      child: GestureDetector(
+        onHorizontalDragUpdate: (details) => flipPhone(details),
+        child: FlipCard(
+          flipOnTouch: false,
+          speed: 300,
+          key: flipCardKey,
+          front: widget.phone,
+          back: widget.phone.getPhoneFront,
+        ),
+      ),
+    );
+  }
+
   Widget buildCustomizationTileList(BuildContext context) {
     Map textures =
         Provider.of<CustomizationProvider>(context).currentTextures();
@@ -215,7 +260,8 @@ class _EditPhonePageState extends State<EditPhonePage>
 
     return ListView.builder(
       itemCount: colors.length,
-      physics: NeverScrollableScrollPhysics(),
+      controller: scrollController2,
+      physics: isWideScreen ? null : NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, i) {
         return CustomizationPickerTile(

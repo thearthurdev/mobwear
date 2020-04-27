@@ -4,13 +4,13 @@ import 'package:mobwear/utils/constants.dart';
 class ElevatedCard extends StatelessWidget {
   final Widget child;
   final Color color;
-  final double radius;
+  final double cornerRadius;
   final EdgeInsetsGeometry padding, margin;
 
   const ElevatedCard({
     this.child,
     this.color,
-    this.radius,
+    this.cornerRadius,
     this.padding,
     this.margin,
   });
@@ -34,7 +34,7 @@ class ElevatedCard extends StatelessWidget {
             offset: Offset(5.0, 6.0),
           ),
         ],
-        borderRadius: BorderRadius.circular(radius ?? 10.0),
+        borderRadius: BorderRadius.circular(cornerRadius ?? 10.0),
       ),
       child: child,
     );

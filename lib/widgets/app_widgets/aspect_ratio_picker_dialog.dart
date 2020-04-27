@@ -9,11 +9,14 @@ import 'package:provider/provider.dart';
 class AspectRatioPickerDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    bool isWideScreen = kIsWideScreen(context);
+
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         systemNavigationBarColor: kBrightnessAwareColor(context,
-            lightColor: Color(0xFF757575), darkColor: Color(0xFF060606)),
+            lightColor: Color(0xFF757575),
+            darkColor: isWideScreen ? Colors.black : Color(0xFF060606)),
         systemNavigationBarIconBrightness: Brightness.light,
       ),
       child: SimpleDialog(

@@ -3,10 +3,18 @@ import 'package:mobwear/data/models/blend_mode_model.dart';
 import 'package:mobwear/data/models/brand_model.dart';
 import 'package:mobwear/data/models/texture_model.dart';
 
-double baseHeight = 640.0;
+const kTabletBreakpoint = 720.0;
+
+const kDesktopBreakpoint = 1440.0;
+
+const baseHeight = 640.0;
 
 double kScreenAwareSize(double size, BuildContext context) {
   return size * MediaQuery.of(context).size.height / baseHeight;
+}
+
+bool kIsWideScreen(BuildContext context) {
+  return MediaQuery.of(context).size.width >= kTabletBreakpoint;
 }
 
 Color kPrimaryColor(BuildContext context) {
