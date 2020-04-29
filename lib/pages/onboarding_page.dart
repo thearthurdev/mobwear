@@ -97,6 +97,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
+    isWideScreen = kDeviceWidth(context) >= kDeviceHeight(context);
+
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -112,63 +114,57 @@ class _OnboardingPageState extends State<OnboardingPage> {
       ),
       child: Scaffold(
         body: SafeArea(
-          child: LayoutBuilder(builder: (context, constraints) {
-            isWideScreen = constraints.maxWidth >= kTabletBreakpoint;
-
-            if (isWideScreen) {
-              return wideScreenLayout();
-            }
-
-            return normalLayout();
-          }),
+          child: isWideScreen ? wideScreenLayout() : normalLayout(),
         ),
       ),
     );
   }
 
   Widget wideScreenLayout() {
-    return Stack(
-      children: <Widget>[
-        Align(
-          alignment: Alignment.topLeft,
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 40.0, vertical: 26.0),
-            height: 30.0,
-            child: pageIndicator(),
+    return Padding(
+      padding: EdgeInsets.all(kScreenAwareSize(36.0, context)),
+      child: Stack(
+        children: <Widget>[
+          Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 40.0, vertical: 26.0),
+              height: 30.0,
+              child: pageIndicator(),
+            ),
           ),
-        ),
-        PageView(
-          controller: controller,
-          onPageChanged: (i) => setState(() {
-            currentPage = i;
-            isLastSlide = currentPage == 2 ? true : false;
-          }),
-          children: List.generate(
-            3,
-            (i) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.fromLTRB(40.0, 80.0, 0.0, 0.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        titleText(title: OnboardingSlide.slides[i].title),
-                        SizedBox(height: 40.0),
-                        ShowUp(
-                          direction:
-                              isSwipeLeft ? ShowUpFrom.right : ShowUpFrom.left,
-                          delay: 50,
-                          child: actionButton(context),
-                        ),
-                      ],
+          PageView(
+            controller: controller,
+            onPageChanged: (i) => setState(() {
+              currentPage = i;
+              isLastSlide = currentPage == 2 ? true : false;
+            }),
+            children: List.generate(
+              3,
+              (i) {
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.fromLTRB(40.0, 80.0, 0.0, 0.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          titleText(title: OnboardingSlide.slides[i].title),
+                          SizedBox(height: 40.0),
+                          ShowUp(
+                            direction: isSwipeLeft
+                                ? ShowUpFrom.right
+                                : ShowUpFrom.left,
+                            delay: 50,
+                            child: actionButton(context),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    // flex: 5,
-                    child: Container(
+                    Container(
                       // color: Colors.teal,
                       padding: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 0.0),
                       child: onboardingSlide(
@@ -177,13 +173,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         cardGradient: OnboardingSlide.slides[i].cardGradient,
                       ),
                     ),
-                  ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -350,12 +346,18 @@ class _OnboardingPageState extends State<OnboardingPage> {
     @required List<Color> cardGradient,
   }) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 26.0),
+      padding: EdgeInsets.symmetric(
+        horizontal: kScreenAwareSize(40.0, context),
+        vertical: kScreenAwareSize(26.0, context),
+      ),
       child: ShowUp(
         direction: isSwipeLeft ? ShowUpFrom.right : ShowUpFrom.left,
         child: Container(
           padding: EdgeInsets.all(16.0),
           margin: EdgeInsets.only(bottom: 16.0),
+          constraints: BoxConstraints(
+            maxWidth: kScreenAwareSize(400.0, context),
+          ),
           decoration: BoxDecoration(
             borderRadius:
                 BorderRadius.circular(kScreenAwareSize(35.0, context)),

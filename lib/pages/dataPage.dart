@@ -19,8 +19,13 @@ class DataPage extends StatelessWidget {
         .phonesDataLists[currentPhoneBrandIndex].reversed
         .toList();
 
-    List phonesBoxDataList =
-        PhoneDatabase.phonesBox.values.toList().reversed.toList();
+    List phonesBoxDataList = [];
+
+    for (PhoneDataModel data in PhoneDatabase.phonesBox.values) {
+      if (data.id < 200) phonesBoxDataList.add(data);
+    }
+
+    phonesBoxDataList = phonesBoxDataList.reversed.toList();
 
     List<PhoneModel> phonesList =
         PhoneModel.phonesLists[currentPhoneBrandIndex].reversed.toList();

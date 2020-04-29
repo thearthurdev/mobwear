@@ -254,9 +254,8 @@ class _EditPhonePageState extends State<EditPhonePage>
   }
 
   Widget buildCustomizationTileList(BuildContext context) {
-    Map textures =
-        Provider.of<CustomizationProvider>(context).currentTextures();
-    Map colors = Provider.of<CustomizationProvider>(context).currentColors();
+    Map textures = Provider.of<CustomizationProvider>(context).currentTextures;
+    Map colors = Provider.of<CustomizationProvider>(context).currentColors;
 
     return ListView.builder(
       itemCount: colors.length,

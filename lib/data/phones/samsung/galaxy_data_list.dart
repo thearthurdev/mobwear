@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mobwear/data/models/phone_data_model.dart';
 import 'package:mobwear/data/models/texture_model.dart';
 
-List<PhoneDataModel> galaxyDataList = [
+get galaxyDataList => _galaxyDataList;
+
+final List<PhoneDataModel> _galaxyDataList = [
   PhoneDataModel(
     id: 0200,
     colors: {

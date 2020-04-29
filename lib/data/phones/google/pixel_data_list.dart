@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mobwear/data/models/phone_data_model.dart';
 import 'package:mobwear/data/models/texture_model.dart';
 
-List<PhoneDataModel> pixelDataList = [
+get pixelDataList => _pixelDataList;
+
+final List<PhoneDataModel> _pixelDataList = [
   PhoneDataModel(
     id: 0300,
     colors: {

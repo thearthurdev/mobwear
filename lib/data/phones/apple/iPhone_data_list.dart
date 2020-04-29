@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mobwear/data/models/phone_data_model.dart';
 import 'package:mobwear/data/models/texture_model.dart';
 
-List<PhoneDataModel> iPhoneDataList = [
+get iPhoneDataList => _iPhoneDataList;
+
+final List<PhoneDataModel> _iPhoneDataList = [
   PhoneDataModel(
     id: 0100,
     colors: {

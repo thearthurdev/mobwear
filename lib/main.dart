@@ -50,7 +50,7 @@ void main() async {
   openBoxes().whenComplete(
     () => runApp(
       // DevicePreview(
-      //   builder: (context) => MultiProvider(
+      // builder: (context) => MultiProvider(
       MultiProvider(
         providers: [
           ChangeNotifierProvider<CustomizationProvider>(
