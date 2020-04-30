@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   PageController tabsPageController;
   PageController phoneGridController;
   SwiperController phoneCarouselController;
+  bool isWideScreen;
 
   @override
   void initState() {
@@ -60,6 +61,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    isWideScreen = kIsWideScreen(context) && kDeviceHeight(context) > 400.0;
+
     Provider.of<SettingsProvider>(context).loadAutoPlay();
 
     void togglePhoneGroupView(i) {
@@ -79,83 +82,107 @@ class _HomePageState extends State<HomePage> {
       ),
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
-        appBar: AppBar(
-          title: Text('MobWear'),
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(LineAwesomeIcons.refresh),
-            onPressed: () {
-              PhoneDatabase.phonesBox.clear();
-              print('phones database cleared');
-            },
-          ),
-          actions: <Widget>[
-            FutureBuilder(
-              future:
-                  Provider.of<SettingsProvider>(context).loadPhoneGroupView(),
-              builder: (context, snapshot) {
-                if (snapshot.data == null &&
-                    snapshot.connectionState != ConnectionState.done) {
-                  return Container();
-                }
-                dynamic view() {
-                  bool isGrid = snapshot.data == PhoneGroupView.grid;
+        appBar: buildAppBar(context, togglePhoneGroupView),
+        body: buildBody(),
+        floatingActionButton: buildFAB(),
+      ),
+    );
+  }
 
-                  return Row(
-                    children: <Widget>[
-                      PhoneGroupViewPickerButton(
-                        icon: CustomIcons.carousel_view,
-                        isSelected: !isGrid,
-                        onTap: () => togglePhoneGroupView(0),
-                        size: 18.0,
-                      ),
-                      PhoneGroupViewPickerButton(
-                        icon: LineAwesomeIcons.th_large,
-                        isSelected: isGrid,
-                        onTap: () => togglePhoneGroupView(1),
-                      ),
-                    ],
-                  );
-                }
+  AppBar buildAppBar(
+      BuildContext context, void togglePhoneGroupView(dynamic i)) {
+    return AppBar(
+      title: Text('MobWear'),
+      centerTitle: true,
+      // leading: IconButton(
+      //   icon: Icon(LineAwesomeIcons.refresh),
+      //   onPressed: () {
+      //     PhoneDatabase.phonesBox.clear();
+      //     print('phones database cleared');
+      //   },
+      // ),
+      actions: <Widget>[
+        FutureBuilder(
+          future: Provider.of<SettingsProvider>(context).loadPhoneGroupView(),
+          builder: (context, snapshot) {
+            if (snapshot.data == null &&
+                snapshot.connectionState != ConnectionState.done) {
+              return Container();
+            }
+            dynamic view() {
+              bool isGrid = snapshot.data == PhoneGroupView.grid;
 
-                return view();
-              },
-            ),
-          ],
-        ),
-        body: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(top: 55.0),
-              child: HomeVerticalTabs(
-                tabsPageController: tabsPageController,
-                phoneGridController: phoneGridController,
-                phoneCarouselController: phoneCarouselController,
-              ),
-            ),
-            Align(
-              alignment: Alignment.topCenter,
-              child: HomeSearchWidget(
-                tabsPageController: tabsPageController,
-                phoneGridController: phoneGridController,
-                phoneCarouselController: phoneCarouselController,
-              ),
-            ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(LineAwesomeIcons.image),
-          onPressed: () {
-            Provider.of<GalleryProvider>(context).loadGallery().then(
-                  (galleryItems) => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => GalleryPage()),
+              return Row(
+                children: <Widget>[
+                  PhoneGroupViewPickerButton(
+                    icon: CustomIcons.carousel_view,
+                    isSelected: !isGrid,
+                    onTap: () => togglePhoneGroupView(0),
+                    size: 18.0,
                   ),
-                );
+                  PhoneGroupViewPickerButton(
+                    icon: LineAwesomeIcons.th_large,
+                    isSelected: isGrid,
+                    onTap: () => togglePhoneGroupView(1),
+                  ),
+                ],
+              );
+            }
+
+            return view();
           },
         ),
-      ),
+      ],
+    );
+  }
+
+  Stack buildBody() {
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.only(top: 55.0),
+          child: HomeVerticalTabs(
+            tabsPageController: tabsPageController,
+            phoneGridController: phoneGridController,
+            phoneCarouselController: phoneCarouselController,
+          ),
+        ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: HomeSearchWidget(
+            tabsPageController: tabsPageController,
+            phoneGridController: phoneGridController,
+            phoneCarouselController: phoneCarouselController,
+          ),
+        ),
+      ],
+    );
+  }
+
+  FloatingActionButton buildFAB() {
+    void onFABPressed() {
+      Provider.of<GalleryProvider>(context).loadGallery().then(
+            (galleryItems) => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => GalleryPage()),
+            ),
+          );
+    }
+
+    if (isWideScreen) {
+      return FloatingActionButton.extended(
+        label: Text(
+          'Gallery',
+          style: kTitleTextStyle,
+        ),
+        icon: Icon(LineAwesomeIcons.image),
+        onPressed: onFABPressed,
+      );
+    }
+    return FloatingActionButton(
+      child: Icon(LineAwesomeIcons.image),
+      onPressed: onFABPressed,
     );
   }
 }

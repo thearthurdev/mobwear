@@ -4,12 +4,14 @@ import 'package:mobwear/utils/constants.dart';
 class ElevatedCard extends StatelessWidget {
   final Widget child;
   final Color color;
-  final double cornerRadius;
+  final double width, height, cornerRadius;
   final EdgeInsetsGeometry padding, margin;
 
   const ElevatedCard({
     this.child,
     this.color,
+    this.width,
+    this.height,
     this.cornerRadius,
     this.padding,
     this.margin,
@@ -18,6 +20,8 @@ class ElevatedCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: width ?? null,
+      height: height ?? null,
       margin: margin,
       padding: padding,
       decoration: BoxDecoration(

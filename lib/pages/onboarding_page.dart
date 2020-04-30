@@ -59,7 +59,7 @@ class OnboardingPage extends StatefulWidget {
 class _OnboardingPageState extends State<OnboardingPage> {
   int currentPage;
   bool isSwipeLeft, isLastSlide, isDone, isWideScreen;
-  PageController controller;
+  PageController controller1, controller2, currentController;
 
   @override
   void initState() {
@@ -69,8 +69,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
     isLastSlide = false;
     isDone = false;
     isWideScreen = false;
-    controller = PageController();
-    controller.addListener(handleSwipes);
+    controller1 = PageController();
+    controller2 = PageController();
+    controller1.addListener(handleSwipes);
+    controller2.addListener(handleSwipes);
     OnboardingSlide.loadImageAssets(context);
   }
 
@@ -81,9 +83,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   void handleSwipes() {
-    if (controller.position.userScrollDirection == ScrollDirection.reverse) {
+    if (currentController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
       if (isSwipeLeft == false) setState(() => isSwipeLeft = true);
-    } else if (controller.position.userScrollDirection ==
+    } else if (currentController.position.userScrollDirection ==
         ScrollDirection.forward) {
       if (isSwipeLeft == true) setState(() => isSwipeLeft = false);
     }
@@ -91,13 +94,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   void dispose() {
-    controller.dispose();
+    controller1.dispose();
+    controller2.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     isWideScreen = kDeviceWidth(context) >= kDeviceHeight(context);
+    currentController = isWideScreen ? controller2 : controller1;
 
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
@@ -113,77 +118,91 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 : Brightness.light,
       ),
       child: Scaffold(
-        body: SafeArea(
-          child: isWideScreen ? wideScreenLayout() : normalLayout(),
+        body: AnimatedContainer(
+          duration: Duration(milliseconds: 500),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors:
+                  OnboardingSlide.slides.elementAt(currentPage).cardGradient,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: SafeArea(
+            child: isWideScreen ? buildWideScreenLayout() : buildNormalLayout(),
+          ),
         ),
       ),
     );
   }
 
-  Widget wideScreenLayout() {
-    return Padding(
-      padding: EdgeInsets.all(kScreenAwareSize(36.0, context)),
-      child: Stack(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.topLeft,
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 40.0, vertical: 26.0),
-              height: 30.0,
-              child: pageIndicator(),
-            ),
+  Widget buildWideScreenLayout() {
+    return Stack(
+      children: <Widget>[
+        Positioned(
+          top: kScreenAwareSize(100.0, context),
+          left: kScreenAwareSize(90.0, context),
+          child: Container(
+            height: 30.0,
+            child: pageIndicator(),
           ),
-          PageView(
-            controller: controller,
-            onPageChanged: (i) => setState(() {
-              currentPage = i;
-              isLastSlide = currentPage == 2 ? true : false;
-            }),
-            children: List.generate(
-              3,
-              (i) {
-                return Row(
+        ),
+        pageView(
+          controller: controller2,
+          child: (i) => Center(
+            child: Padding(
+              padding: EdgeInsets.all(
+                kScreenAwareSize(48.0, context),
+              ),
+              child: Center(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.fromLTRB(40.0, 80.0, 0.0, 0.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          titleText(title: OnboardingSlide.slides[i].title),
-                          SizedBox(height: 40.0),
-                          ShowUp(
-                            direction: isSwipeLeft
-                                ? ShowUpFrom.right
-                                : ShowUpFrom.left,
-                            delay: 50,
-                            child: actionButton(context),
-                          ),
-                        ],
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                          left: kScreenAwareSize(40.0, context),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            titleText(OnboardingSlide.slides[i].title),
+                            SizedBox(height: 16.0),
+                            subtitleText(OnboardingSlide.slides[i].subtitle),
+                          ],
+                        ),
                       ),
                     ),
-                    Container(
-                      // color: Colors.teal,
-                      padding: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 0.0),
-                      child: onboardingSlide(
-                        subtitle: OnboardingSlide.slides[i].subtitle,
-                        imageAsset: OnboardingSlide.slides[i].imageAsset,
-                        cardGradient: OnboardingSlide.slides[i].cardGradient,
+                    Expanded(
+                      child: Container(
+                        // color: Colors.teal,
+                        child: slideImage(
+                          subtitle: OnboardingSlide.slides[i].subtitle,
+                          imageAsset: OnboardingSlide.slides[i].imageAsset,
+                          cardGradient: OnboardingSlide.slides[i].cardGradient,
+                        ),
                       ),
                     ),
                   ],
-                );
-              },
+                ),
+              ),
             ),
           ),
-        ],
-      ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            margin: EdgeInsets.only(bottom: kScreenAwareSize(30.0, context)),
+            child: actionButton(context),
+          ),
+        ),
+      ],
     );
   }
 
-  Widget normalLayout() {
+  Widget buildNormalLayout() {
     return Stack(
       children: <Widget>[
         Align(
@@ -194,42 +213,61 @@ class _OnboardingPageState extends State<OnboardingPage> {
             child: pageIndicator(),
           ),
         ),
-        PageView(
-          controller: controller,
-          onPageChanged: (i) => setState(() {
-            currentPage = i;
-            isLastSlide = currentPage == 2 ? true : false;
-          }),
-          children: List.generate(
-            3,
-            (i) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(40.0, 60.0, 0.0, 0.0),
-                    child: titleText(title: OnboardingSlide.slides[i].title),
-                  ),
-                  Expanded(
-                    child: onboardingSlide(
+        Container(
+          margin: EdgeInsets.only(bottom: kScreenAwareSize(60.0, context)),
+          child: pageView(
+            controller: controller1,
+            child: (i) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(40.0, 60.0, 0.0, 0.0),
+                  child: titleText(OnboardingSlide.slides[i].title),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(40.0, 16.0, 16.0, 0.0),
+                  child: subtitleText(OnboardingSlide.slides[i].subtitle),
+                ),
+                Expanded(
+                  child: Center(
+                    child: slideImage(
                       subtitle: OnboardingSlide.slides[i].subtitle,
                       imageAsset: OnboardingSlide.slides[i].imageAsset,
                       cardGradient: OnboardingSlide.slides[i].cardGradient,
                     ),
                   ),
-                ],
-              );
-            },
+                ),
+              ],
+            ),
           ),
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: ShowUp(
-            delay: 400,
-            child: actionButton(context),
+          child: Padding(
+            padding: EdgeInsets.only(bottom: kScreenAwareSize(8.0, context)),
+            child: ShowUp(
+              delay: 400,
+              child: actionButton(context),
+            ),
           ),
         ),
       ],
+    );
+  }
+
+  PageView pageView({Widget child(int i), PageController controller}) {
+    return PageView(
+      controller: controller,
+      onPageChanged: (i) => setState(() {
+        currentPage = i;
+        isLastSlide = currentPage == 2 ? true : false;
+      }),
+      children: List.generate(
+        3,
+        (i) {
+          return child(i);
+        },
+      ),
     );
   }
 
@@ -237,6 +275,67 @@ class _OnboardingPageState extends State<OnboardingPage> {
     return PageIndicator(
       currentSelectionIndex: currentPage,
       dotSize: isWideScreen ? 20.0 : null,
+      selectedColor: Colors.white,
+      unselectedColor: Colors.white24,
+    );
+  }
+
+  Widget titleText(String title) {
+    return ShowUp(
+      direction: isSwipeLeft ? ShowUpFrom.right : ShowUpFrom.left,
+      delay: 50,
+      child: Text(
+        title,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: kScreenAwareSize(isWideScreen ? 60.0 : 40.0, context),
+          fontFamily: 'Righteous',
+          letterSpacing: 1.5,
+        ),
+      ),
+    );
+  }
+
+  Widget subtitleText(String subtitle) {
+    return ShowUp(
+      direction: isSwipeLeft ? ShowUpFrom.right : ShowUpFrom.left,
+      delay: 50,
+      child: Text(
+        subtitle,
+        maxLines: 4,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.start,
+        style: kTitleTextStyle.copyWith(
+          fontSize: kScreenAwareSize(isWideScreen ? 20.0 : 14.0, context),
+          letterSpacing: 1.5,
+          color: Colors.white.withOpacity(0.8),
+        ),
+      ),
+    );
+  }
+
+  Widget slideImage({
+    @required String subtitle,
+    @required String imageAsset,
+    @required List<Color> cardGradient,
+  }) {
+    return ShowUp(
+      direction: isSwipeLeft ? ShowUpFrom.right : ShowUpFrom.left,
+      child: Container(
+        padding: EdgeInsets.all(kScreenAwareSize(24.0, context)),
+        constraints: BoxConstraints(
+          maxWidth: kScreenAwareSize(400.0, context),
+          maxHeight: kScreenAwareSize(400.0, context),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(imageAsset),
+              fit: BoxFit.scaleDown,
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -250,20 +349,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
           : kScreenAwareSize(50.0, context),
       margin: EdgeInsets.only(bottom: 16.0),
       decoration: BoxDecoration(
-        color: kBrightnessAwareColor(
-          context,
-          lightColor: Colors.white,
-          darkColor: isWideScreen ? Colors.white : Colors.black,
-        ),
-        // color: Colors.teal,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(
           kScreenAwareSize(16.0, context),
         ),
         boxShadow: [
           BoxShadow(
-            color: kBrightnessAwareColor(context,
-                lightColor: Colors.blueGrey.withOpacity(0.2),
-                darkColor: Colors.grey[900].withOpacity(0.15)),
+            color: Colors.grey[900].withOpacity(0.15),
             blurRadius: 10.0,
             offset: Offset(5.0, 6.0),
           ),
@@ -276,25 +368,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
           onTap: onButtonPressed,
           child: Center(
             child: isDone
-                ? CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      kBrightnessAwareColor(
-                        context,
-                        lightColor: Colors.black,
-                        darkColor: isWideScreen ? Colors.black : Colors.white,
-                      ),
+                ? Container(
+                    width: kScreenAwareSize(40.0, context),
+                    height: kScreenAwareSize(40.0, context),
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
                     ),
                   )
                 : Text(
                     isLastSlide ? 'Get Started' : 'Next',
                     style: kTitleTextStyle.copyWith(
-                      color: kBrightnessAwareColor(
-                        context,
-                        lightColor: Colors.black,
-                        darkColor: isWideScreen ? Colors.black : Colors.white,
-                      ),
+                      color: Colors.black,
                       fontWeight: FontWeight.w900,
-                      fontSize: 16.0,
+                      fontSize: kScreenAwareSize(18.0, context),
                     ),
                   ),
           ),
@@ -313,94 +399,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
         );
       });
 
-      Box settingsBox = SettingsDatabase.settingsBox;
-      settingsBox.put(SettingsDatabase.initLaunchKey, 1);
+      // Box settingsBox = SettingsDatabase.settingsBox;
+      // settingsBox.put(SettingsDatabase.initLaunchKey, 1);
     } else {
       setState(() => isSwipeLeft = true);
-      controller.animateToPage(
+      currentController.animateToPage(
         currentPage + 1,
         duration: Duration(milliseconds: 300),
         curve: Curves.decelerate,
       );
     }
-  }
-
-  Widget titleText({String title}) {
-    return ShowUp(
-      direction: isSwipeLeft ? ShowUpFrom.right : ShowUpFrom.left,
-      delay: 50,
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: kScreenAwareSize(isWideScreen ? 70.0 : 40.0, context),
-          fontFamily: 'Righteous',
-          letterSpacing: 1.5,
-        ),
-      ),
-    );
-  }
-
-  Widget onboardingSlide({
-    @required String subtitle,
-    @required String imageAsset,
-    @required List<Color> cardGradient,
-  }) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: kScreenAwareSize(40.0, context),
-        vertical: kScreenAwareSize(26.0, context),
-      ),
-      child: ShowUp(
-        direction: isSwipeLeft ? ShowUpFrom.right : ShowUpFrom.left,
-        child: Container(
-          padding: EdgeInsets.all(16.0),
-          margin: EdgeInsets.only(bottom: 16.0),
-          constraints: BoxConstraints(
-            maxWidth: kScreenAwareSize(400.0, context),
-          ),
-          decoration: BoxDecoration(
-            borderRadius:
-                BorderRadius.circular(kScreenAwareSize(35.0, context)),
-            gradient: LinearGradient(
-              colors: cardGradient,
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(
-                    kScreenAwareSize(isWideScreen ? 16.0 : 12.0, context)),
-                child: Text(
-                  subtitle,
-                  maxLines: 4,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.start,
-                  style: kTitleTextStyle.copyWith(
-                    fontSize:
-                        kScreenAwareSize(isWideScreen ? 22.0 : 16.0, context),
-                    letterSpacing: 1.5,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 4,
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(imageAsset),
-                      fit: BoxFit.scaleDown,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: kScreenAwareSize(16.0, context)),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

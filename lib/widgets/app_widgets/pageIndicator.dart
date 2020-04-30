@@ -6,12 +6,15 @@ class IndicatorDot extends StatelessWidget {
   final BuildContext context;
   final Function onPressed;
   final double size;
+  final Color selectedColor, unselectedColor;
 
   const IndicatorDot({
     this.isSelected = false,
     this.context,
     this.onPressed,
     this.size,
+    this.selectedColor,
+    this.unselectedColor,
   });
 
   @override
@@ -29,11 +32,13 @@ class IndicatorDot extends StatelessWidget {
           height: kScreenAwareSize(size ?? 10.0, context),
           decoration: BoxDecoration(
               color: isSelected
-                  ? kBrightnessAwareColor(context,
-                      lightColor: Colors.black, darkColor: Colors.white)
-                  : kBrightnessAwareColor(context,
-                      lightColor: Colors.grey[350],
-                      darkColor: Colors.grey[800]),
+                  ? selectedColor ??
+                      kBrightnessAwareColor(context,
+                          lightColor: Colors.black, darkColor: Colors.white)
+                  : unselectedColor ??
+                      kBrightnessAwareColor(context,
+                          lightColor: Colors.grey[350],
+                          darkColor: Colors.grey[800]),
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
@@ -54,8 +59,14 @@ class IndicatorDot extends StatelessWidget {
 class PageIndicator extends StatefulWidget {
   final int currentSelectionIndex;
   final double dotSize;
+  final Color selectedColor, unselectedColor;
 
-  const PageIndicator({this.currentSelectionIndex, this.dotSize});
+  const PageIndicator({
+    this.currentSelectionIndex,
+    this.dotSize,
+    this.selectedColor,
+    this.unselectedColor,
+  });
 
   @override
   _PageIndicatorState createState() => _PageIndicatorState();
@@ -73,6 +84,8 @@ class _PageIndicatorState extends State<PageIndicator> {
           isSelected: index == widget.currentSelectionIndex,
           context: context,
           size: widget.dotSize ?? null,
+          selectedColor: widget.selectedColor,
+          unselectedColor: widget.unselectedColor,
         );
       },
     );

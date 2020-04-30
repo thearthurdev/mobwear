@@ -72,7 +72,7 @@ class _EditPhonePageState extends State<EditPhonePage>
           onDismiss: () {
             flipCardKey.currentState.controller.reverse();
             flipCardKey.currentState.isFront = true;
-            settingsBox.put(SettingsDatabase.flipPhoneTipKey, 1);
+            // settingsBox.put(SettingsDatabase.flipPhoneTipKey, 1);
             if (showSwipeTip) showSwipeTipFlushbar();
           },
         );
@@ -86,7 +86,7 @@ class _EditPhonePageState extends State<EditPhonePage>
         context,
         title: 'Tip: Reset, Copy & Paste',
         message: 'Swipe left or right on a card to access more actions',
-        onDismiss: () => settingsBox.put(SettingsDatabase.swipeCardTipKey, 1),
+        // onDismiss: () => settingsBox.put(SettingsDatabase.swipeCardTipKey, 1),
       );
     }
 
@@ -123,7 +123,8 @@ class _EditPhonePageState extends State<EditPhonePage>
 
   @override
   Widget build(BuildContext context) {
-    isWideScreen = kIsWideScreen(context);
+    isWideScreen = kIsWideScreen(context) ||
+        kDeviceWidth(context) >= kDeviceHeight(context);
     currentController = isWideScreen ? scrollController2 : scrollController1;
 
     Provider.of<CustomizationProvider>(context).setCurrentPhoneData(
@@ -173,13 +174,13 @@ class _EditPhonePageState extends State<EditPhonePage>
           }
         },
       ),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(LineAwesomeIcons.database),
-          onPressed: () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => DataPage())),
-        ),
-      ],
+      // actions: <Widget>[
+      //   IconButton(
+      //     icon: Icon(LineAwesomeIcons.database),
+      //     onPressed: () => Navigator.push(
+      //         context, MaterialPageRoute(builder: (context) => DataPage())),
+      //   ),
+      // ],
     );
   }
 
@@ -193,11 +194,13 @@ class _EditPhonePageState extends State<EditPhonePage>
 
   Widget buildWideScreenLayout() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Expanded(
           flex: 2,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 24.0),
+            // padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 24.0),
+            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
             child: buildPhone(),
           ),
         ),
@@ -261,6 +264,14 @@ class _EditPhonePageState extends State<EditPhonePage>
       itemCount: colors.length,
       controller: scrollController2,
       physics: isWideScreen ? null : NeverScrollableScrollPhysics(),
+      padding: isWideScreen
+          ? EdgeInsets.fromLTRB(
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+            )
+          : null,
       shrinkWrap: true,
       itemBuilder: (context, i) {
         return CustomizationPickerTile(
