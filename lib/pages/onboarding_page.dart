@@ -103,19 +103,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
   Widget build(BuildContext context) {
     isWideScreen = kDeviceWidth(context) >= kDeviceHeight(context);
     currentController = isWideScreen ? controller2 : controller1;
+    print(currentController);
 
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: kThemeBrightness(context) == Brightness.light
-            ? Brightness.dark
-            : Brightness.light,
-        systemNavigationBarColor: kBrightnessAwareColor(context,
-            lightColor: Colors.white, darkColor: Colors.black),
-        systemNavigationBarIconBrightness:
-            kThemeBrightness(context) == Brightness.light
-                ? Brightness.dark
-                : Brightness.light,
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.black,
+        systemNavigationBarIconBrightness: Brightness.light,
       ),
       child: Scaffold(
         body: AnimatedContainer(
@@ -245,10 +240,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
           alignment: Alignment.bottomCenter,
           child: Padding(
             padding: EdgeInsets.only(bottom: kScreenAwareSize(8.0, context)),
-            child: ShowUp(
-              delay: 400,
-              child: actionButton(context),
-            ),
+            child: actionButton(context),
           ),
         ),
       ],
@@ -340,49 +332,56 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   Widget actionButton(BuildContext context) {
-    return Container(
-      width: isWideScreen
-          ? kScreenAwareSize(220.0, context)
-          : kDeviceWidth(context) - kScreenAwareSize(150.0, context),
-      height: isWideScreen
-          ? kScreenAwareSize(70.0, context)
-          : kScreenAwareSize(50.0, context),
-      margin: EdgeInsets.only(bottom: 16.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(
-          kScreenAwareSize(16.0, context),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey[900].withOpacity(0.15),
-            blurRadius: 10.0,
-            offset: Offset(5.0, 6.0),
+    return ShowUp(
+      delay: 400,
+      child: Container(
+        width: isWideScreen
+            ? kScreenAwareSize(220.0, context)
+            : kScreenAwareSize(140.0, context),
+        height: isWideScreen
+            ? kScreenAwareSize(70.0, context)
+            : kScreenAwareSize(45.0, context),
+        margin: EdgeInsets.only(bottom: 16.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(
+            kScreenAwareSize(16.0, context),
           ),
-        ],
-      ),
-      child: Material(
-        type: MaterialType.transparency,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(kScreenAwareSize(16.0, context)),
-          onTap: onButtonPressed,
-          child: Center(
-            child: isDone
-                ? Container(
-                    width: kScreenAwareSize(40.0, context),
-                    height: kScreenAwareSize(40.0, context),
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey[900].withOpacity(0.15),
+              blurRadius: 10.0,
+              offset: Offset(5.0, 6.0),
+            ),
+          ],
+        ),
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            borderRadius:
+                BorderRadius.circular(kScreenAwareSize(16.0, context)),
+            onTap: onButtonPressed,
+            child: Center(
+              child: isDone
+                  ? Container(
+                      width:
+                          kScreenAwareSize(isWideScreen ? 40.0 : 25.0, context),
+                      height:
+                          kScreenAwareSize(isWideScreen ? 40.0 : 25.0, context),
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                      ),
+                    )
+                  : Text(
+                      isLastSlide ? 'Get Started' : 'Next',
+                      style: kTitleTextStyle.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w900,
+                        fontSize: kScreenAwareSize(
+                            isWideScreen ? 18.0 : 12.0, context),
+                      ),
                     ),
-                  )
-                : Text(
-                    isLastSlide ? 'Get Started' : 'Next',
-                    style: kTitleTextStyle.copyWith(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w900,
-                      fontSize: kScreenAwareSize(18.0, context),
-                    ),
-                  ),
+            ),
           ),
         ),
       ),
@@ -399,8 +398,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
         );
       });
 
-      // Box settingsBox = SettingsDatabase.settingsBox;
-      // settingsBox.put(SettingsDatabase.initLaunchKey, 1);
+      Box settingsBox = SettingsDatabase.settingsBox;
+      settingsBox.put(SettingsDatabase.initLaunchKey, 1);
     } else {
       setState(() => isSwipeLeft = true);
       currentController.animateToPage(

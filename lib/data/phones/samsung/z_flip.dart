@@ -190,134 +190,134 @@ class ZFlip extends StatelessWidget {
 
     return FittedBox(
       child: Container(
+        height: 516.0,
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              BackPanel(
-                width: 195.0,
-                height: 215.0,
-                bezelsWidth: 0.5,
-                backPanelColor: topBezelsColor,
-                bezelsColor: topBezelsColor,
-                leftButtons: leftButtons(false),
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(24.0),
-                  bottom: Radius.circular(6.0),
-                ),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment(0.0, -0.98),
-                      child: BackPanel(
-                        width: 193.0,
-                        height: 204.0,
-                        bezelsWidth: 0.5,
-                        noButtons: true,
-                        backPanelColor: topPanelColor,
-                        bezelsColor: topBezelsColor,
-                        texture: topPanelTexture,
-                        textureBlendColor: topPanelTextureBlendColor,
-                        textureBlendMode: topPanelTextureBlendMode,
-                        leftButtons: leftButtons(false),
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(24.0),
-                          bottom: Radius.circular(6.0),
+              Flexible(
+                child: BackPanel(
+                  width: 230.0,
+                  height: 256.5,
+                  bezelsWidth: 0.5,
+                  backPanelColor: topBezelsColor,
+                  bezelsColor: topBezelsColor,
+                  leftButtons: leftButtons(false),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(24.0),
+                    bottom: Radius.circular(6.0),
+                  ),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment(0.0, -0.98),
+                        child: BackPanel(
+                          height: 244.0,
+                          bezelsWidth: 0.5,
+                          noButtons: true,
+                          backPanelColor: topPanelColor,
+                          bezelsColor: topBezelsColor,
+                          texture: topPanelTexture,
+                          textureBlendColor: topPanelTextureBlendColor,
+                          textureBlendMode: topPanelTextureBlendMode,
+                          leftButtons: leftButtons(false),
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(24.0),
+                            bottom: Radius.circular(6.0),
+                          ),
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: BackPanelGradient(
-                        width: 200.0,
-                        height: 510.0,
-                        stops: [0.0, 0.02, 0.06, 0.2, 0.8, 0.94, 0.98, 1.0],
-                        backPanelColor: topPanelColor,
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(24.0),
-                          bottom: Radius.circular(6.0),
+                      Align(
+                        alignment: Alignment.center,
+                        child: BackPanelGradient(
+                          stops: [0.0, 0.02, 0.06, 0.2, 0.8, 0.94, 0.98, 1.0],
+                          backPanelColor: topPanelColor,
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(24.0),
+                            bottom: Radius.circular(6.0),
+                          ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      top: 16.0,
-                      left: 16.0,
-                      child: cameraBump,
-                    ),
-                    Positioned(
-                      top: 27.0,
-                      left: 82.0,
-                      child: Flash(
-                        width: 8.0,
-                        height: 10.0,
+                      Positioned(
+                        top: 16.0,
+                        left: 16.0,
+                        child: cameraBump,
                       ),
-                    ),
-                    Positioned(
-                      top: 16.0,
-                      right: 16.0,
-                      child: Container(
-                        width: 70.0,
-                        height: 30.0,
-                        decoration: BoxDecoration(
-                          color: topPanelTexture == null
-                              ? kEstimateColorFromColorBrightness(topPanelColor,
-                                  lightColor: Colors.white.withOpacity(0.03),
-                                  darkColor: Colors.black.withOpacity(0.03))
-                              : topPanelColor,
-                          borderRadius: BorderRadius.circular(10.0),
+                      Positioned(
+                        top: 27.0,
+                        left: 82.0,
+                        child: Flash(
+                          width: 8.0,
+                          height: 10.0,
                         ),
                       ),
-                    ),
-                  ],
+                      Positioned(
+                        top: 16.0,
+                        right: 16.0,
+                        child: Container(
+                          width: 70.0,
+                          height: 30.0,
+                          decoration: BoxDecoration(
+                            color: topPanelTexture == null
+                                ? kEstimateColorFromColorBrightness(
+                                    topPanelColor,
+                                    lightColor: Colors.white.withOpacity(0.03),
+                                    darkColor: Colors.black.withOpacity(0.03))
+                                : topPanelColor,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              BackPanel(
-                width: 195.0,
-                height: 215.0,
-                bezelsWidth: 0.5,
-                backPanelColor: bottomBezelsColor,
-                bezelsColor: bottomBezelsColor,
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(6.0),
-                  bottom: Radius.circular(24.0),
-                ),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment(0.0, 0.98),
-                      child: BackPanel(
-                        width: 193.0,
-                        height: 204.0,
-                        bezelsWidth: 0.5,
-                        noButtons: true,
-                        backPanelColor: bottomPanelColor,
-                        bezelsColor: bottomBezelsColor,
-                        texture: bottomPanelTexture,
-                        textureBlendColor: bottomPanelTextureBlendColor,
-                        textureBlendMode: bottomPanelTextureBlendMode,
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(6.0),
-                          bottom: Radius.circular(24.0),
+              Flexible(
+                child: BackPanel(
+                  width: 230.0,
+                  height: 256.5,
+                  bezelsWidth: 0.5,
+                  backPanelColor: bottomBezelsColor,
+                  bezelsColor: bottomBezelsColor,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(6.0),
+                    bottom: Radius.circular(24.0),
+                  ),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment(0.0, 0.98),
+                        child: BackPanel(
+                          height: 244.0,
+                          bezelsWidth: 0.5,
+                          noButtons: true,
+                          backPanelColor: bottomPanelColor,
+                          bezelsColor: bottomBezelsColor,
+                          texture: bottomPanelTexture,
+                          textureBlendColor: bottomPanelTextureBlendColor,
+                          textureBlendMode: bottomPanelTextureBlendMode,
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(6.0),
+                            bottom: Radius.circular(24.0),
+                          ),
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: BackPanelGradient(
-                        width: 195.0,
-                        height: 215.0,
-                        stops: [0.0, 0.02, 0.06, 0.2, 0.8, 0.94, 0.98, 1.0],
-                        backPanelColor: topPanelColor,
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(6.0),
-                          bottom: Radius.circular(24.0),
+                      Align(
+                        alignment: Alignment.center,
+                        child: BackPanelGradient(
+                          stops: [0.0, 0.02, 0.06, 0.2, 0.8, 0.94, 0.98, 1.0],
+                          backPanelColor: topPanelColor,
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(6.0),
+                            bottom: Radius.circular(24.0),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],

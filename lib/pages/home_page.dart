@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    isWideScreen = kIsWideScreen(context) && kDeviceHeight(context) > 400.0;
+    isWideScreen = kIsWideScreen(context) && kDeviceHeight(context) > 500.0;
 
     Provider.of<SettingsProvider>(context).loadAutoPlay();
 
@@ -136,27 +136,29 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Stack buildBody() {
-    return Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(top: 55.0),
-          child: HomeVerticalTabs(
-            tabsPageController: tabsPageController,
-            phoneGridController: phoneGridController,
-            phoneCarouselController: phoneCarouselController,
+  Widget buildBody() {
+    return SafeArea(
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(top: 55.0),
+            child: HomeVerticalTabs(
+              tabsPageController: tabsPageController,
+              phoneGridController: phoneGridController,
+              phoneCarouselController: phoneCarouselController,
+            ),
           ),
-        ),
-        Align(
-          alignment: Alignment.topCenter,
-          child: HomeSearchWidget(
-            tabsPageController: tabsPageController,
-            phoneGridController: phoneGridController,
-            phoneCarouselController: phoneCarouselController,
+          Align(
+            alignment: Alignment.topCenter,
+            child: HomeSearchWidget(
+              tabsPageController: tabsPageController,
+              phoneGridController: phoneGridController,
+              phoneCarouselController: phoneCarouselController,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

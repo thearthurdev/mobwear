@@ -214,10 +214,11 @@ class Fold extends StatelessWidget {
         child: Center(
           child: Row(
             mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               BackPanel(
                 width: 180.0,
-                height: 490.0,
+                height: 510.0,
                 bezelsWidth: 0.5,
                 backPanelColor: backPanelColor,
                 bezelsColor: backBezelsColor,
@@ -261,7 +262,7 @@ class Fold extends StatelessWidget {
               editPageOpen
                   ? BackPanel(
                       width: 180.0,
-                      height: 490.0,
+                      height: 510.0,
                       bezelsWidth: 0.5,
                       backPanelColor: frontPanelColor,
                       bezelsColor: frontBezelsColor,
@@ -329,7 +330,7 @@ class Fold extends StatelessWidget {
                     )
                   : BackPanel(
                       width: 6.0,
-                      height: 480.0,
+                      height: 500.0,
                       bezelsWidth: 0.5,
                       backPanelColor: Colors.grey[900],
                       bezelsColor: Colors.grey[900],

@@ -42,27 +42,19 @@ class PictureModePage extends StatefulWidget {
 class _PictureModePageState extends State<PictureModePage> {
   Matrix4 matrix;
   GlobalKey matrixDetectorKey = GlobalKey();
+  GlobalKey captureKey = GlobalKey();
+  Box settingsBox = SettingsDatabase.settingsBox;
   Color initRandomColor, backgroundColor;
   MyTexture backgroundTexture;
   bool isCapturing = false;
-  bool isWideScreen;
-  GlobalKey captureKey = GlobalKey();
-
-  Map<String, IconData> picEditActions = {
-    'Background': LineAwesomeIcons.photo,
-    'Watermark': LineAwesomeIcons.tint,
-    'AspectRatio': CustomIcons.aspect_ratio2,
-    'Reset': LineAwesomeIcons.refresh,
-  };
-
-  static Box settingsBox = SettingsDatabase.settingsBox;
-  bool showMoveTip = settingsBox.get(SettingsDatabase.movePhoneTipKey) != 1;
+  bool isWideScreen, isLargeScreen, showMoveTip;
 
   @override
   void initState() {
     super.initState();
     matrix = Matrix4.identity();
     initRandomColor = Colors.primaries[Random().nextInt(15)];
+    showMoveTip = settingsBox.get(SettingsDatabase.movePhoneTipKey) != 1;
     WidgetsBinding.instance.addPostFrameCallback((_) => showMoveTipFlushbar());
   }
 
@@ -81,7 +73,9 @@ class _PictureModePageState extends State<PictureModePage> {
 
   @override
   Widget build(BuildContext context) {
-    isWideScreen = kIsWideScreen(context);
+    isWideScreen = kIsWideScreen(context) ||
+        kDeviceWidth(context) >= kDeviceHeight(context);
+    isLargeScreen = kDeviceHeight(context) >= 400.0;
 
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
@@ -111,6 +105,82 @@ class _PictureModePageState extends State<PictureModePage> {
     );
   }
 
+  Widget buildBody() {
+    if (isWideScreen) {
+      return buildWideScreenLayout();
+    }
+    return buildNormalLayout();
+  }
+
+  Widget buildWideScreenLayout() {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: buildAppBar(),
+      floatingActionButton: isLargeScreen ? buildFAB() : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      body: SafeArea(
+        top: false,
+        bottom: false,
+        child: Center(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Flexible(
+                child: Container(
+                  margin: EdgeInsets.all(
+                    kScreenAwareSize(8.0, context),
+                  ),
+                  child: buildPictureCanvas(),
+                ),
+              ),
+              Flexible(
+                child: Container(
+                  margin: EdgeInsets.only(
+                    right: kScreenAwareSize(24.0, context),
+                  ),
+                  child: buildActionTileList(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildNormalLayout() {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: buildAppBar(),
+      body: buildPictureCanvas(),
+      floatingActionButton: buildFAB(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: buildBottomAppBar(),
+    );
+  }
+
+  Widget saveIcon() {
+    if (isCapturing) {
+      return Container(
+        height: 24.0,
+        width: 24.0,
+        padding: EdgeInsets.all(4.5),
+        child: CircularProgressIndicator(
+          strokeWidth: 1.5,
+          valueColor: AlwaysStoppedAnimation<Color>(
+            kBrightnessAwareColor(
+              context,
+              lightColor: Colors.white,
+              darkColor: isLargeScreen ? Colors.black : Colors.white,
+            ),
+          ),
+        ),
+      );
+    }
+    return Icon(LineAwesomeIcons.save);
+  }
+
   AppBar buildAppBar() {
     return AppBar(
       title: Material(
@@ -131,83 +201,14 @@ class _PictureModePageState extends State<PictureModePage> {
           Navigator.pop(context);
         },
       ),
-    );
-  }
-
-  Widget buildBody() {
-    if (isWideScreen) {
-      return buildWideScreenLayout();
-    }
-
-    return buildNormalLayout();
-  }
-
-  Widget buildWideScreenLayout() {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: buildAppBar(),
-      body: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 5,
-            child: buildPictureCanvas(),
-          ),
-          Expanded(
-            flex: 3,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Column(
-                children: List.generate(
-                  picEditActions.length + 1,
-                  (i) {
-                    if (i == picEditActions.length) {
-                      return Container(
-                        margin: EdgeInsets.all(8.0),
-                        child: buildFAB(context),
-                      );
-                    }
-                    return ShowUp(
-                      delay: 100 * i,
-                      child: ElevatedCard(
-                        margin: EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 16.0),
-                        child: Material(
-                          type: MaterialType.transparency,
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(10.0),
-                            onTap: () => onItemSelected(i),
-                            child: ListTile(
-                              title: Text(picEditActions.keys.elementAt(i),
-                                  style: kTitleTextStyle),
-                              trailing: Icon(
-                                picEditActions.values.elementAt(i),
-                                color: kBrightnessAwareColor(context,
-                                    lightColor: Colors.black,
-                                    darkColor: Colors.white),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
+      actions: isLargeScreen
+          ? null
+          : <Widget>[
+              IconButton(
+                icon: saveIcon(),
+                onPressed: () => saveImage(),
               ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildNormalLayout() {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: buildAppBar(),
-      body: buildPictureCanvas(),
-      floatingActionButton: buildFAB(context),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: buildBottomAppBar(),
+            ],
     );
   }
 
@@ -227,38 +228,57 @@ class _PictureModePageState extends State<PictureModePage> {
     );
   }
 
-  FloatingActionButton buildFAB(BuildContext context) {
-    Widget fabIcon = isCapturing
-        ? Container(
-            height: 24.0,
-            width: 24.0,
-            padding: EdgeInsets.all(4.5),
-            child: CircularProgressIndicator(
-              strokeWidth: 1.5,
-              valueColor: AlwaysStoppedAnimation<Color>(
-                kBrightnessAwareColor(context,
-                    lightColor: Colors.white, darkColor: Colors.black),
-              ),
-            ),
-          )
-        : Icon(LineAwesomeIcons.save);
-
+  Widget buildFAB() {
     if (isWideScreen) {
       return FloatingActionButton.extended(
-        onPressed: () {
-          if (!isCapturing) saveImage();
-        },
         label: Text('Save', style: kTitleTextStyle),
-        icon: fabIcon,
+        icon: saveIcon(),
+        onPressed: () => saveImage(),
       );
     }
     return FloatingActionButton(
-      isExtended: isWideScreen,
       elevation: 2.0,
-      onPressed: () {
-        if (!isCapturing) saveImage();
+      onPressed: () => saveImage(),
+      child: saveIcon(),
+    );
+  }
+
+  ListView buildActionTileList() {
+    Map<String, IconData> actionIcons = {
+      'Background': LineAwesomeIcons.photo,
+      'Watermark': LineAwesomeIcons.tint,
+      'AspectRatio': CustomIcons.aspect_ratio2,
+      'Reset': LineAwesomeIcons.refresh,
+    };
+
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: actionIcons.length,
+      padding: EdgeInsets.only(bottom: 8.0),
+      itemBuilder: (context, i) {
+        return ShowUp(
+          delay: 100 * i,
+          child: ElevatedCard(
+            margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            child: Material(
+              type: MaterialType.transparency,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(10.0),
+                onTap: () => onItemSelected(i),
+                child: ListTile(
+                  title: Text(actionIcons.keys.elementAt(i),
+                      style: kTitleTextStyle),
+                  trailing: Icon(
+                    actionIcons.values.elementAt(i),
+                    color: kBrightnessAwareColor(context,
+                        lightColor: Colors.black, darkColor: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
       },
-      child: fabIcon,
     );
   }
 
@@ -378,6 +398,7 @@ class _PictureModePageState extends State<PictureModePage> {
     );
   }
 
+//Business Logic
   void onItemSelected(i) {
     int item = i;
     switch (item) {
@@ -397,19 +418,21 @@ class _PictureModePageState extends State<PictureModePage> {
   }
 
   Future<void> saveImage() async {
-    captureImage().then(
-      (imageBytes) {
-        showDialog<Widget>(
-          context: context,
-          builder: (BuildContext context) => Dialog(
-            child: SaveImageDialog(
-              bytes: imageBytes,
-              phone: widget.phone,
+    if (!isCapturing) {
+      captureImage().then(
+        (imageBytes) {
+          showDialog<Widget>(
+            context: context,
+            builder: (BuildContext context) => Dialog(
+              child: SaveImageDialog(
+                bytes: imageBytes,
+                phone: widget.phone,
+              ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    }
   }
 
   Future<Uint8List> captureImage() async {

@@ -1,4 +1,3 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:mobwear/data/adapters/color_adapter.dart';
@@ -89,8 +88,8 @@ class MobWear extends StatelessWidget {
           child: child,
         );
       },
-      // locale: DevicePreview.of(context).locale,
       // builder: DevicePreview.appBuilder,
+      // locale: DevicePreview.of(context).locale,
       home: isFirstLaunch ? OnboardingPage() : HomePage(),
       routes: {
         SettingsPage.id: (context) => SettingsPage(),

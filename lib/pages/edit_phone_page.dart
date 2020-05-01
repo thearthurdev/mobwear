@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/database/settings_database.dart';
-import 'package:mobwear/pages/dataPage.dart';
 import 'package:mobwear/pages/picture_mode_page.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
@@ -72,7 +71,7 @@ class _EditPhonePageState extends State<EditPhonePage>
           onDismiss: () {
             flipCardKey.currentState.controller.reverse();
             flipCardKey.currentState.isFront = true;
-            // settingsBox.put(SettingsDatabase.flipPhoneTipKey, 1);
+            settingsBox.put(SettingsDatabase.flipPhoneTipKey, 1);
             if (showSwipeTip) showSwipeTipFlushbar();
           },
         );
@@ -86,7 +85,7 @@ class _EditPhonePageState extends State<EditPhonePage>
         context,
         title: 'Tip: Reset, Copy & Paste',
         message: 'Swipe left or right on a card to access more actions',
-        // onDismiss: () => settingsBox.put(SettingsDatabase.swipeCardTipKey, 1),
+        onDismiss: () => settingsBox.put(SettingsDatabase.swipeCardTipKey, 1),
       );
     }
 
@@ -193,22 +192,24 @@ class _EditPhonePageState extends State<EditPhonePage>
   }
 
   Widget buildWideScreenLayout() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Expanded(
-          flex: 2,
-          child: Padding(
-            // padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 24.0),
-            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-            child: buildPhone(),
+    return Center(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Flexible(
+            child: Container(
+              margin: EdgeInsets.all(
+                kScreenAwareSize(24.0, context),
+              ),
+              child: buildPhone(),
+            ),
           ),
-        ),
-        Expanded(
-          flex: 3,
-          child: buildCustomizationTileList(context),
-        ),
-      ],
+          Flexible(
+            child: buildCustomizationTileList(context),
+          ),
+        ],
+      ),
     );
   }
 
@@ -231,8 +232,14 @@ class _EditPhonePageState extends State<EditPhonePage>
         SliverList(
           delegate: SliverChildListDelegate(
             [
-              buildCustomizationTileList(context),
-              SizedBox(height: 24.0),
+              Container(
+                padding: kDeviceWidth(context) >= kTabletBreakpoint
+                    ? EdgeInsets.symmetric(
+                        horizontal: kScreenAwareSize(60.0, context))
+                    : null,
+                child: buildCustomizationTileList(context),
+              ),
+              SizedBox(height: 16.0),
             ],
           ),
         ),
@@ -261,18 +268,10 @@ class _EditPhonePageState extends State<EditPhonePage>
     Map colors = Provider.of<CustomizationProvider>(context).currentColors;
 
     return ListView.builder(
+      shrinkWrap: true,
       itemCount: colors.length,
       controller: scrollController2,
       physics: isWideScreen ? null : NeverScrollableScrollPhysics(),
-      padding: isWideScreen
-          ? EdgeInsets.fromLTRB(
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-            )
-          : null,
-      shrinkWrap: true,
       itemBuilder: (context, i) {
         return CustomizationPickerTile(
           colors: colors,
