@@ -103,7 +103,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
   Widget build(BuildContext context) {
     isWideScreen = kDeviceWidth(context) >= kDeviceHeight(context);
     currentController = isWideScreen ? controller2 : controller1;
-    print(currentController);
 
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
@@ -345,7 +344,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(
-            kScreenAwareSize(16.0, context),
+            kScreenAwareSize(isWideScreen ? 16.0 : 12.0, context),
           ),
           boxShadow: [
             BoxShadow(

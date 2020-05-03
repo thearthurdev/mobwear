@@ -27,19 +27,19 @@ import 'package:mobwear/widgets/app_widgets/watermark_picker_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
-class PictureModePage extends StatefulWidget {
-  static const String id = '/PictureModePage';
+class CapturePage extends StatefulWidget {
+  static const String id = '/CapturePage';
 
   final dynamic phone;
   final int phoneID;
 
-  PictureModePage({this.phone, this.phoneID});
+  CapturePage({this.phone, this.phoneID});
 
   @override
-  _PictureModePageState createState() => _PictureModePageState();
+  _CapturePageState createState() => _CapturePageState();
 }
 
-class _PictureModePageState extends State<PictureModePage> {
+class _CapturePageState extends State<CapturePage> {
   Matrix4 matrix;
   GlobalKey matrixDetectorKey = GlobalKey();
   GlobalKey captureKey = GlobalKey();
@@ -75,7 +75,7 @@ class _PictureModePageState extends State<PictureModePage> {
   Widget build(BuildContext context) {
     isWideScreen = kIsWideScreen(context) ||
         kDeviceWidth(context) >= kDeviceHeight(context);
-    isLargeScreen = kDeviceHeight(context) >= 400.0;
+    isLargeScreen = kDeviceHeight(context) >= 500.0;
 
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
@@ -129,7 +129,7 @@ class _PictureModePageState extends State<PictureModePage> {
               Flexible(
                 child: Container(
                   margin: EdgeInsets.all(
-                    kScreenAwareSize(8.0, context),
+                    kScreenAwareSize(16.0, context),
                   ),
                   child: buildPictureCanvas(),
                 ),
@@ -192,7 +192,7 @@ class _PictureModePageState extends State<PictureModePage> {
               ? Colors.black
               : Colors.white,
         ),
-        child: Text('Picture Mode'),
+        child: Text('Capture'),
       ),
       centerTitle: true,
       leading: IconButton(
@@ -243,42 +243,50 @@ class _PictureModePageState extends State<PictureModePage> {
     );
   }
 
-  ListView buildActionTileList() {
+  Widget buildActionTileList() {
     Map<String, IconData> actionIcons = {
       'Background': LineAwesomeIcons.photo,
       'Watermark': LineAwesomeIcons.tint,
-      'AspectRatio': CustomIcons.aspect_ratio2,
+      'Aspect Ratio': CustomIcons.aspect_ratio2,
       'Reset': LineAwesomeIcons.refresh,
     };
 
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: actionIcons.length,
-      padding: EdgeInsets.only(bottom: 8.0),
-      itemBuilder: (context, i) {
-        return ShowUp(
-          delay: 100 * i,
-          child: ElevatedCard(
-            margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            child: Material(
-              type: MaterialType.transparency,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(10.0),
-                onTap: () => onItemSelected(i),
-                child: ListTile(
-                  title: Text(actionIcons.keys.elementAt(i),
-                      style: kTitleTextStyle),
-                  trailing: Icon(
-                    actionIcons.values.elementAt(i),
-                    color: kBrightnessAwareColor(context,
-                        lightColor: Colors.black, darkColor: Colors.white),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(
+          actionIcons.length,
+          (i) {
+            return ShowUp(
+              delay: 100 * i,
+              child: ElevatedCard(
+                margin: EdgeInsets.fromLTRB(
+                  16.0,
+                  8.0,
+                  16.0,
+                  i == actionIcons.length - 1 ? 16.0 : 8.0,
+                ),
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(10.0),
+                    onTap: () => onItemSelected(i),
+                    child: ListTile(
+                      title: Text(actionIcons.keys.elementAt(i),
+                          style: kTitleTextStyle),
+                      trailing: Icon(
+                        actionIcons.values.elementAt(i),
+                        color: kBrightnessAwareColor(context,
+                            lightColor: Colors.black, darkColor: Colors.white),
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-        );
-      },
+            );
+          },
+        ),
+      ),
     );
   }
 
@@ -341,57 +349,59 @@ class _PictureModePageState extends State<PictureModePage> {
           : Container();
     }
 
-    return Container(
-      padding: EdgeInsets.only(bottom: 32.0),
-      child: Center(
-        child: Container(
-          padding: const EdgeInsets.all(16.0),
-          child: RepaintBoundary(
-            key: captureKey,
-            child: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                AspectRatio(
-                  aspectRatio: MyAspectRatio
-                      .myAspectRatios[provider.aspectRatioIndex].ratio,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: border,
-                      boxShadow: boxShadow,
-                      color: backgroundImage == null
-                          ? backgroundColor
-                          : Colors.transparent,
-                      image: backgroundImage,
-                    ),
-                    child: MatrixGestureDetector(
-                      key: matrixDetectorKey,
-                      onMatrixUpdate: (m, tm, sm, rm) {
-                        setState(() {
-                          matrix =
-                              MatrixGestureDetector.compose(matrix, tm, sm, rm);
-                        });
-                      },
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: <Widget>[
-                          watermark(),
-                          Transform(
-                            transform: matrix,
-                            child: Container(
-                              padding: EdgeInsets.all(24.0),
-                              child: Hero(
-                                tag: widget.phoneID,
-                                child: widget.phone,
-                              ),
+    return Center(
+      child: Container(
+        padding: EdgeInsets.fromLTRB(
+          16.0,
+          16.0,
+          16.0,
+          isWideScreen ? 16.0 : 48.0,
+        ),
+        child: RepaintBoundary(
+          key: captureKey,
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              AspectRatio(
+                aspectRatio: MyAspectRatio
+                    .myAspectRatios[provider.aspectRatioIndex].ratio,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: border,
+                    boxShadow: boxShadow,
+                    color: backgroundImage == null
+                        ? backgroundColor
+                        : Colors.transparent,
+                    image: backgroundImage,
+                  ),
+                  child: MatrixGestureDetector(
+                    key: matrixDetectorKey,
+                    onMatrixUpdate: (m, tm, sm, rm) {
+                      setState(() {
+                        matrix =
+                            MatrixGestureDetector.compose(matrix, tm, sm, rm);
+                      });
+                    },
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        watermark(),
+                        Transform(
+                          transform: matrix,
+                          child: Container(
+                            padding: EdgeInsets.all(24.0),
+                            child: Hero(
+                              tag: widget.phoneID,
+                              child: widget.phone,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -423,11 +433,9 @@ class _PictureModePageState extends State<PictureModePage> {
         (imageBytes) {
           showDialog<Widget>(
             context: context,
-            builder: (BuildContext context) => Dialog(
-              child: SaveImageDialog(
-                bytes: imageBytes,
-                phone: widget.phone,
-              ),
+            builder: (BuildContext context) => SaveImageDialog(
+              bytes: imageBytes,
+              phone: widget.phone,
             ),
           );
         },
@@ -495,11 +503,9 @@ class _PictureModePageState extends State<PictureModePage> {
 
     showDialog<Widget>(
       context: context,
-      builder: (BuildContext context) => Dialog(
-        child: WatermarkPickerDialog(
-          backgroundColor: backgroundColor ?? initRandomColor,
-          backgroundTexture: backgroundTexture,
-        ),
+      builder: (BuildContext context) => WatermarkPickerDialog(
+        backgroundColor: backgroundColor ?? initRandomColor,
+        backgroundTexture: backgroundTexture,
       ),
     );
   }

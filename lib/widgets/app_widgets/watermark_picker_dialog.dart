@@ -5,6 +5,7 @@ import 'package:mobwear/data/models/position_model.dart';
 import 'package:mobwear/data/models/texture_model.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
+import 'package:mobwear/widgets/app_widgets/adaptiveDialog.dart';
 import 'package:mobwear/widgets/app_widgets/settings_expansion_tile.dart';
 import 'package:mobwear/widgets/app_widgets/watermark_options_button.dart';
 import 'package:provider/provider.dart';
@@ -45,21 +46,14 @@ class _WatermarkPickerDialogState extends State<WatermarkPickerDialog> {
                 darkColor: Colors.black38,
               );
 
-          return SingleChildScrollView(
+          return AdaptiveDialog(
+            title: 'Watermark',
+            onSelectPressed: () {
+              provider.setWatermark();
+              Navigator.pop(context);
+            },
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24.0, 24.0, 8.0, 8.0),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        'Watermark',
-                        style: kTitleTextStyle.copyWith(fontSize: 18.0),
-                      ),
-                    ],
-                  ),
-                ),
                 SettingsExpansionTile(
                   title: 'Visibilty',
                   subtitle: provider.showWatermark
@@ -75,8 +69,8 @@ class _WatermarkPickerDialogState extends State<WatermarkPickerDialog> {
                       lightColor: Colors.grey[100], darkColor: Colors.black26),
                 ),
                 Container(
-                  height: kScreenAwareSize(220.0, context),
                   margin: EdgeInsets.all(8.0),
+                  constraints: BoxConstraints(maxHeight: 280.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     border: Border.all(
@@ -103,28 +97,31 @@ class _WatermarkPickerDialogState extends State<WatermarkPickerDialog> {
                                       ),
                           ),
                   ),
-                  child: GridView.builder(
-                    itemCount: BrandIcon.watermarkIcons.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
-                    ),
-                    itemBuilder: (context, i) {
-                      BrandIcon watermarkIcon = BrandIcon.watermarkIcons[i];
+                  child: Scrollbar(
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      itemCount: BrandIcon.watermarkIcons.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                      ),
+                      itemBuilder: (context, i) {
+                        BrandIcon watermarkIcon = BrandIcon.watermarkIcons[i];
 
-                      return watermarkIconButton(
-                        color: watermarkColor,
-                        icon: watermarkIcon.icon,
-                        iconSize: watermarkIcon.size,
-                        isSelected: provider.selectedWatermarkIndex == null
-                            ? provider.watermarkIndex == i
-                            : provider.selectedWatermarkIndex == i,
-                        onTap: () => provider.watermarkIndexSelected(i),
-                      );
-                    },
+                        return watermarkIconButton(
+                          color: watermarkColor,
+                          icon: watermarkIcon.icon,
+                          iconSize: watermarkIcon.size,
+                          isSelected: provider.selectedWatermarkIndex == null
+                              ? provider.watermarkIndex == i
+                              : provider.selectedWatermarkIndex == i,
+                          onTap: () => provider.watermarkIndexSelected(i),
+                        );
+                      },
+                    ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 16.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -136,33 +133,17 @@ class _WatermarkPickerDialogState extends State<WatermarkPickerDialog> {
                               .name,
                         ),
                       ),
-                      SizedBox(width: 8.0),
+                      SizedBox(width: 4.0),
                       Expanded(
                         child: WatermarkOptionsButton(
                           title: 'Color',
-                          subtitle: '#${kGetColorString(Colors.deepOrange)}',
+                          subtitle:
+                              '#${kGetColorString(watermarkColor ?? Colors.deepOrange)}',
                           watermarkColor: watermarkColor,
                         ),
                       ),
                     ],
                   ),
-                ),
-                ButtonBar(
-                  alignment: MainAxisAlignment.end,
-                  buttonTextTheme: ButtonTextTheme.normal,
-                  children: <Widget>[
-                    FlatButton(
-                      child: Text('Cancel', style: kTitleTextStyle),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                    FlatButton(
-                      child: Text('Select', style: kTitleTextStyle),
-                      onPressed: () {
-                        provider.setWatermark();
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
                 ),
               ],
             ),
@@ -179,14 +160,14 @@ class _WatermarkPickerDialogState extends State<WatermarkPickerDialog> {
     bool isSelected,
     Function onTap,
   }) {
-    return Center(
-      child: Material(
-        type: MaterialType.transparency,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(10.0),
-          onTap: onTap,
+    return Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10.0),
+        onTap: onTap,
+        child: Center(
           child: Container(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(kScreenAwareSize(8.0, context)),
             decoration: isSelected
                 ? BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
@@ -198,7 +179,7 @@ class _WatermarkPickerDialogState extends State<WatermarkPickerDialog> {
                 : null,
             child: Icon(
               icon,
-              size: iconSize == null ? 30.0 : iconSize + 6.0,
+              size: iconSize == null ? 30.0 : iconSize + 3.0,
               color: color,
             ),
           ),

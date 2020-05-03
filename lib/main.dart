@@ -14,7 +14,7 @@ import 'package:mobwear/pages/gallery_view_page.dart';
 import 'package:mobwear/pages/home_page.dart';
 import 'package:mobwear/pages/onboarding_page.dart';
 import 'package:mobwear/pages/settings_page.dart';
-import 'package:mobwear/pages/picture_mode_page.dart';
+import 'package:mobwear/pages/capture_page.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/providers/gallery_provider.dart';
 import 'package:mobwear/providers/settings_provider.dart';
@@ -50,7 +50,7 @@ void main() async {
   openBoxes().whenComplete(
     () => runApp(
       // DevicePreview(
-      // builder: (context) => MultiProvider(
+      //   builder: (context) => MultiProvider(
       MultiProvider(
         providers: [
           ChangeNotifierProvider<CustomizationProvider>(
@@ -94,7 +94,7 @@ class MobWear extends StatelessWidget {
       routes: {
         SettingsPage.id: (context) => SettingsPage(),
         EditPhonePage.id: (context) => EditPhonePage(),
-        PictureModePage.id: (context) => PictureModePage(),
+        CapturePage.id: (context) => CapturePage(),
         AboutPage.id: (context) => AboutPage(),
         GalleryPage.id: (context) => GalleryPage(),
         GalleryViewPage.id: (context) => GalleryViewPage(),

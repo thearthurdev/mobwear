@@ -75,8 +75,10 @@ class TextureBlendEditButton extends StatelessWidget {
                                 title: 'Blend Color',
                                 color: provider.selectedBlendColor ??
                                     provider.currentBlendColor,
-                                onSelectPressed: (selectedColor) => provider
-                                    .textureBlendColorSelected(selectedColor),
+                                onSelectPressed: (selectedColor) {
+                                  provider
+                                      .textureBlendColorSelected(selectedColor);
+                                },
                               );
                             },
                           );

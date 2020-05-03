@@ -66,7 +66,7 @@ class WatermarkOptionsButton extends StatelessWidget {
                         context: context,
                         builder: (context) {
                           return ColorPickerDialog(
-                            title: 'Watermark Color',
+                            title: 'Color',
                             color: watermarkColor,
                             onSelectPressed: (selectedColor) =>
                                 Provider.of<CustomizationProvider>(context)

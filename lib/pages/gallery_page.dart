@@ -106,9 +106,8 @@ class _GalleryPageState extends State<GalleryPage> {
         onPressed: () {
           showDialog<Widget>(
             context: context,
-            builder: (BuildContext context) => Dialog(
-              child: GalleryBatchDeleteDialog(selectedItemKeys),
-            ),
+            builder: (BuildContext context) =>
+                GalleryBatchDeleteDialog(selectedItemKeys),
           ).whenComplete(
             () => setState(() => selectedItemKeys.clear()),
           );

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/database/settings_database.dart';
-import 'package:mobwear/pages/picture_mode_page.dart';
+import 'package:mobwear/pages/capture_page.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:flip_card/flip_card.dart';
@@ -34,8 +34,7 @@ class _EditPhonePageState extends State<EditPhonePage>
   ScrollController scrollController1;
   ScrollController scrollController2;
   ScrollController currentController;
-  bool showFAB;
-  bool isWideScreen;
+  bool showFAB, isWideScreen, isLargeScreen;
 
   static Box settingsBox = SettingsDatabase.settingsBox;
   bool showFlipTip = settingsBox.get(SettingsDatabase.flipPhoneTipKey) != 1;
@@ -124,6 +123,7 @@ class _EditPhonePageState extends State<EditPhonePage>
   Widget build(BuildContext context) {
     isWideScreen = kIsWideScreen(context) ||
         kDeviceWidth(context) >= kDeviceHeight(context);
+    isLargeScreen = kDeviceHeight(context) >= 500.0;
     currentController = isWideScreen ? scrollController2 : scrollController1;
 
     Provider.of<CustomizationProvider>(context).setCurrentPhoneData(
@@ -148,7 +148,7 @@ class _EditPhonePageState extends State<EditPhonePage>
           resizeToAvoidBottomPadding: false,
           appBar: buildAppBar(),
           body: buildBody(),
-          floatingActionButton: buildFAB(),
+          floatingActionButton: isLargeScreen ? buildFAB() : null,
           floatingActionButtonLocation: isWideScreen
               ? FloatingActionButtonLocation.endFloat
               : FloatingActionButtonLocation.centerFloat,
@@ -173,13 +173,19 @@ class _EditPhonePageState extends State<EditPhonePage>
           }
         },
       ),
-      // actions: <Widget>[
-      //   IconButton(
-      //     icon: Icon(LineAwesomeIcons.database),
-      //     onPressed: () => Navigator.push(
-      //         context, MaterialPageRoute(builder: (context) => DataPage())),
-      //   ),
-      // ],
+      actions: <Widget>[
+        // IconButton(
+        //   icon: Icon(LineAwesomeIcons.database),
+        //   onPressed: () => Navigator.push(
+        //       context, MaterialPageRoute(builder: (context) => DataPage())),
+        // ),
+        isLargeScreen
+            ? SizedBox()
+            : IconButton(
+                icon: Icon(LineAwesomeIcons.camera),
+                onPressed: onFABPressed,
+              ),
+      ],
     );
   }
 
@@ -206,7 +212,7 @@ class _EditPhonePageState extends State<EditPhonePage>
             ),
           ),
           Flexible(
-            child: buildCustomizationTileList(context),
+            child: buildCustomizationTileList(),
           ),
         ],
       ),
@@ -237,7 +243,7 @@ class _EditPhonePageState extends State<EditPhonePage>
                     ? EdgeInsets.symmetric(
                         horizontal: kScreenAwareSize(60.0, context))
                     : null,
-                child: buildCustomizationTileList(context),
+                child: buildCustomizationTileList(),
               ),
               SizedBox(height: 16.0),
             ],
@@ -263,7 +269,7 @@ class _EditPhonePageState extends State<EditPhonePage>
     );
   }
 
-  Widget buildCustomizationTileList(BuildContext context) {
+  Widget buildCustomizationTileList() {
     Map textures = Provider.of<CustomizationProvider>(context).currentTextures;
     Map colors = Provider.of<CustomizationProvider>(context).currentColors;
 
@@ -287,42 +293,58 @@ class _EditPhonePageState extends State<EditPhonePage>
     return AnimatedContainer(
       duration: Duration(milliseconds: 350),
       curve: Curves.easeOutSine,
-      height: showFAB ? 56.0 : 0.0,
-      child: FloatingActionButton(
-        child: AnimatedOpacity(
-          duration: Duration(milliseconds: 250),
-          opacity: showFAB ? 1.0 : 0.0,
-          child: Icon(LineAwesomeIcons.camera),
-        ),
-        onPressed: () {
-          Provider.of<CustomizationProvider>(context).resetCurrentValues();
-          if (!flipCardKey.currentState.isFront) {
-            flipCardKey.currentState.controller.reverse().then((v) {
-              flipCardKey.currentState.isFront = true;
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PictureModePage(
-                    phone: widget.phone,
-                    phoneID: widget.phoneID,
-                  ),
-                ),
-              );
-            });
-          } else {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PictureModePage(
-                  phone: widget.phone,
-                  phoneID: widget.phoneID,
-                ),
+      height: showFAB ? isWideScreen ? 48.0 : 56.0 : 0.0,
+      child: isWideScreen
+          ? FloatingActionButton.extended(
+              label: AnimatedOpacity(
+                duration: Duration(milliseconds: 250),
+                opacity: showFAB ? 1.0 : 0.0,
+                child: Text('Capture', style: kTitleTextStyle),
               ),
-            );
-          }
-        },
-      ),
+              icon: AnimatedOpacity(
+                duration: Duration(milliseconds: 250),
+                opacity: showFAB ? 1.0 : 0.0,
+                child: Icon(LineAwesomeIcons.camera),
+              ),
+              onPressed: onFABPressed,
+            )
+          : FloatingActionButton(
+              child: AnimatedOpacity(
+                duration: Duration(milliseconds: 250),
+                opacity: showFAB ? 1.0 : 0.0,
+                child: Icon(LineAwesomeIcons.camera),
+              ),
+              onPressed: onFABPressed,
+            ),
     );
+  }
+
+  void onFABPressed() {
+    Provider.of<CustomizationProvider>(context).resetCurrentValues();
+    if (!flipCardKey.currentState.isFront) {
+      flipCardKey.currentState.controller.reverse().then((v) {
+        flipCardKey.currentState.isFront = true;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CapturePage(
+              phone: widget.phone,
+              phoneID: widget.phoneID,
+            ),
+          ),
+        );
+      });
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CapturePage(
+            phone: widget.phone,
+            phoneID: widget.phoneID,
+          ),
+        ),
+      );
+    }
   }
 
   void flipPhone(DragUpdateDetails details) {

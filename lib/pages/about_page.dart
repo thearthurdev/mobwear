@@ -131,9 +131,8 @@ class AboutPage extends StatelessWidget {
                         onTap: () {
                           showDialog<Widget>(
                             context: context,
-                            builder: (BuildContext context) => Dialog(
-                              child: DeveloperInfoDialog(),
-                            ),
+                            builder: (BuildContext context) =>
+                                DeveloperInfoDialog(),
                           );
                         },
                       ),

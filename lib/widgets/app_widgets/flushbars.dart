@@ -26,6 +26,7 @@ class MyFlushbars {
           ),
           Text(
             'swipe to dismiss',
+            overflow: TextOverflow.ellipsis,
             style: kSubtitleTextStyle.copyWith(
               color: kBrightnessAwareColor(context,
                   lightColor: Colors.white70, darkColor: Colors.black87),

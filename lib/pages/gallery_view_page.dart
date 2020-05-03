@@ -209,9 +209,8 @@ class _GalleryViewPageState extends State<GalleryViewPage> {
   void showItemInfo() {
     showDialog<Widget>(
       context: context,
-      builder: (BuildContext context) => Dialog(
-        child: GalleryItemInfoDialog(items[currentIndex]),
-      ),
+      builder: (BuildContext context) =>
+          GalleryItemInfoDialog(items[currentIndex]),
     );
   }
 
@@ -222,9 +221,8 @@ class _GalleryViewPageState extends State<GalleryViewPage> {
   void deleteItem() {
     showDialog<Widget>(
       context: context,
-      builder: (BuildContext context) => Dialog(
-        child: GalleryItemDeleteDialog(items[currentIndex]),
-      ),
+      builder: (BuildContext context) =>
+          GalleryItemDeleteDialog(items[currentIndex]),
     ).whenComplete(() {
       if (items.isEmpty) Navigator.pop(context);
     });
