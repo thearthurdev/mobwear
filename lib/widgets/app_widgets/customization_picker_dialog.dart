@@ -50,6 +50,7 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
   @override
   Widget build(BuildContext context) {
     isWideScreen = kIsWideScreen(context);
+    Orientation orientation = MediaQuery.of(context).orientation;
 
     List<Widget> pickerModeViews = [
       ColorPicker(
@@ -85,6 +86,9 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
         child: AdaptiveDialog(
           title: isSharePage ? 'Background' : provider.currentSide,
           onSelectPressed: () => onCustomizationSelected(),
+          maxWidth: isWideScreen && orientation == Orientation.landscape
+              ? kDeviceWidth(context)
+              : null,
           child: Scrollbar(
             child: SingleChildScrollView(
               child: Column(

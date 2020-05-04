@@ -45,10 +45,11 @@ class ThemeProvider with ChangeNotifier {
     cursorColor: Colors.black,
     dialogTheme: DialogTheme(
       backgroundColor: Colors.white,
+      elevation: 10.0,
+      titleTextStyle: kTitleTextStyle.copyWith(fontSize: 18.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
-      titleTextStyle: kTitleTextStyle.copyWith(fontSize: 18.0),
     ),
     textTheme: TextTheme(
       headline: TextStyle(

@@ -275,10 +275,12 @@ packages:
   flutter_hsvcolor_picker:
     dependency: "direct main"
     description:
-      name: flutter_hsvcolor_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.1"
+      path: "."
+      ref: HEAD
+      resolved-ref: db5554859b69f5416572dbaba5263f57add4bbf8
+      url: "git://github.com/ArthurDevv/flutter_hsvcolor_picker"
+    source: git
+    version: "0.1.2"
   flutter_page_indicator:
     dependency: transitive
     description:
