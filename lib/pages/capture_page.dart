@@ -171,8 +171,10 @@ class _CapturePageState extends State<CapturePage> {
           valueColor: AlwaysStoppedAnimation<Color>(
             kBrightnessAwareColor(
               context,
-              lightColor: Colors.white,
-              darkColor: isLargeScreen ? Colors.black : Colors.white,
+              lightColor:
+                  !isLargeScreen && isWideScreen ? Colors.black : Colors.white,
+              darkColor:
+                  !isLargeScreen && isWideScreen ? Colors.white : Colors.black,
             ),
           ),
         ),
@@ -429,6 +431,7 @@ class _CapturePageState extends State<CapturePage> {
 
   Future<void> saveImage() async {
     if (!isCapturing) {
+      print(Provider.of<CustomizationProvider>(context).isSaving);
       captureImage().then(
         (imageBytes) {
           showDialog<Widget>(
@@ -437,7 +440,11 @@ class _CapturePageState extends State<CapturePage> {
               bytes: imageBytes,
               phone: widget.phone,
             ),
-          );
+          ).whenComplete(() {
+            Provider.of<CustomizationProvider>(context)
+                .changeIsSavingState(false);
+            print(Provider.of<CustomizationProvider>(context).isSaving);
+          });
         },
       );
     }
@@ -447,6 +454,7 @@ class _CapturePageState extends State<CapturePage> {
     Uint8List imageBytes;
 
     setState(() => isCapturing = true);
+
     try {
       RenderRepaintBoundary boundary =
           captureKey.currentContext.findRenderObject();
@@ -456,6 +464,7 @@ class _CapturePageState extends State<CapturePage> {
       imageBytes = byteData.buffer.asUint8List();
       // var bs64 = base64Encode(pngBytes);
     } catch (e) {
+      Provider.of<CustomizationProvider>(context).changeIsSavingState(false);
       String errorText = 'Unable to save. Please try again later';
       Toast.show(errorText, context);
       print(e);
@@ -478,13 +487,11 @@ class _CapturePageState extends State<CapturePage> {
 
     showDialog<Widget>(
       context: context,
-      builder: (BuildContext context) => Dialog(
-        child: CustomizationPickerDialog(
-          noTexture: false,
-          noImage: true,
-          initPickerModeIndex: initIndex(),
-          initRandomColor: initRandomColor,
-        ),
+      builder: (BuildContext context) => CustomizationPickerDialog(
+        noTexture: false,
+        noImage: true,
+        initPickerModeIndex: initIndex(),
+        initRandomColor: initRandomColor,
       ),
     );
   }

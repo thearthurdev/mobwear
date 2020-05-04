@@ -4,6 +4,7 @@ import 'package:flutter_hsvcolor_picker/flutter_hsvcolor_picker.dart';
 import 'package:mobwear/data/models/mode_picker_model.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
+import 'package:mobwear/widgets/app_widgets/adaptiveDialog.dart';
 import 'package:mobwear/widgets/app_widgets/texture_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -81,70 +82,50 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
       child: DefaultTabController(
         initialIndex: pickerModeIndex,
         length: modeCount,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(24.0, 24.0, 8.0, 8.0),
-                child: Row(
-                  children: <Widget>[
-                    Text(
-                      isSharePage ? 'Background' : provider.currentSide,
-                      style: kTitleTextStyle.copyWith(fontSize: 18.0),
-                    ),
-                  ],
-                ),
-              ),
-              modeCount > 1
-                  ? TabBar(
-                      indicatorSize: TabBarIndicatorSize.label,
-                      labelColor: kBrightnessAwareColor(
-                        context,
-                        lightColor: Colors.black,
-                        darkColor: Colors.white,
-                      ),
-                      unselectedLabelColor: kBrightnessAwareColor(
-                        context,
-                        lightColor: Colors.black38,
-                        darkColor: Colors.white38,
-                      ),
-                      tabs: List.generate(
-                        modeCount,
-                        (i) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              ModePickerModel.myPickerModes[i].modeName,
-                              style: kTitleTextStyle,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          );
-                        },
-                      ),
-                      onTap: (i) => setState(() => pickerModeIndex = i),
-                    )
-                  : Container(),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 0.0),
-                child: pickerModeViews[pickerModeIndex],
-              ),
-              ButtonBar(
-                alignment: MainAxisAlignment.end,
-                buttonTextTheme: ButtonTextTheme.normal,
+        child: AdaptiveDialog(
+          title: isSharePage ? 'Background' : provider.currentSide,
+          onSelectPressed: () => onCustomizationSelected(),
+          child: Scrollbar(
+            child: SingleChildScrollView(
+              child: Column(
                 children: <Widget>[
-                  FlatButton(
-                    child: Text('Cancel', style: kTitleTextStyle),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  FlatButton(
-                    child: Text('Select', style: kTitleTextStyle),
-                    onPressed: () => onCustomizationSelected(),
+                  modeCount > 1
+                      ? TabBar(
+                          indicatorSize: TabBarIndicatorSize.label,
+                          labelColor: kBrightnessAwareColor(
+                            context,
+                            lightColor: Colors.black,
+                            darkColor: Colors.white,
+                          ),
+                          unselectedLabelColor: kBrightnessAwareColor(
+                            context,
+                            lightColor: Colors.black38,
+                            darkColor: Colors.white38,
+                          ),
+                          tabs: List.generate(
+                            modeCount,
+                            (i) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  ModePickerModel.myPickerModes[i].modeName,
+                                  style: kTitleTextStyle,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              );
+                            },
+                          ),
+                          onTap: (i) => setState(() => pickerModeIndex = i),
+                        )
+                      : Container(),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 16.0),
+                    child: pickerModeViews[pickerModeIndex],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),

@@ -206,8 +206,8 @@ class Fold extends StatelessWidget {
       ],
     );
 
-    bool editPageOpen =
-        Provider.of<CustomizationProvider>(context).editPageOpen;
+    bool isEditPageOpen =
+        Provider.of<CustomizationProvider>(context).isEditPageOpen;
 
     return FittedBox(
       child: Container(
@@ -259,7 +259,7 @@ class Fold extends StatelessWidget {
                   ],
                 ),
               ),
-              editPageOpen
+              isEditPageOpen
                   ? BackPanel(
                       width: 180.0,
                       height: 510.0,

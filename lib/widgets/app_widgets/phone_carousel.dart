@@ -28,13 +28,13 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
   SwiperController swiperController;
   PageController tabsPageController;
   PageController pageIndicatorController;
-  bool editPageOpen;
+  bool isEditPageOpen;
   int selectedIndex;
 
   @override
   void initState() {
     super.initState();
-    editPageOpen = false;
+    isEditPageOpen = false;
     swiperController = widget.swiperController;
     tabsPageController = widget.tabsPageController;
     pageIndicatorController = PageController(viewportFraction: 0.15);
@@ -90,7 +90,7 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
                 );
               },
               onTap: (i) {
-                editPageOpen = true;
+                isEditPageOpen = true;
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -103,7 +103,7 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
                   ),
                 ).whenComplete(
                   () {
-                    editPageOpen = false;
+                    isEditPageOpen = false;
                     swiperController.move(i, animation: false);
                   },
                 );
@@ -119,7 +119,7 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
                 if (i == phonesList.length - 1 &&
                     autoPlayCarousel &&
                     !userIsSwiping &&
-                    !editPageOpen &&
+                    !isEditPageOpen &&
                     !tabIsSwiping) {
                   int randomInt =
                       Random().nextInt(PhoneModel.phonesLists.length);

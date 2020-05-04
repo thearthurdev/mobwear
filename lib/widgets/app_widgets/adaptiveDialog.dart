@@ -45,7 +45,10 @@ class AdaptiveDialog extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SingleChildScrollView(
+                    Container(
+                      constraints: BoxConstraints(
+                        maxHeight: kDeviceHeight(context) - 200.0,
+                      ),
                       child: child,
                     ),
                     hasButtonBar

@@ -7,11 +7,13 @@ import 'package:mobwear/database/phone_database.dart';
 
 class CustomizationProvider extends ChangeNotifier {
   //GENERAL
-  bool editPageOpen = false;
+  bool isEditPageOpen = false;
   bool isSharePage = false;
   bool isCustomizationCopied = false;
+  bool isSaving = false;
 
-  void changeEditPageStatus(bool b) => editPageOpen = b;
+  void changeEditPageStatus(bool b) => isEditPageOpen = b;
+  void changeIsSavingState(bool b) => isSaving = b;
 
   //Box opened in this class to listen to changes. DO NOT REMOVE!
   Box phonesBox = PhoneDatabase.phonesBox;

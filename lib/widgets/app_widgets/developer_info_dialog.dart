@@ -26,47 +26,52 @@ class DeveloperInfoDialog extends StatelessWidget {
         hasSelectButton: false,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 140.0,
-                width: kDeviceWidth(context),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/arthurdev_logo.png'),
-                    fit: BoxFit.contain,
+          child: Scrollbar(
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: 140.0,
+                    width: kDeviceWidth(context),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/arthurdev_logo.png'),
+                        fit: BoxFit.contain,
+                      ),
+                    ),
                   ),
-                ),
+                  SizedBox(height: 16.0),
+                  Text(
+                    'Delords Arthur',
+                    style: TextStyle(
+                      fontFamily: 'Righteous',
+                      fontSize: 22.0,
+                    ),
+                  ),
+                  Text('ArthurDev', style: kTitleTextStyle),
+                  SizedBox(height: 16.0),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: kBrightnessAwareColor(context,
+                          lightColor: Colors.grey[100],
+                          darkColor: Colors.black26),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: List.generate(infoSections.length, (i) {
+                        return infoListTile(
+                          context,
+                          icon: infoSections.keys.elementAt(i),
+                          title: infoSections.values.elementAt(i),
+                        );
+                      }),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 16.0),
-              Text(
-                'Delords Arthur',
-                style: TextStyle(
-                  fontFamily: 'Righteous',
-                  fontSize: 22.0,
-                ),
-              ),
-              Text('ArthurDev', style: kTitleTextStyle),
-              SizedBox(height: 16.0),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: kBrightnessAwareColor(context,
-                      lightColor: Colors.grey[100], darkColor: Colors.black26),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: List.generate(infoSections.length, (i) {
-                    return infoListTile(
-                      context,
-                      icon: infoSections.keys.elementAt(i),
-                      title: infoSections.values.elementAt(i),
-                    );
-                  }),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),

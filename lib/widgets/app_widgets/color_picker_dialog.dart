@@ -23,13 +23,14 @@ class ColorPickerDialog extends StatelessWidget {
 
         return AdaptiveDialog(
           title: title,
-          maxWidth: 400.0,
-          child: Center(
-            child: CircleColorPicker(
-              initialColor: selectedColor,
-              size: Size(300.0, 300.0),
-              onChanged: (color) => selectedColor = color,
-              strokeWidth: 16.0,
+          maxWidth: 300.0,
+          child: SingleChildScrollView(
+            child: Center(
+              child: CircleColorPicker(
+                initialColor: selectedColor,
+                size: Size(260.0, 260.0),
+                onChanged: (color) => selectedColor = color,
+              ),
             ),
           ),
           onSelectPressed: () {

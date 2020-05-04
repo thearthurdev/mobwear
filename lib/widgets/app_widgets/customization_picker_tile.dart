@@ -270,11 +270,9 @@ class CustomizationPickerCard extends StatelessWidget {
 
     showDialog<Widget>(
       context: context,
-      builder: (BuildContext context) => Dialog(
-        child: CustomizationPickerDialog(
-          noTexture: noTexture,
-          initPickerModeIndex: initIndex(),
-        ),
+      builder: (BuildContext context) => CustomizationPickerDialog(
+        noTexture: noTexture,
+        initPickerModeIndex: initIndex(),
       ),
     );
   }

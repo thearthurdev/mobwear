@@ -52,100 +52,113 @@ class _WatermarkPickerDialogState extends State<WatermarkPickerDialog> {
               provider.setWatermark();
               Navigator.pop(context);
             },
-            child: Column(
-              children: <Widget>[
-                SettingsExpansionTile(
-                  title: 'Visibilty',
-                  subtitle: provider.showWatermark
-                      ? 'Watermark will be shown'
-                      : 'Watermark will be hidden',
-                  isExpanded: isTileExpanded,
-                  onExpansionChanged: (b) => setState(() => isTileExpanded = b),
-                  selectedOptionCheck: provider.showWatermark,
-                  settingMap: provider.myWatermarkOptions,
-                  onOptionSelected: (i) => provider.watermarkStateSelected(
-                      provider.myWatermarkOptions.values.elementAt(i)),
-                  expandedColor: kBrightnessAwareColor(context,
-                      lightColor: Colors.grey[100], darkColor: Colors.black26),
-                ),
-                Container(
-                  margin: EdgeInsets.all(8.0),
-                  constraints: BoxConstraints(maxHeight: 280.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    border: Border.all(
-                      color: kBrightnessAwareColor(context,
-                          lightColor: Colors.grey[300],
-                          darkColor: Colors.grey[800]),
-                      width: 0.3,
+            child: Scrollbar(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    SettingsExpansionTile(
+                      title: 'Visibilty',
+                      subtitle: provider.showWatermark
+                          ? 'Watermark will be shown'
+                          : 'Watermark will be hidden',
+                      isExpanded: isTileExpanded,
+                      onExpansionChanged: (b) =>
+                          setState(() => isTileExpanded = b),
+                      selectedOptionCheck: provider.showWatermark,
+                      settingMap: provider.myWatermarkOptions,
+                      onOptionSelected: (i) => provider.watermarkStateSelected(
+                          provider.myWatermarkOptions.values.elementAt(i)),
+                      expandedColor: kBrightnessAwareColor(context,
+                          lightColor: Colors.grey[100],
+                          darkColor: Colors.black26),
                     ),
-                    color: widget.backgroundTexture.asset == null
-                        ? widget.backgroundColor
-                        : Colors.transparent,
-                    image: widget.backgroundTexture.asset == null
-                        ? null
-                        : DecorationImage(
-                            image: AssetImage(widget.backgroundTexture.asset),
-                            fit: BoxFit.cover,
-                            colorFilter:
-                                widget.backgroundTexture.blendModeIndex == null
-                                    ? null
-                                    : ColorFilter.mode(
-                                        widget.backgroundTexture.blendColor,
-                                        kGetTextureBlendMode(widget
-                                            .backgroundTexture.blendModeIndex),
-                                      ),
+                    Container(
+                      margin: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(4.0),
+                      constraints: BoxConstraints(maxHeight: 280.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(
+                          color: kBrightnessAwareColor(context,
+                              lightColor: Colors.grey[300],
+                              darkColor: Colors.grey[800]),
+                          width: 0.3,
+                        ),
+                        color: widget.backgroundTexture.asset == null
+                            ? widget.backgroundColor
+                            : Colors.transparent,
+                        image: widget.backgroundTexture.asset == null
+                            ? null
+                            : DecorationImage(
+                                image:
+                                    AssetImage(widget.backgroundTexture.asset),
+                                fit: BoxFit.cover,
+                                colorFilter:
+                                    widget.backgroundTexture.blendModeIndex ==
+                                            null
+                                        ? null
+                                        : ColorFilter.mode(
+                                            widget.backgroundTexture.blendColor,
+                                            kGetTextureBlendMode(widget
+                                                .backgroundTexture
+                                                .blendModeIndex),
+                                          ),
+                              ),
+                      ),
+                      child: Scrollbar(
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          itemCount: BrandIcon.watermarkIcons.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: isWideScreen ? 6 : 4,
                           ),
-                  ),
-                  child: Scrollbar(
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      itemCount: BrandIcon.watermarkIcons.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                      ),
-                      itemBuilder: (context, i) {
-                        BrandIcon watermarkIcon = BrandIcon.watermarkIcons[i];
+                          itemBuilder: (context, i) {
+                            BrandIcon watermarkIcon =
+                                BrandIcon.watermarkIcons[i];
 
-                        return watermarkIconButton(
-                          color: watermarkColor,
-                          icon: watermarkIcon.icon,
-                          iconSize: watermarkIcon.size,
-                          isSelected: provider.selectedWatermarkIndex == null
-                              ? provider.watermarkIndex == i
-                              : provider.selectedWatermarkIndex == i,
-                          onTap: () => provider.watermarkIndexSelected(i),
-                        );
-                      },
+                            return watermarkIconButton(
+                              color: watermarkColor,
+                              icon: watermarkIcon.icon,
+                              iconSize: watermarkIcon.size,
+                              isSelected:
+                                  provider.selectedWatermarkIndex == null
+                                      ? provider.watermarkIndex == i
+                                      : provider.selectedWatermarkIndex == i,
+                              onTap: () => provider.watermarkIndexSelected(i),
+                            );
+                          },
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Expanded(
-                        child: WatermarkOptionsButton(
-                          title: 'Position',
-                          subtitle: MyPosition
-                              .myPositions[provider.watermarkPositionIndex]
-                              .name,
-                        ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Expanded(
+                            child: WatermarkOptionsButton(
+                              title: 'Position',
+                              subtitle: MyPosition
+                                  .myPositions[provider.watermarkPositionIndex]
+                                  .name,
+                            ),
+                          ),
+                          SizedBox(width: 4.0),
+                          Expanded(
+                            child: WatermarkOptionsButton(
+                              title: 'Color',
+                              subtitle:
+                                  '#${kGetColorString(watermarkColor ?? Colors.deepOrange)}',
+                              watermarkColor: watermarkColor,
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 4.0),
-                      Expanded(
-                        child: WatermarkOptionsButton(
-                          title: 'Color',
-                          subtitle:
-                              '#${kGetColorString(watermarkColor ?? Colors.deepOrange)}',
-                          watermarkColor: watermarkColor,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           );
         },

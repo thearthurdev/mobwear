@@ -7,8 +7,10 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:mobwear/data/models/gallery_item_model.dart';
 import 'package:mobwear/database/gallery_database.dart';
+import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/adaptiveDialog.dart';
+import 'package:provider/provider.dart';
 // import 'package:save_in_gallery/save_in_gallery.dart';
 import 'package:toast/toast.dart';
 
@@ -36,28 +38,36 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
   }
 
   Future<dynamic> saveImage() async {
-    dynamic res;
-    try {
-      // res = await imageSaver.saveNamedImages(
-      //   namedImageBytes: {'${widget.phoneName}_$dateTime': widget.bytes},
-      //   directoryName: 'MobWear',
-      // );
-      Box galleryBox = GalleryDatabase.galleryBox;
+    if (Provider.of<CustomizationProvider>(context).isSaving == false) {
+      dynamic res;
+      try {
+        // res = await imageSaver.saveNamedImages(
+        //   namedImageBytes: {'${widget.phoneName}_$dateTime': widget.bytes},
+        //   directoryName: 'MobWear',
+        // );
 
-      galleryBox.add(
-        GalleryDatabaseItem(
-          imageString: String.fromCharCodes(widget.bytes),
-          imageDateTime: DateTime.now().toString(),
-          imageFileName: '${kGetCombinedName(phoneName)}_${kGetDateTime()}.png',
-          phoneName: phoneName,
-          phoneBrand: phoneBrand,
-          isFavorite: false,
-        ),
-      );
-    } catch (e) {
-      print(e);
+        Box galleryBox = GalleryDatabase.galleryBox;
+
+        galleryBox.add(
+          GalleryDatabaseItem(
+            imageString: String.fromCharCodes(widget.bytes),
+            imageDateTime: DateTime.now().toString(),
+            imageFileName:
+                '${kGetCombinedName(phoneName)}_${kGetDateTime()}.png',
+            phoneName: phoneName,
+            phoneBrand: phoneBrand,
+            isFavorite: false,
+          ),
+        );
+
+        Provider.of<CustomizationProvider>(context).changeIsSavingState(true);
+      } catch (e) {
+        print(e);
+      }
+      return res;
+    } else {
+      return true;
     }
-    return res;
   }
 
   Future<void> shareImage() async {
@@ -95,24 +105,61 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
         title: 'Save',
         hasButtonBar: false,
         maxWidth: 400.0,
-        child: FutureBuilder(
-          future: saveImage(),
-          builder: (context, snapshot) {
-            if (snapshot.data == null &&
-                snapshot.connectionState != ConnectionState.done) {
-              return Container(
-                height: kScreenAwareSize(140.0, context),
-                child: Center(child: CircularProgressIndicator()),
-              );
-            }
-            if (snapshot.data == false) {
+        child: SingleChildScrollView(
+          child: FutureBuilder(
+            future: saveImage(),
+            builder: (context, snapshot) {
+              if (snapshot.data == null &&
+                  snapshot.connectionState != ConnectionState.done) {
+                return Container(
+                  height: kScreenAwareSize(140.0, context),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+              if (snapshot.data == false) {
+                return Container(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(
+                        'uh-oh!',
+                        style: TextStyle(
+                          fontSize: 40.0,
+                          fontFamily: 'Righteous',
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      SizedBox(height: 24.0),
+                      Text(
+                        'An error occured while saving',
+                        style: kSubtitleTextStyle,
+                      ),
+                      SizedBox(height: 24.0),
+                      dialogButton(
+                        context: context,
+                        label: 'Try Again',
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      SizedBox(height: 16.0),
+                      dialogButton(
+                        context: context,
+                        label: 'Share Picture Directly',
+                        onTap: () => shareImage(),
+                      ),
+                    ],
+                  ),
+                );
+              }
               return Container(
                 padding: EdgeInsets.all(16.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Text(
-                      'uh-oh!',
+                      'yay!',
                       style: TextStyle(
                         fontSize: 40.0,
                         fontFamily: 'Righteous',
@@ -121,57 +168,22 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
                     ),
                     SizedBox(height: 24.0),
                     Text(
-                      'An error occured while saving',
+                      '${kGetCombinedName(phoneName)}_${kGetDateTime()}.png'
+                      '\nsaved to gallery',
                       style: kSubtitleTextStyle,
+                      textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 24.0),
                     dialogButton(
                       context: context,
-                      label: 'Try Again',
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    SizedBox(height: 16.0),
-                    dialogButton(
-                      context: context,
-                      label: 'Share Picture Directly',
+                      label: 'Share',
                       onTap: () => shareImage(),
                     ),
                   ],
                 ),
               );
-            }
-            return Container(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Text(
-                    'yay!',
-                    style: TextStyle(
-                      fontSize: 40.0,
-                      fontFamily: 'Righteous',
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  SizedBox(height: 24.0),
-                  Text(
-                    '${kGetCombinedName(phoneName)}_${kGetDateTime()}.png'
-                    '\nsaved to gallery',
-                    style: kSubtitleTextStyle,
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 24.0),
-                  dialogButton(
-                    context: context,
-                    label: 'Share',
-                    onTap: () => shareImage(),
-                  ),
-                ],
-              ),
-            );
-          },
+            },
+          ),
         ),
       ),
     );
