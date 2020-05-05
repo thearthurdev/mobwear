@@ -8,12 +8,13 @@ import 'package:mobwear/database/phone_database.dart';
 class CustomizationProvider extends ChangeNotifier {
   //GENERAL
   bool isEditPageOpen = false;
-  bool isSharePage = false;
+  bool isCapturePage = false;
   bool isCustomizationCopied = false;
   bool isSaving = false;
 
+  void changeCapturePageStatus(bool b) => isCapturePage = b;
   void changeEditPageStatus(bool b) => isEditPageOpen = b;
-  void changeIsSavingState(bool b) => isSaving = b;
+  void changeSavingState(bool b) => isSaving = b;
 
   //Box opened in this class to listen to changes. DO NOT REMOVE!
   Box phonesBox = PhoneDatabase.phonesBox;
@@ -214,7 +215,7 @@ class CustomizationProvider extends ChangeNotifier {
   void colorSelected(Color color) => selectedColor = color;
 
   void changeColor(bool noTexture) {
-    if (isSharePage) {
+    if (isCapturePage) {
       currentColor = selectedColor;
       if (!noTexture) {
         currentTexture = null;
@@ -237,7 +238,7 @@ class CustomizationProvider extends ChangeNotifier {
   BlendMode currentBlendMode;
 
   void getCurrentSideTextureDetails({int i}) {
-    if (isSharePage) {
+    if (isCapturePage) {
       if (currentTexture != null) {
       } else {
         currentBlendColor = Colors.deepOrange;
@@ -273,7 +274,7 @@ class CustomizationProvider extends ChangeNotifier {
   }
 
   void changeTexture() {
-    if (isSharePage) {
+    if (isCapturePage) {
       currentTexture = selectedTexture ?? currentTexture;
       currentBlendColor = selectedBlendColor ?? currentBlendColor;
       currentBlendModeIndex = selectedBlendModeIndex ?? currentBlendModeIndex;

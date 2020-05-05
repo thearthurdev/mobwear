@@ -101,7 +101,7 @@ class _GalleryViewPageState extends State<GalleryViewPage> {
                               ? null
                               : LinearGradient(
                                   colors: [
-                                    Colors.black38,
+                                    Colors.black26,
                                     Colors.transparent,
                                   ],
                                   begin: Alignment.topCenter,
@@ -135,7 +135,7 @@ class _GalleryViewPageState extends State<GalleryViewPage> {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              Colors.black38,
+                              Colors.black26,
                               Colors.transparent,
                             ],
                             begin: Alignment.bottomCenter,

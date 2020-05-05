@@ -50,6 +50,7 @@ class HomeSearchWidget extends StatelessWidget {
 
     if (Provider.of<SettingsProvider>(context).phoneGroupView ==
         PhoneGroupView.carousel) {
+      phoneCarouselController.stopAutoplay();
       tabsPageController
           .animateToPage(
         item.brandIndex,
@@ -78,6 +79,10 @@ class HomeSearchWidget extends StatelessWidget {
                 ).whenComplete(() {
                   phoneCarouselController.move(selectedIndex, animation: false);
                 });
+
+                if (Provider.of<SettingsProvider>(context).autoPlayCarousel) {
+                  phoneCarouselController.startAutoplay();
+                }
               });
             },
           );

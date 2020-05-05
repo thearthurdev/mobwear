@@ -199,7 +199,7 @@ class ZFlip extends StatelessWidget {
               Flexible(
                 child: BackPanel(
                   width: 230.0,
-                  height: 256.5,
+                  height: 256.8,
                   bezelsWidth: 0.5,
                   backPanelColor: topBezelsColor,
                   bezelsColor: topBezelsColor,
@@ -217,6 +217,7 @@ class ZFlip extends StatelessWidget {
                           height: 244.0,
                           bezelsWidth: 0.5,
                           noButtons: true,
+                          noShadow: true,
                           backPanelColor: topPanelColor,
                           bezelsColor: topBezelsColor,
                           texture: topPanelTexture,
@@ -277,7 +278,7 @@ class ZFlip extends StatelessWidget {
               Flexible(
                 child: BackPanel(
                   width: 230.0,
-                  height: 256.5,
+                  height: 256.8,
                   bezelsWidth: 0.5,
                   backPanelColor: bottomBezelsColor,
                   bezelsColor: bottomBezelsColor,
@@ -294,6 +295,7 @@ class ZFlip extends StatelessWidget {
                           height: 244.0,
                           bezelsWidth: 0.5,
                           noButtons: true,
+                          noShadow: true,
                           backPanelColor: bottomPanelColor,
                           bezelsColor: bottomBezelsColor,
                           texture: bottomPanelTexture,

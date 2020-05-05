@@ -30,11 +30,13 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
   PageController pageIndicatorController;
   bool isEditPageOpen;
   int selectedIndex;
+  bool userIsSwiping;
 
   @override
   void initState() {
     super.initState();
     isEditPageOpen = false;
+    userIsSwiping = false;
     swiperController = widget.swiperController;
     tabsPageController = widget.tabsPageController;
     pageIndicatorController = PageController(viewportFraction: 0.15);
@@ -45,7 +47,6 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
   Widget build(BuildContext context) {
     List<PhoneModel> phonesList = widget.phonesList;
     int reverseIndex(i) => phonesList.length - 1 - i;
-    bool userIsSwiping = false;
     bool autoPlayCarousel =
         Provider.of<SettingsProvider>(context).autoPlayCarousel;
     bool tabIsSwiping = Provider.of<SettingsProvider>(context).tabIsSwiping;
@@ -124,7 +125,7 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
                   int randomInt =
                       Random().nextInt(PhoneModel.phonesLists.length);
                   if (randomInt != tabsPageController.page.toInt()) {
-                    Future.delayed(Duration(milliseconds: 1400))
+                    Future.delayed(Duration(milliseconds: 1800))
                         .whenComplete(() {
                       tabsPageController.animateToPage(
                         randomInt,

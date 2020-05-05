@@ -60,7 +60,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
           ),
         );
 
-        Provider.of<CustomizationProvider>(context).changeIsSavingState(true);
+        Provider.of<CustomizationProvider>(context).changeSavingState(true);
       } catch (e) {
         print(e);
       }
@@ -88,7 +88,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
 
   @override
   Widget build(BuildContext context) {
-    isWideScreen = kIsWideScreen(context);
+    isWideScreen = kIsWideScreen(context) && kDeviceIsLandscape(context);
 
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(

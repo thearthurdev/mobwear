@@ -88,6 +88,14 @@ double kDeviceHeight(BuildContext context) {
   return MediaQuery.of(context).size.height;
 }
 
+bool kDeviceIsLandscape(BuildContext context) {
+  return MediaQuery.of(context).orientation == Orientation.landscape;
+}
+
+bool kDeviceIsPortrait(BuildContext context) {
+  return MediaQuery.of(context).orientation == Orientation.portrait;
+}
+
 IconData kGetBrandIconFromName(String name) {
   IconData icon;
   for (BrandModel brand in BrandModel.brands) {

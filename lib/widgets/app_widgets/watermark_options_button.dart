@@ -34,6 +34,8 @@ class WatermarkOptionsButton extends StatelessWidget {
             enabled: Provider.of<CustomizationProvider>(context).showWatermark,
             title: Text(
               title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontFamily: 'Quicksand',
                 fontWeight: FontWeight.bold,

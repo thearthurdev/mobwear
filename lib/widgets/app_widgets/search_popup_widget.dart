@@ -70,9 +70,15 @@ class SearchPopupWidget extends StatelessWidget {
             child: _tempList.isNotEmpty
                 ? Scrollbar(
                     child: ListView.separated(
+                      // child: ListView.builder(
                       padding: const EdgeInsets.symmetric(vertical: 4),
-                      separatorBuilder: (context, index) => const Divider(
+                      separatorBuilder: (context, index) => Divider(
                         height: 1,
+                        color: kBrightnessAwareColor(
+                          context,
+                          lightColor: Colors.black.withOpacity(0.05),
+                          darkColor: Colors.white.withOpacity(0.05),
+                        ),
                       ),
                       itemBuilder: (context, index) => Material(
                         color: Colors.transparent,

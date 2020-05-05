@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
+import 'package:provider/provider.dart';
 
 class BackPanel extends StatefulWidget {
   final double width, height, cornerRadius, bezelsWidth;
@@ -38,16 +40,19 @@ class BackPanel extends StatefulWidget {
 
 class _BackPanelState extends State<BackPanel> {
   Matrix4 matrix;
+  bool isCapturePage;
 
   @override
   void initState() {
     super.initState();
     matrix = Matrix4.identity();
+    isCapturePage = false;
   }
 
   @override
   Widget build(BuildContext context) {
     if (widget.noButtons) return backPanel(context);
+    isCapturePage = Provider.of<CustomizationProvider>(context).isCapturePage;
 
     return Column(
       children: <Widget>[
@@ -82,9 +87,13 @@ class _BackPanelState extends State<BackPanel> {
             ? null
             : [
                 BoxShadow(
-                  color: kBrightnessAwareColor(context,
-                      lightColor: Colors.blueGrey.withOpacity(0.2),
-                      darkColor: Colors.black26),
+                  color: kBrightnessAwareColor(
+                    context,
+                    lightColor: isCapturePage
+                        ? Colors.black26
+                        : Colors.blueGrey.withOpacity(0.2),
+                    darkColor: Colors.black26,
+                  ),
                   offset: Offset(5, 5),
                   blurRadius: 10.0,
                   spreadRadius: 2.0,

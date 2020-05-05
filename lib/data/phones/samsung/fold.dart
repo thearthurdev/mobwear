@@ -78,7 +78,7 @@ class Fold extends StatelessWidget {
             ],
           ),
           Align(
-            alignment: Alignment(-0.3, 0.0),
+            alignment: Alignment(-0.32, 0.0),
             child: Screen(
               phoneName: phoneName,
               phoneModel: phoneModel,
@@ -220,11 +220,8 @@ class Fold extends StatelessWidget {
                 width: 180.0,
                 height: 510.0,
                 bezelsWidth: 0.5,
-                backPanelColor: backPanelColor,
+                backPanelColor: backBezelsColor,
                 bezelsColor: backBezelsColor,
-                texture: backPanelTexture,
-                textureBlendColor: backPanelTextureBlendColor,
-                textureBlendMode: backPanelTextureBlendMode,
                 leftButtons: leftButtons(false),
                 borderRadius: BorderRadius.horizontal(
                   left: Radius.circular(24.0),
@@ -233,6 +230,26 @@ class Fold extends StatelessWidget {
                 child: Stack(
                   fit: StackFit.expand,
                   children: <Widget>[
+                    Align(
+                      alignment: Alignment(-2.0, 0.0),
+                      child: BackPanel(
+                        width: 175.5,
+                        height: 510.0,
+                        bezelsWidth: 0.5,
+                        noButtons: true,
+                        noShadow: true,
+                        backPanelColor: backPanelColor,
+                        bezelsColor: backBezelsColor,
+                        texture: backPanelTexture,
+                        textureBlendColor: backPanelTextureBlendColor,
+                        textureBlendMode: backPanelTextureBlendMode,
+                        leftButtons: leftButtons(false),
+                        borderRadius: BorderRadius.horizontal(
+                          left: Radius.circular(24.0),
+                          right: Radius.circular(4.0),
+                        ),
+                      ),
+                    ),
                     Align(
                       alignment: Alignment.center,
                       child: BackPanelGradient(
@@ -264,11 +281,8 @@ class Fold extends StatelessWidget {
                       width: 180.0,
                       height: 510.0,
                       bezelsWidth: 0.5,
-                      backPanelColor: frontPanelColor,
+                      backPanelColor: frontBezelsColor,
                       bezelsColor: frontBezelsColor,
-                      texture: frontPanelTexture,
-                      textureBlendColor: frontPanelTextureBlendColor,
-                      textureBlendMode: frontPanelTextureBlendMode,
                       borderRadius: BorderRadius.horizontal(
                         left: Radius.circular(6.0),
                         right: Radius.circular(24.0),
@@ -276,6 +290,25 @@ class Fold extends StatelessWidget {
                       child: Stack(
                         fit: StackFit.expand,
                         children: <Widget>[
+                          Align(
+                            alignment: Alignment(2.0, 0.0),
+                            child: BackPanel(
+                              width: 175.5,
+                              height: 510.0,
+                              bezelsWidth: 0.5,
+                              noButtons: true,
+                              noShadow: true,
+                              backPanelColor: frontPanelColor,
+                              bezelsColor: frontBezelsColor,
+                              texture: frontPanelTexture,
+                              textureBlendColor: frontPanelTextureBlendColor,
+                              textureBlendMode: frontPanelTextureBlendMode,
+                              borderRadius: BorderRadius.horizontal(
+                                left: Radius.circular(4.0),
+                                right: Radius.circular(24.0),
+                              ),
+                            ),
+                          ),
                           Align(
                             alignment: Alignment.center,
                             child: BackPanelGradient(

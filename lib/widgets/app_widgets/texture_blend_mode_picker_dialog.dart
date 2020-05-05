@@ -17,6 +17,7 @@ class TextureBlendModePickerDialog extends StatelessWidget {
         return AdaptiveDialog(
           title: 'Blend Mode',
           hasSelectButton: false,
+          maxWidth: 300.0,
           child: Scrollbar(
             child: ListView.builder(
               shrinkWrap: true,

@@ -101,7 +101,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    isWideScreen = kDeviceWidth(context) >= kDeviceHeight(context);
+    isWideScreen = kIsWideScreen(context) && kDeviceIsLandscape(context);
     currentController = isWideScreen ? controller2 : controller1;
 
     return AnnotatedRegion(

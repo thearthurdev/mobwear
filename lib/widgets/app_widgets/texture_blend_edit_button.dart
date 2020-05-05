@@ -40,6 +40,8 @@ class TextureBlendEditButton extends StatelessWidget {
                 dense: true,
                 title: Text(
                   title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontFamily: 'Quicksand',
                     fontWeight: FontWeight.bold,

@@ -121,8 +121,7 @@ class _EditPhonePageState extends State<EditPhonePage>
 
   @override
   Widget build(BuildContext context) {
-    isWideScreen = kIsWideScreen(context) ||
-        kDeviceWidth(context) >= kDeviceHeight(context);
+    isWideScreen = kIsWideScreen(context) && kDeviceIsLandscape(context);
     isLargeScreen = kDeviceHeight(context) >= 500.0;
     currentController = isWideScreen ? scrollController2 : scrollController1;
 
@@ -321,6 +320,7 @@ class _EditPhonePageState extends State<EditPhonePage>
 
   void onFABPressed() {
     Provider.of<CustomizationProvider>(context).resetCurrentValues();
+    Provider.of<CustomizationProvider>(context).changeCapturePageStatus(true);
     if (!flipCardKey.currentState.isFront) {
       flipCardKey.currentState.controller.reverse().then((v) {
         flipCardKey.currentState.isFront = true;
@@ -332,7 +332,10 @@ class _EditPhonePageState extends State<EditPhonePage>
               phoneID: widget.phoneID,
             ),
           ),
-        );
+        ).whenComplete(() {
+          Provider.of<CustomizationProvider>(context)
+              .changeCapturePageStatus(false);
+        });
       });
     } else {
       Navigator.push(
@@ -343,7 +346,10 @@ class _EditPhonePageState extends State<EditPhonePage>
             phoneID: widget.phoneID,
           ),
         ),
-      );
+      ).whenComplete(() {
+        Provider.of<CustomizationProvider>(context)
+            .changeCapturePageStatus(false);
+      });
     }
   }
 

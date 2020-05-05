@@ -70,7 +70,11 @@ class Button extends StatelessWidget {
                       ? boxBackPanelColor
                       : Colors.grey[900]
                   : boxBackPanelColor
-              : color,
+              : color == Colors.black || color.alpha < 40
+                  ? kThemeBrightness(context) == Brightness.light
+                      ? color
+                      : Colors.grey[900]
+                  : color,
           borderRadius: _borderRadius,
           border: Border.all(
             width: 0.5,
@@ -79,10 +83,10 @@ class Button extends StatelessWidget {
                 : color == null
                     ? boxBackPanelColor == Colors.black ||
                             boxBackPanelColor.alpha < 20
-                        ? Colors.grey[850]
+                        ? Colors.grey[800]
                         : boxBackPanelColor
                     : color == Colors.black || color.alpha < 20
-                        ? Colors.grey[850]
+                        ? Colors.grey[800]
                         : color,
           ),
           boxShadow: [

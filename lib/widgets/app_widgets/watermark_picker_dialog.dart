@@ -26,7 +26,7 @@ class _WatermarkPickerDialogState extends State<WatermarkPickerDialog> {
 
   @override
   Widget build(BuildContext context) {
-    isWideScreen = kIsWideScreen(context);
+    isWideScreen = kIsWideScreen(context) && kDeviceIsLandscape(context);
 
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(

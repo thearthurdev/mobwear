@@ -73,8 +73,7 @@ class _CapturePageState extends State<CapturePage> {
 
   @override
   Widget build(BuildContext context) {
-    isWideScreen = kIsWideScreen(context) ||
-        kDeviceWidth(context) >= kDeviceHeight(context);
+    isWideScreen = kIsWideScreen(context) && kDeviceIsLandscape(context);
     isLargeScreen = kDeviceHeight(context) >= 500.0;
 
     return AnnotatedRegion(
@@ -390,7 +389,7 @@ class _CapturePageState extends State<CapturePage> {
                         watermark(),
                         Transform(
                           transform: matrix,
-                          child: Container(
+                          child: Padding(
                             padding: EdgeInsets.all(24.0),
                             child: Hero(
                               tag: widget.phoneID,
@@ -442,7 +441,7 @@ class _CapturePageState extends State<CapturePage> {
             ),
           ).whenComplete(() {
             Provider.of<CustomizationProvider>(context)
-                .changeIsSavingState(false);
+                .changeSavingState(false);
             print(Provider.of<CustomizationProvider>(context).isSaving);
           });
         },
@@ -464,7 +463,7 @@ class _CapturePageState extends State<CapturePage> {
       imageBytes = byteData.buffer.asUint8List();
       // var bs64 = base64Encode(pngBytes);
     } catch (e) {
-      Provider.of<CustomizationProvider>(context).changeIsSavingState(false);
+      Provider.of<CustomizationProvider>(context).changeSavingState(false);
       String errorText = 'Unable to save. Please try again later';
       Toast.show(errorText, context);
       print(e);
@@ -475,7 +474,6 @@ class _CapturePageState extends State<CapturePage> {
   }
 
   void changeBackground(BuildContext context) {
-    Provider.of<CustomizationProvider>(context).isSharePage = true;
     Provider.of<CustomizationProvider>(context).selectedTexture = null;
     Provider.of<CustomizationProvider>(context).getCurrentSideTextureDetails();
     Provider.of<CustomizationProvider>(context).resetSelectedValues();

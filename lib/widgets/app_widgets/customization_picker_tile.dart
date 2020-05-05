@@ -19,7 +19,7 @@ class CustomizationPickerTile extends StatelessWidget {
   final Color color;
   final MyTexture texture;
   final Map colors, textures;
-  final bool noTexture, noImage, isSharePage;
+  final bool noTexture, noImage, isCapturePage;
 
   const CustomizationPickerTile({
     this.title,
@@ -30,7 +30,7 @@ class CustomizationPickerTile extends StatelessWidget {
     this.textures,
     this.noTexture = false,
     this.noImage = true,
-    this.isSharePage = false,
+    this.isCapturePage = false,
   });
 
   static SlidableController slidableController = SlidableController();
@@ -51,7 +51,7 @@ class CustomizationPickerTile extends StatelessWidget {
           controller: slidableController,
           actionPane: SlidableBehindActionPane(),
           actionExtentRatio: 0.2,
-          actions: isSharePage
+          actions: isCapturePage
               ? null
               : <Widget>[
                   slidableActionButton(
@@ -65,7 +65,7 @@ class CustomizationPickerTile extends StatelessWidget {
                     onTap: () => onResetPressed(context),
                   ),
                 ],
-          secondaryActions: isSharePage
+          secondaryActions: isCapturePage
               ? null
               : <Widget>[
                   slidableActionButton(
@@ -247,7 +247,6 @@ class CustomizationPickerCard extends StatelessWidget {
   void onTilePressed(BuildContext context) {
     Slidable.of(context).close();
 
-    Provider.of<CustomizationProvider>(context).isSharePage = false;
     Provider.of<CustomizationProvider>(context).selectedTexture = null;
     Provider.of<CustomizationProvider>(context).changeCopyStatus(false);
     Provider.of<CustomizationProvider>(context).setCurrentSide(index);

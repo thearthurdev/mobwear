@@ -29,7 +29,7 @@ class CustomizationPickerDialog extends StatefulWidget {
 class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
   int pickerModeIndex;
   int modeCount;
-  bool isSharePage;
+  bool isCapturePage;
   bool isWideScreen;
   dynamic provider;
 
@@ -43,13 +43,13 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    isSharePage = Provider.of<CustomizationProvider>(context).isSharePage;
+    isCapturePage = Provider.of<CustomizationProvider>(context).isCapturePage;
     provider = Provider.of<CustomizationProvider>(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    isWideScreen = kIsWideScreen(context);
+    isWideScreen = kIsWideScreen(context) && kDeviceIsLandscape(context);
     Orientation orientation = MediaQuery.of(context).orientation;
 
     List<Widget> pickerModeViews = [
@@ -73,7 +73,7 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
           context,
           lightColor: Color(0xFF757575),
           darkColor:
-              isSharePage && !isWideScreen ? Color(0xFF060606) : Colors.black,
+              isCapturePage && !isWideScreen ? Color(0xFF060606) : Colors.black,
         ),
         systemNavigationBarIconBrightness:
             kThemeBrightness(context) == Brightness.light
@@ -84,10 +84,10 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
         initialIndex: pickerModeIndex,
         length: modeCount,
         child: AdaptiveDialog(
-          title: isSharePage ? 'Background' : provider.currentSide,
+          title: isCapturePage ? 'Background' : provider.currentSide,
           onSelectPressed: () => onCustomizationSelected(),
           maxWidth: isWideScreen && orientation == Orientation.landscape
-              ? kDeviceWidth(context)
+              ? 620.0
               : null,
           child: Scrollbar(
             child: SingleChildScrollView(

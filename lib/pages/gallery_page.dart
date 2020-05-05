@@ -94,25 +94,41 @@ class _GalleryPageState extends State<GalleryPage> {
   }
 
   Widget buildFAB() {
+    void onFABPressed() {
+      showDialog<Widget>(
+        context: context,
+        builder: (BuildContext context) =>
+            GalleryBatchDeleteDialog(selectedItemKeys),
+      ).whenComplete(
+        () => setState(() => selectedItemKeys.clear()),
+      );
+    }
+
     return AnimatedContainer(
       duration: Duration(milliseconds: 350),
       curve: Curves.easeOutSine,
       height: selectedItemKeys.isNotEmpty ? 56.0 : 0.0,
-      child: FloatingActionButton(
-        child: AnimatedOpacity(
-            duration: Duration(milliseconds: 250),
-            opacity: selectedItemKeys.isNotEmpty ? 1.0 : 0.0,
-            child: Icon(LineAwesomeIcons.trash)),
-        onPressed: () {
-          showDialog<Widget>(
-            context: context,
-            builder: (BuildContext context) =>
-                GalleryBatchDeleteDialog(selectedItemKeys),
-          ).whenComplete(
-            () => setState(() => selectedItemKeys.clear()),
-          );
-        },
-      ),
+      child: isWideScreen && kDeviceHeight(context) > 400.0
+          ? FloatingActionButton.extended(
+              label: AnimatedOpacity(
+                duration: Duration(milliseconds: 250),
+                opacity: selectedItemKeys.isNotEmpty ? 1.0 : 0.0,
+                child: Text('Delete', style: kTitleTextStyle),
+              ),
+              icon: AnimatedOpacity(
+                duration: Duration(milliseconds: 250),
+                opacity: selectedItemKeys.isNotEmpty ? 1.0 : 0.0,
+                child: Icon(LineAwesomeIcons.trash),
+              ),
+              onPressed: onFABPressed,
+            )
+          : FloatingActionButton(
+              child: AnimatedOpacity(
+                  duration: Duration(milliseconds: 250),
+                  opacity: selectedItemKeys.isNotEmpty ? 1.0 : 0.0,
+                  child: Icon(LineAwesomeIcons.trash)),
+              onPressed: onFABPressed,
+            ),
     );
   }
 
@@ -136,7 +152,7 @@ class _GalleryPageState extends State<GalleryPage> {
     return SliverPadding(
       padding: EdgeInsets.all(16.0),
       sliver: SliverStaggeredGrid.countBuilder(
-        crossAxisCount: isWideScreen ? 8 : 4,
+        crossAxisCount: isWideScreen && kDeviceIsLandscape(context) ? 8 : 4,
         mainAxisSpacing: 16.0,
         crossAxisSpacing: 16.0,
         itemCount: items.length,

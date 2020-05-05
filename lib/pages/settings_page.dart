@@ -23,9 +23,12 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   bool isThemeExpanded = false;
   bool isAutoplayExpanded = false;
+  bool isWideScreen;
 
   @override
   Widget build(BuildContext context) {
+    isWideScreen = kIsWideScreen(context);
+
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,

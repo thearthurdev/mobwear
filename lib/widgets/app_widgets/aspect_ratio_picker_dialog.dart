@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 class AspectRatioPickerDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    bool isWideScreen = kIsWideScreen(context);
+    bool isWideScreen = kIsWideScreen(context) && kDeviceIsLandscape(context);
 
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
