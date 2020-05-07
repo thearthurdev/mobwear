@@ -50,12 +50,15 @@ class _HomeVerticalTabsState extends State<HomeVerticalTabs> {
       onNotification: (ScrollNotification notification) {
         if (notification is ScrollStartNotification) {
           if (notification.dragDetails != null) {
-            Provider.of<SettingsProvider>(context).changeTabSwipingStatus(true);
+            Provider.of<SettingsProvider>(context, listen: false)
+                .changeTabSwipingStatus(true);
             widget.phoneCarouselController.stopAutoplay();
           }
         } else if (notification is ScrollEndNotification) {
-          Provider.of<SettingsProvider>(context).changeTabSwipingStatus(false);
-          if (Provider.of<SettingsProvider>(context).autoPlayCarousel) {
+          Provider.of<SettingsProvider>(context, listen: false)
+              .changeTabSwipingStatus(false);
+          if (Provider.of<SettingsProvider>(context, listen: false)
+              .autoPlayCarousel) {
             widget.phoneCarouselController.startAutoplay();
           }
         }
@@ -140,7 +143,8 @@ class _HomeVerticalTabsState extends State<HomeVerticalTabs> {
           );
         }
         return FutureBuilder(
-          future: Provider.of<SettingsProvider>(context).loadPhoneGroupView(),
+          future: Provider.of<SettingsProvider>(context, listen: false)
+              .loadPhoneGroupView(),
           builder: (context, snapshot) {
             if (snapshot.data == null &&
                 snapshot.connectionState != ConnectionState.done) {

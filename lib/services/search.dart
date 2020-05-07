@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobwear/services/keyboard_visibilty.dart';
+// import 'package:mobwear/services/keyboard_visibilty.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:mobwear/widgets/app_widgets/search_bar.dart';
 import 'package:mobwear/widgets/app_widgets/search_popup_widget.dart';
 
@@ -121,13 +122,19 @@ class MySingleChoiceSearchState<T> extends State<Search<T>> {
       }
     });
 
-    KeyboardVisibilityNotification().addNewListener(
-      onChange: (visible) {
-        if (!visible) {
-          _focusNode.unfocus();
-        }
-      },
-    );
+    // KeyboardVisibilityNotification().addNewListener(
+    //   onChange: (visible) {
+    //     if (!visible) {
+    //       _focusNode.unfocus();
+    //     }
+    //   },
+    // );
+
+    KeyboardVisibility.onChange.listen((bool visible) {
+      if (!visible) {
+        _focusNode.unfocus();
+      }
+    });
   }
 
   @override

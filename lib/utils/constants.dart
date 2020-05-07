@@ -53,7 +53,7 @@ Brightness kThemeBrightness(BuildContext context) {
 }
 
 TextStyle kAppBarTitleTextstyle(BuildContext context) {
-  return Theme.of(context).appBarTheme.textTheme.title;
+  return Theme.of(context).appBarTheme.textTheme.headline6;
 }
 
 String kGetColorString(Color color) {

@@ -206,7 +206,8 @@ class _GalleryPageState extends State<GalleryPage> {
               if (selectedItemKeys.isNotEmpty) {
                 selectItem(i);
               } else {
-                Provider.of<GalleryProvider>(context).setCurrentIndex(i);
+                Provider.of<GalleryProvider>(context, listen: false)
+                    .setCurrentIndex(i);
                 Navigator.push(
                   context,
                   MaterialPageRoute(

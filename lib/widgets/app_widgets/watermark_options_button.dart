@@ -71,7 +71,8 @@ class WatermarkOptionsButton extends StatelessWidget {
                             title: 'Color',
                             color: watermarkColor,
                             onSelectPressed: (selectedColor) =>
-                                Provider.of<CustomizationProvider>(context)
+                                Provider.of<CustomizationProvider>(context,
+                                        listen: false)
                                     .watermarkColorSelected(selectedColor),
                           );
                         },
