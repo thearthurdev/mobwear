@@ -7,11 +7,11 @@ import 'package:mobwear/database/settings_database.dart';
 import 'package:mobwear/pages/capture_page.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
-import 'package:flip_card/flip_card.dart';
 import 'package:mobwear/utils/my_phone_header_delegate.dart';
 import 'package:mobwear/widgets/app_widgets/customization_picker_tile.dart';
 import 'package:mobwear/widgets/app_widgets/flushbars.dart';
 import 'package:provider/provider.dart';
+import "package:flip/flip.dart";
 
 class EditPhonePage extends StatefulWidget {
   static const String id = '/EditPhonePage';
@@ -30,7 +30,7 @@ class EditPhonePage extends StatefulWidget {
 
 class _EditPhonePageState extends State<EditPhonePage>
     with SingleTickerProviderStateMixin {
-  GlobalKey<FlipCardState> flipCardKey = GlobalKey<FlipCardState>();
+  FlipController flipController;
   ScrollController scrollController1;
   ScrollController scrollController2;
   ScrollController currentController;
@@ -44,6 +44,7 @@ class _EditPhonePageState extends State<EditPhonePage>
   void initState() {
     super.initState();
     showFAB = true;
+    flipController = FlipController();
     scrollController1 = ScrollController();
     scrollController2 = ScrollController();
     scrollController1.addListener(scrollListener);
@@ -54,23 +55,22 @@ class _EditPhonePageState extends State<EditPhonePage>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    Provider.of<CustomizationProvider>(context).changeEditPageStatus(true);
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .changeEditPageStatus(true);
   }
 
   void showFlipTipFlushbar() {
     if (showFlipTip) {
       Future.delayed(Duration(milliseconds: 1500), () {
-        flipCardKey.currentState.controller.forward();
-        flipCardKey.currentState.isFront = false;
-        flipCardKey.currentState.setState(() {});
+        if (flipController.isFront) flipController.flip();
+
         MyFlushbars.showTipFlushbar(
           context,
           title: 'Tip: Specs',
           message: 'Want to view the specs of any phone? Simply flip it over!',
           onDismiss: () {
-            flipCardKey.currentState.controller.reverse();
-            flipCardKey.currentState.isFront = true;
             settingsBox.put(SettingsDatabase.flipPhoneTipKey, 1);
+            if (!flipController.isFront) flipController.flip();
             if (showSwipeTip) showSwipeTipFlushbar();
           },
         );
@@ -125,7 +125,8 @@ class _EditPhonePageState extends State<EditPhonePage>
     isLargeScreen = kDeviceHeight(context) >= 500.0;
     currentController = isWideScreen ? scrollController2 : scrollController1;
 
-    Provider.of<CustomizationProvider>(context).setCurrentPhoneData(
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .setCurrentPhoneData(
       phoneID: widget.phoneID,
       phoneBrandIndex: widget.phone.getPhoneBrandIndex,
       phoneIndex: widget.phone.getPhoneIndex,
@@ -163,10 +164,10 @@ class _EditPhonePageState extends State<EditPhonePage>
       leading: IconButton(
         icon: Icon(LineAwesomeIcons.angle_left),
         onPressed: () {
-          if (!flipCardKey.currentState.isFront) {
+          if (!flipController.isFront) {
             flipPhoneAndPop();
           } else {
-            Provider.of<CustomizationProvider>(context)
+            Provider.of<CustomizationProvider>(context, listen: false)
                 .changeEditPageStatus(false);
             Navigator.pop(context);
           }
@@ -230,7 +231,7 @@ class _EditPhonePageState extends State<EditPhonePage>
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
-              child: buildPhone(),
+              child: Center(child: buildPhone()),
             ),
           ),
         ),
@@ -257,12 +258,11 @@ class _EditPhonePageState extends State<EditPhonePage>
       tag: widget.phoneID,
       child: GestureDetector(
         onHorizontalDragUpdate: (details) => flipPhone(details),
-        child: FlipCard(
-          flipOnTouch: false,
-          speed: 300,
-          key: flipCardKey,
-          front: widget.phone,
-          back: widget.phone.getPhoneFront,
+        child: Flip(
+          controller: flipController,
+          flipDuration: Duration(milliseconds: 300),
+          firstChild: widget.phone,
+          secondChild: widget.phone.getPhoneFront,
         ),
       ),
     );
@@ -319,11 +319,13 @@ class _EditPhonePageState extends State<EditPhonePage>
   }
 
   void onFABPressed() {
-    Provider.of<CustomizationProvider>(context).resetCurrentValues();
-    Provider.of<CustomizationProvider>(context).changeCapturePageStatus(true);
-    if (!flipCardKey.currentState.isFront) {
-      flipCardKey.currentState.controller.reverse().then((v) {
-        flipCardKey.currentState.isFront = true;
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .resetCurrentValues();
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .changeCapturePageStatus(true);
+    if (!flipController.isFront) {
+      flipController.flip();
+      Future.delayed(Duration(milliseconds: 320), () {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -333,7 +335,7 @@ class _EditPhonePageState extends State<EditPhonePage>
             ),
           ),
         ).whenComplete(() {
-          Provider.of<CustomizationProvider>(context)
+          Provider.of<CustomizationProvider>(context, listen: false)
               .changeCapturePageStatus(false);
         });
       });
@@ -347,34 +349,36 @@ class _EditPhonePageState extends State<EditPhonePage>
           ),
         ),
       ).whenComplete(() {
-        Provider.of<CustomizationProvider>(context)
+        Provider.of<CustomizationProvider>(context, listen: false)
             .changeCapturePageStatus(false);
       });
     }
   }
 
   void flipPhone(DragUpdateDetails details) {
-    if (details.delta.dx > 0 && !flipCardKey.currentState.isFront) {
-      flipCardKey.currentState.toggleCard();
-    } else if (details.delta.dx < 0 && flipCardKey.currentState.isFront) {
-      flipCardKey.currentState.toggleCard();
+    if (details.delta.dx > 0 && !flipController.isFront) {
+      flipController.flip();
+    } else if (details.delta.dx < 0 && flipController.isFront) {
+      flipController.flip();
     }
   }
 
   void flipPhoneAndPop() {
-    flipCardKey.currentState.controller.reverse().then((v) {
-      flipCardKey.currentState.isFront = true;
-      Provider.of<CustomizationProvider>(context).changeEditPageStatus(false);
+    flipController.flip();
+    Future.delayed(Duration(milliseconds: 320), () {
+      Provider.of<CustomizationProvider>(context, listen: false)
+          .changeEditPageStatus(false);
       Navigator.pop(context);
     });
   }
 
   Future<bool> onWillPop() {
-    if (!flipCardKey.currentState.isFront) {
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .changeEditPageStatus(false);
+    if (!flipController.isFront) {
       flipPhoneAndPop();
       return Future.value(false);
     }
-    Provider.of<CustomizationProvider>(context).changeEditPageStatus(false);
     return Future.value(true);
   }
 }

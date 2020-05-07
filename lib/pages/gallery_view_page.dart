@@ -90,7 +90,7 @@ class _GalleryViewPageState extends State<GalleryViewPage> {
                         },
                         onPageChanged: (i) => setState(() {
                           currentIndex = i;
-                          Provider.of<GalleryProvider>(context)
+                          Provider.of<GalleryProvider>(context, listen: false)
                               .setCurrentIndex(i);
                         }),
                       ),
@@ -215,7 +215,8 @@ class _GalleryViewPageState extends State<GalleryViewPage> {
   }
 
   void toggleItemFavStatus() {
-    Provider.of<GalleryProvider>(context).toggleItemFavStatus(currentIndex);
+    Provider.of<GalleryProvider>(context, listen: false)
+        .toggleItemFavStatus(currentIndex);
   }
 
   void deleteItem() {

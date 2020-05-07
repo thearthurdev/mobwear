@@ -16,14 +16,8 @@ class TextureBlendEditButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CustomizationProvider>(
       builder: (context, provider, child) {
-        String selectedTexture = provider.selectedTexture;
-        String currentTexture = provider.currentTexture;
         Color blendColor =
             provider.selectedBlendColor ?? provider.currentBlendColor;
-
-        bool enabled = selectedTexture != null
-            ? true
-            : currentTexture != null ? true : false;
 
         return ElevatedCard(
           margin: EdgeInsets.symmetric(horizontal: 4.0),
@@ -34,9 +28,6 @@ class TextureBlendEditButton extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(10.0),
               child: ListTile(
-                enabled: selectedTexture != null
-                    ? true
-                    : currentTexture != null ? true : false,
                 dense: true,
                 title: Text(
                   title,
@@ -59,33 +50,30 @@ class TextureBlendEditButton extends StatelessWidget {
                         size: kScreenAwareSize(25.0, context),
                       ),
               ),
-              onTap: enabled
-                  ? title == 'Blend Mode'
-                      ? () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return TextureBlendModePickerDialog();
+              onTap: title == 'Blend Mode'
+                  ? () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return TextureBlendModePickerDialog();
+                        },
+                      );
+                    }
+                  : () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return ColorPickerDialog(
+                            title: 'Blend Color',
+                            color: provider.selectedBlendColor ??
+                                provider.currentBlendColor,
+                            onSelectPressed: (selectedColor) {
+                              provider.textureBlendColorSelected(selectedColor);
                             },
                           );
-                        }
-                      : () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return ColorPickerDialog(
-                                title: 'Blend Color',
-                                color: provider.selectedBlendColor ??
-                                    provider.currentBlendColor,
-                                onSelectPressed: (selectedColor) {
-                                  provider
-                                      .textureBlendColorSelected(selectedColor);
-                                },
-                              );
-                            },
-                          );
-                        }
-                  : null,
+                        },
+                      );
+                    },
             ),
           ),
         );

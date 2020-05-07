@@ -60,7 +60,8 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
           ),
         );
 
-        Provider.of<CustomizationProvider>(context).changeSavingState(true);
+        Provider.of<CustomizationProvider>(context, listen: false)
+            .changeSavingState(true);
       } catch (e) {
         print(e);
       }

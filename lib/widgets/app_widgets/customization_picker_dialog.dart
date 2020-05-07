@@ -31,7 +31,6 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
   int modeCount;
   bool isCapturePage;
   bool isWideScreen;
-  dynamic provider;
 
   @override
   void initState() {
@@ -44,7 +43,6 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     isCapturePage = Provider.of<CustomizationProvider>(context).isCapturePage;
-    provider = Provider.of<CustomizationProvider>(context);
   }
 
   @override
@@ -54,8 +52,11 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
 
     List<Widget> pickerModeViews = [
       ColorPicker(
-        color: provider.currentColor ?? widget.initRandomColor,
-        onChanged: (color) => provider.colorSelected(color),
+        color: Provider.of<CustomizationProvider>(context).currentColor ??
+            widget.initRandomColor,
+        onChanged: (color) =>
+            Provider.of<CustomizationProvider>(context, listen: false)
+                .colorSelected(color),
       ),
       TexturePicker(),
       Container(
@@ -84,7 +85,9 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
         initialIndex: pickerModeIndex,
         length: modeCount,
         child: AdaptiveDialog(
-          title: isCapturePage ? 'Background' : provider.currentSide,
+          title: isCapturePage
+              ? 'Background'
+              : Provider.of<CustomizationProvider>(context).currentSide,
           onSelectPressed: () => onCustomizationSelected(),
           maxWidth: isWideScreen && orientation == Orientation.landscape
               ? 620.0
@@ -144,9 +147,11 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
 
   void onCustomizationSelected() {
     if (pickerModeIndex == 0) {
-      provider.changeColor(widget.noTexture);
+      Provider.of<CustomizationProvider>(context, listen: false)
+          .changeColor(widget.noTexture);
     } else if (pickerModeIndex == 1) {
-      provider.changeTexture();
+      Provider.of<CustomizationProvider>(context, listen: false)
+          .changeTexture();
     }
 
     Navigator.pop(context);

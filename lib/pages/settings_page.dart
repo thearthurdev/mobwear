@@ -68,7 +68,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           onExpansionChanged: (b) =>
                               setState(() => isThemeExpanded = b),
                           onOptionSelected: (i) {
-                            Provider.of<ThemeProvider>(context)
+                            Provider.of<ThemeProvider>(context, listen: false)
                                 .changeTheme(context, i);
                           },
                         ),

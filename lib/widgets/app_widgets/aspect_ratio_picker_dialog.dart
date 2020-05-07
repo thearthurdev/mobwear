@@ -43,7 +43,7 @@ class AspectRatioPickerDialog extends StatelessWidget {
                     : null,
                 onTap: () {
                   Navigator.pop(context);
-                  Provider.of<CustomizationProvider>(context)
+                  Provider.of<CustomizationProvider>(context, listen: false)
                       .changeAspectRatioIndex(i);
                 },
               );
