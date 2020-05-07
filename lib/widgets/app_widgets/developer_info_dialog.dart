@@ -3,16 +3,37 @@ import 'package:flutter/services.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/adaptiveDialog.dart';
+import 'package:toast/toast.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DeveloperInfoDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Map<IconData, String> infoSections = {
-      LineAwesomeIcons.github: 'github.com/ArthurDevv',
+      LineAwesomeIcons.github: 'github.com/thearthurdev',
       LineAwesomeIcons.linkedin: 'linkedin.com/in/arthurdelords',
       LineAwesomeIcons.envelope_square: 'arthurdelords@gmail.com',
       LineAwesomeIcons.twitter: '@_DeeArthur',
     };
+
+    void launchURL(String url) async {
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        // throw 'Could not launch $url';
+        Toast.show(
+          'Couldn\'t open $url\nPlease try again later',
+          context,
+          duration: 2,
+          backgroundColor: kBrightnessAwareColor(context,
+              lightColor: Colors.black87, darkColor: Colors.white70),
+          textColor: kBrightnessAwareColor(context,
+              lightColor: Colors.white, darkColor: Colors.black),
+          backgroundRadius: 10.0,
+          gravity: 0,
+        );
+      }
+    }
 
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
@@ -60,13 +81,36 @@ class DeveloperInfoDialog extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: List.generate(infoSections.length, (i) {
-                        return infoListTile(
+                      children: <Widget>[
+                        infoListTile(
                           context,
-                          icon: infoSections.keys.elementAt(i),
-                          title: infoSections.values.elementAt(i),
-                        );
-                      }),
+                          icon: infoSections.keys.elementAt(0),
+                          title: infoSections.values.elementAt(0),
+                          onTap: () => launchURL(
+                              'https:${infoSections.values.elementAt(0)}'),
+                        ),
+                        infoListTile(
+                          context,
+                          icon: infoSections.keys.elementAt(1),
+                          title: infoSections.values.elementAt(1),
+                          onTap: () => launchURL(
+                              'https:${infoSections.values.elementAt(1)}'),
+                        ),
+                        infoListTile(
+                          context,
+                          icon: infoSections.keys.elementAt(2),
+                          title: infoSections.values.elementAt(2),
+                          onTap: () => launchURL(
+                              'mailto:${infoSections.values.elementAt(2)}?subject=MobWear&body=Dear%20Delords,'),
+                        ),
+                        infoListTile(
+                          context,
+                          icon: infoSections.keys.elementAt(3),
+                          title: infoSections.values.elementAt(3),
+                          onTap: () => launchURL(
+                              'https:twitter.com/${infoSections.values.elementAt(3).split("@")[1]}'),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -78,7 +122,8 @@ class DeveloperInfoDialog extends StatelessWidget {
     );
   }
 
-  ListTile infoListTile(BuildContext context, {IconData icon, String title}) {
+  ListTile infoListTile(BuildContext context,
+      {IconData icon, String title, Function onTap}) {
     return ListTile(
       leading: Icon(
         icon,
@@ -88,8 +133,12 @@ class DeveloperInfoDialog extends StatelessWidget {
       title: Text(
         title,
         overflow: TextOverflow.ellipsis,
-        style: kTitleTextStyle,
+        style: kTitleTextStyle.copyWith(
+          color: Colors.blue,
+          decoration: TextDecoration.underline,
+        ),
       ),
+      onTap: onTap,
     );
   }
 }

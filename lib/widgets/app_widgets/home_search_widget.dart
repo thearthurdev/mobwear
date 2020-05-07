@@ -48,7 +48,7 @@ class HomeSearchWidget extends StatelessWidget {
   void onPhoneSelected(BuildContext context, SearchItem item) {
     List<List<PhoneModel>> phonesLists = PhoneModel.phonesLists;
 
-    if (Provider.of<SettingsProvider>(context).phoneGroupView ==
+    if (Provider.of<SettingsProvider>(context, listen: false).phoneGroupView ==
         PhoneGroupView.carousel) {
       phoneCarouselController.stopAutoplay();
       tabsPageController
@@ -80,7 +80,8 @@ class HomeSearchWidget extends StatelessWidget {
                   phoneCarouselController.move(selectedIndex, animation: false);
                 });
 
-                if (Provider.of<SettingsProvider>(context).autoPlayCarousel) {
+                if (Provider.of<SettingsProvider>(context, listen: false)
+                    .autoPlayCarousel) {
                   phoneCarouselController.startAutoplay();
                 }
               });

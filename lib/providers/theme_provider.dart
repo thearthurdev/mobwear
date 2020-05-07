@@ -29,7 +29,7 @@ class ThemeProvider with ChangeNotifier {
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: AppBarTheme(
       textTheme: TextTheme(
-        title: TextStyle(
+        headline6: TextStyle(
           fontFamily: 'Righteous',
           fontSize: 26.0,
           color: Colors.black,
@@ -52,10 +52,10 @@ class ThemeProvider with ChangeNotifier {
       ),
     ),
     textTheme: TextTheme(
-      headline: TextStyle(
+      headline5: TextStyle(
         fontFamily: 'Quicksand',
       ),
-      title: TextStyle(
+      headline6: TextStyle(
         fontFamily: 'Quicksand',
       ),
       caption: TextStyle(
@@ -70,7 +70,7 @@ class ThemeProvider with ChangeNotifier {
     scaffoldBackgroundColor: Colors.black,
     appBarTheme: AppBarTheme(
       textTheme: TextTheme(
-        title: TextStyle(
+        headline6: TextStyle(
           fontFamily: 'Righteous',
           fontSize: 26.0,
           color: Colors.white,
@@ -94,10 +94,10 @@ class ThemeProvider with ChangeNotifier {
       titleTextStyle: kTitleTextStyle.copyWith(fontSize: 18.0),
     ),
     textTheme: TextTheme(
-      headline: TextStyle(
+      headline5: TextStyle(
         fontFamily: 'Quicksand',
       ),
-      title: TextStyle(
+      headline6: TextStyle(
         fontFamily: 'Quicksand',
       ),
       caption: TextStyle(

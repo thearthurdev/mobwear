@@ -63,10 +63,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     isWideScreen = kIsWideScreen(context) && kDeviceHeight(context) > 500.0;
 
-    Provider.of<SettingsProvider>(context).loadAutoPlay();
+    Provider.of<SettingsProvider>(context, listen: false).loadAutoPlay();
 
     void togglePhoneGroupView(i) {
-      Provider.of<SettingsProvider>(context)
+      Provider.of<SettingsProvider>(context, listen: false)
           .changePhoneGroupView(myPhoneGroupViews.values.elementAt(i));
     }
 
@@ -164,7 +164,7 @@ class _HomePageState extends State<HomePage> {
 
   FloatingActionButton buildFAB() {
     void onFABPressed() {
-      Provider.of<GalleryProvider>(context).loadGallery().then(
+      Provider.of<GalleryProvider>(context, listen: false).loadGallery().then(
             (galleryItems) => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => GalleryPage()),

@@ -24,7 +24,8 @@ class GalleryItemDeleteDialog extends StatelessWidget {
         selectText: 'Delete',
         onSelectPressed: () {
           Navigator.pop(context);
-          Provider.of<GalleryProvider>(context).deleteItem(item.imageFileName);
+          Provider.of<GalleryProvider>(context, listen: false)
+              .deleteItem(item.imageFileName);
         },
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),

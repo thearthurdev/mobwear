@@ -131,30 +131,37 @@ class CustomizationPickerTile extends StatelessWidget {
   }
 
   void onResetPressed(BuildContext context) {
-    Provider.of<CustomizationProvider>(context).setCurrentSide(index);
-    Provider.of<CustomizationProvider>(context).setTempValues(noTexture);
-    Provider.of<CustomizationProvider>(context).resetCustomization(noTexture);
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .setCurrentSide(index);
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .setTempValues(noTexture);
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .resetCustomization(noTexture);
     MyFlushbars.showCustomizationActionFlushbar(
       context,
       icon: LineAwesomeIcons.refresh,
       message:
-          '${Provider.of<CustomizationProvider>(context).currentSide} customization reset',
+          '${Provider.of<CustomizationProvider>(context, listen: false).currentSide} customization reset',
       buttonText: 'Undo',
       onButtonPressed: () {
-        Provider.of<CustomizationProvider>(context).undo(noTexture);
+        Provider.of<CustomizationProvider>(context, listen: false)
+            .undo(noTexture);
       },
     );
   }
 
   void onCopyPressed(BuildContext context) {
-    Provider.of<CustomizationProvider>(context).setCurrentSide(index);
-    Provider.of<CustomizationProvider>(context).setPreviousSide();
-    Provider.of<CustomizationProvider>(context).copyCustomization(noTexture);
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .setCurrentSide(index);
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .setPreviousSide();
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .copyCustomization(noTexture);
     MyFlushbars.showCustomizationActionFlushbar(
       context,
       icon: LineAwesomeIcons.copy,
       message:
-          '${Provider.of<CustomizationProvider>(context).currentSide} customization copied',
+          '${Provider.of<CustomizationProvider>(context, listen: false).currentSide} customization copied',
       buttonText: 'Okay',
       onButtonPressed: () {},
     );
@@ -162,19 +169,23 @@ class CustomizationPickerTile extends StatelessWidget {
 
   void onPastePressed(BuildContext context) {
     String previousSide =
-        Provider.of<CustomizationProvider>(context).previousSide;
-    Provider.of<CustomizationProvider>(context).setCurrentSide(index);
-    Provider.of<CustomizationProvider>(context).setTempValues(noTexture);
+        Provider.of<CustomizationProvider>(context, listen: false).previousSide;
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .setCurrentSide(index);
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .setTempValues(noTexture);
     try {
-      Provider.of<CustomizationProvider>(context).pasteCustomization(noTexture);
+      Provider.of<CustomizationProvider>(context, listen: false)
+          .pasteCustomization(noTexture);
       MyFlushbars.showCustomizationActionFlushbar(
         context,
         icon: LineAwesomeIcons.paste,
         message:
-            '$previousSide customization pasted to ${Provider.of<CustomizationProvider>(context).currentSide}',
+            '$previousSide customization pasted to ${Provider.of<CustomizationProvider>(context, listen: false).currentSide}',
         buttonText: 'Undo',
         onButtonPressed: () {
-          Provider.of<CustomizationProvider>(context).undo(noTexture);
+          Provider.of<CustomizationProvider>(context, listen: false)
+              .undo(noTexture);
         },
       );
     } catch (e) {
@@ -247,14 +258,19 @@ class CustomizationPickerCard extends StatelessWidget {
   void onTilePressed(BuildContext context) {
     Slidable.of(context).close();
 
-    Provider.of<CustomizationProvider>(context).selectedTexture = null;
-    Provider.of<CustomizationProvider>(context).changeCopyStatus(false);
-    Provider.of<CustomizationProvider>(context).setCurrentSide(index);
-    Provider.of<CustomizationProvider>(context).getCurrentColor(index);
-    Provider.of<CustomizationProvider>(context).resetSelectedValues();
+    Provider.of<CustomizationProvider>(context, listen: false).selectedTexture =
+        null;
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .changeCopyStatus(false);
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .setCurrentSide(index);
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .getCurrentColor(index);
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .resetSelectedValues();
 
     if (!noTexture)
-      Provider.of<CustomizationProvider>(context)
+      Provider.of<CustomizationProvider>(context, listen: false)
           .getCurrentSideTextureDetails(i: index);
 
     int initIndex() {

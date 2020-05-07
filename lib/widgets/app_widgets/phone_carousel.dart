@@ -73,7 +73,6 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
               curve: isWidescreen ? Curves.easeOutExpo : Curves.ease,
               duration: 900,
               autoplayDelay: 5000,
-              outer: true,
               fade: isWidescreen ? 0.1 : 1.0,
               scale: isWidescreen ? 0.3 : 1.0,
               viewportFraction: isWidescreen ? 0.3 : 1.0,
@@ -139,6 +138,36 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
               },
             ),
           ),
+          // Expanded(
+          //   child: CarouselSlider.builder(
+          //     itemCount: phonesList.length,
+          //     itemBuilder: (context, i) {
+          //       return Padding(
+          //         padding: EdgeInsets.fromLTRB(
+          //           isWidescreen ? kScreenAwareSize(24.0, context) : 40.0,
+          //           kScreenAwareSize(24.0, context),
+          //           kScreenAwareSize(16.0, context),
+          //           kScreenAwareSize(16.0, context),
+          //         ),
+          //         child: AnimatedOpacity(
+          //           opacity: 1.0,
+          //           duration: Duration(milliseconds: 800),
+          //           child: Hero(
+          //             tag: phonesList[reverseIndex(i)].id,
+          //             child: phonesList[reverseIndex(i)].phone,
+          //           ),
+          //         ),
+          //       );
+          //     },
+          //     options: CarouselOptions(
+          //       height: kDeviceHeight(context),
+          //       autoPlay: autoPlayCarousel,
+          //       autoPlayCurve: Curves.easeOut,
+          //       viewportFraction: isWidescreen ? 0.3 : 1.0,
+          //       enlargeCenterPage: isWidescreen,
+          //     ),
+          //   ),
+          // ),
           Container(
             width: kScreenAwareSize(100.0, context),
             margin: EdgeInsets.only(

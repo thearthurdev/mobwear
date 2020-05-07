@@ -29,7 +29,7 @@ class GalleryBatchDeleteDialog extends StatelessWidget {
         title: 'Delete',
         selectText: 'Delete',
         onSelectPressed: () {
-          Provider.of<GalleryProvider>(context)
+          Provider.of<GalleryProvider>(context, listen: false)
               .deleteBatchItems(selectedItemKeys)
               .whenComplete(() {
             Navigator.pop(context);

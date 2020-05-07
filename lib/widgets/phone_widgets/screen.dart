@@ -130,6 +130,11 @@ class Screen extends StatelessWidget {
                     ? Colors.white
                     : Colors.grey[900],
               ),
+              child: SpecsScreen(
+                phoneBrand: phoneBrand,
+                phoneModel: phoneModel,
+                phoneName: phoneName,
+              ),
             ),
           ),
           hasNotch
@@ -160,29 +165,26 @@ class Screen extends StatelessWidget {
           Align(
             alignment: screenAlignment,
             heightFactor: verticalPadding,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(
-                innerCornerRadius != null
-                    ? innerCornerRadius
-                    : cornerRadius - 5.0,
-              ),
-              child: Container(
-                width: screenWidth - horizontalPadding,
-                height: screenHeight - verticalPadding,
-                decoration: BoxDecoration(
-                  border: screenFaceColor == Colors.white
-                      ? kThemeBrightness(context) == Brightness.light
-                          ? Border.all(
-                              color: Colors.grey[300],
-                              width: 1.0,
-                            )
-                          : null
-                      : null,
+            child: IgnorePointer(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(
+                  innerCornerRadius != null
+                      ? innerCornerRadius
+                      : cornerRadius - 5.0,
                 ),
-                child: SpecsScreen(
-                  phoneBrand: phoneBrand,
-                  phoneModel: phoneModel,
-                  phoneName: phoneName,
+                child: Container(
+                  width: screenWidth - horizontalPadding,
+                  height: screenHeight - verticalPadding,
+                  decoration: BoxDecoration(
+                    border: screenFaceColor == Colors.white
+                        ? kThemeBrightness(context) == Brightness.light
+                            ? Border.all(
+                                color: Colors.grey[300],
+                                width: 1.0,
+                              )
+                            : null
+                        : null,
+                  ),
                 ),
               ),
             ),

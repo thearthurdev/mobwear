@@ -21,7 +21,8 @@ class _QuickBrigthnessSwitchState extends State<QuickBrigthnessSwitch> {
         b = !b;
         int i = b ? 1 : 0;
         setState(() {
-          Provider.of<ThemeProvider>(context).changeTheme(context, i);
+          Provider.of<ThemeProvider>(context, listen: false)
+              .changeTheme(context, i);
         });
       },
     );

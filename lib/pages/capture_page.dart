@@ -430,7 +430,6 @@ class _CapturePageState extends State<CapturePage> {
 
   Future<void> saveImage() async {
     if (!isCapturing) {
-      print(Provider.of<CustomizationProvider>(context).isSaving);
       captureImage().then(
         (imageBytes) {
           showDialog<Widget>(
@@ -440,9 +439,8 @@ class _CapturePageState extends State<CapturePage> {
               phone: widget.phone,
             ),
           ).whenComplete(() {
-            Provider.of<CustomizationProvider>(context)
+            Provider.of<CustomizationProvider>(context, listen: false)
                 .changeSavingState(false);
-            print(Provider.of<CustomizationProvider>(context).isSaving);
           });
         },
       );
@@ -463,7 +461,8 @@ class _CapturePageState extends State<CapturePage> {
       imageBytes = byteData.buffer.asUint8List();
       // var bs64 = base64Encode(pngBytes);
     } catch (e) {
-      Provider.of<CustomizationProvider>(context).changeSavingState(false);
+      Provider.of<CustomizationProvider>(context, listen: false)
+          .changeSavingState(false);
       String errorText = 'Unable to save. Please try again later';
       Toast.show(errorText, context);
       print(e);
@@ -474,9 +473,12 @@ class _CapturePageState extends State<CapturePage> {
   }
 
   void changeBackground(BuildContext context) {
-    Provider.of<CustomizationProvider>(context).selectedTexture = null;
-    Provider.of<CustomizationProvider>(context).getCurrentSideTextureDetails();
-    Provider.of<CustomizationProvider>(context).resetSelectedValues();
+    Provider.of<CustomizationProvider>(context, listen: false).selectedTexture =
+        null;
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .getCurrentSideTextureDetails();
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .resetSelectedValues();
 
     int initIndex() {
       if (backgroundTexture.asset != null) return 1;
@@ -504,7 +506,8 @@ class _CapturePageState extends State<CapturePage> {
   }
 
   void changeWatermark(BuildContext context) {
-    Provider.of<CustomizationProvider>(context).resetSelectedValues();
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .resetSelectedValues();
 
     showDialog<Widget>(
       context: context,
@@ -516,7 +519,8 @@ class _CapturePageState extends State<CapturePage> {
   }
 
   void resetPage() {
-    Provider.of<CustomizationProvider>(context).resetCurrentValues();
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .resetCurrentValues();
     setState(() {
       matrix = Matrix4.identity();
       initRandomColor = Colors.primaries[Random().nextInt(15)];
