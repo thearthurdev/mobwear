@@ -70,8 +70,9 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
               controller: swiperController,
               itemCount: phonesList.length,
               autoplay: autoPlayCarousel,
+              curve: isWidescreen ? Curves.easeOutExpo : Curves.ease,
               duration: 900,
-              autoplayDelay: 2500,
+              autoplayDelay: 5000,
               outer: true,
               fade: isWidescreen ? 0.1 : 1.0,
               scale: isWidescreen ? 0.3 : 1.0,
@@ -79,9 +80,9 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
               itemBuilder: (context, i) {
                 return Padding(
                   padding: EdgeInsets.fromLTRB(
-                    isWidescreen ? kScreenAwareSize(24.0, context) : 40.0,
+                    isWidescreen ? kScreenAwareSize(24.0, context) : 50.0,
                     kScreenAwareSize(24.0, context),
-                    kScreenAwareSize(16.0, context),
+                    kScreenAwareSize(24.0, context),
                     kScreenAwareSize(16.0, context),
                   ),
                   child: Hero(

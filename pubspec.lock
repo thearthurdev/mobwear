@@ -278,7 +278,7 @@ packages:
       path: "."
       ref: HEAD
       resolved-ref: db5554859b69f5416572dbaba5263f57add4bbf8
-      url: "git://github.com/ArthurDevv/flutter_hsvcolor_picker"
+      url: "git://github.com/thearthurdev/flutter_hsvcolor_picker"
     source: git
     version: "0.1.2"
   flutter_page_indicator:
