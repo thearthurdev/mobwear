@@ -35,6 +35,7 @@ dependencies:
   firebase_core: ^0.4.4+3
   firebase_analytics: ^5.0.11 
   carousel_slider: ^2.1.0
+  flip: ^1.0.0
   flutter_hsvcolor_picker:
     # path: /mnt/B6F6BF9AF6BF5977/Dee/Documents/Flutter Projects/forks/flutter_hsvcolor_picker
     git: git://github.com/thearthurdev/flutter_hsvcolor_picker
