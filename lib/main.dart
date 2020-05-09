@@ -49,8 +49,6 @@ void main() async {
 
   openBoxes().whenComplete(
     () => runApp(
-      // DevicePreview(
-      //   builder: (context) => MultiProvider(
       MultiProvider(
         providers: [
           ChangeNotifierProvider<CustomizationProvider>(
@@ -65,7 +63,6 @@ void main() async {
         child: MobWear(),
       ),
     ),
-    // ),
   );
 }
 
@@ -88,8 +85,6 @@ class MobWear extends StatelessWidget {
           child: child,
         );
       },
-      // builder: DevicePreview.appBuilder,
-      // locale: DevicePreview.of(context).locale,
       home: isFirstLaunch ? OnboardingPage() : HomePage(),
       routes: {
         SettingsPage.id: (context) => SettingsPage(),
