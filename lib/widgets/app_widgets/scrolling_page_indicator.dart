@@ -4,7 +4,7 @@ import 'package:mobwear/utils/constants.dart';
 class ScrollingPageIndicator extends StatefulWidget {
   final PageController controller;
   final int itemCount;
-  final int selectedIndex;
+  final ValueNotifier<int> selectedIndex;
 
   const ScrollingPageIndicator({
     @required this.controller,
@@ -19,7 +19,6 @@ class ScrollingPageIndicator extends StatefulWidget {
 class _ScrollingPageIndicatorState extends State<ScrollingPageIndicator> {
   PageController controller;
   int itemCount;
-  int selectedIndex;
 
   @override
   void initState() {
@@ -63,44 +62,49 @@ class _ScrollingPageIndicatorState extends State<ScrollingPageIndicator> {
 
   @override
   Widget build(BuildContext context) {
-    selectedIndex = widget.selectedIndex;
+    return ValueListenableBuilder(
+      valueListenable: widget.selectedIndex,
+      builder: (context, value, child) {
+        int selectedIndex = value;
 
-    return FittedBox(
-      child: Container(
-        width: 240.0,
-        height: 40.0,
-        child: Stack(
-          children: <Widget>[
-            PageView.builder(
-              itemCount: itemCount,
-              controller: controller,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, i) {
-                double size() {
-                  double size = 20.0;
-                  if (i == selectedIndex - 1 || i == selectedIndex + 1)
-                    size = 16.0;
-                  if (i == selectedIndex - 2 || i == selectedIndex + 2)
-                    size = 12.0;
-                  if (i <= selectedIndex - 3 || i >= selectedIndex + 3)
-                    size = 8.0;
-                  return size;
-                }
+        return FittedBox(
+          child: Container(
+            width: 240.0,
+            height: 40.0,
+            child: Stack(
+              children: <Widget>[
+                PageView.builder(
+                  itemCount: itemCount,
+                  controller: controller,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, i) {
+                    double size() {
+                      double size = 20.0;
+                      if (i == selectedIndex - 1 || i == selectedIndex + 1)
+                        size = 16.0;
+                      if (i == selectedIndex - 2 || i == selectedIndex + 2)
+                        size = 12.0;
+                      if (i <= selectedIndex - 3 || i >= selectedIndex + 3)
+                        size = 8.0;
+                      return size;
+                    }
 
-                return indicatorDot(
-                  index: i,
-                  size: size(),
-                  isSelected: selectedIndex == i,
-                );
-              },
+                    return indicatorDot(
+                      index: i,
+                      size: size(),
+                      isSelected: selectedIndex == i,
+                    );
+                  },
+                ),
+                Align(
+                  alignment: Alignment(0.0, 0.0),
+                  child: selectedIndicator(),
+                ),
+              ],
             ),
-            Align(
-              alignment: Alignment(0.0, 0.0),
-              child: selectedIndicator(),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

@@ -1,6 +1,6 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/pages/about_page.dart';
 import 'package:mobwear/providers/settings_provider.dart';
@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 class SettingsPage extends StatefulWidget {
   static const String id = '/SettingsPage';
 
-  final SwiperController phoneCarouselController;
+  final CarouselController phoneCarouselController;
 
   const SettingsPage({this.phoneCarouselController});
 
@@ -88,9 +88,9 @@ class _SettingsPageState extends State<SettingsPage> {
                               settingsProvider.changeAutoPlay(
                                   myAutoplayOptions.values.elementAt(i));
                               if (i == 0) {
-                                widget.phoneCarouselController.startAutoplay();
+                                widget.phoneCarouselController.startAutoPlay();
                               } else {
-                                widget.phoneCarouselController.stopAutoplay();
+                                widget.phoneCarouselController.stopAutoPlay();
                               }
                             }),
                         SizedBox(height: 16.0),

@@ -1,6 +1,6 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/custom_icons/custom_icons.dart';
 import 'package:mobwear/data/models/texture_model.dart';
@@ -26,7 +26,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   PageController tabsPageController;
   PageController phoneGridController;
-  SwiperController phoneCarouselController;
+  CarouselController phoneCarouselController;
   bool isWideScreen;
 
   @override
@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
 
     tabsPageController = PageController();
     phoneGridController = PageController();
-    phoneCarouselController = SwiperController();
+    phoneCarouselController = CarouselController();
   }
 
   @override
@@ -52,7 +52,6 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     tabsPageController.dispose();
     phoneGridController.dispose();
-    phoneCarouselController.dispose();
     PhoneDatabase.phonesBox.close();
     SettingsDatabase.settingsBox.close();
     GalleryDatabase.galleryBox.close();

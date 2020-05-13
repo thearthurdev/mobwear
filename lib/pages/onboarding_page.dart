@@ -80,6 +80,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     OnboardingSlide.precacheImageAssets(context);
+    controller1 = PageController(initialPage: currentPage);
+    controller2 = PageController(initialPage: currentPage);
   }
 
   void handleSwipes() {

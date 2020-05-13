@@ -11,6 +11,8 @@ import 'package:mobwear/widgets/phone_widgets/iPhone_home_button.dart';
 import 'package:mobwear/widgets/phone_widgets/iPhone_text_marks.dart';
 import 'package:mobwear/widgets/phone_widgets/microphone.dart';
 import 'package:mobwear/widgets/phone_widgets/screen.dart';
+import 'package:mobwear/data/models/texture_model.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 class IPhone8Plus extends StatelessWidget {
@@ -93,10 +95,11 @@ class IPhone8Plus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
+    Box<dynamic> phonesBox =
+        Provider.of<CustomizationProvider>(context).phonesBox;
 
-    var colors = phonesBox.get(phoneID).colors;
-    var textures = phonesBox.get(phoneID).textures;
+    Map<String, Color> colors = phonesBox.get(phoneID).colors;
+    Map<String, MyTexture> textures = phonesBox.get(phoneID).textures;
 
     Color cameraBumpColor = colors['Camera Bump'];
     Color backPanelColor = colors['Back Panel'];

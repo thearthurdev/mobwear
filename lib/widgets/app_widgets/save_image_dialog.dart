@@ -11,7 +11,6 @@ import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/adaptiveDialog.dart';
 import 'package:provider/provider.dart';
-// import 'package:save_in_gallery/save_in_gallery.dart';
 import 'package:toast/toast.dart';
 
 class SaveImageDialog extends StatefulWidget {
@@ -25,7 +24,6 @@ class SaveImageDialog extends StatefulWidget {
 }
 
 class _SaveImageDialogState extends State<SaveImageDialog> {
-  // final imageSaver = ImageSaver();
   String phoneName;
   String phoneBrand;
   bool isWideScreen;
@@ -41,11 +39,6 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
     if (Provider.of<CustomizationProvider>(context).isSaving == false) {
       dynamic res;
       try {
-        // res = await imageSaver.saveNamedImages(
-        //   namedImageBytes: {'${widget.phoneName}_$dateTime': widget.bytes},
-        //   directoryName: 'MobWear',
-        // );
-
         Box galleryBox = GalleryDatabase.galleryBox;
 
         galleryBox.add(
