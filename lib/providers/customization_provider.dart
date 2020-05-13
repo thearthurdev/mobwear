@@ -14,10 +14,7 @@ class CustomizationProvider extends ChangeNotifier {
 
   void changeCapturePageStatus(bool b) => isCapturePage = b;
   void changeSavingState(bool b) => isSaving = b;
-  void changeEditPageStatus(bool b) {
-    isEditPageOpen = b;
-    notifyListeners();
-  }
+  void changeEditPageStatus(bool b) => isEditPageOpen = b;
 
   //Box opened in this class to listen to changes. DO NOT REMOVE!
   Box phonesBox = PhoneDatabase.phonesBox;

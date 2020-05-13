@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/custom_icons/custom_icons.dart';
 import 'package:mobwear/data/models/texture_model.dart';
@@ -11,6 +12,7 @@ import 'package:mobwear/providers/gallery_provider.dart';
 import 'package:mobwear/providers/settings_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/phone_group_view_picker_button.dart';
+import 'package:mobwear/widgets/app_widgets/rate_app_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:mobwear/widgets/app_widgets/home_search_widget.dart';
 import 'package:mobwear/widgets/app_widgets/home_vertical_tabs.dart';
@@ -40,6 +42,8 @@ class _HomePageState extends State<HomePage> {
     tabsPageController = PageController();
     phoneGridController = PageController();
     phoneCarouselController = CarouselController();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => rateAppRequest());
   }
 
   @override
@@ -56,6 +60,23 @@ class _HomePageState extends State<HomePage> {
     SettingsDatabase.settingsBox.close();
     GalleryDatabase.galleryBox.close();
     super.dispose();
+  }
+
+  //Rate app conditions check
+  void rateAppRequest() {
+    Box settingsBox = SettingsDatabase.settingsBox;
+    int launchCount = settingsBox.get(SettingsDatabase.launchCountKey);
+
+    Future.delayed(Duration(milliseconds: 2000), () {
+      if (settingsBox.get(SettingsDatabase.rateAppKey) == 0) {
+        if (launchCount % 7 == 0) {
+          showDialog(
+            context: context,
+            builder: (context) => RateAppDialog(),
+          );
+        }
+      }
+    });
   }
 
   @override

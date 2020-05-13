@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobwear/data/models/phone_model.dart';
 import 'package:mobwear/pages/edit_phone_page.dart';
+import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
+import 'package:provider/provider.dart';
 
 class PhoneGrid extends StatelessWidget {
   final List<PhoneModel> phonesList;
@@ -47,7 +49,10 @@ class PhoneGrid extends StatelessWidget {
                   );
                 },
               ),
-            );
+            ).whenComplete(() {
+              Provider.of<CustomizationProvider>(context, listen: false)
+                  .changeEditPageStatus(false);
+            });
           },
         );
       },

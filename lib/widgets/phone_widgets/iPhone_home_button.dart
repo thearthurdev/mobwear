@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:hive/hive.dart';
 
 class IPhoneHomeButton extends StatelessWidget {
   final double diameter, trimWidth, squareMargin;
@@ -26,8 +25,7 @@ class IPhoneHomeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Box<dynamic> phonesBox =
-        Provider.of<CustomizationProvider>(context).phonesBox;
+    var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
 
     var boxTrimColor = phonesBox.get(phoneID).colors[boxColorKey ?? 'Bezels'];
 

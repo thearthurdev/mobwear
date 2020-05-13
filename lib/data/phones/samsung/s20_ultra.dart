@@ -9,8 +9,6 @@ import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/camera_bump.dart';
 import 'package:mobwear/widgets/phone_widgets/flash.dart';
 import 'package:mobwear/widgets/phone_widgets/screen.dart';
-import 'package:mobwear/data/models/texture_model.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 class S20Ultra extends StatelessWidget {
@@ -78,11 +76,10 @@ class S20Ultra extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Box<dynamic> phonesBox =
-        Provider.of<CustomizationProvider>(context).phonesBox;
+    var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
 
-    Map<String, Color> colors = phonesBox.get(phoneID).colors;
-    Map<String, MyTexture> textures = phonesBox.get(phoneID).textures;
+    var colors = phonesBox.get(phoneID).colors;
+    var textures = phonesBox.get(phoneID).textures;
 
     Color backPanelColor = colors['Back Panel'];
     Color cameraBumpColor = colors['Camera Bump'];

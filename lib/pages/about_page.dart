@@ -7,6 +7,9 @@ import 'package:mobwear/database/settings_database.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/developer_info_dialog.dart';
 import 'package:package_info/package_info.dart';
+import 'package:toast/toast.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 class AboutPage extends StatelessWidget {
   static const String id = '/AboutPage';
@@ -83,22 +86,34 @@ class AboutPage extends StatelessWidget {
                         subtitle:
                             'If you love it and you know it give it 5 stars',
                         icon: LineAwesomeIcons.star_o,
-                        onTap: () {},
+                        onTap: () => launchURL(
+                          context,
+                          url:
+                              'https://play.google.com/store/apps/details?id=com.arthurdev.mobwear',
+                        ),
                       ),
                       aboutListTile(
                         title: 'Share this app',
                         subtitle: 'Don\'t have all the fun alone',
                         icon: LineAwesomeIcons.share_alt,
-                        onTap: () {},
+                        onTap: () {
+                          Share.text(
+                              'Share MobWear',
+                              'Hey, check out Mobwear! It\'s a brand new smartphone customization app and it\'s very fun.\nDownload it here: bit.ly/download-mobwear-android',
+                              'text/plain');
+                        },
                         onLongPress: () {
                           PhoneDatabase.phonesBox.clear();
                           print('phones database cleared');
                         },
                       ),
                       aboutListTile(
-                        title: 'Send bug report',
-                        subtitle: 'A bug sent is a bug squashed',
+                        title: 'Report a bug',
+                        subtitle: 'A bug reported is a bug squashed',
                         icon: LineAwesomeIcons.bug,
+                        onTap: () => launchURL(context,
+                            url:
+                                'mailto:arthurdelords@gmail.com?subject=MobWear%20Bug%20Report&body='),
                         onLongPress: () {
                           SettingsDatabase.settingsBox.clear();
                           print('settings database cleared');
@@ -126,6 +141,25 @@ class AboutPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void launchURL(BuildContext context, {String url}) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      // throw 'Could not launch $url';
+      Toast.show(
+        'Couldn\'t complete action\nPlease try again later',
+        context,
+        duration: 2,
+        backgroundColor: kBrightnessAwareColor(context,
+            lightColor: Colors.black87, darkColor: Colors.white70),
+        textColor: kBrightnessAwareColor(context,
+            lightColor: Colors.white, darkColor: Colors.black),
+        backgroundRadius: 10.0,
+        gravity: 0,
+      );
+    }
   }
 
   Widget aboutListTile({

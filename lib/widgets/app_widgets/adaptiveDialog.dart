@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobwear/utils/constants.dart';
 
 class AdaptiveDialog extends StatelessWidget {
-  final String title, selectText;
+  final String title, selectText, cancelText;
   final Widget child;
   final double maxWidth;
   final bool hasSelectButton, hasCancelButton, hasButtonBar;
@@ -14,6 +14,7 @@ class AdaptiveDialog extends StatelessWidget {
     this.onSelectPressed,
     this.onCancelPressed,
     this.selectText,
+    this.cancelText,
     this.maxWidth,
     this.hasSelectButton = true,
     this.hasCancelButton = true,
@@ -59,7 +60,7 @@ class AdaptiveDialog extends StatelessWidget {
                               children: <Widget>[
                                 hasCancelButton
                                     ? FlatButton(
-                                        child: Text('Cancel',
+                                        child: Text(cancelText ?? 'Cancel',
                                             style: kTitleTextStyle),
                                         onPressed: () => onCancelPressed == null
                                             ? Navigator.pop(context)

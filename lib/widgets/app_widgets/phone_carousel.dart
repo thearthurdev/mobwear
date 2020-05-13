@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:mobwear/data/models/phone_model.dart';
 import 'package:mobwear/pages/edit_phone_page.dart';
+import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/providers/settings_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/scrolling_page_indicator.dart';
@@ -134,6 +135,8 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
         isEditPageOpen = false;
         carouselController.jumpToPage(i);
         carouselController.startAutoPlay();
+        Provider.of<CustomizationProvider>(context, listen: false)
+            .changeEditPageStatus(false);
       },
     );
   }
