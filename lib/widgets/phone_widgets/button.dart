@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 enum ButtonPosition { left, right, top }
@@ -29,8 +28,7 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     BorderRadiusGeometry _borderRadius;
 
-    Box<dynamic> phonesBox =
-        Provider.of<CustomizationProvider>(context).phonesBox;
+    var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
 
     Color boxBackPanelColor =
         phonesBox.get(phoneID).colors[boxColorKey ?? 'Back Panel'];

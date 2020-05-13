@@ -14,8 +14,26 @@ Map<String, bool> myAutoplayOptions = {
   'Keep carousel stagnant': false,
 };
 
+enum RateAppStatus { yet, done, never }
+
 class SettingsProvider extends ChangeNotifier {
   Box settingsBox = SettingsDatabase.settingsBox;
+
+  //App Rating Settings
+  RateAppStatus rateAppStatus;
+  String rateAppKey = SettingsDatabase.rateAppKey;
+
+  Future<RateAppStatus> getRateAppStatus() async {
+    int i = settingsBox.get(rateAppKey) ?? 0;
+    rateAppStatus = RateAppStatus.values.elementAt(i);
+    return rateAppStatus;
+  }
+
+  void changeRateAppStatus(int i) async {
+    rateAppStatus = RateAppStatus.values.elementAt(i);
+    settingsBox.put(rateAppKey, i);
+    notifyListeners();
+  }
 
   //Phone Group View Settings
   PhoneGroupView phoneGroupView;

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobwear/data/models/phone_model.dart';
 import 'package:mobwear/data/models/search_item_model.dart';
 import 'package:mobwear/pages/edit_phone_page.dart';
+import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/providers/settings_provider.dart';
 import 'package:mobwear/services/search.dart';
 import 'package:mobwear/utils/constants.dart';
@@ -83,6 +84,8 @@ class HomeSearchWidget extends StatelessWidget {
                 ).whenComplete(() {
                   phoneCarouselController.jumpToPage(selectedIndex);
                   phoneCarouselController.startAutoPlay();
+                  Provider.of<CustomizationProvider>(context, listen: false)
+                      .changeEditPageStatus(false);
                 });
 
                 if (Provider.of<SettingsProvider>(context, listen: false)
@@ -135,7 +138,10 @@ class HomeSearchWidget extends StatelessWidget {
                     );
                   },
                 ),
-              );
+              ).whenComplete(() {
+                Provider.of<CustomizationProvider>(context, listen: false)
+                    .changeEditPageStatus(false);
+              });
             },
           );
         },
