@@ -1,7 +1,7 @@
 import 'dart:math';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/custom_icons/custom_icons.dart';
 import 'package:mobwear/data/models/brand_model.dart';
@@ -19,7 +19,7 @@ import 'package:provider/provider.dart';
 class HomeVerticalTabs extends StatefulWidget {
   final PageController tabsPageController;
   final PageController phoneGridController;
-  final SwiperController phoneCarouselController;
+  final CarouselController phoneCarouselController;
 
   const HomeVerticalTabs({
     @required this.tabsPageController,
@@ -46,26 +46,29 @@ class _HomeVerticalTabsState extends State<HomeVerticalTabs> {
 
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider =
+        Provider.of<SettingsProvider>(context, listen: false);
+
     return NotificationListener(
       onNotification: (ScrollNotification notification) {
-        if (notification is ScrollStartNotification) {
-          if (notification.dragDetails != null) {
-            Provider.of<SettingsProvider>(context, listen: false)
-                .changeTabSwipingStatus(true);
-            widget.phoneCarouselController.stopAutoplay();
-          }
-        } else if (notification is ScrollEndNotification) {
-          Provider.of<SettingsProvider>(context, listen: false)
-              .changeTabSwipingStatus(false);
-          if (Provider.of<SettingsProvider>(context, listen: false)
-              .autoPlayCarousel) {
-            widget.phoneCarouselController.startAutoplay();
+        if (settingsProvider.phoneGroupView == PhoneGroupView.carousel) {
+          if (notification is ScrollStartNotification) {
+            if (notification.dragDetails != null) {
+              settingsProvider.changeTabSwipingStatus(true);
+              widget.phoneCarouselController.stopAutoPlay();
+            }
+          } else if (notification is ScrollEndNotification) {
+            settingsProvider.changeTabSwipingStatus(false);
+            if (settingsProvider.autoPlayCarousel) {
+              widget.phoneCarouselController.startAutoPlay();
+            }
           }
         }
         return false;
       },
       child: VerticalTabs(
         pageController: widget.tabsPageController,
+        carouselController: widget.phoneCarouselController,
         contentScrollAxis: Axis.vertical,
         tabsWidth: 50.0,
         itemExtent: kScreenAwareSize(45, context),
@@ -88,8 +91,8 @@ class _HomeVerticalTabsState extends State<HomeVerticalTabs> {
                   MaterialPageRoute(
                     builder: (context) {
                       return SettingsPage(
-                          phoneCarouselController:
-                              widget.phoneCarouselController);
+                        phoneCarouselController: widget.phoneCarouselController,
+                      );
                     },
                   ),
                 ),
@@ -173,7 +176,7 @@ class _HomeVerticalTabsState extends State<HomeVerticalTabs> {
               if (snapshot.data == PhoneGroupView.carousel)
                 return PhoneCarousel(
                   phonesList: phonesLists[i],
-                  swiperController: widget.phoneCarouselController,
+                  carouselController: widget.phoneCarouselController,
                   tabsPageController: widget.tabsPageController,
                 );
             }

@@ -1,5 +1,5 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:mobwear/data/models/phone_model.dart';
 import 'package:mobwear/data/models/search_item_model.dart';
 import 'package:mobwear/pages/edit_phone_page.dart';
@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 class HomeSearchWidget extends StatelessWidget {
   final PageController tabsPageController;
   final PageController phoneGridController;
-  final SwiperController phoneCarouselController;
+  final CarouselController phoneCarouselController;
 
   const HomeSearchWidget({
     @required this.tabsPageController,
@@ -50,7 +50,7 @@ class HomeSearchWidget extends StatelessWidget {
 
     if (Provider.of<SettingsProvider>(context, listen: false).phoneGroupView ==
         PhoneGroupView.carousel) {
-      phoneCarouselController.stopAutoplay();
+      phoneCarouselController.stopAutoPlay();
       tabsPageController
           .animateToPage(
         item.brandIndex,
@@ -62,10 +62,14 @@ class HomeSearchWidget extends StatelessWidget {
           int selectedIndex = phonesLists.elementAt(item.brandIndex).length -
               1 -
               item.phoneIndex;
-          phoneCarouselController.move(selectedIndex).whenComplete(
+
+          phoneCarouselController
+              .animateToPage(selectedIndex,
+                  duration: Duration(milliseconds: 700))
+              .whenComplete(
             () {
-              Future.delayed(Duration(milliseconds: 140 * (selectedIndex + 1)),
-                  () {
+              Future.delayed(Duration(milliseconds: 300), () {
+                phoneCarouselController.stopAutoPlay();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -77,12 +81,13 @@ class HomeSearchWidget extends StatelessWidget {
                     },
                   ),
                 ).whenComplete(() {
-                  phoneCarouselController.move(selectedIndex, animation: false);
+                  phoneCarouselController.jumpToPage(selectedIndex);
+                  phoneCarouselController.startAutoPlay();
                 });
 
                 if (Provider.of<SettingsProvider>(context, listen: false)
                     .autoPlayCarousel) {
-                  phoneCarouselController.startAutoplay();
+                  phoneCarouselController.startAutoPlay();
                 }
               });
             },
@@ -115,7 +120,7 @@ class HomeSearchWidget extends StatelessWidget {
           phoneGridController
               .animateTo(
             kDeviceHeight(context) * moveMultiplier * i,
-            duration: Duration(milliseconds: 500),
+            duration: Duration(milliseconds: 600),
             curve: Curves.easeOut,
           )
               .whenComplete(

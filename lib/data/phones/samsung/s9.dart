@@ -9,6 +9,8 @@ import 'package:mobwear/widgets/phone_widgets/camera.dart';
 import 'package:mobwear/widgets/phone_widgets/camera_bump.dart';
 import 'package:mobwear/widgets/phone_widgets/fingerprint_sensor.dart';
 import 'package:mobwear/widgets/phone_widgets/screen.dart';
+import 'package:mobwear/data/models/texture_model.dart';
+import 'package:hive/hive.dart';
 import 'package:mobwear/widgets/phone_widgets/heart_rate_sensor.dart';
 import 'package:provider/provider.dart';
 
@@ -84,10 +86,11 @@ class S9 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
+    Box<dynamic> phonesBox =
+        Provider.of<CustomizationProvider>(context).phonesBox;
 
-    var colors = phonesBox.get(phoneID).colors;
-    var textures = phonesBox.get(phoneID).textures;
+    Map<String, Color> colors = phonesBox.get(phoneID).colors;
+    Map<String, MyTexture> textures = phonesBox.get(phoneID).textures;
 
     Color cameraBumpColor = colors['Camera'];
     Color backPanelColor = colors['Back Panel'];

@@ -73,8 +73,10 @@ class _CapturePageState extends State<CapturePage> {
 
   @override
   Widget build(BuildContext context) {
-    isWideScreen = kIsWideScreen(context) && kDeviceIsLandscape(context);
-    isLargeScreen = kDeviceHeight(context) >= 500.0;
+    isWideScreen = kIsWideScreen(context) &&
+            kDeviceWidth(context) > kDeviceHeight(context) ||
+        kDeviceIsLandscape(context);
+    isLargeScreen = kDeviceHeight(context) >= 500.0 || !isWideScreen;
 
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(

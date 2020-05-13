@@ -121,8 +121,10 @@ class _EditPhonePageState extends State<EditPhonePage>
 
   @override
   Widget build(BuildContext context) {
-    isWideScreen = kIsWideScreen(context) && kDeviceIsLandscape(context);
-    isLargeScreen = kDeviceHeight(context) >= 500.0;
+    isWideScreen = kIsWideScreen(context) &&
+            kDeviceWidth(context) > kDeviceHeight(context) ||
+        kDeviceIsLandscape(context);
+    isLargeScreen = kDeviceHeight(context) >= 500.0 || !isWideScreen;
     currentController = isWideScreen ? scrollController2 : scrollController1;
 
     Provider.of<CustomizationProvider>(context, listen: false)

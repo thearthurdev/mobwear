@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:hive/hive.dart';
 
 class FingerprintSensor extends StatelessWidget {
   final Color sensorColor, trimColor;
@@ -22,7 +23,8 @@ class FingerprintSensor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
+    Box<dynamic> phonesBox =
+        Provider.of<CustomizationProvider>(context).phonesBox;
 
     var boxBackPanelColor =
         phonesBox.get(phoneID).colors[boxColorKey ?? 'Back Panel'];

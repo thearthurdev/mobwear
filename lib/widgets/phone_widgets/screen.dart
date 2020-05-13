@@ -5,6 +5,7 @@ import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/phone_widgets/specs_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:hive/hive.dart';
 
 class Screen extends StatelessWidget {
   final double screenWidth, screenHeight, bezelsWidth;
@@ -72,7 +73,8 @@ class Screen extends StatelessWidget {
   }
 
   Widget screen(BuildContext context) {
-    var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
+    Box<dynamic> phonesBox =
+        Provider.of<CustomizationProvider>(context).phonesBox;
 
     Color boxBezelsColor =
         phonesBox.get(phoneID).colors[boxColorKey ?? 'Bezels'];

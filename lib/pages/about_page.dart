@@ -7,7 +7,6 @@ import 'package:mobwear/database/settings_database.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/developer_info_dialog.dart';
 import 'package:package_info/package_info.dart';
-import 'package:device_id/device_id.dart';
 
 class AboutPage extends StatelessWidget {
   static const String id = '/AboutPage';
@@ -15,11 +14,6 @@ class AboutPage extends StatelessWidget {
   Future<String> getAppVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.version;
-  }
-
-  Future<String> getDeviceID() async {
-    String deviceID = await DeviceId.getID;
-    return deviceID;
   }
 
   @override
@@ -82,20 +76,6 @@ class AboutPage extends StatelessWidget {
                           }
                           return aboutListTile(
                               title: 'MobWear', subtitle: snapshot.data);
-                        },
-                      ),
-                      FutureBuilder(
-                        future: getDeviceID(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState !=
-                              ConnectionState.done) {
-                            return aboutListTile(title: 'Device ID');
-                          }
-                          return aboutListTile(
-                            title: 'Device ID',
-                            subtitle: snapshot.data,
-                            icon: LineAwesomeIcons.mobile_phone,
-                          );
                         },
                       ),
                       aboutListTile(

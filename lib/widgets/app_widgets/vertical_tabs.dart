@@ -1,11 +1,13 @@
 import 'dart:ui';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:mobwear/utils/constants.dart';
 
 /// A vertical tab widget for flutter
 class VerticalTabs extends StatefulWidget {
   final PageController pageController;
+  final CarouselController carouselController;
   final Key key;
   final double tabsWidth;
   final double itemExtent;
@@ -26,6 +28,7 @@ class VerticalTabs extends StatefulWidget {
   VerticalTabs({
     this.key,
     @required this.pageController,
+    @required this.carouselController,
     @required this.tabs,
     @required this.contents,
     this.actions,

@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 
 class BackPanelGradient extends StatelessWidget {
   final Color backPanelColor, borderColor;
-  final double width,
-      height,
-      cornerRadius,
-      gradientDarkness,
-      gradientSideLightness;
+  final double width, height, cornerRadius;
+  final double gradientDarkness, gradientSideLightness;
   final List<double> stops;
   final BorderRadiusGeometry borderRadius;
 
