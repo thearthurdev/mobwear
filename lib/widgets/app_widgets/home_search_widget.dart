@@ -71,6 +71,8 @@ class HomeSearchWidget extends StatelessWidget {
             () {
               Future.delayed(Duration(milliseconds: 300), () {
                 phoneCarouselController.stopAutoPlay();
+                Provider.of<CustomizationProvider>(context, listen: false)
+                    .changeEditPageStatus(true);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -128,6 +130,8 @@ class HomeSearchWidget extends StatelessWidget {
           )
               .whenComplete(
             () {
+              Provider.of<CustomizationProvider>(context, listen: false)
+                  .changeEditPageStatus(true);
               Navigator.push(
                 context,
                 MaterialPageRoute(

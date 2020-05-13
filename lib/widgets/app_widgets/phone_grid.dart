@@ -39,6 +39,8 @@ class PhoneGrid extends StatelessWidget {
             ),
           ),
           onTap: () {
+            Provider.of<CustomizationProvider>(context, listen: false)
+                .changeEditPageStatus(true);
             Navigator.push(
               context,
               MaterialPageRoute(
