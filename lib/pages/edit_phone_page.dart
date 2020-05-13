@@ -52,13 +52,6 @@ class _EditPhonePageState extends State<EditPhonePage>
     WidgetsBinding.instance.addPostFrameCallback((_) => showFlipTipFlushbar());
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    Provider.of<CustomizationProvider>(context, listen: false)
-        .changeEditPageStatus(true);
-  }
-
   void showFlipTipFlushbar() {
     if (showFlipTip) {
       Future.delayed(Duration(milliseconds: 1500), () {
@@ -169,8 +162,6 @@ class _EditPhonePageState extends State<EditPhonePage>
           if (!flipController.isFront) {
             flipPhoneAndPop();
           } else {
-            Provider.of<CustomizationProvider>(context, listen: false)
-                .changeEditPageStatus(false);
             Navigator.pop(context);
           }
         },
@@ -368,15 +359,11 @@ class _EditPhonePageState extends State<EditPhonePage>
   void flipPhoneAndPop() {
     flipController.flip();
     Future.delayed(Duration(milliseconds: 320), () {
-      Provider.of<CustomizationProvider>(context, listen: false)
-          .changeEditPageStatus(false);
       Navigator.pop(context);
     });
   }
 
   Future<bool> onWillPop() {
-    Provider.of<CustomizationProvider>(context, listen: false)
-        .changeEditPageStatus(false);
     if (!flipController.isFront) {
       flipPhoneAndPop();
       return Future.value(false);

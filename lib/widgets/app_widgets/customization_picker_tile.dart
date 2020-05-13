@@ -258,8 +258,6 @@ class CustomizationPickerCard extends StatelessWidget {
   void onTilePressed(BuildContext context) {
     Slidable.of(context).close();
 
-    Provider.of<CustomizationProvider>(context, listen: false).selectedTexture =
-        null;
     Provider.of<CustomizationProvider>(context, listen: false)
         .changeCopyStatus(false);
     Provider.of<CustomizationProvider>(context, listen: false)

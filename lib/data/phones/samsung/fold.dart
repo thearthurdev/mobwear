@@ -11,7 +11,7 @@ import 'package:mobwear/widgets/phone_widgets/screen.dart';
 import 'package:mobwear/widgets/phone_widgets/speaker.dart';
 import 'package:provider/provider.dart';
 
-class Fold extends StatelessWidget {
+class Fold extends StatefulWidget {
   static final int phoneIndex = 11;
   static final int phoneID = 0211;
   static final int phoneBrandIndex = 1;
@@ -133,14 +133,54 @@ class Fold extends StatelessWidget {
   get getPhoneIndex => phoneIndex;
 
   @override
-  Widget build(BuildContext context) {
-    bool isEditPageOpen =
-        Provider.of<CustomizationProvider>(context).isEditPageOpen;
+  _FoldState createState() => _FoldState();
+}
 
+class _FoldState extends State<Fold> {
+  bool isEditPage;
+
+  @override
+  void initState() {
+    isEditPage = false;
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {
+      isEditPage = false;
+      isEditPage = Provider.of<CustomizationProvider>(context).isEditPage &&
+          Provider.of<CustomizationProvider>(context).currentPhoneID == 0211;
+    });
+  }
+
+  static List<Button> leftButtons(bool invert) {
+    ButtonPosition position =
+        invert ? ButtonPosition.right : ButtonPosition.left;
+
+    return [
+      Button(
+        height: 70.0,
+        yAlignment: -0.7,
+        position: position,
+        phoneID: 0211,
+      ),
+      Button(
+        height: 40.0,
+        yAlignment: -0.3,
+        position: position,
+        phoneID: 0211,
+      ),
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
     var phonesBox = Provider.of<CustomizationProvider>(context).phonesBox;
 
-    var colors = phonesBox.get(phoneID).colors;
-    var textures = phonesBox.get(phoneID).textures;
+    var colors = phonesBox.get(0211).colors;
+    var textures = phonesBox.get(0211).textures;
 
     Color cameraBumpColor = colors['Camera Bump'];
     Color backPanelColor = colors['Back Panel'];
@@ -276,7 +316,7 @@ class Fold extends StatelessWidget {
                   ],
                 ),
               ),
-              isEditPageOpen
+              isEditPage
                   ? BackPanel(
                       width: 180.0,
                       height: 510.0,

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/custom_icons/custom_icons.dart';
-import 'package:mobwear/database/phone_database.dart';
-import 'package:mobwear/database/settings_database.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/developer_info_dialog.dart';
 import 'package:package_info/package_info.dart';
@@ -102,10 +100,6 @@ class AboutPage extends StatelessWidget {
                               'Hey, check out Mobwear! It\'s a brand new smartphone customization app and it\'s very fun.\nDownload it here: bit.ly/download-mobwear-android',
                               'text/plain');
                         },
-                        onLongPress: () {
-                          PhoneDatabase.phonesBox.clear();
-                          print('phones database cleared');
-                        },
                       ),
                       aboutListTile(
                         title: 'Report a bug',
@@ -114,10 +108,6 @@ class AboutPage extends StatelessWidget {
                         onTap: () => launchURL(context,
                             url:
                                 'mailto:arthurdelords@gmail.com?subject=MobWear%20Bug%20Report&body='),
-                        onLongPress: () {
-                          SettingsDatabase.settingsBox.clear();
-                          print('settings database cleared');
-                        },
                       ),
                       aboutListTile(
                         title: 'Developer Info',

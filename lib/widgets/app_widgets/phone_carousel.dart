@@ -118,8 +118,11 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
   void onPhoneTapped(int i, List<PhoneModel> phonesList) {
     int reverseIndex(i) => phonesList.length - 1 - i;
     carouselController.stopAutoPlay();
-
     isEditPageOpen = true;
+
+    Provider.of<CustomizationProvider>(context, listen: false)
+        .changeEditPageStatus(true);
+
     Navigator.push(
       context,
       MaterialPageRoute(
