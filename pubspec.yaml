@@ -1,6 +1,6 @@
 name: mobwear
-description: A new Flutter project.
-version: 1.0.0+1
+description: A smartphone customization app.
+version: 0.1.0+160000100
 
 environment:
   sdk: ">=2.3.0 <3.0.0"
@@ -19,7 +19,6 @@ dependencies:
   esys_flutter_share: ^1.0.2
   flutter_keyboard_visibility: ^2.0.0
   flutter_circle_color_picker: ^0.1.1
-  device_preview: ^0.4.4
   package_info: ^0.4.0+17
   hive: ^1.4.1+1
   hive_flutter: ^0.3.0+2
