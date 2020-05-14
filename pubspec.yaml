@@ -1,6 +1,6 @@
 name: mobwear
 description: A smartphone customization app.
-version: 0.1.2+160000102
+version: 1.0.0+160010000
 
 environment:
   sdk: ">=2.3.0 <3.0.0"
