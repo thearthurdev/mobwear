@@ -23,23 +23,19 @@ Please leave a review, but only if you liked it :D
 | Colors & Textures | | Texture Blend Modes |
 | :---: | --- | :---: |
 | <img src="readme_assets/iphone11promax.gif" width="300"> || <img src="readme_assets/galaxys20plus.gif" width="300"> |
-| Customize phones with a combination || Applying Texture Blend Modes transforms |
-| of colors and textures || textures and gives a whole new look |
+| Customize phones with a combination <br> of colors and textures || Applying Texture Blend Modes transforms <br> textures and gives a whole new look |
 
 | Homepage | | Search Animation |
 | :---: | --- | :---: |
 | <img src="readme_assets/homepage.gif" width="300"> ||  <img src="readme_assets/search_anim.gif" width="300"> |
-| Homepage can be in Carousel View || Intuitive animations when a phone is |
-| or Grid View per user preference || selected from search results |
+| Homepage can be in Carousel View <br> or Grid View per user preference || Intuitive animations when a phone is <br> selected from search results |
 
 | Gallery Page || View Image |
 | :---: | --- | :---: |
 | <img src="readme_assets/gallery_page.gif" width="300"> || <img src="readme_assets/gallery_view.gif" width="300"> |
-| View captured phones in a || View images in your gallery |
-| gallery with a staggered grid view || and perform actions on them |
+| View captured phones in a <br> gallery with a staggered grid view || View images in your gallery <br> and perform actions on them |
 
 | Flip for Specs || View Specs |
 | :---: | --- | :---: |
 | <img src="readme_assets/specs_flip.gif" width="300"> || <img src="readme_assets/specs_view.gif" width="300"> |
-| Flip any smartphone to || Specs are viewed on the phone's |
-| view its specs || screen giving an app-within-app effect |
+| Flip any smartphone to <br> view its specs || Specs are viewed on the phone's <br> screen giving an app-within-app effect |
