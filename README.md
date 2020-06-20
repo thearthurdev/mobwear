@@ -16,7 +16,7 @@ MobWear has a (currently incomplete) catalogue of smartphones from ten of the wo
 MobWear is available on the Play Store. Click [here](bit.ly/download-mobwear-android) to download and try it out.
 Please leave a review, but only if you liked it :D
 
-<img src="readme_assets/banner.jpeg" width="680">
+[<img src="readme_assets/banner.jpeg" width="680">](bit.ly/download-mobwear-android)
 
 ### Showcase
 
