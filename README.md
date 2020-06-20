@@ -13,10 +13,10 @@ The app currently has a catalogue of thirty-two phones from three of the worldâ€
 MobWear has a (currently incomplete) catalogue of smartphones from ten of the worldâ€™s major smartphone manufacturers. Each phone is built from scratch allowing maximum integration with the customization framework of the app. Having the phones built within the app also allows the phones to be animated to give them life.
 
 ### Download
-MobWear is available on the Play Store. Click [here](bit.ly/download-mobwear-android) to download and try it out.
+MobWear is available on the Play Store. Click [here](https://play.google.com/store/apps/details?id=com.arthurdev.mobwear) to download and try it out.
 Please leave a review, but only if you liked it :D
 
-[<img src="readme_assets/banner.jpeg" width="680">](bit.ly/download-mobwear-android)
+[<img src="readme_assets/banner.jpeg" width="680">](https://play.google.com/store/apps/details?id=com.arthurdev.mobwear)
 
 ### Showcase
 
