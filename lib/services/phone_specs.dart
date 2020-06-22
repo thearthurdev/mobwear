@@ -1,6 +1,7 @@
 import 'package:fonoapi_dart/fonoapi_dart.dart';
 
-const apiToken = '72576cadda0205e850428469f2b7a80e03eba9c3f2b024f4';
+// https://fonoapi.freshpixl.com/token/generate
+const apiToken = 'insert your token from the link above';
 
 List specsList;
 
