@@ -34,7 +34,8 @@ dependencies:
     # path: /mnt/B6F6BF9AF6BF5977/Dee/Documents/Flutter Projects/forks/flutter_hsvcolor_picker
     git: git://github.com/thearthurdev/flutter_hsvcolor_picker
   carousel_slider:
-    path: /mnt/B6F6BF9AF6BF5977/Dee/Documents/Flutter Projects/forks/flutter_carousel_slider
+    # path: /mnt/B6F6BF9AF6BF5977/Dee/Documents/Flutter Projects/forks/flutter_carousel_slider
+    git: git://github.com/thearthurdev/flutter_carousel_slider
 
 dev_dependencies:
   flutter_test:
