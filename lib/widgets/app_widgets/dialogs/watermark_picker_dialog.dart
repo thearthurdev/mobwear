@@ -5,7 +5,7 @@ import 'package:mobwear/data/models/position_model.dart';
 import 'package:mobwear/data/models/texture_model.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
-import 'package:mobwear/widgets/app_widgets/adaptiveDialog.dart';
+import 'package:mobwear/widgets/app_widgets/dialogs/adaptive_dialog.dart';
 import 'package:mobwear/widgets/app_widgets/settings_expansion_tile.dart';
 import 'package:mobwear/widgets/app_widgets/watermark_options_button.dart';
 import 'package:provider/provider.dart';

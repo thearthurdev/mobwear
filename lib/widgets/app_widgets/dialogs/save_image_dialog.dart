@@ -9,7 +9,7 @@ import 'package:mobwear/data/models/gallery_item_model.dart';
 import 'package:mobwear/database/gallery_database.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
-import 'package:mobwear/widgets/app_widgets/adaptiveDialog.dart';
+import 'package:mobwear/widgets/app_widgets/dialogs/adaptive_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 

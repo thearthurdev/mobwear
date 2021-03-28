@@ -4,7 +4,7 @@ import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/data/models/aspect_ratio_model.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
-import 'package:mobwear/widgets/app_widgets/adaptiveDialog.dart';
+import 'package:mobwear/widgets/app_widgets/dialogs/adaptive_dialog.dart';
 import 'package:provider/provider.dart';
 
 class AspectRatioPickerDialog extends StatelessWidget {

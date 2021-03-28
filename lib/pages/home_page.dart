@@ -12,7 +12,7 @@ import 'package:mobwear/providers/gallery_provider.dart';
 import 'package:mobwear/providers/settings_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/phone_group_view_picker_button.dart';
-import 'package:mobwear/widgets/app_widgets/rate_app_dialog.dart';
+import 'package:mobwear/widgets/app_widgets/dialogs/rate_app_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:mobwear/widgets/app_widgets/home_search_widget.dart';
 import 'package:mobwear/widgets/app_widgets/home_vertical_tabs.dart';
@@ -101,7 +101,6 @@ class _HomePageState extends State<HomePage> {
                 : Brightness.light,
       ),
       child: Scaffold(
-        resizeToAvoidBottomPadding: false,
         appBar: buildAppBar(context, togglePhoneGroupView),
         body: buildBody(),
         floatingActionButton: buildFAB(),

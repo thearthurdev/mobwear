@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_circle_color_picker/flutter_circle_color_picker.dart';
 import 'package:mobwear/providers/customization_provider.dart';
-import 'package:mobwear/widgets/app_widgets/adaptiveDialog.dart';
+import 'package:mobwear/widgets/app_widgets/dialogs/adaptive_dialog.dart';
 import 'package:provider/provider.dart';
 
 class ColorPickerDialog extends StatelessWidget {

@@ -7,7 +7,7 @@ import 'package:mobwear/pages/gallery_view_page.dart';
 import 'package:mobwear/providers/gallery_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/circle_accent_button.dart';
-import 'package:mobwear/widgets/app_widgets/gallery_batch_delete_dialog.dart';
+import 'package:mobwear/widgets/app_widgets/dialogs/gallery_batch_delete_dialog.dart';
 import 'package:provider/provider.dart';
 
 class GalleryPage extends StatefulWidget {

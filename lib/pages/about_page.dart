@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/custom_icons/custom_icons.dart';
 import 'package:mobwear/utils/constants.dart';
-import 'package:mobwear/widgets/app_widgets/developer_info_dialog.dart';
+import 'package:mobwear/widgets/app_widgets/dialogs/developer_info_dialog.dart';
 import 'package:package_info/package_info.dart';
 import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';

@@ -40,9 +40,6 @@ class ThemeProvider with ChangeNotifier {
       iconTheme: IconThemeData(color: Colors.black),
       elevation: 0.0,
     ),
-    textSelectionColor: Colors.black12,
-    textSelectionHandleColor: Colors.black,
-    cursorColor: Colors.black,
     dialogTheme: DialogTheme(
       backgroundColor: Colors.white,
       elevation: 10.0,
@@ -50,6 +47,11 @@ class ThemeProvider with ChangeNotifier {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
+    ),
+    textSelectionTheme: TextSelectionThemeData(
+      selectionColor: Colors.black12,
+      selectionHandleColor: Colors.black,
+      cursorColor: Colors.black,
     ),
     textTheme: TextTheme(
       headline5: TextStyle(
@@ -83,15 +85,17 @@ class ThemeProvider with ChangeNotifier {
       ),
       elevation: 0.0,
     ),
-    textSelectionColor: Colors.white12,
-    textSelectionHandleColor: Colors.white,
-    cursorColor: Colors.white,
     dialogTheme: DialogTheme(
       backgroundColor: Colors.grey[900],
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
       titleTextStyle: kTitleTextStyle.copyWith(fontSize: 18.0),
+    ),
+    textSelectionTheme: TextSelectionThemeData(
+      selectionColor: Colors.white12,
+      selectionHandleColor: Colors.white,
+      cursorColor: Colors.white,
     ),
     textTheme: TextTheme(
       headline5: TextStyle(

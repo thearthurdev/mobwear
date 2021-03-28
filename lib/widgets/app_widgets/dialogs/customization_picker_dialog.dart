@@ -4,7 +4,7 @@ import 'package:flutter_hsvcolor_picker/flutter_hsvcolor_picker.dart';
 import 'package:mobwear/data/models/mode_picker_model.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
-import 'package:mobwear/widgets/app_widgets/adaptiveDialog.dart';
+import 'package:mobwear/widgets/app_widgets/dialogs/adaptive_dialog.dart';
 import 'package:mobwear/widgets/app_widgets/texture_picker.dart';
 import 'package:provider/provider.dart';
 

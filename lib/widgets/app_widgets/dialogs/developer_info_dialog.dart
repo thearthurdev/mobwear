@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/utils/constants.dart';
-import 'package:mobwear/widgets/app_widgets/adaptiveDialog.dart';
+import 'package:mobwear/widgets/app_widgets/dialogs/adaptive_dialog.dart';
 import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -10,6 +10,7 @@ class DeveloperInfoDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Map<IconData, String> infoSections = {
+      LineAwesomeIcons.globe: 'thearthur.dev',
       LineAwesomeIcons.github: 'github.com/thearthurdev',
       LineAwesomeIcons.linkedin: 'linkedin.com/in/arthurdelords',
       LineAwesomeIcons.envelope_square: 'arthurdelords@gmail.com',
@@ -101,14 +102,21 @@ class DeveloperInfoDialog extends StatelessWidget {
                           icon: infoSections.keys.elementAt(2),
                           title: infoSections.values.elementAt(2),
                           onTap: () => launchURL(
-                              'mailto:${infoSections.values.elementAt(2)}?subject=MobWear&body=Dear%20Delords,'),
+                              'https:${infoSections.values.elementAt(2)}'),
                         ),
                         infoListTile(
                           context,
                           icon: infoSections.keys.elementAt(3),
                           title: infoSections.values.elementAt(3),
                           onTap: () => launchURL(
-                              'https:twitter.com/${infoSections.values.elementAt(3).split("@")[1]}'),
+                              'mailto:${infoSections.values.elementAt(3)}?subject=MobWear&body=Dear%20Delords,'),
+                        ),
+                        infoListTile(
+                          context,
+                          icon: infoSections.keys.elementAt(4),
+                          title: infoSections.values.elementAt(4),
+                          onTap: () => launchURL(
+                              'https:twitter.com/${infoSections.values.elementAt(4).split("@")[1]}'),
                         ),
                       ],
                     ),

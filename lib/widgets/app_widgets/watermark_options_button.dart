@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
-import 'package:mobwear/widgets/app_widgets/color_picker_dialog.dart';
+import 'package:mobwear/widgets/app_widgets/dialogs/color_picker_dialog.dart';
 import 'package:mobwear/widgets/app_widgets/customization_indicator.dart';
 import 'package:mobwear/widgets/app_widgets/elevated_card.dart';
-import 'package:mobwear/widgets/app_widgets/position_picker_dialog.dart';
+import 'package:mobwear/widgets/app_widgets/dialogs/position_picker_dialog.dart';
 import 'package:provider/provider.dart';
 
 class WatermarkOptionsButton extends StatelessWidget {

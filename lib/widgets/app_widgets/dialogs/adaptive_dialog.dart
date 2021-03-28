@@ -59,7 +59,7 @@ class AdaptiveDialog extends StatelessWidget {
                               buttonTextTheme: ButtonTextTheme.normal,
                               children: <Widget>[
                                 hasCancelButton
-                                    ? FlatButton(
+                                    ? TextButton(
                                         child: Text(cancelText ?? 'Cancel',
                                             style: kTitleTextStyle),
                                         onPressed: () => onCancelPressed == null
@@ -68,7 +68,7 @@ class AdaptiveDialog extends StatelessWidget {
                                       )
                                     : SizedBox(),
                                 hasSelectButton
-                                    ? FlatButton(
+                                    ? TextButton(
                                         child: Text(selectText ?? 'Select',
                                             style: kTitleTextStyle),
                                         onPressed: () => onSelectPressed == null

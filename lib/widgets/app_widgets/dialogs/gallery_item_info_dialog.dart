@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:mobwear/data/models/gallery_item_model.dart';
 import 'package:mobwear/utils/constants.dart';
-import 'package:mobwear/widgets/app_widgets/adaptiveDialog.dart';
+import 'package:mobwear/widgets/app_widgets/dialogs/adaptive_dialog.dart';
 
 class GalleryItemInfoDialog extends StatelessWidget {
   final GalleryItem item;

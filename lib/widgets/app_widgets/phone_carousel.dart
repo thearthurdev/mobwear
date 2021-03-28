@@ -70,7 +70,7 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
             child: CarouselSlider.builder(
               carouselController: carouselController,
               itemCount: phonesList.length,
-              itemBuilder: (context, i) {
+              itemBuilder: (context, index, realIndex) {
                 return Container(
                   padding: EdgeInsets.fromLTRB(
                     isWidescreen ? kScreenAwareSize(24.0, context) : 50.0,
@@ -79,10 +79,10 @@ class _PhoneCarouselState extends State<PhoneCarousel> {
                     kScreenAwareSize(16.0, context),
                   ),
                   child: GestureDetector(
-                    onTap: () => onPhoneTapped(i, phonesList),
+                    onTap: () => onPhoneTapped(index, phonesList),
                     child: Hero(
-                      tag: phonesList[reverseIndex(i)].id,
-                      child: phonesList[reverseIndex(i)].phone,
+                      tag: phonesList[reverseIndex(index)].id,
+                      child: phonesList[reverseIndex(index)].phone,
                     ),
                   ),
                 );

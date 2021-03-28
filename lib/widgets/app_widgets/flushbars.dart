@@ -91,7 +91,7 @@ class MyFlushbars {
       backgroundColor: kBrightnessAwareColor(context,
           lightColor: Colors.black, darkColor: Colors.white),
       mainButton: buttonText != null
-          ? FlatButton(
+          ? TextButton(
               onPressed: () {
                 if (onButtonPressed != null) onButtonPressed();
               },

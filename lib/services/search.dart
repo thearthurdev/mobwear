@@ -55,6 +55,8 @@ class MySingleChoiceSearchState<T> extends State<Search<T>> {
   final double textBoxHeight = 48;
   final TextEditingController textController = TextEditingController();
 
+  KeyboardVisibilityController keyboardVisibilityController;
+
   @override
   void initState() {
     super.initState();
@@ -121,11 +123,12 @@ class MySingleChoiceSearchState<T> extends State<Search<T>> {
       }
     });
 
-    KeyboardVisibility.onChange.listen((bool visible) {
-      if (!visible) {
-        _focusNode.unfocus();
-      }
-    });
+    keyboardVisibilityController = KeyboardVisibilityController()
+      ..onChange.listen((bool visible) {
+        if (!visible) {
+          _focusNode.unfocus();
+        }
+      });
   }
 
   @override
@@ -140,7 +143,9 @@ class MySingleChoiceSearchState<T> extends State<Search<T>> {
   Widget build(BuildContext context) {
     listContainerHeight = _tempList.length < 1
         ? 130.0
-        : _tempList.length > 3 ? 260.0 : _tempList.length * 76.0;
+        : _tempList.length > 3
+            ? 260.0
+            : _tempList.length * 76.0;
     textField = widget.textFieldBuilder != null
         ? widget.textFieldBuilder(_controller, _focusNode)
         : SearchBar(

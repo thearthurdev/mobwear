@@ -140,7 +140,6 @@ class _EditPhonePageState extends State<EditPhonePage>
       child: WillPopScope(
         onWillPop: onWillPop,
         child: Scaffold(
-          resizeToAvoidBottomPadding: false,
           appBar: buildAppBar(),
           body: buildBody(),
           floatingActionButton: isLargeScreen ? buildFAB() : null,

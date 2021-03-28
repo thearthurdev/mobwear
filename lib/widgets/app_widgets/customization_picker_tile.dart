@@ -7,7 +7,7 @@ import 'package:mobwear/data/models/texture_model.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/customization_indicator.dart';
-import 'package:mobwear/widgets/app_widgets/customization_picker_dialog.dart';
+import 'package:mobwear/widgets/app_widgets/dialogs/customization_picker_dialog.dart';
 import 'package:mobwear/widgets/app_widgets/elevated_card.dart';
 import 'package:mobwear/widgets/app_widgets/flushbars.dart';
 import 'package:mobwear/widgets/app_widgets/show_up_widget.dart';

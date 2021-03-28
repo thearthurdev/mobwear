@@ -16,14 +16,14 @@ import 'package:mobwear/data/models/texture_model.dart';
 import 'package:mobwear/database/settings_database.dart';
 import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
-import 'package:mobwear/widgets/app_widgets/aspect_ratio_picker_dialog.dart';
-import 'package:mobwear/widgets/app_widgets/customization_picker_dialog.dart';
+import 'package:mobwear/widgets/app_widgets/dialogs/aspect_ratio_picker_dialog.dart';
+import 'package:mobwear/widgets/app_widgets/dialogs/customization_picker_dialog.dart';
 import 'package:mobwear/widgets/app_widgets/elevated_card.dart';
 import 'package:mobwear/widgets/app_widgets/fab_bottom_appbar.dart';
 import 'package:mobwear/widgets/app_widgets/flushbars.dart';
-import 'package:mobwear/widgets/app_widgets/save_image_dialog.dart';
+import 'package:mobwear/widgets/app_widgets/dialogs/save_image_dialog.dart';
 import 'package:mobwear/widgets/app_widgets/show_up_widget.dart';
-import 'package:mobwear/widgets/app_widgets/watermark_picker_dialog.dart';
+import 'package:mobwear/widgets/app_widgets/dialogs/watermark_picker_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
