@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
@@ -11,6 +10,7 @@ import 'package:mobwear/providers/customization_provider.dart';
 import 'package:mobwear/utils/constants.dart';
 import 'package:mobwear/widgets/app_widgets/dialogs/adaptive_dialog.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:toast/toast.dart';
 
 class SaveImageDialog extends StatefulWidget {
@@ -66,12 +66,10 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
 
   Future<void> shareImage() async {
     try {
-      await Share.file(
-        'Share your $phoneName',
-        '${kGetCombinedName(phoneName)}_${kGetDateTime()}.png',
-        widget.bytes,
-        'image/png',
-        text: 'Check out this $phoneName I customized with MobWear!',
+      await Share.shareFiles(
+        [widget.bytes.toString()],
+        text: 'Share your $phoneName',
+        mimeTypes: ['image/png'],
       );
     } catch (e) {
       String errorText = 'Unable to share. Please try again later';

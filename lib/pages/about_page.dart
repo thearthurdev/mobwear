@@ -7,7 +7,7 @@ import 'package:mobwear/widgets/app_widgets/dialogs/developer_info_dialog.dart';
 import 'package:package_info/package_info.dart';
 import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class AboutPage extends StatelessWidget {
   static const String id = '/AboutPage';
@@ -95,10 +95,9 @@ class AboutPage extends StatelessWidget {
                         subtitle: 'Don\'t have all the fun alone',
                         icon: LineAwesomeIcons.share_alt,
                         onTap: () {
-                          Share.text(
-                              'Share MobWear',
-                              'Hey, check out Mobwear! It\'s a brand new smartphone customization app and it\'s very fun.\nDownload it here: bit.ly/download-mobwear-android',
-                              'text/plain');
+                          Share.share(
+                            'Hey, check out Mobwear! It\'s a brand new smartphone customization app and it\'s very fun.\nDownload it here: bit.ly/download-mobwear-android',
+                          );
                         },
                       ),
                       aboutListTile(

@@ -1,4 +1,3 @@
-import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
@@ -9,6 +8,7 @@ import 'package:mobwear/widgets/app_widgets/dialogs/gallery_item_info_dialog.dar
 import 'package:mobwear/widgets/app_widgets/show_up_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
+import 'package:share_plus/share_plus.dart';
 
 class GalleryViewPage extends StatefulWidget {
   static const String id = '/GalleryViewPage';
@@ -191,13 +191,10 @@ class _GalleryViewPageState extends State<GalleryViewPage> {
     GalleryItem item = items[currentIndex];
 
     try {
-      await Share.file(
-        'Share your ${item.phoneName}',
-        item.imageFileName,
-        item.imageBytes,
-        'image/png',
-        text:
-            'Check out this ${item.phoneBrand} ${item.phoneName} I customized with MobWear!',
+      await Share.shareFiles(
+        [item.imageBytes.toString()],
+        text: 'Share your ${item.phoneName}',
+        mimeTypes: ['image/png'],
       );
     } catch (e) {
       String errorText = 'Unable to share. Please try again later';
