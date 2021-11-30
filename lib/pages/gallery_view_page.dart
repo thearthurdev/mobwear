@@ -39,7 +39,7 @@ class _GalleryViewPageState extends State<GalleryViewPage> {
 
   @override
   void dispose() {
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     super.dispose();
   }
 
@@ -64,7 +64,7 @@ class _GalleryViewPageState extends State<GalleryViewPage> {
                     ? null
                     : AppBar(
                         backgroundColor: Colors.transparent,
-                        brightness: Brightness.dark,
+                        systemOverlayStyle: SystemUiOverlayStyle.dark,
                         leading: IconButton(
                           icon: Icon(LineAwesomeIcons.angle_left,
                               color: Colors.white),
@@ -113,16 +113,17 @@ class _GalleryViewPageState extends State<GalleryViewPage> {
                   ),
                   onTap: () {
                     if (hideBars) {
-                      SystemChrome.setEnabledSystemUIOverlays(
-                              SystemUiOverlay.values)
+                      SystemChrome.setEnabledSystemUIMode(
+                              SystemUiMode.immersive)
                           .whenComplete(() {
                         Future.delayed(Duration(milliseconds: 10), () {
                           setState(() => hideBars = !hideBars);
                         });
                       });
                     } else {
-                      SystemChrome.setEnabledSystemUIOverlays(
-                          [SystemUiOverlay.bottom]).whenComplete(() {
+                      SystemChrome.setEnabledSystemUIMode(
+                              SystemUiMode.edgeToEdge)
+                          .whenComplete(() {
                         setState(() => hideBars = !hideBars);
                       });
                     }
@@ -228,7 +229,7 @@ class _GalleryViewPageState extends State<GalleryViewPage> {
 
   Future<bool> onWillPop() {
     if (hideBars) {
-      SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values)
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive)
           .whenComplete(() {
         hideBars = !hideBars;
         return Future.value(false);

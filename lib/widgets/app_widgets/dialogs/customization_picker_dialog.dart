@@ -104,6 +104,7 @@ class _CustomizationPickerDialogState extends State<CustomizationPickerDialog> {
                             lightColor: Colors.black,
                             darkColor: Colors.white,
                           ),
+                          indicatorColor: Theme.of(context).colorScheme.primary,
                           unselectedLabelColor: kBrightnessAwareColor(
                             context,
                             lightColor: Colors.black38,

@@ -22,7 +22,7 @@ Color kPrimaryColor(BuildContext context) {
 }
 
 Color kAccentColor(BuildContext context) {
-  return Theme.of(context).accentColor;
+  return Theme.of(context).colorScheme.secondary;
 }
 
 Color kEstimateColorFromColorBrightness(Color color,
@@ -32,6 +32,24 @@ Color kEstimateColorFromColorBrightness(Color color,
   if ((relativeLuminance + 0.05) * (relativeLuminance + 0.05) > kThreshold)
     return darkColor;
   return lightColor;
+}
+
+ColorScheme kColorScheme() {
+  return ColorScheme(
+    primary: Colors.white,
+    secondary: Colors.black,
+    primaryVariant: Colors.black,
+    secondaryVariant: Colors.white,
+    onError: Colors.red,
+    error: Colors.red,
+    onBackground: Colors.black,
+    onSurface: Colors.white,
+    background: Colors.black,
+    brightness: Brightness.light,
+    onPrimary: Colors.white,
+    onSecondary: Colors.black,
+    surface: Colors.white,
+  );
 }
 
 // Color kEstimateColorFromImageBrightness(String image,
@@ -53,7 +71,7 @@ Brightness kThemeBrightness(BuildContext context) {
 }
 
 TextStyle kAppBarTitleTextstyle(BuildContext context) {
-  return Theme.of(context).appBarTheme.textTheme.headline6;
+  return Theme.of(context).appBarTheme.titleTextStyle;
 }
 
 String kGetColorString(Color color) {

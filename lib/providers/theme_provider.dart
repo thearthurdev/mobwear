@@ -24,19 +24,20 @@ class ThemeProvider with ChangeNotifier {
   }
 
   static final lightTheme = ThemeData(
-    brightness: Brightness.light,
-    accentColor: Colors.black,
+    colorScheme: ColorScheme.light().copyWith(
+      primary: Colors.black,
+      secondary: Colors.black,
+      onSecondary: Colors.white,
+    ),
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: AppBarTheme(
-      textTheme: TextTheme(
-        headline6: TextStyle(
-          fontFamily: 'Righteous',
-          fontSize: 26.0,
-          color: Colors.black,
-        ),
+      titleTextStyle: TextStyle(
+        fontFamily: 'Righteous',
+        fontSize: 26.0,
+        color: Colors.black,
       ),
       color: Colors.white,
-      brightness: Brightness.light,
+      systemOverlayStyle: SystemUiOverlayStyle.light,
       iconTheme: IconThemeData(color: Colors.black),
       elevation: 0.0,
     ),
@@ -67,19 +68,21 @@ class ThemeProvider with ChangeNotifier {
   );
 
   static final darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    accentColor: Colors.white,
+    colorScheme: ColorScheme.dark().copyWith(
+      primary: Colors.white,
+      secondary: Colors.white,
+      secondaryVariant: Colors.white,
+      onSecondary: Colors.black,
+    ),
     scaffoldBackgroundColor: Colors.black,
     appBarTheme: AppBarTheme(
-      textTheme: TextTheme(
-        headline6: TextStyle(
-          fontFamily: 'Righteous',
-          fontSize: 26.0,
-          color: Colors.white,
-        ),
+      titleTextStyle: TextStyle(
+        fontFamily: 'Righteous',
+        fontSize: 26.0,
+        color: Colors.white,
       ),
       color: Colors.black,
-      brightness: Brightness.dark,
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
       iconTheme: IconThemeData(
         color: Colors.white,
       ),
